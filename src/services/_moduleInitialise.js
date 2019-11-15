@@ -5,6 +5,8 @@
 import HomebaseComponent from "Routes/homebase/AsyncRoutes";
 import CalendarComponent from "Routes/calendar/AsyncRoutes";
 import ReportComponent from "Routes/report/AsyncRoutes";
+import InventoryComponent from "Routes/inventory/AsyncRoutes";
+
 
 import crm from "Routes/crm";
 import Accounting from "Routes/accounting";
@@ -26,6 +28,10 @@ export default [
   {
     path: "reports",
     component: ReportComponent
+  },
+  {
+    path: "inventory",
+    component: InventoryComponent
   },
   {
     path: "calendar",

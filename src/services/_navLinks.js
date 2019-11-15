@@ -77,5 +77,11 @@ export default [
     baseUrl: "/app/reports",
     name: "Reports",
     child_routes: []
+  },
+  {
+    url: "/app/inventory",
+    baseUrl: "/app/inventory",
+    name: "Inventory",
+    child_routes: []
   }
 ];
