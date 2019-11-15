@@ -1,55 +1,70 @@
 import React, { Component } from "react";
 
-// page req
 import { Helmet } from "react-helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
-import Cars from './cars/index'
-import Parts from './parts/index'
-import Details from './details/index'
+// page req
+import { Route, Switch, Redirect } from "react-router-dom";
+import * as async from "./AsyncRoutes";
 
+import Demo from './demo'
+import CreateProduct from './createProduct'
+import Settings from './settings'
 
-class InventoryComponent extends Component {
+class Inventory extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+    state=({
+      page: ['main', 'create product', 'settings'],
+      index: 0
+    })
 
+    _HandlePage(index) {
+      this.setState({index: index})
     }
-  }
+
+    _SwitchRenderPage = () => {
+      switch(this.state.index){
+        case 0:
+          return <Demo/>
+        case 1:
+          return <CreateProduct/>
+        case 2:
+          return <Settings/>
+        default:return
+      }
+    }
+
+    render() {
+
+      return (
+        <div className="saas-dashboard">
 
 
+          <Helmet>
+            <title>Everyday | Inventory</title>
+            <meta name="description" content="Everyday Informational Reports" />
+          </Helmet>
+
+          <PageTitleBar title="Inventory" />
+
+       
+          <div className="d-flex" style={{marginBottom: 10}}>
+            {this.state.page.map((e, index) =>{
+              return (
+                <div key={index} onClick={() => this._HandlePage(index)} style={{margin: 5}}>
+                  {e}
+                </div>
+              )
+            })}
+          </div>
 
 
-  render() {
+          {this._SwitchRenderPage()}
 
-    return (
-      <div className="todo-dashboard">
-
-        <Helmet>
-          <title>Everyday | Inventory</title>
-          <meta name="description" content="Everyday Informational Reports" />
-        </Helmet>
-
-        <PageTitleBar title="Inventory" />
-
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <Cars/>
         </div>
-
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <Details/>
-        </div>
-
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <Parts/>
-        </div>
-
-
-
-      </div>
-    );
-  }
+      );
+    }
+  
 }
 
-export default InventoryComponent;
+export default Inventory;

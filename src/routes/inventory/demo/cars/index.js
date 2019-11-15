@@ -5,10 +5,6 @@ import api from "Api";
 import CarOptions from './components/CarOptions'
 
 
-import Make from './components/Cars/Make'
-import Model from './components/Cars/Model'
-import Grade from './components/Cars/Grade'
-
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -30,6 +26,7 @@ const initialModel = {
 
 class index extends Component {
 
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -74,25 +71,40 @@ class index extends Component {
             loading: true,
 
         }
+
+        this._isMounted = false;
+
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this._isMounted = true;
+        this.loadInitial()
+    }
+
+    loadInitial = async () => {
 
         const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
 
         const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id)
-       
+    
         const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
-
-        this.setState({
-            categoryGroupId: MakeFilter.data.id, 
-            MakeSource: MakeSource, 
-            MakeGroupingSource: MakeGroupingSource, 
-            MakeGroupingOriginalSource: MakeGroupingSource, 
-            loading:false
-        })
+       
+        if(this._isMounted) {
+            this.setState({
+                categoryGroupId: MakeFilter.data.id, 
+                MakeSource: MakeSource, 
+                MakeGroupingSource: MakeGroupingSource, 
+                MakeGroupingOriginalSource: MakeGroupingSource, 
+                loading:false
+            })
+        }
+           
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+     
     async _RenderMakeCategory(value) {
         
         try {
@@ -301,7 +313,7 @@ class index extends Component {
                 </div>
 
 
-                <div style={{width: 350, overflow: 'auto', height: 350}}>
+                <div style={{flex:1, overflow: 'auto', height: 300}}>
 
                     {this.state.MakeGroupingSource &&
 
@@ -338,7 +350,7 @@ class index extends Component {
                 </div>
 
 
-                <div style={{width: 350, overflow: 'auto', height: 300}}>
+                <div style={{flex: 1, overflow: 'auto', height: 300}}>
 
 
                     <div className="d-flex" style={{flexDirection:'column'}}>
@@ -385,7 +397,7 @@ class index extends Component {
                 </div>
 
 
-                <div style={{width: 350, overflow: 'auto', height: 300}}>
+                <div style={{flex: 1, overflow: 'auto', height: 300}}>
 
                     <div className="d-flex" style={{flexDirection:'column'}}>
 
@@ -434,7 +446,7 @@ class index extends Component {
                 
 
 
-                <div style={{width: 100}}>
+                <div style={{flex: 1, width: 100}}>
 
                     {this.state.createMake && 
                         <div>
