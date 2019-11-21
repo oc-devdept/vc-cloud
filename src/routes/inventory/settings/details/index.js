@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import api from "Api";
 
-import Specification_Categories from './components/Specification_Categories'
-import Specification_Details from './components/Specification_Details'
+import ProductCategories from './components/ProductCategories'
+import ProductDetails from './components/ProductDetails'
 
 const initialMake = {
     name:'',
@@ -55,32 +55,27 @@ class index extends Component {
         }
     }
 
- 
-
-
-
-
-
-
-
-
 
 
     render() {
 
         return (
-            <div style={{flex:1, display:'flex'}}>
+            <div style={{flex:1, display:'flex', flexDirection:'column'}}>
             
-                <Specification_Categories
-                    _CreateProductCategory = {this._CreateProductCategory}
-                    _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
-                    ProductCategory={this.state.ProductCategory}
-                    loading={this.state.loading}
-                />
+                <div style={{margin: 15}}>
+                    <ProductCategories
+                        _CreateProductCategory = {this._CreateProductCategory}
+                        _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
+                        ProductCategory={this.state.ProductCategory}
+                        loading={this.state.loading}
+                    />
+                </div>
 
-                <Specification_Details
-                    ProductCategory={this.state.ProductCategory}
-                />
+                <div style={{margin: 15}}>
+                    <ProductDetails
+                        ProductCategory={this.state.ProductCategory}
+                    />
+                </div>
 
             </div>
         );

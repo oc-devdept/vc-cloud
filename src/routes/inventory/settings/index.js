@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import Parts from './parts/index'
 
+import ProductOptions from './productOptions/index'
 import Details from './details/index'
+import MakeModel from './makeModel/index'
+import ProductVariant from './productVarient/index'
 
 // page
 
@@ -19,20 +21,21 @@ class CreateProduct extends Component {
     return (
       <div className="todo-dashboard">
 
-        <div> 
-            Settings!!
+        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
+          <MakeModel/>
         </div>
 
+        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
+          <ProductVariant/>
+        </div>
 
         <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <Details/>
         </div>
 
         <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <Parts/>
+          <ProductOptions/>
         </div>
-
-
 
       </div>
     );

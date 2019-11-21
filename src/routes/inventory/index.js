@@ -8,14 +8,14 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import * as async from "./AsyncRoutes";
 
 import Demo from './demo'
-import CreateProduct from './createProduct'
+import CreateCar from './createCar'
 import Settings from './settings'
 
 class Inventory extends Component {
 
     state=({
       page: ['main', 'create product', 'settings'],
-      index: 0
+      index: 2
     })
 
     _HandlePage(index) {
@@ -27,7 +27,7 @@ class Inventory extends Component {
         case 0:
           return <Demo/>
         case 1:
-          return <CreateProduct/>
+          return <CreateCar/>
         case 2:
           return <Settings/>
         default:return

@@ -144,7 +144,10 @@ class MakeModelGrade extends Component {
                 <Grade
                     _HandleGradeDetailValue={this._HandleGradeDetailValue}
                     Grade = {this.state.Grade}
+                    ModelId={this.state.ModelId}
                 />
+                
+                
 
             </div>
         )

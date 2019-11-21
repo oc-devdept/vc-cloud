@@ -30,7 +30,7 @@ class index extends Component {
     }
 
     _CreateProductCategory = async(value) => {
-        
+
         await api.post(`/productoptioncategories`, 
             {
                 name: value.name,
@@ -40,7 +40,6 @@ class index extends Component {
 
         const ProductOptionCategories = await this._FetchProductOptionCategories()
         this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
-
     }
 
     _HandleDeleteProductCateogry = async(index) =>{
@@ -61,23 +60,28 @@ class index extends Component {
     }
 
 
+   
+
 
     render() {
 
         return (
-            <div style={{flex:1, display:'flex'}}>
-            
-                <ProductOptionCategory
-                    _CreateProductCategory = {this._CreateProductCategory}
-                    _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
-                    ProductCategory={this.state.ProductOptionCategory}
-                    loading={this.state.loading}
-                />
+            <div style={{flex:1, display:'flex', flexDirection:'column'}}>
+                
+                <div style={{margin: 15}}>
+                    <ProductOptionCategory
+                        _CreateProductCategory = {this._CreateProductCategory}
+                        _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
+                        ProductCategory={this.state.ProductOptionCategory}
+                        loading={this.state.loading}
+                    />
+                </div>
 
-                <ProductOption
-                    ProductCategory={this.state.ProductOptionCategory}
-                />
-
+                <div style={{margin: 15}}>
+                    <ProductOption
+                        ProductCategory={this.state.ProductOptionCategory}
+                    />
+                </div>
             </div>
         );
     }

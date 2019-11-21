@@ -22,7 +22,7 @@ const MakeModel = (props) => {
               <Select 
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.MakeId ? props.MakeId : ""}
+                value={props.MakeId ? props.MakeId : ''}
                 onChange={props._ToggleMake}
                 style={{minWidth: 100, marginLeft: 5}}
               >
@@ -50,7 +50,7 @@ const MakeModel = (props) => {
               <Select 
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.ModelId ? props.ModelId : ""}
+                value={props.ModelId ? props.ModelId : ''}
                 onChange={props._ToggleModel}
                 style={{minWidth: 100, marginLeft: 5}}        
               >

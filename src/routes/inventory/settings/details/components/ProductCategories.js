@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import api from "Api";
 
 
-export default class Specification_Categories extends Component {
+export default class ProductCategories extends Component {
 
 
     state=({

@@ -13,13 +13,11 @@ const initProductDetail = {
     price: '',
     isDefault: false,
     editable: false,
-    // product
-    // optionCategory
+    value: '',
+    value2: '',
 }
 
 export default class ProductOption extends Component {
-
-    
 
     state=({
 
@@ -29,12 +27,13 @@ export default class ProductOption extends Component {
             name:'',
             image: '',
             price: '',
+            value: '',
+            value2: '',
             isDefault: false,
             editable: false,
         },
 
     })
-
 
     _CreateProductDetail = async () => {
         const ProductDetail = this.state.ProductDetail
@@ -46,6 +45,9 @@ export default class ProductOption extends Component {
                 type: '',
                 value: ProductDetail.value1,
                 value2: ProductDetail.value2,
+                editable: ProductDetail.editable,
+                isDefault: ProductDetail.isDefault,
+                price: ProductDetail.price,
                 productOptionCategoryId: productDetailCategoryId
             }
         ); 
@@ -61,7 +63,7 @@ export default class ProductOption extends Component {
             const SelectedCategory = value? value : this.state.SelectedCategory
             
             const result = await api.get(`/productoptioncategories/${SelectedCategory}/productOptionCategory`)
-    
+
             const ProductDetailsSource = await result.data.map((source) => {
                   return { id: source.id, name: source.name, value: source.value, value2: source.value2 }
                 }
@@ -74,17 +76,35 @@ export default class ProductOption extends Component {
 
         }
 
+    }
+
+    _HandleDeleteProductOption = async(index) => {
+        
+        try {
+            const result = await api.delete(`/productoptions/${index}`)
+
+            if(result.data.count == 1){
+
+                await this._RenderProductDetails()
+
+            } else {
+
+            }    
+        } catch (e) {
+            console.log(e)
+        }
 
     }
 
     _Toggle = (e) => {
+        console.log(e.target.value)
         this.setState({SelectedCategory: e.target.value, loading: true, ProductDetails: []})
         this._RenderProductDetails(e.target.value)
     }
 
     _ReturnItems() {
         const item = this.props.ProductCategory.map((e, index) => {
-             return <MenuItem key={index} value={e.value}>{e.name}</MenuItem>
+             return <MenuItem key={index} value={e.id}>{e.name}</MenuItem>
         })        
         return item
     }
@@ -95,13 +115,13 @@ export default class ProductOption extends Component {
         this.setState({ProductDetail: ProductDetail})
     }
 
-
     _HandleCheckBox = (e) => {
         const name = e.target.name
         let ProductDetail = {...this.state.ProductDetail}
         ProductDetail[name] = !ProductDetail[name]
         this.setState({ProductDetail: ProductDetail})
     }
+
 
     render() {
 
@@ -142,6 +162,7 @@ export default class ProductOption extends Component {
                                             <span style={{padding: 5}}>{e.name}</span>
                                             <span style={{padding: 5}}>{e.value}</span>
                                             <span style={{padding: 5}}>{e.value2}</span>
+                                            <span onClick={() => this._HandleDeleteProductOption(e.id)} style={{marginLeft: 10, cursor:'pointer'}}>x</span>
                                         </div>
                                     )
                                 })
@@ -155,6 +176,8 @@ export default class ProductOption extends Component {
                                 <input type="text" placeholder={"e.g name"} value={this.state.ProductDetail.name} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} />
                                 <input type="text" placeholder={"e.g image"} value={this.state.ProductDetail.image} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'image')} />
                                 <input type="text" placeholder={"e.g price"} value={this.state.ProductDetail.price} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'price')} />
+                                <input type="text" placeholder={"e.g value"} value={this.state.ProductDetail.value} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value')} />
+                                <input type="text" placeholder={"e.g value2"} value={this.state.ProductDetail.value2} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value2')} />
 
                                 <div className="d-flex align-items-center" style={{flexDirection:'row'}}>
                                     <div>isDefault</div>

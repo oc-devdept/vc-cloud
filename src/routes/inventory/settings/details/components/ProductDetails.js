@@ -12,7 +12,7 @@ const initProductDetail = {
     value2: '',
 }
 
-export default class Specification_Details extends Component {
+export default class ProductDetails extends Component {
 
   
 
@@ -34,7 +34,7 @@ export default class Specification_Details extends Component {
     _CreateProductDetail = async () => {
         const ProductDetail = this.state.ProductDetail
         const productDetailCategoryId = this.state.SelectedCategory
-        const result = await api.post("/productDetails", 
+        await api.post("/productDetails", 
             {
                 name: ProductDetail.name,
                 type: '',
@@ -92,7 +92,24 @@ export default class Specification_Details extends Component {
         this.setState({ProductDetail: ProductDetail})
     }
 
+    _HandleDeleteProductCategories = async(index) => {
+        console.log(index)
+        console.log('_HandleDeleteProductCategories')
+        try {
+            const result = await api.delete(`/productDetails/${index}`)
 
+            if(result.data.count == 1){
+
+                await this._RenderProductDetails()
+
+            } else {
+
+            }    
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
 
     render() {
       
@@ -132,6 +149,8 @@ export default class Specification_Details extends Component {
                                             <span style={{padding: 5}}>{e.name}</span>
                                             <span style={{padding: 5}}>{e.value}</span>
                                             <span style={{padding: 5}}>{e.value2}</span>
+                                            <span onClick={() => this._HandleDeleteProductCategories(e.id)} style={{marginLeft: 10, cursor:'pointer'}}>x</span>
+                
                                         </div>
                                     )
                                 })

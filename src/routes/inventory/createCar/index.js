@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 
-import MakeModel from './components/MakeModelGrade/MakeModel'
-import Grade from './components/MakeModelGrade/Grade'
 
 import MakeModelGrade from './components/MakeModelGrade'
+import CarDetails from './components/CarDetails'
+import CarVariant from './components/CarVariant/index'
+import CarProductOptions from './components/CarProductOptions/index'
 
-class CreateProduct extends Component {
+
+class CreateCar extends Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +30,9 @@ class CreateProduct extends Component {
 
        
             <MakeModelGrade/>
-
+            <CarVariant/>
+            <CarDetails/>
+            <CarProductOptions/>
 
         </div>
 
@@ -38,4 +42,4 @@ class CreateProduct extends Component {
   }
 }
 
-export default CreateProduct;
+export default CreateCar;

@@ -25,9 +25,6 @@ class InventoryComponent extends Component {
           <Cars/>
         </div>
 
-
-
-
       </div>
     );
   }

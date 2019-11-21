@@ -29,8 +29,8 @@ export default class ProductOptionCategory extends Component {
         this.setState({CategoryValue})
     }
 
-    _CreateProductCategory = () => {
-        this.props._CreateProductCategory(this.state.CategoryValue)
+    _CreateProductCategory = async () => {
+        await this.props._CreateProductCategory(this.state.CategoryValue)
         this.setState({CategoryValue:{
             name: '',
             selectOne : false

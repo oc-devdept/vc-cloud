@@ -24,6 +24,21 @@ const initialModel = {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class index extends Component {
 
     
@@ -547,7 +562,7 @@ export default index;
 //         image: 'www.google.com/bmw-series.png',
 //         description: 'Hello World series 2 '
 //     },
-//     ...
+    
 // ]
 
 /// third page // Grade
@@ -583,4 +598,75 @@ export default index;
 
 /// car page
 
+// function fetchMakeData(id) {
+
+//     // let data = api.get(`/getMakeModel/${id}`)
+//     const data = [
+//         {
+//             id: '123123',
+//             name: "BMW",
+//             image: 'www.google.com/bmw.png',
+//             description: 'Hello World'
+//         },
+//         {
+//             id: '456456',
+//             name: "Toyota",
+//             image: 'www.google.com/bmw.png',
+//             description: 'Hello World'
+//         },
+//     ]
+
+//     return data
+// }
+
+// function fetchModelData(id) {
+
+//     // let data = api.get(`/getMakeModel/${id}`)
+//     const data = [
+//         {
+//             id: '890890',
+//             name: "1 Series",
+//             image: 'www.google.com/bmw-series.png',
+//             description: 'Hello World series 1'
+//         },
+//         {
+//             id: '098098',
+//             name: "2 series",
+//             image: 'www.google.com/bmw-series.png',
+//             description: 'Hello World series 2 '
+//         },
+        
+//     ]
+
+//     return data
+// }
+
+
+// function fetchGradeData(id) {
+
+//     // let data = api.get(`/getGrade/${id}`)
+//     const data = [
+//         {
+//             id: '890890',
+//             name: "BMW HellFire ",
+//             image: 'www.google.com/bmw-series.png',
+//             description: 'Hello World series 1',
+//             price: {
+//                 value: 123123,
+//                 unit: 'SGD'
+//             },
+//             engine: {
+//                 value : 123,
+//                 unit: 'cc'
+//             },
+//             Fuel :{
+//                 value : 23.5,
+//                 unit : 'km/litre'
+//             }
+//         },
+        
+//     ]
+
+//     return data
+// }
 
