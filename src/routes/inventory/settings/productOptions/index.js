@@ -25,7 +25,7 @@ class index extends Component {
     }
 
     async _FetchProductOptionCategories() {
-        const ProductOptionCategories = await api.get(`/productoptioncategories/formFields `)
+        const ProductOptionCategories = await api.get(`/productoptioncategories/formFields`)
         return ProductOptionCategories.data.fields
     }
 

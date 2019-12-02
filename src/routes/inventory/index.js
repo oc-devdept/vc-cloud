@@ -2,38 +2,23 @@ import React, { Component } from "react";
 
 import { Helmet } from "react-helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
+import { Tabs, Tab, Panel } from '@bumaga/tabs' 
 
 // page req
 import { Route, Switch, Redirect } from "react-router-dom";
 import * as async from "./AsyncRoutes";
 
 import Demo from './demo'
-import CreateCar from './createCar'
+import AllProducts from './allProducts'
 import Settings from './settings'
 
 class Inventory extends Component {
 
     state=({
-      page: ['main', 'create product', 'settings'],
-      index: 2
+      
     })
 
-    _HandlePage(index) {
-      this.setState({index: index})
-    }
-
-    _SwitchRenderPage = () => {
-      switch(this.state.index){
-        case 0:
-          return <Demo/>
-        case 1:
-          return <CreateCar/>
-        case 2:
-          return <Settings/>
-        default:return
-      }
-    }
-
+  
     render() {
 
       return (
@@ -45,21 +30,51 @@ class Inventory extends Component {
             <meta name="description" content="Everyday Informational Reports" />
           </Helmet>
 
-          <PageTitleBar title="Inventory" />
+          <PageTitleBar
+            title={"Inventory"}
+            // actionGroup={{
+            //   add: { onClick: console.log('add product') },
+            //   mid: { label: "Add a new product", onClick: console.log('Add a new product') },
+            //   more: [{ label: "Refresh List", onClick: console.log('Refresh List') }]
+            // }}
+          />
+  
 
-       
-          <div className="d-flex" style={{marginBottom: 10}}>
-            {this.state.page.map((e, index) =>{
-              return (
-                <div key={index} onClick={() => this._HandlePage(index)} style={{margin: 5}}>
-                  {e}
+          <Tabs>
+              <div>
+                {/* <Tab><button>Demo</button></Tab> */}
+                <Tab><button>Dashboard</button></Tab>
+                <Tab><button>Products</button></Tab>
+                <Tab><button>Product Options</button></Tab>
+                <Tab><button>Settings</button></Tab>
+              </div>
+
+              {/* <Panel>
+                <Demo/>
+              </Panel> */}
+
+              <Panel>
+                <div style={{border : '1px solid black', borderStyle : 'dashed', height: 60, display:'flex', justifyContent:'center', alignItems:'center'}}>
+                    Dashboard
                 </div>
-              )
-            })}
-          </div>
+              </Panel>
 
+              <Panel>
+                <AllProducts/>
+              </Panel>
 
-          {this._SwitchRenderPage()}
+              <Panel>
+                <div style={{border : '1px solid black', borderStyle : 'dashed', height: 60, display:'flex', justifyContent:'center', alignItems:'center'}}>
+                    Product Options
+                </div>
+              </Panel>
+
+              <Panel>
+                <Settings/>
+              </Panel>
+
+          </Tabs>
+
 
         </div>
       );

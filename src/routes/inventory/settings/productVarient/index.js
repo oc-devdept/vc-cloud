@@ -47,7 +47,7 @@ class index extends Component {
             const result = await api.delete(`/productvariants/${index}`)
 
             if(result.data.count == 1){
-                const ProductVariantCategory = await api.get(`/productoptioncategories/formFields `)
+                const ProductVariantCategory = await this._FetchProductVariants()
                 this.setState({ProductVariantCategory: ProductVariantCategory, loading: false})
             } else {
 

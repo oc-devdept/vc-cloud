@@ -18,8 +18,9 @@ class Labels extends PureComponent {
                 {this.props.e && 
                      <div key={this.props.index*0.3} style={{margin: 2.5, flex: 1, display:'flex', justifyContent:'space-between'}}>
                         <span>{this.props.e.name}</span>
-                        <span>{this.props.e.value}</span>
-                        <span>{this.props.e.value2}</span>
+                        <span>{this.props.e.price}</span>
+                        <span>{`${this.props.e.isDefault}`}</span>
+                        <span>{`${this.props.e.editable}`}</span>
                     </div>
                 }
             </div>
@@ -29,4 +30,3 @@ class Labels extends PureComponent {
 }
 
 export default Labels;
-

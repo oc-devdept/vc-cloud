@@ -10,6 +10,7 @@ const initProductDetail = {
     name:'',
     value1: '',
     value2: '',
+    type: ''
 }
 
 export default class ProductDetails extends Component {
@@ -26,6 +27,7 @@ export default class ProductDetails extends Component {
             name:'',
             value1: '',
             value2: '',
+            type: ''
         },
 
     })
@@ -37,7 +39,7 @@ export default class ProductDetails extends Component {
         await api.post("/productDetails", 
             {
                 name: ProductDetail.name,
-                type: '',
+                type: ProductDetail.type,
                 value: ProductDetail.value1,
                 value2: ProductDetail.value2,
                 productDetailCategoryId: productDetailCategoryId
@@ -93,8 +95,7 @@ export default class ProductDetails extends Component {
     }
 
     _HandleDeleteProductCategories = async(index) => {
-        console.log(index)
-        console.log('_HandleDeleteProductCategories')
+        
         try {
             const result = await api.delete(`/productDetails/${index}`)
 
@@ -149,6 +150,7 @@ export default class ProductDetails extends Component {
                                             <span style={{padding: 5}}>{e.name}</span>
                                             <span style={{padding: 5}}>{e.value}</span>
                                             <span style={{padding: 5}}>{e.value2}</span>
+                                            <span style={{padding: 5}}>{e.type}</span>
                                             <span onClick={() => this._HandleDeleteProductCategories(e.id)} style={{marginLeft: 10, cursor:'pointer'}}>x</span>
                 
                                         </div>
@@ -161,6 +163,7 @@ export default class ProductDetails extends Component {
                                 <input type="name" placeholder={"e.g Power"} value={this.state.ProductDetail.name} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} />
                                 <input type="value1" placeholder={"e.g 890"} value={this.state.ProductDetail.value1} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value1')} />
                                 <input type="value2" placeholder={"e.g cc"} value={this.state.ProductDetail.value2} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value2')} />
+                                <input type="type" placeholder={"e.g Boolean, String"} value={this.state.ProductDetail.type} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'type')} />
                             </div>
 
                             <button style={{}} onClick={this._CreateProductDetail}>Create Product Detail</button>

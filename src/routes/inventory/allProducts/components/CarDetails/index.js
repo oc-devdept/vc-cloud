@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import api from "Api";
 import Labels from './components/Labels'
 
-class CarDetails extends Component {
+class CarDetails extends PureComponent {
 
 
     constructor(props) {
@@ -37,9 +37,9 @@ class CarDetails extends Component {
 
 
     render() {
+        console.log('Car Details')
         return (
-            <div style={{marginTop: 50, marginBottom: 50}}>
-                <div>Car Details</div>
+            <div style={{marginTop: 10, marginBottom: 50}}>
                 {this.state.ProductCategory.length > 0 &&
                     <div className="d-flex" style={{flexDirection:'row'}}>
                         {this.state.ProductCategory.map((e, index) => {
@@ -49,9 +49,17 @@ class CarDetails extends Component {
                                     <div key={index*0.2} style={{margin: 5}}>
                                         {e.name}
                                     </div>
-                                    <div key={e.name}>
-                                        {this._RenderObjectValues(e.objects)}
-                                    </div>
+                                    {e.objects.length > 0 &&
+                                        <div key={e.name}>
+                                            {this._RenderObjectValues(e.objects)}
+                                        </div>
+                                    }
+                                    
+                                    {e.objects.length == 0 &&
+                                        <div key={e.name}>
+                                            No Items Found
+                                        </div>
+                                    }
                                 </div>
                             )
                         })}

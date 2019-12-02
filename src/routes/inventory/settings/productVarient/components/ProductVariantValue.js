@@ -74,9 +74,9 @@ export default class ProductVariantValue extends Component {
     }
 
     _HandleDeleteProductOption = async(index) => {
-        
+        console.log(index)
         try {
-            const result = await api.delete(`/productoptions/${index}`)
+            const result = await api.delete(`/productvariantvalues/${index}`)
 
             if(result.data.count == 1){
 

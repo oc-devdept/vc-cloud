@@ -584,7 +584,13 @@ export default index;
 //         Fuel :{
 //             value : 23.5,
 //             unit : 'km/litre'
+//         },
+//         description :{
+//             grade_description : '',
+//             hero_image :'http://....jpg',
+
 //         }
+        
 //     },
 //     {
 //         id: '098098',
@@ -592,7 +598,30 @@ export default index;
 //         image: 'www.google.com/bmw-series.png',
 //         description: 'Hello World series 2 '
 //     },
-//     ...
+
+// ]
+
+
+// [
+
+//     {
+//         id:54,
+//         type: "red",
+//         image: "string",
+//         price: 123,
+//         isDefault: true
+//     },
+//     {
+//         id:123,
+//         type: "blue",
+//         image: "string",
+//         price: 123,
+//         isDefault: false
+//     },
+//     {
+
+//     }
+
 // ]
 
 
@@ -670,3 +699,8 @@ export default index;
 //     return data
 // }
 
+
+
+// stage = "Engine" || "Exterior" || "Interior"
+
+// 

@@ -1,15 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 
-const MakeModel = (props) => {
+class MakeModel extends PureComponent {
 
-    const MakeSource = props.MakeSource
-    const ModelSource = props.ModelSource
 
+    render () {
+    console.log('MakeModel')
+   
+    const {MakeSource, ModelSource, MakeId, ModelId, _ToggleMake, _ToggleModel, Makeloading, ModelLoading  } = this.props
 
     return (
       <div>
@@ -22,15 +24,15 @@ const MakeModel = (props) => {
               <Select 
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.MakeId ? props.MakeId : ''}
-                onChange={props._ToggleMake}
+                value={MakeId ? MakeId : ''}
+                onChange={_ToggleMake}
                 style={{minWidth: 100, marginLeft: 5}}
               >
-                {props.Makeloading && 
+                {Makeloading && 
                   <div>Loading...</div>
                 }
 
-                {!props.Makeloading &&
+                {!Makeloading &&
                   MakeSource.map((e, index) => {
                       const keyName = e.split(':')[0]
                       const keyId = e.split(':')[1]
@@ -50,16 +52,16 @@ const MakeModel = (props) => {
               <Select 
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.ModelId ? props.ModelId : ''}
-                onChange={props._ToggleModel}
+                value={ModelId ? ModelId : ''}
+                onChange={_ToggleModel}
                 style={{minWidth: 100, marginLeft: 5}}        
               >
 
-                {props.ModelLoading && 
+                {ModelLoading && 
                   <div>Loading...</div>
                 }
 
-                {!props.ModelLoading &&
+                {!ModelLoading &&
                   ModelSource.map((e, index) => {
                       return <MenuItem key={index} value={e.value}>{e.name}</MenuItem>
                   })
@@ -70,6 +72,7 @@ const MakeModel = (props) => {
 
       </div>
     )
+  }
   
 }
 

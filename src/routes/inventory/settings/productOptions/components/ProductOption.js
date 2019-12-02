@@ -13,8 +13,6 @@ const initProductDetail = {
     price: '',
     isDefault: false,
     editable: false,
-    value: '',
-    value2: '',
 }
 
 export default class ProductOption extends Component {
@@ -27,8 +25,6 @@ export default class ProductOption extends Component {
             name:'',
             image: '',
             price: '',
-            value: '',
-            value2: '',
             isDefault: false,
             editable: false,
         },
@@ -97,7 +93,6 @@ export default class ProductOption extends Component {
     }
 
     _Toggle = (e) => {
-        console.log(e.target.value)
         this.setState({SelectedCategory: e.target.value, loading: true, ProductDetails: []})
         this._RenderProductDetails(e.target.value)
     }
@@ -176,8 +171,6 @@ export default class ProductOption extends Component {
                                 <input type="text" placeholder={"e.g name"} value={this.state.ProductDetail.name} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} />
                                 <input type="text" placeholder={"e.g image"} value={this.state.ProductDetail.image} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'image')} />
                                 <input type="text" placeholder={"e.g price"} value={this.state.ProductDetail.price} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'price')} />
-                                <input type="text" placeholder={"e.g value"} value={this.state.ProductDetail.value} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value')} />
-                                <input type="text" placeholder={"e.g value2"} value={this.state.ProductDetail.value2} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value2')} />
 
                                 <div className="d-flex align-items-center" style={{flexDirection:'row'}}>
                                     <div>isDefault</div>
