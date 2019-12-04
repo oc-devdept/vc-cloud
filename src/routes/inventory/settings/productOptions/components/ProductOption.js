@@ -38,7 +38,6 @@ export default class ProductOption extends Component {
         await api.post("/productoptions", 
             {
                 name: ProductDetail.name,
-                type: '',
                 value: ProductDetail.value1,
                 value2: ProductDetail.value2,
                 editable: ProductDetail.editable,
@@ -58,14 +57,22 @@ export default class ProductOption extends Component {
             
             const SelectedCategory = value? value : this.state.SelectedCategory
             
-            const result = await api.get(`/productoptioncategories/${SelectedCategory}/productOptionCategory`)
+            const result = await api.get(`/productoptioncategories/${SelectedCategory}/productOptions`)
 
-            const ProductDetailsSource = await result.data.map((source) => {
-                  return { id: source.id, name: source.name, value: source.value, value2: source.value2 }
+            let ArrayList = []
+
+            await result.data.map((source) => {
+
+                if(!source.productId){
+                        ArrayList.push({ id: source.id, name: source.name, value: source.value, value2: source.value2 })
+                    }
+                
+                    return { id: source.id, name: source.name, value: source.value, value2: source.value2 }
                 }
             );
     
-            this.setState({ProductDetails:ProductDetailsSource, loading: false})
+    
+            this.setState({ProductDetails: ArrayList, loading: false})
 
         } catch (e) {
             console.log(e)
@@ -93,13 +100,14 @@ export default class ProductOption extends Component {
     }
 
     _Toggle = (e) => {
+        console.log(e.target.value)
         this.setState({SelectedCategory: e.target.value, loading: true, ProductDetails: []})
         this._RenderProductDetails(e.target.value)
     }
 
     _ReturnItems() {
         const item = this.props.ProductCategory.map((e, index) => {
-             return <MenuItem key={index} value={e.id}>{e.name}</MenuItem>
+             return <MenuItem key={index} value={e.value}>{e.name}</MenuItem>
         })        
         return item
     }

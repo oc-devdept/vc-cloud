@@ -36,10 +36,9 @@ export default class Index extends PureComponent {
   render () {
 
     return (
-        <div>
+        <div className="d-flex" style={{flex: 1, justifyContent:'center', alignItems:"center", flexDirection:"column"}}>
 
-
-            <div className="d-flex">
+            <div className="d-flex" style={{display:'flex', flexDirection:"column"}}>
                 <div style={{display:'flex', flexDirection:"column"}}>
                     <span>Name</span>
                     <input type="text" placeholder={"e.g name"} value={this.state.ProductVariantValues.name} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} />
@@ -55,7 +54,7 @@ export default class Index extends PureComponent {
                     <input type="text" placeholder={"e.g price"} value={this.state.ProductVariantValues.price} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'price')} />
                 </div>
 
-                <div style={{display:'flex', flexDirection:"column"}}>
+                <div style={{display:'flex', display: 'flex', alignItems:"center"}}>
                     <span>isDefault</span>
                     <Checkbox
                         edge="end"
@@ -69,7 +68,7 @@ export default class Index extends PureComponent {
             <button onClick={() => {
                 this.props._AddVariantValues(this.state.ProductVariantValues)
                 this.setState({ProductVariantValues: OriginalProductVariantValues})
-            }}>Add Product Variant Value</button>
+            }}>Create New Variant</button>
 
         </div>
     );

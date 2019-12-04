@@ -5,12 +5,11 @@ import api from "Api";
 
 import MakeModelGrade from './components/MakeModelGrade'
 import AllProduct from './components/AllProduct'
-import CarVariant from './components/CarVariant/index'
+import CarEdit from './components/CarEdit/index'
 
 
 import CarDetails from './components/CarDetails'
 import CarProductOptions from './components/CarProductOptions/index'
-
 import MakeModel from './components/makeModel'
 
 class AllProducts extends Component {
@@ -60,7 +59,7 @@ class AllProducts extends Component {
               </Panel>
 
               <Panel>
-                <CarVariant/>
+                <CarEdit/>
               </Panel>
 
               <Panel>

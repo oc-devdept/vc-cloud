@@ -34,7 +34,7 @@ class index extends PureComponent {
             <div style={{marginTop: 10, marginBottom: 50}}>
           
                 <CarList
-                  title={'Add Variant'}
+                  title={'Edit Cars'}
                   loading={this.state.loading}
                   tableData={this.state.Products}
                 />

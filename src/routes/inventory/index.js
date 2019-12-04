@@ -8,9 +8,11 @@ import { Tabs, Tab, Panel } from '@bumaga/tabs'
 import { Route, Switch, Redirect } from "react-router-dom";
 import * as async from "./AsyncRoutes";
 
-import Demo from './demo'
-import AllProducts from './allProducts'
-import Settings from './settings'
+import Demo from './Demo'
+import Products from './Products'
+import Settings from './Settings'
+import Dashboard from './Dashboard'
+
 
 class Inventory extends Component {
 
@@ -54,13 +56,11 @@ class Inventory extends Component {
               </Panel> */}
 
               <Panel>
-                <div style={{border : '1px solid black', borderStyle : 'dashed', height: 60, display:'flex', justifyContent:'center', alignItems:'center'}}>
-                    Dashboard
-                </div>
+                <Dashboard/>
               </Panel>
 
               <Panel>
-                <AllProducts/>
+                <Products/>
               </Panel>
 
               <Panel>

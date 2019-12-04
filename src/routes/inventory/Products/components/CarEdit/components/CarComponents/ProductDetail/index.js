@@ -2,6 +2,7 @@ import React, {PureComponent, Component} from "react";
 import api from "Api";
 
 import ProductDetailsFields from './components/ProductDetailsFields'
+import AddProductFields from './components/AddProductFields'
 
 export default class Index extends Component {
     
@@ -9,7 +10,10 @@ export default class Index extends Component {
         super(props);
         this.state = {
             ProductDetailCategory : [],
-            productDetailStage: 0
+            productDetailStage: 0,
+
+            addItem: false,
+            addItemInformation : null
         }
         this._isMounted = false;
     }
@@ -85,7 +89,20 @@ export default class Index extends Component {
     
     }
 
+    _HandleAddNewItem = (item) => {
+        this.setState({addItem: !this.state.addItem, addItemInformation: item})
+    }
 
+    _HandleSaveProductDetail = async(e) => {
+        await this.props._SaveCarDetail(e)
+        // proceed to save into database
+        this.setState({addItem: false, addItemInformation: null})
+    }
+
+    _HandleCancelProductDetail = () => {
+        this.setState({addItem: false, addItemInformation: null})
+    }
+    
     render () {
 
         const Car = this.props.Car
@@ -93,16 +110,15 @@ export default class Index extends Component {
         if(!Car){
             return null
         }
-
-       
+        
         return (
-            <div>
+            <div style={{marginTop: 50}}>
 
                 <h1>Car Detail</h1>
 
                 <div>
                     
-                    <div className="d-flex" style={{flexDirection:"row"}}>
+                    <div className="d-flex" style={{flexDirection:"row", position:'relative'}}>
 
                         <div style={{display:'flex', flex: 1, flexDirection:'column', position:'relative'}}>
 
@@ -160,7 +176,10 @@ export default class Index extends Component {
                                                 } else {
                                                     style = {border:'1px solid black', borderRadius: 10, margin: 5, padding : 5}
                                                     return (
-                                                        <div onClick={() => this.props._AddCarDetail(each)} key={indexes} style={style}>
+                                                        // <div onClick={() => this.props._AddCarDetail(each)} key={indexes} style={style}>
+                                                        //     {each.name}
+                                                        // </div>
+                                                        <div onClick={() => this._HandleAddNewItem(each)} key={indexes} style={style}>
                                                             {each.name}
                                                         </div>
                                                     )
@@ -173,9 +192,26 @@ export default class Index extends Component {
                             })}
                         </div>
                         
+
+                        {this.state.addItem && 
+                            <div style={{position:'absolute', top: 0, left:0,right: 0,bottom: 0, backgroundColor: 'rgba(255,255,255, 0.70)', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                <div style={{backgroundColor: 'White'}}>
+                                    Add your value
+                                    {/* <span>{this.state.addItemInformation.name}</span>
+                                    <span>{this.state.addItemInformation.value}</span>
+                                    <span>{this.state.addItemInformation.value2}</span> */}
+                                    <AddProductFields
+                                        Fields={this.state.addItemInformation}
+                                        _HandleSaveProductDetail = {this._HandleSaveProductDetail}
+                                        _HandleCancelProductDetail = {this._HandleCancelProductDetail}
+                                    />
+                                </div>
+                            </div>
+                        }
+                        
                     </div>
 
-                    <button onClick={this.props._SaveCarDetail}>Save Product Detail</button>
+                    {/* <button onClick={this.props._SaveCarDetail}>Save Product Detail</button> */}
                 
                 </div>
                 
