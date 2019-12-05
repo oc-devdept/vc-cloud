@@ -20,8 +20,14 @@ class index extends Component {
     })
 
     async componentDidMount() {
-        const ProductOptionCategories = await this._FetchProductOptionCategories()
-        this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
+
+        try {
+            const ProductOptionCategories = await this._FetchProductOptionCategories()
+            this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
+        } catch (e) {
+            this.setState({ProductOptionCategory: [], loading: false})
+        }
+        
     }
 
     async _FetchProductOptionCategories() {

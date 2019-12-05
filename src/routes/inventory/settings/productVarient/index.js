@@ -20,8 +20,14 @@ class index extends Component {
     })
 
     async componentDidMount() {
-        const ProductVariantCategory = await this._FetchProductVariants()
-        this.setState({ProductVariantCategory: ProductVariantCategory, loading: false})
+
+        try {
+            const ProductVariantCategory = await this._FetchProductVariants()
+            this.setState({ProductVariantCategory: ProductVariantCategory, loading: false})
+        } catch (e){
+            this.setState({ProductVariantCategory: [], loading: false})
+        }
+        
     }
 
     async _FetchProductVariants() {

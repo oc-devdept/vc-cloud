@@ -19,21 +19,6 @@ class AllProducts extends Component {
 
   }
 
-  async componentDidMount() {
-      const AllProducts = await this._FetchProducts()
-      this.setState({AllProducts: AllProducts, loading: false})
-  }
-
-  async _FetchProducts() {
-      const AllProducts = await api.get(`/products/productVariant`)
-      return AllProducts.data.fields
-  }
-
-  _HandleProduct = () => {
-    console.log('add variant')
-    // this.setState({test: !this.state.test})
-  }
-
   render() {
 
     return (

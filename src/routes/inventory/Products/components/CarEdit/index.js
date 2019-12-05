@@ -16,8 +16,12 @@ class index extends PureComponent {
     }
 
     async componentDidMount() {
-        const Products = await this._FetchProducts()
-        this.setState({Products: Products, loading: false})
+        try {
+            const Products = await this._FetchProducts()
+            this.setState({Products: Products, loading: false})
+        } catch (e) {
+            this.setState({Products: [], loading: false})
+        }
     }
  
     async _FetchProducts() {

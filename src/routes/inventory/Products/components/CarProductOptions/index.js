@@ -15,13 +15,18 @@ class Index extends PureComponent {
 
 
     async componentDidMount() {
-        const ProductOptionCategories = await this._FetchProductOptionCategories()
-        this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
+
+        try {
+            const ProductOptionCategory = await this._FetchProductOptionCategories()
+            this.setState({ProductOptionCategory: ProductOptionCategory, loading: false})
+        } catch (e) {
+            this.setState({ProductOptionCategory: [], loading: false})
+        }
     }
 
     async _FetchProductOptionCategories() {
-        const ProductOptionCategories = await api.get(`/productoptioncategories/productOptionCategory`)
-        return ProductOptionCategories.data.fields
+        const ProductOptionCategory = await api.get(`/productoptioncategories/productOptionCategory`)
+        return ProductOptionCategory.data.fields
     }
 
     _RenderObjectValues = (objects) => {
