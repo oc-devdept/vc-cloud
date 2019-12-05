@@ -4,11 +4,6 @@ import { Helmet } from "react-helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import { Tabs, Tab, Panel } from '@bumaga/tabs' 
 
-// page req
-import { Route, Switch, Redirect } from "react-router-dom";
-import * as async from "./AsyncRoutes";
-
-import Demo from './Demo'
 import Products from './Products'
 import Settings from './Settings'
 import Dashboard from './Dashboard'
@@ -44,17 +39,13 @@ class Inventory extends Component {
 
           <Tabs>
               <div>
-                {/* <Tab><button>Demo</button></Tab> */}
                 <Tab><button>Dashboard</button></Tab>
                 <Tab><button>Products</button></Tab>
                 <Tab><button>Product Options</button></Tab>
                 <Tab><button>Settings</button></Tab>
               </div>
 
-              {/* <Panel>
-                <Demo/>
-              </Panel> */}
-
+          
               <Panel>
                 <Dashboard/>
               </Panel>

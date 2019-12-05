@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Cars from './cars/index'
 
 
-class InventoryComponent extends Component {
+class index extends Component {
 
 
 
@@ -30,4 +30,4 @@ class InventoryComponent extends Component {
   }
 }
 
-export default InventoryComponent;
+export default index;

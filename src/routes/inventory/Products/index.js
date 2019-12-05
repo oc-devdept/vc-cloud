@@ -7,9 +7,6 @@ import MakeModelGrade from './components/MakeModelGrade'
 import AllProduct from './components/AllProduct'
 import CarEdit from './components/CarEdit/index'
 
-
-import CarDetails from './components/CarDetails'
-import CarProductOptions from './components/CarProductOptions/index'
 import MakeModel from './components/makeModel'
 
 class AllProducts extends Component {
