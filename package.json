@@ -46,6 +46,7 @@
     "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
+    "@bumaga/tabs": "^0.2.0",
     "@date-io/moment": "^1.3.7",
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",

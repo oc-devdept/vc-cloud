@@ -52,7 +52,7 @@ class acct_view_invoice extends Component {
     this.props.getSingleInvoice(id);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.clearSingleInvoice();
   }
 
