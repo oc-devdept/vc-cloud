@@ -8,6 +8,7 @@ import RctPageLoader from "Components/RctPageLoader";
 const InventoryComponent = Loadable({
   loader: () => import("./index"),
   loading: () => <RctPageLoader />
+  
 });
 
 export default InventoryComponent;
