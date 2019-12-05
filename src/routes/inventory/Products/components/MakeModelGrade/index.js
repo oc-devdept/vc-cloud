@@ -80,7 +80,18 @@ class MakeModelGrade extends PureComponent {
 
         } catch (e) {
             console.log(e)       
+            if(this._isMounted) {
+                this.setState({
+                    categoryGroupId: '', 
+                    MakeSource: [], 
+                    ProductDetailCategory: [],
+
+                    Makeloading: false,
+                    ModelLoading: false
+                })
+            }
         }
+
            
     }  
 

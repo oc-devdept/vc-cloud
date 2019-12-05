@@ -28,17 +28,24 @@ class Index extends Component {
 
     let AllMakeSource = [...this.state.AllMakeSource]
 
-    // Make Source 
-    const Make = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
-    let MakeSource = await this._RenderMakeCategory(Make.data.id)
-    AllMakeSource = AllMakeSource.concat(MakeSource)
+    try {
 
-    // Model Source
-    const Model = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
-    const AllModelSource = await this._RenderModelCategory(Model.data.id)
-  
-    this.setState({AllModelSource: AllModelSource, AllMakeSource: AllMakeSource, ModelLoading: false})
+      // Make Source 
+      const Make = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
+      let MakeSource = await this._RenderMakeCategory(Make.data.id)
+      AllMakeSource = AllMakeSource.concat(MakeSource)
 
+      // Model Source
+      const Model = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
+      const AllModelSource = await this._RenderModelCategory(Model.data.id)
+    
+      this.setState({AllModelSource: AllModelSource, AllMakeSource: AllMakeSource, ModelLoading: false})
+    
+    } catch (e){
+        
+      this.setState({AllModelSource: [], AllMakeSource: [], ModelLoading: false})
+
+    }
   }
 
   // Download all model

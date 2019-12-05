@@ -34,22 +34,42 @@ class index extends Component {
 
     loadInitial = async () => {
 
-        const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
+        try {
 
-        const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id)
-    
-        const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
-       
-        if(this._isMounted) {
-            this.setState({
-                MakeId: MakeFilter.data.id, 
-                MakeSource: MakeSource, 
-                MakeGroupingSource: MakeGroupingSource, 
-                MakeGroupingOriginalSource: MakeGroupingSource, 
-                MakeLoading: false,
-                ModelLoading: false
-            })
+            const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
+
+            const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id)
+        
+            const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
+        
+            if(this._isMounted) {
+                this.setState({
+                    MakeId: MakeFilter.data.id, 
+                    MakeSource: MakeSource, 
+                    MakeGroupingSource: MakeGroupingSource, 
+                    MakeGroupingOriginalSource: MakeGroupingSource, 
+                    MakeLoading: false,
+                    ModelLoading: false
+                })
+            }
+
+        } catch (e) {
+
+            if(this._isMounted) {
+                this.setState({
+                    MakeId: '',
+                    MakeSource: [], 
+                    MakeGroupingSource: [], 
+                    MakeGroupingOriginalSource: [], 
+
+                    MakeLoading: false,
+                    ModelLoading: false,
+                })
+            }
+
         }
+
+        
            
     }
 

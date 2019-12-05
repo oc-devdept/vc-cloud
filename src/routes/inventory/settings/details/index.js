@@ -23,8 +23,12 @@ class index extends Component {
 
 
     async componentDidMount() {
-        const ProductDetailCategories = await api.get(`/productdetailcategories/formFields `)
-        this.setState({ProductCategory: ProductDetailCategories.data.fields, loading: false})
+        try {
+            const ProductDetailCategories = await api.get(`/productdetailcategories/formFields `)
+            this.setState({ProductCategory: ProductDetailCategories.data.fields, loading: false})
+        } catch (e){
+            this.setState({ProductCategory: [], loading: false})
+        }
     }
 
 
