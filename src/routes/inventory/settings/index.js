@@ -21,9 +21,9 @@ class CreateProduct extends Component {
     return (
       <div className="todo-dashboard">
 
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
+        {/* <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <MakeModel/>
-        </div>
+        </div> */}
 
         <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <ProductVariant/>

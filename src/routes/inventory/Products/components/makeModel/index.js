@@ -118,8 +118,12 @@ class index extends Component {
     }
 
     _LaunchModels = async(KeyId) => {
-        const ModelResult = await api.get(`/categories/${KeyId}/category`);
-        this.setState({ModelSource: ModelResult.data, ModelLoading: false})
+        try {
+            const ModelResult = await api.get(`/categories/${KeyId}/category`);
+            this.setState({ModelSource: ModelResult.data, ModelLoading: false})
+        } catch (e) {
+            this.setState({ModelSource: [], ModelLoading: false})
+        }
     }
 
     _SaveMake = async(Make) => {
