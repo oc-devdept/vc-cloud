@@ -204,9 +204,9 @@ class MakeModelGrade extends PureComponent {
     }
 
 
-
     render() {
         console.log('MakeModelGrade')
+        console.log(this.state)
         return (
             <div>
 
