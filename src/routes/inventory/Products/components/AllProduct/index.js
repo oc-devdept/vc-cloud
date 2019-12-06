@@ -21,8 +21,15 @@ class index extends PureComponent {
     }
   
     async _FetchProducts() {
-        const AllProducts = await api.get(`/products/productVariant`)
-        return AllProducts.data.fields
+
+        try {
+            const AllProducts = await api.get(`/products/productVariant`)
+            return AllProducts.data.fields
+        } catch (e) {
+            console.log(e)
+            return []
+        }
+        
     }
 
     render() {

@@ -205,6 +205,7 @@ export default (state = INIT_STATE, action) => {
         quotationList: { ...state.quotationList, loading: true }
       };
     case types.GET_QUOTATION_SUCCESS:
+      
       return {
         ...state,
         quotationList: {

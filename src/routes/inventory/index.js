@@ -41,7 +41,6 @@ class Inventory extends Component {
               <div>
                 <Tab><button>Dashboard</button></Tab>
                 <Tab><button>Products</button></Tab>
-                <Tab><button>Product Options</button></Tab>
                 <Tab><button>Settings</button></Tab>
               </div>
 
@@ -52,12 +51,6 @@ class Inventory extends Component {
 
               <Panel>
                 <Products/>
-              </Panel>
-
-              <Panel>
-                <div style={{border : '1px solid black', borderStyle : 'dashed', height: 60, display:'flex', justifyContent:'center', alignItems:'center'}}>
-                    Product Options
-                </div>
               </Panel>
 
               <Panel>

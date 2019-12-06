@@ -79,7 +79,7 @@ class MakeModelGrade extends PureComponent {
             }
 
         } catch (e) {
-            console.log(e)       
+
             if(this._isMounted) {
                 this.setState({
                     categoryGroupId: '', 
@@ -205,8 +205,7 @@ class MakeModelGrade extends PureComponent {
 
 
     render() {
-        console.log('MakeModelGrade')
-        console.log(this.state)
+       
         return (
             <div>
 

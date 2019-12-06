@@ -35,6 +35,8 @@ import {
 
 
 class acct_quotation extends Component {
+
+
   componentDidMount() {
     this.props.getAllQuotation();
     this.props.getQuotationSummary();

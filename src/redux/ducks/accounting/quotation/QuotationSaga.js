@@ -21,8 +21,8 @@ const getAllQuoteRequest = async () => {
   // const id = localStorage.getItem('user_id');
   // const result = await api.get(`/quotations?filter[where][userId]=${id}&`);
   // return result.data;
-
   const result = await api.get(`/quotations/getAllQuotations`);
+
   return result.data;
 };
 
@@ -128,9 +128,11 @@ const submitNewQuotationRequest = async payload => {
 
 
 function* getAllQuoteFromDB() {
+
   try {
     const data = yield call(getAllQuoteRequest);
     yield delay(500);
+   
     yield put(Actions.getQuotationSuccess(data.fields));
   } catch (error) {
     yield put(Actions.getQuotationFailure(error));
