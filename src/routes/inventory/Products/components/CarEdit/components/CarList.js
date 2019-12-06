@@ -1,5 +1,6 @@
 import React, {PureComponent, Component} from "react";
 import { NavLink } from "react-router-dom";
+import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
@@ -16,9 +17,23 @@ export default class Index extends Component {
     ProductDetailLoading: false,
   })
 
-  _HandleVariant = (rowState) => {
-    console.log('inside components')
-    this.setState({currentProduct: this.props.tableData[rowState.rowIndex]})
+  _HandleVariant = async (rowState) => {
+
+    if(this.state.currentProduct){
+
+      if(this.state.currentProduct.id != this.props.tableData[rowState.rowIndex].id){
+        const Item = this.props.tableData[rowState.rowIndex]
+        const Car = await api.get(`/products/${Item.id}`)
+        this.setState({currentProduct: Car.data})
+      }
+
+    } else {
+
+      const Item = this.props.tableData[rowState.rowIndex]
+      const Car = await api.get(`/products/${Item.id}`)
+      this.setState({currentProduct: Car.data})
+    }
+    
   }
 
  
@@ -47,9 +62,10 @@ export default class Index extends Component {
         name: "id",
         options: {
           customBodyRender: (value, tableMeta) => {
-            return (
-              <NavLink to={`quotations/${tableMeta.rowData[0]}`}>{value}</NavLink>
-            );
+            return value
+            // return (
+            //   <NavLink to={`quotations/${tableMeta.rowData[0]}`}>{value}</NavLink>
+            // );
           }
         }
       },

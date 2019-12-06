@@ -24,13 +24,17 @@ class Index extends Component {
 
     if(ModelID != e.id){
       const Make = await api.get(`categories/${e.id}`);
-      // const GradeItems = await api.get(`categories/${e.id}/product`)
       const GradeItems = await api.get(`products/specificGrades/${e.id}`)
-    
       return this.setState({ModelID: ModelID, ModelDetail: Make.data, GradeItems: GradeItems.data.fields})
     }
 
     return
+  }
+
+
+  _SelectGrade = async(e) => {
+    console.log('_SelectGrade')
+    console.log(e)
   }
 
   render() {
@@ -39,7 +43,6 @@ class Index extends Component {
         <div className="todo-dashboard">
             <div style={{border : '1px solid black', borderStyle : 'dashed', display:'flex', flexDirection:'column'}}>
                 
-
                 <MegaMenu
                   _SetModelID={this._SetModelID}
                 />
@@ -47,6 +50,7 @@ class Index extends Component {
                 <ModelDetail
                   ModelDetail={this.state.ModelDetail}
                   GradeItems={this.state.GradeItems}
+                  _SelectGrade={this._SelectGrade}
                 />
 
             </div>

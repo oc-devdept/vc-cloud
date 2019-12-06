@@ -15,7 +15,7 @@ class ModelDetail extends Component {
   _RenderModelDetail = () => {
 
     const {name, description, image} = this.props.ModelDetail
-    console.log(this.props.ModelDetail)
+
     return (
         <div className="d-flex" style={{flexDirection:"column"}}>
             <span>name: {name}</span>
@@ -31,7 +31,7 @@ class ModelDetail extends Component {
       return (
         this.props.GradeItems.map((e, index) => {
           return (
-                <div key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
+                <div onClick={() => this.props._SelectGrade(e)} key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
 
                     <div style={{margin : 3, flexDirection:'column'}} className="d-flex">
                       <span>{e.name}</span>

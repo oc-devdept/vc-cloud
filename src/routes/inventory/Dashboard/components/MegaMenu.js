@@ -39,9 +39,6 @@ class MegaMenu extends Component {
       const Model = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
       const AllModelSource = await this._RenderModelCategory(Model.data.id)
     
-      console.log(AllModelSource)
-      console.log(AllMakeSource)
-      
       this.setState({AllModelSource: AllModelSource, AllMakeSource: AllMakeSource, ModelLoading: false})
     
     } catch (e){

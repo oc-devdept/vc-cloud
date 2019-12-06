@@ -124,8 +124,14 @@ export default class Index extends Component {
 
                             <div style={{border : '1px solid black', display:'flex', justifyContent: 'space-around'}}>
                                 {this.state.ProductDetailCategory.map((e, index)=>{
+
+                                    let style = {}
+                                    if(this.state.productDetailStage == index){
+                                        style = {backgroundColor: 'blue'}
+                                    }
+
                                     return (
-                                        <div key={index} onClick={() => this.setState({productDetailStage: index})}>
+                                        <div key={index} style={style} onClick={() => this.setState({productDetailStage: index})}>
                                             <span>{e.name}</span>
                                         </div>
                                     )
