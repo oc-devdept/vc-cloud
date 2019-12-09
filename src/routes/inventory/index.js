@@ -41,7 +41,7 @@ class Inventory extends Component {
               <div>
                 <Tab><button>Dashboard</button></Tab>
                 <Tab><button>Products</button></Tab>
-                {/* <Tab><button>Settings</button></Tab> */}
+                <Tab><button>Settings</button></Tab>
               </div>
 
           
@@ -53,9 +53,9 @@ class Inventory extends Component {
                 <Products/>
               </Panel>
 
-              {/* <Panel>
+              <Panel>
                 <Settings/>
-              </Panel> */}
+              </Panel>
 
           </Tabs>
 
