@@ -19,63 +19,21 @@ class MegaMenu extends Component {
     }
   }
 
-  // Fetch All Models (DONE)
-
-  // Fetch Dynamic Make Categories
-
-
   async componentDidMount() {
 
     let AllMakeSource = [...this.state.AllMakeSource]
 
     try {
-
-      // Make Source 
-      const Make = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
-      let MakeSource = await this._RenderMakeCategory(Make.data.id)
-      AllMakeSource = AllMakeSource.concat(MakeSource)
-
-      // Model Source
-      const Model = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
-      const AllModelSource = await this._RenderModelCategory(Model.data.id)
+      const Make = await api.get(`products/getMake`);
+      const MakeSource = Make.data.fields
+ 
+      const Model = await api.get(`products/getModel`);
+      const ModelSource = Model.data.fields
     
-      this.setState({AllModelSource: AllModelSource, AllMakeSource: AllMakeSource, ModelLoading: false})
+      this.setState({AllModelSource: ModelSource, AllMakeSource: AllMakeSource.concat(MakeSource), ModelLoading: false})
     
     } catch (e){
-      console.log(e)
       this.setState({AllModelSource: [], AllMakeSource: [], ModelLoading: false})
-    }
-  }
-
-  // Download all model
-  async _RenderModelCategory(value) {
-    try {
-        const ModelSource = await api.get(`/categorygroups/${value}/categoryGroup`);
-        return ModelSource.data      
-    } catch (e) {
-        console.log(e)
-    }
-  }
-
-  // Download all make categories
-  async _RenderMakeCategory(value) {
-        
-    try {
-        const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
-        const MakeSource = await MakeGroup.data.map((source) => {
-
-            return { 
-                id: source.id, 
-                name: source.name, 
-                description: source.description,
-                image: source.image,
-                checklist: true
-            }
-
-        });
-        return MakeSource
-    } catch (e) {
-        console.log(e)
     }
 
   }
@@ -97,15 +55,13 @@ class MegaMenu extends Component {
 
     let AllModelSource = []
     if(index == 0){
-
-      const Model = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
-      AllModelSource = await this._RenderModelCategory(Model.data.id)
-
+      const Model = await  api.get(`products/getModel`);
+      AllModelSource = await Model.data.fields
     } else {
       let AllMakeSource = this.state.AllMakeSource[index]
       AllModelSource = await this._RenderSpecificModelCategory(AllMakeSource.id)
     }
-   
+
 
     await this.setState({ModelLoading: false, AllModelSource: AllModelSource})
   }
@@ -157,10 +113,8 @@ class MegaMenu extends Component {
   render() {
 
     return (
-        <div className="todo-dashboard">
-            <div style={{border : '1px solid black', borderStyle : 'dashed', display:'flex', flexDirection:'column'}}>
+        <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display:'flex', flexDirection:'column'}}>
                 
-
                 {this.state.AllMakeSource.length > 0 &&
                   <div style={{display:'flex', flexDirection:'row', width: '100%'}}>
                     {this._RenderMake()}
@@ -191,7 +145,6 @@ class MegaMenu extends Component {
                   </div>
                 }
 
-            </div>
         </div>
     );
   }

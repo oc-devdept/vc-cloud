@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import ProductOptions from './productOptions/index'
 import Details from './details/index'
-import MakeModel from './makeModel/index'
+// import MakeModel from './makeModel/index'
 import ProductVariant from './productVarient/index'
 
 // page

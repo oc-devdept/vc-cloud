@@ -80,11 +80,11 @@ class index extends Component {
                     />
                 </div>
 
-                <div style={{margin: 15}}>
+                {/* <div style={{margin: 15}}>
                     <ProductVariantValue
                         ProductVariantCategory={this.state.ProductVariantCategory}
                     />
-                </div>
+                </div> */}
 
             </div>
         );

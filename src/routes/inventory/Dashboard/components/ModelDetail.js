@@ -31,7 +31,7 @@ class ModelDetail extends Component {
       return (
         this.props.GradeItems.map((e, index) => {
           return (
-                <div onClick={() => this.props._SelectGrade(e)} key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
+                <div onClick={() => this.props._SelectGradeExterior(e)} key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
 
                     <div style={{margin : 3, flexDirection:'column'}} className="d-flex">
                       <span>{e.name}</span>
@@ -71,7 +71,7 @@ class ModelDetail extends Component {
   render() {
         
     return (
-        <div className="todo-dashboard">
+        <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50}}>
             In Depth Model Page!
             
             {this.state.ModelLoading && 

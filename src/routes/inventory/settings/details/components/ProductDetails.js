@@ -57,14 +57,9 @@ export default class ProductDetails extends Component {
             
             const SelectedCategory = value? value : this.state.SelectedCategory
 
-            const result = await api.get(`/productdetailcategories/${SelectedCategory}/detailCategory`)
+            const ProductDetailsSource = await api.get(`/productdetailcategories/specificDetail/${SelectedCategory}`)
     
-            const ProductDetailsSource = await result.data.map((source) => {
-                  return { id: source.id, name: source.name, value: source.value, value2: source.value2 }
-                }
-            );
-    
-            this.setState({ProductDetails:ProductDetailsSource, loading: false})
+            this.setState({ProductDetails:ProductDetailsSource.data.fields, loading: false})
 
         } catch (e) {
             console.log(e)

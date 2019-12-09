@@ -4,7 +4,9 @@ import api from "Api";
 
 import MegaMenu from './components/MegaMenu'
 import ModelDetail from './components/ModelDetail'
-
+import Exterior from './components/Exterior'
+import Interior from './components/Interior'
+import ProductOptions from './components/ProductOptions'
 
 class Index extends Component {
 
@@ -13,7 +15,10 @@ class Index extends Component {
     this.state = {
       ModelID: '',
       ModelDetail: {},
-      GradeItems : []
+      GradeItems : [],
+      Exterior: [],
+      Interior: [],
+      ProductOptions: []
     }
   }
 
@@ -25,35 +30,58 @@ class Index extends Component {
     if(ModelID != e.id){
       const Make = await api.get(`categories/${e.id}`);
       const GradeItems = await api.get(`products/specificGrades/${e.id}`)
-      return this.setState({ModelID: ModelID, ModelDetail: Make.data, GradeItems: GradeItems.data.fields})
+
+      return this.setState({
+        ModelID: ModelID, 
+        ModelDetail: Make.data, 
+        GradeItems: GradeItems.data.fields
+      })
     }
 
     return
   }
 
 
-  _SelectGrade = async(e) => {
-    console.log('_SelectGrade')
-    console.log(e)
+  _SelectGradeExterior = async(e) => {
+    
+    const ExteriorGrade = await api.get(`products/specificVariantExterior/${e.id}`);
+
+    const InteriorGrade = await api.get(`products/specificVariantInterior/${e.id}`);
+
+    const ProductOptions = await api.get(`products/specificGradeProductOption/${e.id}`);
+    
+    this.setState({Exterior : ExteriorGrade.data.fields, Interior: InteriorGrade.data.fields, ProductOptions : ProductOptions.data.fields})
+
   }
 
   render() {
 
     return (
-        <div className="todo-dashboard">
-            <div style={{border : '1px solid black', borderStyle : 'dashed', display:'flex', flexDirection:'column'}}>
-                
-                <MegaMenu
-                  _SetModelID={this._SetModelID}
-                />
+        <div className="todo-dashboard" style={{display:'flex', flexDirection:'column'}}>
+       
+            <MegaMenu
+              _SetModelID={this._SetModelID}
+            />
 
-                <ModelDetail
-                  ModelDetail={this.state.ModelDetail}
-                  GradeItems={this.state.GradeItems}
-                  _SelectGrade={this._SelectGrade}
-                />
+            <ModelDetail
+              ModelDetail={this.state.ModelDetail}
+              GradeItems={this.state.GradeItems}
+              _SelectGradeExterior={this._SelectGradeExterior}
+            />
 
-            </div>
+            <Exterior
+              Exterior={this.state.Exterior}
+            />
+
+            <Interior
+              Interior={this.state.Interior}
+            />
+
+            <ProductOptions
+              ProductOptions={this.state.ProductOptions}
+            />
+
+
         </div>
     );
   }
