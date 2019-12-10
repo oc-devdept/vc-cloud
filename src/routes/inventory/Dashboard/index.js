@@ -16,6 +16,8 @@ class Index extends Component {
       ModelID: '',
       ModelDetail: {},
       GradeItems : [],
+
+      ProductDetail: [],
       Exterior: [],
       Interior: [],
       ProductOptions: []
@@ -26,7 +28,7 @@ class Index extends Component {
   _SetModelID = async (e) => {
   
     let ModelID = this.state.ModelID
-
+    console.log(e.id)
     if(ModelID != e.id){
       const Make = await api.get(`categories/${e.id}`);
       const GradeItems = await api.get(`products/specificGrades/${e.id}`)
@@ -44,13 +46,21 @@ class Index extends Component {
 
   _SelectGradeExterior = async(e) => {
     
+    // Grade Detail
+    const GradeDetail = await api.get(`products/specificGradeDetail/${e.id}`);
+
     const ExteriorGrade = await api.get(`products/specificVariantExterior/${e.id}`);
 
     const InteriorGrade = await api.get(`products/specificVariantInterior/${e.id}`);
 
     const ProductOptions = await api.get(`products/specificGradeProductOption/${e.id}`);
     
-    this.setState({Exterior : ExteriorGrade.data.fields, Interior: InteriorGrade.data.fields, ProductOptions : ProductOptions.data.fields})
+    this.setState({
+      ProductDetail : GradeDetail.data.fields,
+      Exterior : ExteriorGrade.data.fields, 
+      Interior: InteriorGrade.data.fields, 
+      ProductOptions : ProductOptions.data.fields
+    })
 
   }
 
@@ -65,6 +75,7 @@ class Index extends Component {
 
             <ModelDetail
               ModelDetail={this.state.ModelDetail}
+              ProductDetail={this.state.ProductDetail}
               GradeItems={this.state.GradeItems}
               _SelectGradeExterior={this._SelectGradeExterior}
             />

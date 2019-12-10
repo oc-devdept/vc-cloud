@@ -16,12 +16,57 @@ class ModelDetail extends Component {
 
     const {name, description, image} = this.props.ModelDetail
 
+    const ProductDetail = this.props.ProductDetail
+
     return (
+      <div className="d-flex" style={{flexDirection:"column"}}>
         <div className="d-flex" style={{flexDirection:"column"}}>
             <span>name: {name}</span>
             <span>description: {description}</span>
             <span>image: {image}</span>
         </div>
+
+
+        <div style={{marginTop: 50}}>
+          {ProductDetail.length> 0 && 
+            <div>
+                {ProductDetail.map((e, index) =>{
+                  const key = Object.keys(e)[0]
+                  const values = Object.values(e)[0]
+    
+                  return(
+                    <div key={index}>
+                      {key}
+
+                      {values.length > 0 && 
+                        <div style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
+                          {values.map((item, indexes) =>{
+                            return (
+                              <div onClick={() => console.log(item)} key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
+                                  <span>name: {item.name}</span>
+                                  <span>price: {item.price}</span>
+                                  <span>{item.value}</span>
+                                  <span>{item.value2}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      }
+
+                      {values.length == 0 && 
+                        <div>
+                          <span>No Product Detail Found</span>
+                        </div>
+                      }
+                      
+                    </div>
+                  )
+                })}
+            </div>
+          }
+        </div>
+      </div>
+        
     )
   }
  

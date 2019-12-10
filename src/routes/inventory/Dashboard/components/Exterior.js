@@ -22,8 +22,6 @@ class Exterior extends Component {
                   <div key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
                       
                       <span>{e.name}</span>
-
-
                       {e.objects.length > 0 && 
                         <div onClick={() => console.log(item)} style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
                           {e.objects.map((item, indexes) =>{
