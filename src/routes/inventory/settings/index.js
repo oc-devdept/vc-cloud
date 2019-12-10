@@ -14,6 +14,8 @@ class CreateProduct extends Component {
     }
   }
 
+
+  
   render() {
 
     return (
