@@ -4,9 +4,9 @@ import { Helmet } from "react-helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import { Tabs, Tab, Panel } from '@bumaga/tabs' 
 
-import Products from './Products'
-import Settings from './Settings'
-import Dashboard from './Dashboard'
+import Products from './Products/index'
+import Configure from './Configure/index'
+import Dashboard from './Dashboard/index'
 
 
 class Inventory extends Component {
@@ -41,7 +41,7 @@ class Inventory extends Component {
               <div>
                 <Tab><button>Dashboard</button></Tab>
                 <Tab><button>Products</button></Tab>
-                <Tab><button>Settings</button></Tab>
+                <Tab><button>Configure</button></Tab>
               </div>
 
           
@@ -54,7 +54,7 @@ class Inventory extends Component {
               </Panel>
 
               <Panel>
-                <Settings/>
+                <Configure/>
               </Panel>
           </Tabs>
 
