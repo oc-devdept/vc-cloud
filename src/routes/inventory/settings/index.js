@@ -20,6 +20,7 @@ class CreateProduct extends Component {
 
     return (
       <div className="todo-dashboard">
+          <div>Hello World</div>
 
         {/* <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <MakeModel/>
