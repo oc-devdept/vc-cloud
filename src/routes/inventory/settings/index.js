@@ -25,13 +25,13 @@ class CreateProduct extends Component {
           <MakeModel/>
         </div> */}
 
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
+        {/* <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <ProductVariant/>
         </div>
 
         <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <Details/>
-        </div>
+        </div> */}
 
         <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <ProductOptions/>
