@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import ProductOptions from './productOptions/index'
-import Details from './details/index'
-import ProductVariant from './productVarient/index'
+import ProductOptions from './components/productOptions/index'
+import Details from './components/details/index'
+import ProductVariant from './components/productVarient/index'
 // import MakeModel from './makeModel/index'
 
 // page
@@ -33,9 +33,9 @@ class CreateProduct extends Component {
           <Details/>
         </div> */}
 
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
+        {/* <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <ProductOptions/>
-        </div>
+        </div> */}
 
       </div>
     );
