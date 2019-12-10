@@ -36,7 +36,7 @@ class Inventory extends Component {
             // }}
           />
   
-          <div>Hello World</div>
+        
           <Tabs>
               <div>
                 <Tab><button>Dashboard</button></Tab>
