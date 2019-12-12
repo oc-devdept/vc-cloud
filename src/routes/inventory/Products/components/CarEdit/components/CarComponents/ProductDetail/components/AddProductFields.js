@@ -20,16 +20,17 @@ export default class Index extends PureComponent {
     render () {
         const e = this.state.addItemInformation
 
+        console.log(e)
         return (
             <div>
 
-                <div className='d-flex' style={{justifyContent:'space-between'}}>
-                    <span>{e.name}</span>
-                    <input type="value1" placeholder={"e.g 890"} value={e.value} onChange={this._HandleAddProductDetailValue} />
-                    <span>{e.value2}</span>  
+                <div className='d-flex' style={{justifyContent:'space-between', flexDirection:'column'}}>
+                    <span>Name: {e.name}</span>
+                    {/* <input type="value1" placeholder={"e.g 890"} value={e.value} onChange={this._HandleAddProductDetailValue} /> */}
+                    <span>Unit: {e.value2}</span>  
                 </div>
 
-                <div className="d-flex">
+                <div className="d-flex" style={{marginTop: 20, marginBottom: 20}}>
                     <button onClick={() => this.props._HandleSaveProductDetail(this.state.addItemInformation)}>Save</button>     
                     <button onClick={this.props._HandleCancelProductDetail}>Cancel</button>     
                 </div>

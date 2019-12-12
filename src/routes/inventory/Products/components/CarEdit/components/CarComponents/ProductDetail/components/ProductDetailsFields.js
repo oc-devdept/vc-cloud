@@ -9,9 +9,9 @@ export default class Index extends PureComponent {
 
     return (
         <div className='d-flex' style={{justifyContent:'space-between'}}>
-            <span>{e.name}</span>
-            <span>{e.value}</span>
-            <span>{e.value2}</span>       
+            <span>Name: {e.name}</span>
+            {/* <span>{e.value}</span> */}
+            <span>Units {e.value2}</span>       
             <button onClick={() => this.props._DeleteProductDetailFields(index)}>X</button>
         </div>
     );

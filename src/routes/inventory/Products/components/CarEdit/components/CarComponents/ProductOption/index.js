@@ -199,7 +199,8 @@ export default class Index extends Component {
                     {this.state.addItem && 
                         <div style={{position:'absolute', top: 0, left:0,right: 0,bottom: 0, backgroundColor: 'rgba(255,255,255, 0.70)', display:'flex', justifyContent:'center', alignItems:'center'}}>
                             <div style={{backgroundColor: 'White'}}>
-                                Add your value
+                                
+                                <div style={{maringTop: 20, marginBottom: 20}}>Add this item to this grade</div>
                                 
                                 <AddProductOptionFields
                                     Fields={this.state.addItemInformation}

@@ -19,17 +19,16 @@ export default class Index extends PureComponent {
         return (
             <div>
 
-                <div className='d-flex' style={{justifyContent:'space-between'}}>
-                    <span>{e.name}</span>
-                    <span>{e.price}</span>
+                <div className='d-flex' style={{justifyContent:'space-between', flexDirection:'column'}}>
+                    <span>Name: {e.name}</span>
+                    <span>Price: {e.price} SGD</span>
                     <span>{e.value2}</span>  
-                    <span>image??</span>  
-                    <span>{e.isDefault}</span>
-                    <span>{e.editable}</span>
-
+                    <span>{e.image}</span>  
+                    <span>IsDefault: {`${e.isDefault}`}</span>
+                    <span>Editable: {`${e.editable}`}</span>
                 </div>
 
-                <div className="d-flex">
+                <div className="d-flex" style={{marginTop: 20, marginBottom: 20}}>
                     <button onClick={() => this.props._HandleSaveProductOption(this.state.addItemInformation)}>Add Product Option</button>     
                     <button onClick={this.props._HandleCancelProductOption}>Cancel</button>     
                 </div>
