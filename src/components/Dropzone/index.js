@@ -63,7 +63,7 @@ function Dropzone(props) {
       <i
         className="zmdi zmdi-close text-danger ml-5"
         onClick={() => onRemove(file)}
-      />
+      >X</i>
     </p>
   ));
 

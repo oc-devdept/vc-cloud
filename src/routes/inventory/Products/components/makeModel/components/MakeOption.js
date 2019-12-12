@@ -1,4 +1,6 @@
 import React, { Component, useState } from "react";
+
+
 import api from "Api";
 
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,6 +24,11 @@ export default class MakeOption extends Component {
             description: '',
             image: '',
         },
+        content: "",
+        name: "",
+        start: new Date(),
+        end: new Date(),
+        files: []
     })
 
     _HandleMake = (e, value) => {
@@ -36,10 +43,13 @@ export default class MakeOption extends Component {
         this.setState({Make: initialMake})
     }
 
+   
+
     render() {
 
         const {MakeLoading, MakeSource, _HandleMakeOption} = this.props
        
+      
 
         return (
             <div style={{flex: 1, display:'flex', flexDirection:'row'}}>
@@ -76,7 +86,10 @@ export default class MakeOption extends Component {
                         <div className="d-flex" style={{flexDirection:'column'}}>
                             <input type="name" placeholder={"e.g BMW"} value={this.state.Make.name} onChange={(e) => this._HandleMake(e.target.value, 'name')} />
                             <input type="value" placeholder={"e.g description"} value={this.state.Make.description} onChange={(e) => this._HandleMake(e.target.value, 'description')} />
+
+                            
                             <input type="value2" placeholder={"e.g image url"} value={this.state.Make.image} onChange={(e) => this._HandleMake(e.target.value, 'image')} />
+
                             <button style={{}} onClick={this._SaveMake}>Save Make</button>
                         </div>
                     }

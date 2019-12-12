@@ -1,13 +1,42 @@
 import React, { Component, PureComponent } from "react";
 import Checkbox from '@material-ui/core/Checkbox';
 import ProductDetail from './ProductDetail'
+import Dropzone from "Components/Dropzone";
 
 
 class Grade extends PureComponent {
 
+    state=({
+      content: "",
+      name: "",
+      start: new Date(),
+      end: new Date(),
+      files: []
+    })
+
+    removeFile = (file) => {
+      this.setState(state => {
+        const index = state.files.indexOf(file);
+        const files = state.files.slice(0);
+        files.splice(index, 1);
+        return { files };
+      });
+    }
+
+    handleUpload = file => {
+        this.setState({
+            files: file
+        });
+    };
+
     render() {
       const {ModelId, _HandleProduct, Product, ProductDetailCategory} = this.props
       console.log('Grade')
+
+      const { show, handleHide, edit } = this.props;
+      const { content, name, files, start, end } = this.state;
+
+
 
     return (
       <div className='d-flex' style={{margin: 5, flexDirection:'column'}}>
@@ -50,7 +79,18 @@ class Grade extends PureComponent {
                 value={Product.image ? Product.image : ''} 
                 onChange={(e) => _HandleProduct(e.target.value, 'image')}
               />
+
+              {/* need to setup upload image. */}
+              <Dropzone
+                  onDrop={this.handleUpload}
+                  onRemove={this.removeFile}
+                  uploadedFiles={files}
+                  additionalText="Files can't be edited once uploaded."
+              />
+            
             </div>
+
+           
 
             <div>
               <span>Cost Price</span>
