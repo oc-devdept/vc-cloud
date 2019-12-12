@@ -8,6 +8,10 @@ import Exterior from './components/Exterior'
 import Interior from './components/Interior'
 import ProductOptions from './components/ProductOptions'
 
+
+import PureComponents from './components_test/purecomponent'
+import Components from './components_test/component'
+
 class Index extends Component {
 
   constructor(props) {
@@ -20,7 +24,12 @@ class Index extends Component {
       ProductDetail: [],
       Exterior: [],
       Interior: [],
-      ProductOptions: []
+      ProductOptions: [],
+
+
+      // Fields : {name: ''},
+      // PureFields : { name: '' },
+
     }
   }
 
@@ -64,8 +73,23 @@ class Index extends Component {
 
   }
 
-  render() {
 
+
+  // _HandleText = (e) => {
+  //   let Fields = {...this.state.Fields}
+  //   Fields.name = e
+  //   this.setState({Fields})
+  // }
+  
+  // _HandlePureText = (e) => {
+  //   let PureFields = {...this.state.PureFields}
+  //   PureFields.name = e
+  //   this.setState({PureFields})
+  // }
+  
+  render() {
+    
+    
     return (
         <div className="todo-dashboard" style={{display:'flex', flexDirection:'column'}}>
        
@@ -92,6 +116,21 @@ class Index extends Component {
               ProductOptions={this.state.ProductOptions}
             />
 
+            
+            {/* <Components
+              fields={this.state.Fields}
+              _HandleText={this._HandleText}
+            />
+           
+  
+            <PureComponents
+              fields={this.state.PureFields}
+              _HandlePureText={this._HandlePureText}
+            /> */}
+
+
+
+            
 
         </div>
     );

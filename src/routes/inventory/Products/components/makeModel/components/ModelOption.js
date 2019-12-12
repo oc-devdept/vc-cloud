@@ -121,7 +121,7 @@ class ModelOption extends Component  {
 
                                                 return (
                                                     <div key={index} onClick={() => this._HandleTags(e.id)} style={style}>
-                                                        {e.label}
+                                                        {e.name}
                                                     </div>
                                                 )
                                             })}
