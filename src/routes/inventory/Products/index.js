@@ -25,15 +25,15 @@ class AllProducts extends Component {
 
             <Tabs>
               <div>
-                <Tab><button>All Products</button></Tab>
+                {/* <Tab><button>All Products</button></Tab> */}
                 <Tab><button>Add New Car</button></Tab>
                 <Tab><button>Edit Cars</button></Tab>
                 <Tab><button>Add Make & Model</button></Tab>
               </div>
 
-              <Panel>
+              {/* <Panel>
                 <AllProduct/>
-              </Panel>
+              </Panel> */}
 
               <Panel>
                 <MakeModelGrade/>
