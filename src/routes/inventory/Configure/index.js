@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 
-import ProductOptions from './components/productOptions/index'
-import Details from './components/details/index'
-import ProductVariant from './components/productVarient/index'
+import ProductOptions from './components/productOptions'
+import Details from './components/details'
+import ProductVariant from './components/productVarient'
+import Tags from './components/tags'
 
 
 class CreateProduct extends Component {
@@ -15,12 +16,16 @@ class CreateProduct extends Component {
   }
 
 
-  
+
   render() {
 
     return (
       <div className="todo-dashboard">
   
+        <div className="row" style={{border : '1px solid black', marginBottom: 50, marginTop: 50}}>
+          <Tags/>
+        </div>
+
         <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
           <ProductVariant/>
         </div>

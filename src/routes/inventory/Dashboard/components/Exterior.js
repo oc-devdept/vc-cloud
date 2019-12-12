@@ -22,11 +22,12 @@ class Exterior extends Component {
                   <div key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
                       
                       <span>{e.name}</span>
+                      
                       {e.objects.length > 0 && 
-                        <div onClick={() => console.log(item)} style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
+                        <div  style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
                           {e.objects.map((item, indexes) =>{
                             return (
-                              <div key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
+                              <div onClick={() => console.log(item)} key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
                                   <span>name: {item.name}</span>
                                   <span>price: {item.price}</span>
                                   <span>{item.isDefault}</span>

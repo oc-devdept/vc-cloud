@@ -21,6 +21,7 @@ class index extends Component {
         MakeSource: [], 
         MakeGroupingSource: [], 
         MakeGroupingOriginalSource: [], 
+        Tags: [],
 
         ModelSource: [],
         MakeLoading: true,
@@ -42,12 +43,16 @@ class index extends Component {
         
             const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
         
+            const Tags = await api.get(`tags`);
+
+
             if(this._isMounted) {
                 this.setState({
                     MakeId: MakeFilter.data.id, 
                     MakeSource: MakeSource, 
                     MakeGroupingSource: MakeGroupingSource, 
                     MakeGroupingOriginalSource: MakeGroupingSource, 
+                    Tags: Tags.data,
                     MakeLoading: false,
                     ModelLoading: false
                 })
@@ -59,6 +64,7 @@ class index extends Component {
                 this.setState({
                     MakeId: '',
                     MakeSource: [], 
+                    Tags: [],
                     MakeGroupingSource: [], 
                     MakeGroupingOriginalSource: [], 
 
@@ -127,12 +133,11 @@ class index extends Component {
     }
 
     _SaveMake = async(Make) => {
-    
+
         await api.post(`/categories`, {
             name: Make.name,
             description: Make.description,
             image: Make.image,
-            tags: [],
             categoryGroupId: this.state.MakeId
         })
 
@@ -154,7 +159,7 @@ class index extends Component {
             name: Model.name,
             description: Model.description,
             image: Model.image,
-            tags: [],
+            tagId: Model.tags,
             categoryId: this.state.categoryMakeId,
             categoryGroupId: ModelId.data.id
         })
@@ -187,6 +192,7 @@ class index extends Component {
                             categoryMakeId={this.state.categoryMakeId}
                             ModelSource={this.state.ModelSource}
                             ModelLoading={this.state.ModelLoading}
+                            Tags={this.state.Tags}
                             _SaveModel={this._SaveModel}
                         />
                     </div>

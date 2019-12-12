@@ -26,23 +26,23 @@ class Index extends Component {
 
 
   _SetModelID = async (e) => {
-  
+
     let ModelID = this.state.ModelID
-    console.log(e.id)
+
     if(ModelID != e.id){
       const Make = await api.get(`categories/${e.id}`);
       const GradeItems = await api.get(`products/specificGrades/${e.id}`)
 
       return this.setState({
-        ModelID: ModelID, 
+        ModelID: e.id, 
         ModelDetail: Make.data, 
         GradeItems: GradeItems.data.fields
       })
+
     }
 
     return
   }
-
 
   _SelectGradeExterior = async(e) => {
     

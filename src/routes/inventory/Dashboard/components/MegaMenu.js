@@ -14,7 +14,6 @@ class MegaMenu extends Component {
       }],
       AllModelSource: [],
 
-
       ModelLoading : true
     }
   }
@@ -30,7 +29,12 @@ class MegaMenu extends Component {
       const Model = await api.get(`products/getModel`);
       const ModelSource = Model.data.fields
     
-      this.setState({AllModelSource: ModelSource, AllMakeSource: AllMakeSource.concat(MakeSource), ModelLoading: false})
+      const Tags = await api.get(`tags/getAllTags`);
+      
+      // Combine the Make + Tags into one single array
+      const totalConCat = AllMakeSource.concat(MakeSource).concat(Tags.data.fields)
+
+      this.setState({AllModelSource: ModelSource, AllMakeSource: totalConCat, ModelLoading: false})
     
     } catch (e){
       this.setState({AllModelSource: [], AllMakeSource: [], ModelLoading: false})
@@ -51,19 +55,45 @@ class MegaMenu extends Component {
   // OnClick Function
   _HandleMake = async (index) => {
 
-    await this.setState({stage: index, ModelLoading: true})
+    const item = this.state.AllMakeSource[index]
 
-    let AllModelSource = []
-    if(index == 0){
-      const Model = await  api.get(`products/getModel`);
+    await this.setState({stage: index, ModelLoading: true})
+  
+    // to detect if it is tag, if so it uses different API
+    if(item.tags > 0) {
+   
+      let AllModelSource = []
+
+      const Model  = await api.get(`tags/getAllTagsModels/${item.id}`)
       AllModelSource = await Model.data.fields
+      await this.setState({ModelLoading: false, AllModelSource: AllModelSource})
+
     } else {
-      let AllMakeSource = this.state.AllMakeSource[index]
-      AllModelSource = await this._RenderSpecificModelCategory(AllMakeSource.id)
+
+      let AllModelSource = []
+
+      if(index == 0){
+        const Model = await  api.get(`products/getModel`);
+        AllModelSource = await Model.data.fields
+      } else {
+        let AllMakeSource = this.state.AllMakeSource[index]
+        AllModelSource = await this._RenderSpecificModelCategory(AllMakeSource.id)
+      }
+
+      await this.setState({ModelLoading: false, AllModelSource: AllModelSource})
+
     }
 
 
-    await this.setState({ModelLoading: false, AllModelSource: AllModelSource})
+    // let AllModelSource = []
+    // if(index == 0){
+    //   const Model = await  api.get(`products/getModel`);
+    //   AllModelSource = await Model.data.fields
+    // } else {
+    //   let AllMakeSource = this.state.AllMakeSource[index]
+    //   AllModelSource = await this._RenderSpecificModelCategory(AllMakeSource.id)
+    // }
+    // await this.setState({ModelLoading: false, AllModelSource: AllModelSource})
   }
 
   // Render Make Categories
@@ -88,6 +118,8 @@ class MegaMenu extends Component {
     )
   }
 
+
+
   // Render Model Values
   _RenderModel = () => {
     return (
@@ -111,7 +143,7 @@ class MegaMenu extends Component {
 
 
   render() {
-
+    
     return (
         <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display:'flex', flexDirection:'column'}}>
                 

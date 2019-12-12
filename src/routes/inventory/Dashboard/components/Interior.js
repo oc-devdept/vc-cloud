@@ -66,7 +66,7 @@ class Interior extends Component {
     return (
       <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'row', justifyContent:'space-between'}}>
                         
-            <span>Show Exterior Product Variant</span>
+            <span>Show Interior Product Variant</span>
             
             <div style={{width: 300}}>
               {this._RenderProductVariant()}

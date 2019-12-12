@@ -3,11 +3,10 @@ import { Tabs, Tab, Panel } from '@bumaga/tabs'
 import api from "Api";
 
 
-import MakeModelGrade from './components/MakeModelGrade'
 import AllProduct from './components/AllProduct'
-import CarEdit from './components/CarEdit/index'
-
-import MakeModel from './components/makeModel'
+import CarEdit from './components/CarEdit'
+import MakeModel from './components/MakeModel'
+import MakeModelGrade from './components/MakeModelGrade'
 
 class AllProducts extends Component {
 

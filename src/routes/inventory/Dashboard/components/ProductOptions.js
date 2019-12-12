@@ -27,7 +27,6 @@ class Interior extends Component {
                       
                       <span>{key}</span>
 
-
                       {values.length > 0 && 
                         <div style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
                           {values.map((item, indexes) =>{
@@ -45,7 +44,7 @@ class Interior extends Component {
 
                       {values.length == 0 && 
                         <div>
-                          <span>No Product Variant Found</span>
+                          <span>No Product Option Found</span>
                         </div>
                       }
 
@@ -57,7 +56,7 @@ class Interior extends Component {
     } else {
       return (
         <div>
-          No Interior Product Variant Found
+          No Product Option Variant Found
         </div>
       )
     }

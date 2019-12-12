@@ -18,6 +18,7 @@ class ModelOption extends Component  {
             name:'',
             description: '',
             image: '',
+            tags: ''
         },
     })
 
@@ -32,12 +33,28 @@ class ModelOption extends Component  {
         this.setState({Model: initialModel})
     }
 
+    _HandleTags = (id) => {
+        let Model = {...this.state.Model}
+        
+        Model.tags = id
+  
+        // if(Model.tags.includes(id)){
+        //     Model.tags = Model.tags.filter(e => e != id)
+        // } else {
+        //     Model.tags.push(id)
+        // }
+
+        this.setState({Model : Model})
+    }
+
+
     render() {
 
-        const {categoryMakeName, categoryMakeId, ModelLoading, ModelSource} = this.props
+        const {categoryMakeName, categoryMakeId, ModelLoading, ModelSource, Tags} = this.props
         
         return (
             <div className="d-flex" style={{flexDirection:'row'}}>
+
                 <div style={{display:'flex', justifyContent:'center', flexDirection:'column'}}>
                     Model Option
                     <div>
@@ -85,10 +102,33 @@ class ModelOption extends Component  {
                             <button onClick={()=> this.setState({openModel: !this.state.openModel})} >Create Model</button>
 
                             {this.state.openModel &&
-                                <div className="d-flex">
-                                    <input type="name" placeholder={"e.g BMW"} value={this.state.Model.name} onChange={(e) => this._HandleModel(e.target.value, 'name')} />
-                                    <input type="value" placeholder={"e.g description"} value={this.state.Model.description} onChange={(e) => this._HandleModel(e.target.value, 'description')} />
-                                    <input type="value2" placeholder={"e.g image url"} value={this.state.Model.image} onChange={(e) => this._HandleModel(e.target.value, 'image')} />
+                                <div className="d-flex" style={{flexDirection:'column'}}>
+                                    <input placeholder={"e.g BMW"} value={this.state.Model.name} onChange={(e) => this._HandleModel(e.target.value, 'name')} />
+                                    <input placeholder={"e.g description"} value={this.state.Model.description} onChange={(e) => this._HandleModel(e.target.value, 'description')} />
+                                    <input placeholder={"e.g image url"} value={this.state.Model.image} onChange={(e) => this._HandleModel(e.target.value, 'image')} />
+                                    
+
+                                    <span>Choose Car Type: </span>
+
+                                    {Tags.length > 0 && 
+                                        <div style={{width: 200, height: 280, overflow:'auto'}}>
+                                            {this.props.Tags.map((e, index) => {
+
+                                                let style = {padding: 5, margin: 5, borderRadius: 10, border: '1px solid black'}
+                                                if(this.state.Model.tags == e.id){
+                                                    style = {padding: 5, margin: 5, borderRadius: 10, border: '1px solid black', background: 'red'}
+                                                }
+
+                                                return (
+                                                    <div key={index} onClick={() => this._HandleTags(e.id)} style={style}>
+                                                        {e.label}
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    }
+                                    
+                                    
                                     <button style={{}} onClick={this._SaveModel}>Save Model</button>
                                 </div>
                             }

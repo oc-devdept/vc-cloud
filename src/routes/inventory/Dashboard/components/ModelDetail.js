@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import api from "Api";
 
+import { Tabs, Tab, Panel } from '@bumaga/tabs' 
+
 
 class ModelDetail extends Component {
 
@@ -36,6 +38,7 @@ class ModelDetail extends Component {
     
                   return(
                     <div key={index}>
+
                       {key}
 
                       {values.length > 0 && 
@@ -65,6 +68,44 @@ class ModelDetail extends Component {
             </div>
           }
         </div>
+
+
+        {/* <div style={{marginTop: 50}}>
+          {ProductDetail.length> 0 && 
+            <div style={{display:'flex', flexDirection:'row'}}>
+              
+                    <button key={index} onClick={() => console.log(key)}>{key}</button>
+                    <div>
+                          <Tab><button>Dashboard</button></Tab>
+                          <Tab><button>Products</button></Tab>
+                          <Tab><button>Configure</button></Tab>
+                    </div>
+                    <Tabs>
+                        
+                        {ProductDetail.map((e, index) =>{
+                          const key = Object.keys(e)[0]
+                          // const values = Object.values(e)[0]
+                          return (
+                            <Tab>
+                              <button key={index} onClick={() => console.log(key)}>{key}</button>
+                            </Tab>
+                          )
+                        })}
+
+                    
+                  </Tabs>
+                
+              })}
+
+            </div>
+          }
+        </div> */}
+
+        
+
+
+
+
       </div>
         
     )
