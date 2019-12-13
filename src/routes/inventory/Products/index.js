@@ -5,7 +5,7 @@ import api from "Api";
 
 import AllProduct from './components/AllProduct'
 import CarEdit from './components/CarEdit'
-import MakeModel from './components/MakeModel'
+import MakeModels from './components/MakeModels'
 import MakeModelGrade from './components/MakeModelGrade'
 
 class AllProducts extends Component {
@@ -44,7 +44,7 @@ class AllProducts extends Component {
               </Panel>
 
               <Panel>
-                <MakeModel/>
+                <MakeModels/>
               </Panel>
             </Tabs>
 
