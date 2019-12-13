@@ -41,7 +41,7 @@ class Index extends Component {
     if(ModelID != e.id){
       const Make = await api.get(`categories/${e.id}`);
       const GradeItems = await api.get(`products/specificGrades/${e.id}`)
-
+      
       return this.setState({
         ModelID: e.id, 
         ModelDetail: Make.data, 

@@ -89,10 +89,12 @@ class index extends Component {
             const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
             const MakeSource = await MakeGroup.data.map((source) => {
 
+                console.log(source)
                 return { 
                     id: source.id, 
                     name: source.name, 
                     description: source.description,
+                    files: source.files? source.files : [],
                     image: source.image,
                     checklist: true
                 }
@@ -132,14 +134,30 @@ class index extends Component {
         }
     }
 
-    _SaveMake = async(Make) => {
 
-        await api.post(`/categories`, {
-            name: Make.name,
-            description: Make.description,
-            image: Make.image,
-            categoryGroupId: this.state.MakeId
-        })
+    _SaveMake = async(datum) => {
+
+        console.log('_SaveMake')
+        
+        // await api.post("/announcements/new", data, config);
+        const {files, start, end, name, description } = datum
+
+        var data = new FormData();
+        files.map(file => data.append(`upload`, file));
+        data.append("name", name);
+        data.append("description", description);
+        data.append("start", start);
+        data.append("end", end);
+        data.append("categoryGroupId", this.state.MakeId);
+
+        // await api.post(`/categories`, {
+        //     name: Make.name,
+        //     description: Make.description,
+        //     image: Make.image,
+        //     categoryGroupId: this.state.MakeId
+        // })
+
+        await api.post(`/categories/new`, data)
 
         const MakeSource = await this._RenderMakeCategory(this.state.MakeId)
 
@@ -150,19 +168,44 @@ class index extends Component {
         return
     }
 
+    _SaveModel = async(datum) => {
 
-    _SaveModel = async(Model) => {
+        const {files, start, end, name, description, tags } = datum
 
         const ModelId = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
 
-        await api.post(`/categories`, {
-            name: Model.name,
-            description: Model.description,
-            image: Model.image,
-            tagId: Model.tags,
-            categoryId: this.state.categoryMakeId,
-            categoryGroupId: ModelId.data.id
-        })
+        var data = new FormData();
+        files.map(file => data.append(`upload`, file));
+        data.append("name", name);
+        data.append("description", description);
+        data.append("start", start);
+        data.append("end", end);
+        data.append("tagId", tags);
+        data.append("categoryId", this.state.categoryMakeId);
+        data.append("categoryGroupId", ModelId.data.id);
+
+        // categoryId: this.state.categoryMakeId,
+
+
+        // await api.post(`/categories`, {
+        //     name: Make.name,
+        //     description: Make.description,
+        //     image: Make.image,
+        //     categoryGroupId: this.state.MakeId
+        // })
+
+        await api.post(`/categories/newModel`, data)
+
+        // const ModelId = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
+
+        // await api.post(`/categories`, {
+        //     name: Model.name,
+        //     description: Model.description,
+        //     image: Model.image,
+        //     tagId: Model.tags,
+        //     categoryId: this.state.categoryMakeId,
+        //     categoryGroupId: ModelId.data.id
+        // })
 
         await this._LaunchModels(this.state.categoryMakeId)
 
@@ -173,6 +216,8 @@ class index extends Component {
 
 
     render() {
+
+        console.log(this.state.MakeSource)
 
         return (
             <div className="d-flex" style={{flexDirection:'row'}}>

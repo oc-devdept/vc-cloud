@@ -13,7 +13,6 @@ class ProductDetail extends PureComponent {
             return null
         }
         
-        console.log('ProductDetail')
 
         return (
             <div className='d-flex' style={{margin: 5, flexDirection:'column'}}>

@@ -112,6 +112,7 @@ class MegaMenu extends Component {
         return (
           <div key={index} style={style} onClick={() => this._HandleMake(index)}>
               {e.name}
+
           </div>
         )
       })
@@ -134,6 +135,14 @@ class MegaMenu extends Component {
           }} onClick={() => this.props._SetModelID(e)}>
               <span>{e.name}</span>
               <span>{e.description}</span>
+
+              {e.files.length > 0 && 
+                  <img
+                      src={e.files[0].url}
+                      height={100}
+                      width={100}
+                  />
+              }
           </div>
         )
       })

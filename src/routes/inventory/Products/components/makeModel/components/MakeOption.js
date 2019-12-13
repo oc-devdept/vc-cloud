@@ -3,53 +3,70 @@ import React, { Component, useState } from "react";
 
 import api from "Api";
 
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
+
+import Dropzone from "Components/Dropzone";
 
 
-const initialMake = {
-    name:'',
-    description: '',
-    image: '',
-}
+
 
 export default class MakeOption extends Component {
 
     state=({
         openMake: false,
-        Make : {
-            name:'',
-            description: '',
-            image: '',
-        },
-        content: "",
-        name: "",
+        name:'',
+        description: '',
         start: new Date(),
         end: new Date(),
         files: []
     })
 
     _HandleMake = (e, value) => {
-        let Make = {...this.state.Make}
-        Make[value] = e
-        this.setState({Make: Make})
+        this.setState({[value]: e})
     }
 
     _SaveMake = async() => {
-        console.log('save make!')
-        await this.props._SaveMake(this.state.Make)
-        this.setState({Make: initialMake})
+        // const {files, start, end } = this.state;
+
+        // var data = new FormData();
+        // files.map(file => data.append(`upload`, file));
+        // data.append("name", this.state.name);
+        // data.append("description", this.state.description);
+        // data.append("start", start);
+        // data.append("end", end);
+
+
+        // await this.props._SaveMake(data)
+        await this.props._SaveMake(this.state)
+
+        this.setState({
+            description: "",
+            name: "",
+            start: new Date(),
+            end: new Date(),
+            files: []
+        })
     }
 
-   
+    removeFile = (file) => {
+        this.setState(state => {
+          const index = state.files.indexOf(file);
+          const files = state.files.slice(0);
+          files.splice(index, 1);
+          return { files };
+        });
+    }
+  
+    handleUpload = file => {
+        this.setState({
+            files: file
+        });
+    };
+
 
     render() {
 
         const {MakeLoading, MakeSource, _HandleMakeOption} = this.props
-       
-      
+        const { description, name, files} = this.state;
 
         return (
             <div style={{flex: 1, display:'flex', flexDirection:'row'}}>
@@ -69,9 +86,18 @@ export default class MakeOption extends Component {
                                     <div onClick={() => _HandleMakeOption(e.name, e.id)} 
                                         style={{
                                             border: '1px solid black', 
-                                            borderRadius: 5, padding: 2.5, marginRight: 5
+                                            borderRadius: 5, padding: 2.5, marginRight: 5,
+                                            display:'flex', flexDirection:'column'
                                         }} key={index}
                                     >
+                                        {e.files.length > 0 && 
+                                            <img
+                                                src={e.files[0].url}
+                                                height={100}
+                                                width={100}
+                                            />
+                                        }
+                                        
                                         {e.name}
                                     </div>
                                 );
@@ -81,14 +107,20 @@ export default class MakeOption extends Component {
                 </div>
 
                 <div>
-                    <button onClick={()=> this.setState({openMake: !this.state.openMake})} >Create Make</button>
+                    <button onClick={()=> this.setState({openMake: !this.state.openMake})}>Toggle Make Panel</button>
                     {this.state.openMake &&
                         <div className="d-flex" style={{flexDirection:'column'}}>
-                            <input type="name" placeholder={"e.g BMW"} value={this.state.Make.name} onChange={(e) => this._HandleMake(e.target.value, 'name')} />
-                            <input type="value" placeholder={"e.g description"} value={this.state.Make.description} onChange={(e) => this._HandleMake(e.target.value, 'description')} />
+                            <input type="name" placeholder={"e.g BMW"} value={name} onChange={(e) => this._HandleMake(e.target.value, 'name')} />
+                            <input type="value" placeholder={"e.g description"} value={description} onChange={(e) => this._HandleMake(e.target.value, 'description')} />
 
-                            
-                            <input type="value2" placeholder={"e.g image url"} value={this.state.Make.image} onChange={(e) => this._HandleMake(e.target.value, 'image')} />
+         
+                            {/* <input type="value2" placeholder={"e.g image url"} value={this.state.Make.image} onChange={(e) => this._HandleMake(e.target.value, 'image')} /> */}
+                            <Dropzone
+                                onDrop={this.handleUpload}
+                                onRemove={this.removeFile}
+                                uploadedFiles={files}
+                                additionalText="Files can't be edited once uploaded."
+                            />
 
                             <button style={{}} onClick={this._SaveMake}>Save Make</button>
                         </div>

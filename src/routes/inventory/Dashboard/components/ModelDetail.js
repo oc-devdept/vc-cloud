@@ -16,7 +16,7 @@ class ModelDetail extends Component {
   
   _RenderModelDetail = () => {
 
-    const {name, description, image} = this.props.ModelDetail
+    const {name, description, files} = this.props.ModelDetail
 
     const ProductDetail = this.props.ProductDetail
 
@@ -25,7 +25,17 @@ class ModelDetail extends Component {
         <div className="d-flex" style={{flexDirection:"column"}}>
             <span>name: {name}</span>
             <span>description: {description}</span>
-            <span>image: {image}</span>
+            {files &&
+              <div>
+                {files.length > 0 &&
+                  <img
+                      src={files[0].url}
+                      height={100}
+                      width={100}
+                  />
+                }
+              </div>
+            }
         </div>
 
 
@@ -118,6 +128,16 @@ class ModelDetail extends Component {
         this.props.GradeItems.map((e, index) => {
           return (
                 <div onClick={() => this.props._SelectGradeExterior(e)} key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
+
+
+                    {e.files.length > 0 && 
+                        <img
+                            src={e.files[0].url}
+                            height={100}
+                            width={100}
+                        />
+                    }
+
 
                     <div style={{margin : 3, flexDirection:'column'}} className="d-flex">
                       <span>{e.name}</span>

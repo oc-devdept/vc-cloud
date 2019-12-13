@@ -9,7 +9,6 @@ class MakeModel extends PureComponent {
 
 
     render () {
-    console.log('MakeModel')
    
     const {MakeSource, ModelSource, MakeId, ModelId, _ToggleMake, _ToggleModel, Makeloading, ModelLoading  } = this.props
 

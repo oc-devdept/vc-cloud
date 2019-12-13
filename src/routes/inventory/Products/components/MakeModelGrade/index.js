@@ -42,6 +42,8 @@ class MakeModelGrade extends PureComponent {
                 isActive: true,
             },
 
+            files: [],
+
             ProductDetail: []
 
         }
@@ -185,24 +187,52 @@ class MakeModelGrade extends PureComponent {
         const Product = {...this.state.Product}
         const MakeId = this.state.MakeId
         const ModelId = this.state.ModelId
+        const files = this.state.files
+        // await api.post("/products", {
+        //       name: Product.name,
+        //       description: Product.description,
+        //       cost_Price: Product.costPrice,
+        //       selling_Price: Product.sellingPrice,
+        //       isActive: Product.isActive,
+        //       categoryId : ModelId,
+        //       categoryGroupId: MakeId
+        //     }
+        // ); 
+        // this.setState({Product:initProduct})
+
+        var data = new FormData();
+        files.map(file => data.append(`upload`, file));
+        data.append("name", Product.name);
+        data.append("description", Product.description);
+        data.append("cost_Price", Product.costPrice);
+        data.append("selling_Price", Product.sellingPrice);
+        data.append("isActive", Product.isActive);
+        data.append("categoryId", ModelId);
+        data.append("categoryGroupId", MakeId);
+
+        await api.post("/products/new", data)
+
+        this.setState({Product:initProduct, files:[]})
 
 
-        await api.post("/products", {
-              name: Product.name,
-              image: Product.image,
-              description: Product.description,
-              product_code: '',
-              cost_Price: Product.costPrice,
-              selling_Price: Product.sellingPrice,
-              isActive: Product.isActive,
-              categoryId : ModelId,
-              categoryGroupId: MakeId
-            }
-        ); 
-    
-        this.setState({Product:initProduct})
     }
 
+
+    removeFile = (file) => {
+        this.setState(state => {
+          const index = state.files.indexOf(file);
+          const files = state.files.slice(0);
+          files.splice(index, 1);
+          return { files };
+        });
+      }
+  
+      handleUpload = file => {
+          this.setState({
+              files: file
+          });
+      };
+  
 
     render() {
        
@@ -225,6 +255,9 @@ class MakeModelGrade extends PureComponent {
                     _HandleProduct={this._HandleProduct}
                     Product = {this.state.Product}
                     ModelId={this.state.ModelId}
+                    files={this.state.files}
+                    handleUpload={this.handleUpload}
+                    removeFile={this.removeFile}
                     ProductDetailCategory={this.state.ProductDetailCategory}
                 />
                 
