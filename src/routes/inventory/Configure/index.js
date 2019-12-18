@@ -6,6 +6,13 @@ import ProductVariant from './components/productVarient'
 import Tags from './components/tags'
 
 
+import { Helmet } from "react-helmet";
+import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
+
+import ProfileTabs from "Components/Layout/ProfileTabs";
+import ConfigureCard from "./components/ConfigureCard"
+
+
 class CreateProduct extends Component {
 
   constructor(props) {
@@ -15,30 +22,51 @@ class CreateProduct extends Component {
     }
   }
 
-
-
   render() {
 
     return (
-      <div className="todo-dashboard">
-  
-        <div className="row" style={{border : '1px solid black', marginBottom: 50, marginTop: 50}}>
-          <Tags/>
-        </div>
 
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <ProductVariant/>
-        </div>
+    
+        <React.Fragment>
 
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <Details/>
-        </div>
+              <Helmet>
+                <title>Everyday | Inventory Settings</title>
+                <meta name="description" content="Everyday Inventory Management" />
+              </Helmet>
 
-        <div className="row" style={{border : '1px solid black', marginBottom: 50}}>
-          <ProductOptions/>
-        </div>
+              <PageTitleBar
+                title={"Settings"}
+                // createLink={quoteNewPage}
+              />
 
-      </div>
+              <div className="row">
+                <div className="col-md-3">
+                  <ConfigureCard />
+                </div>
+
+                <div className="col-md-9">
+                  <ProfileTabs loading={false}>
+                    <div label="MAKE & MODEL">
+                      <Tags/>
+                    </div>
+
+                    <div label="PRODUCT VARIANT">
+                      <ProductVariant/>
+                    </div>
+
+                    <div label="PRODUCT DETAILS">
+                      <Details/>
+                    </div>
+
+                    <div label="PRODUCT OPTION">
+                      <ProductOptions/>
+                    </div>
+
+                  </ProfileTabs>
+                </div>
+              </div>
+
+        </React.Fragment>
     );
   }
 }

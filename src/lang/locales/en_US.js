@@ -40,5 +40,14 @@ module.exports = {
   "sidebar.newPayment": "New Payment",
 
   "sidebar.reports": "Reports",
-  "sidebar.reminders": "Reminders"
+  "sidebar.reminders": "Reminders",
+
+
+  "sidebar.dashboard": "Dashboard",
+  "sidebar.allCars": "All Cars",
+  "sidebar.settings": "Settings",
+
+
+
+
 };

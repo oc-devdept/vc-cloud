@@ -5,10 +5,19 @@ import Loadable from "react-loadable";
 import RctPageLoader from "Components/RctPageLoader";
 
 // inventory
-const InventoryComponent = Loadable({
-  loader: () => import("./index"),
-  loading: () => <RctPageLoader />
-  
+export const Inventory = Loadable({
+  loader: () => import("./Dashboard/index"),
+  loading: () => <RctPageLoader />  
 });
 
-export default InventoryComponent;
+export const Products = Loadable({
+  loader: () => import("./Products/index"),
+  loading: () => <RctPageLoader />
+});
+
+export const Configure = Loadable({
+  loader: () => import("./Configure/index"),
+  loading: () => <RctPageLoader />
+});
+
+// export default InventoryComponent;

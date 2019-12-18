@@ -5,12 +5,13 @@
 import HomebaseComponent from "Routes/homebase/AsyncRoutes";
 import CalendarComponent from "Routes/calendar/AsyncRoutes";
 import ReportComponent from "Routes/report/AsyncRoutes";
-import InventoryComponent from "Routes/inventory/AsyncRoutes";
 
 
 import crm from "Routes/crm";
 import Accounting from "Routes/accounting";
 import Setting from "Routes/setting";
+import InventoryComponent from "Routes/inventory";
+
 
 export default [
   {

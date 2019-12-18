@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import api from "Api";
 
+import { Helmet } from "react-helmet";
+import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
+
+import ProfileTabs from "Components/Layout/ProfileTabs";
+
 
 import MegaMenu from './components/MegaMenu'
 import ModelDetail from './components/ModelDetail'
@@ -9,8 +14,8 @@ import Interior from './components/Interior'
 import ProductOptions from './components/ProductOptions'
 
 
-import PureComponents from './components_test/purecomponent'
-import Components from './components_test/component'
+import DashboardCard from "./components/DashboardCard"
+
 
 class Index extends Component {
 
@@ -73,65 +78,68 @@ class Index extends Component {
 
   }
 
-
-
-  // _HandleText = (e) => {
-  //   let Fields = {...this.state.Fields}
-  //   Fields.name = e
-  //   this.setState({Fields})
-  // }
-  
-  // _HandlePureText = (e) => {
-  //   let PureFields = {...this.state.PureFields}
-  //   PureFields.name = e
-  //   this.setState({PureFields})
-  // }
   
   render() {
-    
-    
-    return (
-        <div className="todo-dashboard" style={{display:'flex', flexDirection:'column'}}>
-       
-            <MegaMenu
-              _SetModelID={this._SetModelID}
-            />
+        
+    return (    
+        <div>
+            <React.Fragment>
 
-            <ModelDetail
-              ModelDetail={this.state.ModelDetail}
-              ProductDetail={this.state.ProductDetail}
-              GradeItems={this.state.GradeItems}
-              _SelectGradeExterior={this._SelectGradeExterior}
-            />
+              <Helmet>
+                <title>Everyday | Quotations</title>
+                <meta name="description" content="Everyday Quotation Management" />
+              </Helmet>
 
-            <Exterior
-              Exterior={this.state.Exterior}
-            />
+              <PageTitleBar
+                title={"All Cars"}
+              />
 
-            <Interior
-              Interior={this.state.Interior}
-            />
+              <div className="row">
+                <div className="col-md-3">
+                  <DashboardCard />
+                </div>
 
-            <ProductOptions
-              ProductOptions={this.state.ProductOptions}
-            />
+                <div className="col-md-9">
 
-            
-            {/* <Components
-              fields={this.state.Fields}
-              _HandleText={this._HandleText}
-            />
-           
-  
-            <PureComponents
-              fields={this.state.PureFields}
-              _HandlePureText={this._HandlePureText}
-            /> */}
+                  <ProfileTabs loading={false}>
+                    <div label="Mega Menu">
+                      <MegaMenu
+                        _SetModelID={this._SetModelID}
+                      />
+                    </div>
 
+                    <div label="Model Details">
+                      <ModelDetail
+                        ModelDetail={this.state.ModelDetail}
+                        ProductDetail={this.state.ProductDetail}
+                        GradeItems={this.state.GradeItems}
+                        _SelectGradeExterior={this._SelectGradeExterior}
+                      />
+                    </div>
 
+                    <div label="Exterior">
+                      <Exterior
+                        Exterior={this.state.Exterior}
+                      />
+                    </div>
 
-            
+                    <div label="Interior">
+                      <Interior
+                        Interior={this.state.Interior}
+                      />
+                    </div>
 
+                    <div label="ProductOption">
+                      <ProductOptions
+                        ProductOptions={this.state.ProductOptions}
+                      />
+                    </div>
+
+                  </ProfileTabs>
+                </div>
+              </div>
+
+            </React.Fragment>
         </div>
     );
   }

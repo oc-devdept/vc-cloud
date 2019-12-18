@@ -2,54 +2,54 @@ import React, { Component } from "react";
 import { Tabs, Tab, Panel } from '@bumaga/tabs' 
 import api from "Api";
 
+import { Helmet } from "react-helmet";
+import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
-import AllProduct from './components/AllProduct'
-import CarEdit from './components/CarEdit'
-import MakeModels from './components/MakeModels'
-import MakeModelGrade from './components/MakeModelGrade'
+
+import AllCars from './components/AllCars'
+import AddNewCar from './components/AddNewCar'
+
+import ProfileTabs from "Components/Layout/ProfileTabs";
+import ProductCard from "./components/ProductCard"
+
 
 class AllProducts extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      
-    }
-
-  }
 
   render() {
 
     return (
-        <div className="todo-dashboard">
+      
+        <React.Fragment>
 
-            <Tabs>
-              <div>
-                {/* <Tab><button>All Products</button></Tab> */}
-                <Tab><button>All Cars</button></Tab>
-                <Tab><button>Add New Car</button></Tab>
-                <Tab><button>Add Make & Model</button></Tab>
+            <Helmet>
+              <title>Everyday | Quotations</title>
+              <meta name="description" content="Everyday Quotation Management" />
+            </Helmet>
+
+            <PageTitleBar
+              title={"All Cars"}
+              // createLink={quoteNewPage}
+            />
+
+            <div className="row">
+              <div className="col-md-3">
+                <ProductCard />
               </div>
 
-              {/* <Panel>
-                <AllProduct/>
-              </Panel> */}
+              <div className="col-md-9">
+                <ProfileTabs loading={false}>
+                  <div label="All Cars">
+                    <AllCars/>
+                  </div>
 
-              <Panel>
-                <CarEdit/>
-              </Panel>
+                  <div label="Add New Cars">
+                    <AddNewCar/>
+                  </div>
+                </ProfileTabs>
+              </div>
+            </div>
 
-              <Panel>
-                <MakeModelGrade/>
-              </Panel>
-
-              <Panel>
-                <MakeModels/>
-              </Panel>
-            </Tabs>
-
-
-        </div>
+        </React.Fragment>
     );
   }
 }

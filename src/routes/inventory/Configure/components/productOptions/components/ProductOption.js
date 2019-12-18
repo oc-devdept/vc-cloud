@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Dropzone from "Components/Dropzone";
 
 
 const initProductDetail = {
@@ -28,26 +29,41 @@ export default class ProductOption extends Component {
             isDefault: false,
             editable: false,
         },
+        files: [],
 
     })
 
     _CreateProductDetail = async () => {
-        const ProductDetail = this.state.ProductDetail
-        const productDetailCategoryId = this.state.SelectedCategory
 
-        await api.post("/productoptions", 
-            {
-                name: ProductDetail.name,
-                value: ProductDetail.value1,
-                value2: ProductDetail.value2,
-                editable: ProductDetail.editable,
-                isDefault: ProductDetail.isDefault,
-                price: ProductDetail.price,
-                productOptionCategoryId: productDetailCategoryId
-            }
-        ); 
-        
-        this.setState({ProductDetail: initProductDetail})
+        const ProductOption = this.state.ProductDetail
+        const productOptionCategoryId = this.state.SelectedCategory
+
+        var data = new FormData();
+        const files = this.state.files
+
+        files.map(file => data.append(`upload`, file));
+        data.append("name", ProductOption.name);
+        data.append("editable", ProductOption.editable);
+        data.append("isDefault", ProductOption.isDefault);
+        data.append("price", ProductOption.price);
+        data.append("productOptionCategoryId", productOptionCategoryId);
+
+        await api.post("/productoptions/new", data)
+        this.setState({ProductDetail:initProductDetail, files:[]})
+
+        // await api.post("/productoptions", 
+        //     {
+        //         name: ProductDetail.name,
+        //         value: ProductDetail.value1,
+        //         value2: ProductDetail.value2,
+        //         editable: ProductDetail.editable,
+        //         isDefault: ProductDetail.isDefault,
+        //         price: ProductDetail.price,
+        //         productOptionCategoryId: productOptionCategoryId
+        //     }
+        // ); 
+        // this.setState({ProductDetail: initProductDetail, files:[]})
+
         this._RenderProductDetails()
     }
 
@@ -62,12 +78,16 @@ export default class ProductOption extends Component {
             let ArrayList = []
 
             await result.data.map((source) => {
-
-                if(!source.productId){
-                        ArrayList.push({ id: source.id, name: source.name, value: source.value, value2: source.value2 })
-                    }
-                
-                    return { id: source.id, name: source.name, value: source.value, value2: source.value2 }
+                    if(!source.productId){
+                        ArrayList.push({ 
+                            id: source.id, 
+                            name: source.name, 
+                            files: source.files,
+                            price: source.price,
+                            editable: source.editable,
+                            isDefault: source.isDefault
+                        })
+                    }                
                 }
             );
     
@@ -100,7 +120,6 @@ export default class ProductOption extends Component {
     }
 
     _Toggle = (e) => {
-        console.log(e.target.value)
         this.setState({SelectedCategory: e.target.value, loading: true, ProductDetails: []})
         this._RenderProductDetails(e.target.value)
     }
@@ -125,6 +144,20 @@ export default class ProductOption extends Component {
         this.setState({ProductDetail: ProductDetail})
     }
 
+    removeFile = (file) => {
+        this.setState(state => {
+          const index = state.files.indexOf(file);
+          const files = state.files.slice(0);
+          files.splice(index, 1);
+          return { files };
+        });
+    }
+  
+    handleUpload = file => {
+        this.setState({
+            files: file
+        });
+    };
 
     render() {
 
@@ -163,8 +196,17 @@ export default class ProductOption extends Component {
                                     return (
                                         <div key={index} className="d-flex" >
                                             <span style={{padding: 5}}>{e.name}</span>
-                                            <span style={{padding: 5}}>{e.value}</span>
-                                            <span style={{padding: 5}}>{e.value2}</span>
+                                            <span style={{padding: 5}}>{e.price}</span>
+                                            <span style={{padding: 5}}>{`${e.editable}`}</span>
+                                            <span style={{padding: 5}}>{`${e.isDefault}`}</span>
+
+                                            {e.files.length > 0 && 
+                                                <img
+                                                    src={e.files[0].url}
+                                                    height={100}
+                                                    width={100}
+                                                />
+                                            }
                                             <span onClick={() => this._HandleDeleteProductOption(e.id)} style={{marginLeft: 10, cursor:'pointer'}}>x</span>
                                         </div>
                                     )
@@ -177,7 +219,16 @@ export default class ProductOption extends Component {
                                 <div>Enter Product Option </div>
                                 
                                 <input type="text" placeholder={"e.g name"} value={this.state.ProductDetail.name} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} />
-                                <input type="text" placeholder={"e.g image"} value={this.state.ProductDetail.image} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'image')} />
+                                
+                                {/* <input type="text" placeholder={"e.g image"} value={this.state.ProductDetail.image} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'image')} /> */}
+                                <Dropzone
+                                    onDrop={this.handleUpload}
+                                    onRemove={this.removeFile}
+                                    uploadedFiles={this.state.files}
+                                    additionalText="Files can't be edited once uploaded."
+                                />
+                                
+                                
                                 <input type="text" placeholder={"e.g price"} value={this.state.ProductDetail.price} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'price')} />
 
                                 <div className="d-flex align-items-center" style={{flexDirection:'row'}}>
