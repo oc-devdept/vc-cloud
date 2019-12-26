@@ -2,6 +2,10 @@ import React, { PureComponent } from "react";
 import api from "Api";
 
 import CarList from "./components/CarList";
+import FullScreenDialog from "Components/Dialog/FullScreenDialog";
+import DialogRoot from "Components/Dialog/DialogRoot";
+
+import Grade from './components/Cars/Grade'
 
 class index extends PureComponent {
 
@@ -12,36 +16,95 @@ class index extends PureComponent {
         this.state=({
             Products: [],
             loading: true,
+
+            toggle: false,
+            element : null,
+            groupName: null,
+            data: null
         })
     }
+   
 
     async componentDidMount() {
         try {
-            const Products = await this._FetchProducts()
-            this.setState({Products: Products, loading: false})
+            // const Products = await api.get(`/products/productVariant`)
+            const ModelGrade = await api.get(`categories/ModelGrade`);        
+            console.log('ModelGrade', ModelGrade.data.fields)
+            this.setState({Products: ModelGrade.data.fields, loading: false})
         } catch (e) {
             this.setState({Products: [], loading: false})
         }
     }
- 
-    async _FetchProducts() {
-        const Products = await api.get(`/products/productVariant`)
-        return Products.data.fields
+
+    _RenderDialog = () => {
+        if(this.state.toggle){
+            switch(this.state.element) {
+                case 'Add_Grade':
+                
+                    const make = this.state.data.make
+                    const model = this.state.data.model
+
+                    const title = `Add Grade to ${model.toUpperCase()} in ${make.toUpperCase()}`
+
+                    return (
+                        <DialogRoot
+                            // title={title}
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            size={"md"}
+                        >
+                               
+                            <Grade/>
+
+                        </DialogRoot>
+                    )
+              
+                case 'Selected_Grade':
+                    return (
+                        <DialogRoot
+                            title={"Select Grade"}
+                            size="sm"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">
+                                
+                                {this.state.element}
+            
+                            </div>
+                        </DialogRoot>
+                    )
+                default:
+                    return null
+            }
+        }
     }
 
-    
-   
+    _RestartToggle = () => {
+        this.setState({toggle: false, element: null, groupName: null, data: null})
+    }
+
+    ToggleDialog = (element, groupName, data) => {
+        console.log(element, groupName)
+        this.setState({element: element, toggle: !this.state.toggle, groupName: groupName, data: data})
+    }
+
     render() {
         
 
         return (
             <div style={{marginTop: 10, marginBottom: 50}}>
-          
+ 
                 <CarList
-                  title={'Edit Cars'}
+                  title={'ALL CARS'}
                   loading={this.state.loading}
                   tableData={this.state.Products}
+                  borderRadius={"0px"}
+                  boxShadow={"none"}
+                  ToggleDialog={this.ToggleDialog}
                 />
+
+                {this._RenderDialog()}
 
             </div>
         )

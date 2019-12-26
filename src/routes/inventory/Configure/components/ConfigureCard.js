@@ -12,7 +12,7 @@ import {
 import NumberFormat from "react-number-format";
 import { singleAccount, singleCustomer } from "Helpers/crmURL";
 
-function QuotationCard(props) {
+function ConfigureCard(props) {
 
   const { quotation } = props;
 
@@ -49,4 +49,4 @@ function QuotationCard(props) {
   );
 }
 
-export default QuotationCard;
+export default ConfigureCard;

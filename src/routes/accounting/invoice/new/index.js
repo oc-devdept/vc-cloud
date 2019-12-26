@@ -12,9 +12,7 @@ import BgCard from "Components/BgCard";
 import RctSectionLoader from "Components/RctSectionLoader";
 import InvoiceForm from "../components/InvoiceForm";
 
-import { 
-  submitNewInvoice
-} from "Ducks/accounting/invoice";
+import {submitNewInvoice } from "Ducks/accounting/invoice";
 
 
 class acct_new_invoice extends Component {

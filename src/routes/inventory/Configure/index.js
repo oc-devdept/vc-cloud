@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 import ProductOptions from './components/productOptions'
-import Details from './components/details'
+import ProductDetails from './components/productDetails'
 import ProductVariant from './components/productVarient'
-import Tags from './components/tags'
+import MakeModel from './components/makeModel'
 
 
 import { Helmet } from "react-helmet";
@@ -22,6 +22,7 @@ class CreateProduct extends Component {
     }
   }
 
+ 
   render() {
 
     return (
@@ -45,9 +46,10 @@ class CreateProduct extends Component {
                 </div>
 
                 <div className="col-md-9">
+
                   <ProfileTabs loading={false}>
                     <div label="MAKE & MODEL">
-                      <Tags/>
+                      <MakeModel/>
                     </div>
 
                     <div label="PRODUCT VARIANT">
@@ -55,14 +57,14 @@ class CreateProduct extends Component {
                     </div>
 
                     <div label="PRODUCT DETAILS">
-                      <Details/>
+                      <ProductDetails/>
                     </div>
 
                     <div label="PRODUCT OPTION">
                       <ProductOptions/>
                     </div>
-
                   </ProfileTabs>
+                  
                 </div>
               </div>
 
