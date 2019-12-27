@@ -50,14 +50,14 @@ export default class Index extends PureComponent {
         let productOptionStage = this.state.productOptionStage
         let ProductOptionCategories = this.state.ProductOptionCategories
 
-        let Options = this.props.Car.productOption? this.props.Car.productOption: []
+        let Options = this.props.Car? this.props.Car: []
         let BelongsTo = []
 
         if(Options.length > 0){
             Options.map(e => {
-            
-                if(e.productOptionCategoryId == ProductOptionCategories[productOptionStage].value){
+                if(e.productOption.productOptionCategoryId == ProductOptionCategories[productOptionStage].value){
                     BelongsTo.push(e)
+                    
                 }
             })
         }
@@ -68,7 +68,8 @@ export default class Index extends PureComponent {
                     return (
                         <div key={index} style={{border: '1px solid black', marginTop: 10, marginBottom: 10, borderRadius: 10, padding: 5,}}>
                             <ProductDetailsFields
-                                Fields={e}
+                                Fields={e.productOption}
+                                Id = {e.id}
                                 index={index}
                                 _DeleteProductOptionFields={this.props._DeleteProductOptionFields}
                                 _HandleProductDetailValue={(e) => this.props._HandleProductDetailValue(e.target.value, 'value', index)}
@@ -160,11 +161,11 @@ export default class Index extends PureComponent {
 
                                     let contain = false
 
-                                    if(Car.productOption){
-                                        if(Car.productOption.length >0){
-                                            Car.productOption.map(e => {
+                                    if(Car){
+                                        if(Car.length > 0){
+                                            Car.map(e => {
                                                 if(each){
-                                                    if(e.name == each.name){
+                                                    if(e.productOption.name == each.name){
                                                         contain = true
                                                     }
                                                 }
@@ -176,7 +177,7 @@ export default class Index extends PureComponent {
 
                                     if(each){
                                         if(contain) {
-                                            style = {border:'1px solid black', borderRadius: 5, margin: 10, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, opacity: 0.3}
+                                            style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, opacity: 0.3}
                                             return (
                                                 <div key={indexes} style={style}>
                                                     {each.name}

@@ -8,10 +8,12 @@ http://159.65.14.175:3001/api
 API CONTENT
 
 Retrieve Make | Model
+Retrieve One Specific Grade
 Retrieve Product Variant
 Retrieve Product Options
 Retrieve Product Details
 Retrieve Tags
+
 
 
 
@@ -47,6 +49,11 @@ Return a JSON data type = response.data.fields : Array
 
 
 
+RETRIEVE SPECIFIC ONE GRADE
+
+This method is used to retrieve specific one grade, using id of selected Grade
+GET - /products/:id
+Return a JSON data type = response.data
 
 
 

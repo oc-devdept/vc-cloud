@@ -5,13 +5,18 @@ export default class Index extends PureComponent {
 
   render () {
     const e = this.props.Fields
-    const index = this.props.index
-    
+    const Id = this.props.Id
     return (
         <div className='d-flex' style={{justifyContent:'space-evenly'}}>
            
-            <span>Name: {e.name}</span>
-            <span>Price: {e.price} SGD</span>
+            <div style={{flex:1}}>
+              <span>{e.name}</span>
+            </div>
+
+            <div>
+              <span>{e.price} SGD</span>
+            </div>
+            
             {/* <span>{e.value2}</span>   */}
             {/* <span>{e.image}</span>   */}
              {/* {e.files.length > 0 && 
@@ -21,10 +26,16 @@ export default class Index extends PureComponent {
                     width={100}
                 />
             }    */}
-            <span>IsDefault: {`${e.isDefault}`}</span>
-            <span>Editable: {`${e.editable}`}</span>     
+            <div>
+              <span>{`${e.isDefault}`}</span>
+            </div>
 
-            <button onClick={() => this.props._DeleteProductOptionFields(index)}>X</button>
+            <div>
+              <span>{`${e.editable}`}</span>     
+            </div>
+            
+
+            <button onClick={() => this.props._DeleteProductOptionFields(Id)}>X</button>
         </div>
     );
   }

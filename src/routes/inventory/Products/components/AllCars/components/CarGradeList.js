@@ -71,7 +71,17 @@ export default class Index extends PureComponent {
         name: "files",
         options: {
           customBodyRender: (value, tableMeta) => {
-            return 'IMAGE'
+            if(value.length > 0){
+              return (
+                <img
+                  src={value[0].url}
+                  height={100}
+                  width={100}
+                />
+              )
+            } else {
+              return "No image"
+            }
           }
         }
       },
@@ -106,7 +116,7 @@ export default class Index extends PureComponent {
       viewColumns: false,
       search: false,
       filter: false,
-      onRowClick: (rowData, rowState) => this.props.ToggleDialog('Selected_Grade', rowData)
+      onRowClick: (rowData, rowState) => this.props.ToggleDialog('Selected_Grade', rowData[0])
     };
 
     return (

@@ -27,34 +27,38 @@ class index extends PureComponent {
 
     async componentDidMount() {
         try {
-            // const Products = await api.get(`/products/productVariant`)
-            const ModelGrade = await api.get(`categories/ModelGrade`);        
-            console.log('ModelGrade', ModelGrade.data.fields)
-            this.setState({Products: ModelGrade.data.fields, loading: false})
+            await this._FetchProductsAPI()       
         } catch (e) {
             this.setState({Products: [], loading: false})
         }
     }
 
+    _FetchProductsAPI = async() => {
+        const ModelGrade = await api.get(`categories/ModelGrade`);  
+        return this.setState({Products: ModelGrade.data.fields, loading: false})
+    }
+
+
     _RenderDialog = () => {
         if(this.state.toggle){
             switch(this.state.element) {
                 case 'Add_Grade':
-                
-                    const make = this.state.data.make
-                    const model = this.state.data.model
+             
+                    const MakeId = this.state.data.MakeId
+                    const ModelId = this.state.data.ModelId
 
-                    const title = `Add Grade to ${model.toUpperCase()} in ${make.toUpperCase()}`
-
-                    return (
+                    return (    
                         <DialogRoot
                             // title={title}
                             show={this.state.toggle}
                             handleHide={this._RestartToggle}
                             size={"md"}
                         >
-                               
-                            <Grade/>
+                            <Grade
+                                MakeId={MakeId}
+                                ModelId={ModelId}
+                                _FetchProductsAPI={this._FetchProductsAPI}
+                            />
 
                         </DialogRoot>
                     )
@@ -63,15 +67,16 @@ class index extends PureComponent {
                     return (
                         <DialogRoot
                             title={"Select Grade"}
-                            size="sm"
+                            size="md"
                             show={this.state.toggle}
                             handleHide={this._RestartToggle}
                             >
-                            <div className="row">
-                                
-                                {this.state.element}
-            
-                            </div>
+                            <Grade
+                                MakeId={MakeId}
+                                ModelId={ModelId}
+                                GradeId={this.state.groupName}
+                                _FetchProductsAPI={this._FetchProductsAPI}
+                            />
                         </DialogRoot>
                     )
                 default:
@@ -85,7 +90,6 @@ class index extends PureComponent {
     }
 
     ToggleDialog = (element, groupName, data) => {
-        console.log(element, groupName)
         this.setState({element: element, toggle: !this.state.toggle, groupName: groupName, data: data})
     }
 

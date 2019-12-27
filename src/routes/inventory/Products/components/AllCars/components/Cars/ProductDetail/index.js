@@ -50,7 +50,7 @@ export default class Index extends PureComponent {
         let productDetailStage = this.state.productDetailStage
         let ProductDetailCategory = this.state.ProductDetailCategory
 
-        let Detail = this.props.Car.productDetail? this.props.Car.productDetail: []
+        let Detail = this.props.Car? this.props.Car: []
         let BelongsTo = []
 
         if(Detail.length > 0){
@@ -165,9 +165,9 @@ export default class Index extends PureComponent {
 
                                         let contain = false
 
-                                        if(Car.productDetail){
-                                            if(Car.productDetail.length >0){
-                                                Car.productDetail.map(e => {
+                                        if(Car){
+                                            if(Car.length > 0){
+                                                Car.map(e => {
                                                     if(each){
                                                         if(e.name == each.name){
                                                             contain = true
@@ -181,14 +181,13 @@ export default class Index extends PureComponent {
 
                                         if(each){
                                             if(contain) {
-                                                style = {border:'1px solid black', borderRadius: 5, margin: 10, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, opacity: 0.3}
+                                                style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, opacity: 0.3}
                                                 return (
                                                     <div key={indexes} style={style}>
                                                         {each.name}
                                                     </div>
                                                 )
                                             } else {
-
                                                 
                                                 if(this.state.addItemInformation){
                                                     if(this.state.addItemInformation.name == each.name){

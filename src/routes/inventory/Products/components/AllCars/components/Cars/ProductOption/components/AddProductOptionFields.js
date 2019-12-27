@@ -54,7 +54,7 @@ export default class Index extends PureComponent {
                 </div>
 
                 <div className="d-flex" style={{justifyContent:"flex-end", marginTop: 20, marginBottom: 20}}>
-                    <button onClick={() => this.props._HandleSaveProductOption(this.state.addItemInformation)}>Add Product Option</button>     
+                    <button onClick={() => this.props._HandleSaveProductOption(this.state.addItemInformation)}>ADD</button>     
                     {/* <button onClick={this.props._HandleCancelProductOption}>Cancel</button>      */}
                 </div>
             </div>

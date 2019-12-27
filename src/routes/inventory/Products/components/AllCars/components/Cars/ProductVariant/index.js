@@ -55,7 +55,7 @@ export default class Index extends PureComponent {
             let productVariantStage = this.state.productVariantStage
             let ProductVariantCategories = this.state.ProductVariantCategories
 
-            let Options = this.props.Car.productVariant? this.props.Car.productVariant: []
+            let Options = this.props.Car ? this.props.Car: []
             let BelongsTo = []
 
             if(Options.length > 0){
@@ -102,8 +102,9 @@ export default class Index extends PureComponent {
 
         const Car = this.props.Car
 
+        
         if(!Car){
-        return null
+            return null
         }
     
         return (

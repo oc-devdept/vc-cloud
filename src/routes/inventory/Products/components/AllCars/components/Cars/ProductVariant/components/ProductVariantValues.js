@@ -100,7 +100,7 @@ export default class Index extends PureComponent {
                     <button onClick={() => {
                         this.props._AddVariantValues(this.state.ProductVariantValues, this.state.files)
                         this.setState({ProductVariantValues: OriginalProductVariantValues, files:[]})
-                    }}>Create New Variant</button>
+                    }}>ADD</button>
                 </div>
 
             </div>

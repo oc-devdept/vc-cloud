@@ -13,11 +13,11 @@ export default class Index extends PureComponent {
     return (
         <div className="d-flex" style={{justifyContent:'space-between', flex:1}}>
 
-            <div style={{display:'flex', flexDirection:"column"}}>
+            <div style={{display:'flex', flexDirection:"column", flex:1, justifyContent:'center'}}>
                 <span>{item.name}</span>
             </div>
             
-            <div style={{display:'flex', flexDirection:"column"}}>
+            <div style={{display:'flex', flexDirection:"column", alignItems:'center', justifyContent:'center'}}>
                 {item.files.length > 0 && 
                     <img
                         src={item.files[0].url}
@@ -27,13 +27,12 @@ export default class Index extends PureComponent {
                 }
             </div>
 
-            <div style={{display:'flex', flexDirection:"column"}}>
+            <div style={{display:'flex', flexDirection:"column", alignItems:'center', justifyContent:'center'}}>
                 <span>{item.price}</span>
             </div>
 
-            <div style={{display:'flex', flexDirection:"column"}}>
+            <div style={{display:'flex', flexDirection:"column", alignItems:'center', justifyContent:'center'}}>
                 <Checkbox
-                    edge="end"
                     checked={item.isDefault}
                     name="isDefault"
                 />   

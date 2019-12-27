@@ -55,6 +55,10 @@ export default class Index extends PureComponent {
         options: { display: "excluded", filter: false, sort: false }
       },
       {
+        name: "makeId",
+        options: { display: "excluded", filter: false, sort: false }
+      },
+      {
         name: "product",
         options: { display: "excluded", filter: false, sort: false }
       },
@@ -90,7 +94,18 @@ export default class Index extends PureComponent {
         name: "files",
         options: {
           customBodyRender: (value, tableMeta) => {
-            return 'IMAGE'
+            return "value"
+            // if(value.files.length > 0){
+            //   return (
+            //     <img
+            //       src={e.files[0].url}
+            //       height={100}
+            //       width={100}
+            //     />
+            //   )
+            // } else {
+            //   return "No image"
+            // }
           }
         }
       },
@@ -110,10 +125,12 @@ export default class Index extends PureComponent {
       // onCellClick: (rowData, rowState) => this._HandleVariant(rowState),
       renderExpandableRow: (rowData, rowMeta) => {
 
+
         const data = {
-          id : rowData[0],
-          make: rowData[2],
-          model : rowData[3]
+          MakeId: rowData[1],
+          ModelId : rowData[0],
+          make: rowData[3],
+          model : rowData[4]
         }
 
         return (
@@ -122,12 +139,11 @@ export default class Index extends PureComponent {
 
                     
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                    <button onClick={()=> this.props.ToggleDialog('Add_Grade', '', data)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20, marginTop: 10}}>{`+ CREATE GRADE TO ${rowData[3].toUpperCase()}`}</button>
+                    <button onClick={()=> this.props.ToggleDialog('Add_Grade', '', data)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20, marginTop: 10}}>{`+ CREATE GRADE TO ${rowData[4].toUpperCase()}`}</button>
                 </div>
                 
                 <CarGradeList
-                  // title={'ALL GRADE'}
-                  tableData={rowData[1]}
+                  tableData={rowData[2]}
                   borderRadius={"0px"}
                   boxShadow={"none"}
                   ToggleDialog={this.props.ToggleDialog}

@@ -8,19 +8,32 @@ export default class Index extends PureComponent {
     
     constructor(props) {
         super(props);
-        this.state = {
-            Product: {
-                name: '',
-                image: '',
-                description: '',
-                product_code: '',
-                costPrice: '',
-                sellingPrice: '',
-                isActive: true,
-            },
 
-            files: [],
+        if(this.props.Car){
+           
+            this.state = {
+                Product: this.props.Car,
+                files: this.props.Car.files,
+            }
+            
+        } else {
+         
+            this.state = {
+                Product: {
+                    name: '',
+                    sku: '',
+                    description: '',
+                    product_code: '',
+                    cost_Price: '',
+                    selling_Price: '',
+                    isActive: true,
+                },
+                files: [],
+            }
+            
         }
+
+        
         
     }
 
@@ -53,6 +66,7 @@ export default class Index extends PureComponent {
         });
     };
     
+    
     render () {
 
        
@@ -68,7 +82,19 @@ export default class Index extends PureComponent {
                     handleUpload={this.handleUpload}
                     removeFile={this.removeFile}
                 />
-           
+
+                {!this.props.Car && 
+                    <div className="d-flex" style={{marginTop: 20, justifyContent:"flex-end"}}>
+                        <button onClick={() => this.props._CreateProduct(this.state.Product, this.state.files)}>SAVE CHANGES</button>     
+                    </div>
+                }
+            
+                {this.props.Car && 
+                    <div className="d-flex" style={{marginTop: 20, justifyContent:"flex-end"}}>
+                        <button onClick={() => this.props._EditProduct(this.state.Product, this.state.files)}>EDIT CHANGES</button>     
+                    </div>
+                }
+
             </div>
         );
   }

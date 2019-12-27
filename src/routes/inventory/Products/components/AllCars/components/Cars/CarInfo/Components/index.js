@@ -7,11 +7,8 @@ import Dropzone from "Components/Dropzone";
 class Grade extends PureComponent {
 
     
-  
-
     render() {
       const {_HandleProduct, Product, files, handleUpload, removeFile} = this.props
-
 
       return (
         <div className='d-flex' style={{margin: 5, flexDirection:'column'}}>
@@ -19,16 +16,16 @@ class Grade extends PureComponent {
           <div className="d-flex" style={{flexDirection:'column'}}>
 
               <div className="d-flex justify-content-between" style={{flexDirection:'row'}}>
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>SKU NUMBER</span>
                   <input 
                     type="SKU" 
                     placeholder={"e.g SKU"} 
-                    value={''} 
+                    value={Product.sku} 
                     onChange={(e) => _HandleProduct(e.target.value, 'sku')}
                   />
                 </div>
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>Name</span>
                   <input 
                     type="name" 
@@ -41,7 +38,7 @@ class Grade extends PureComponent {
 
               <div className="d-flex justify-content-between" style={{flexDirection:'row'}}>
                 
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>Display Status</span>
                   <Checkbox
                       edge="end"
@@ -50,40 +47,51 @@ class Grade extends PureComponent {
                   />
                 </div>
 
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>Cost Price</span>
                   <input 
                     type="text" 
                     placeholder={"e.g Cost Price"} 
-                    value={Product.costPrice ? Product.costPrice : ''} 
-                    onChange={(e) => _HandleProduct(e.target.value, 'costPrice')}
+                    value={Product.cost_Price ? Product.cost_Price : ''} 
+                    onChange={(e) => _HandleProduct(e.target.value, 'cost_Price')}
                   />
                 </div>
 
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>Selling Price</span>
                   <input 
                     type="text" 
                     placeholder={"e.g Selling Price"} 
-                    value={Product.sellingPrice ? Product.sellingPrice : ''} 
-                    onChange={(e) => _HandleProduct(e.target.value, 'sellingPrice')}
+                    value={Product.selling_Price ? Product.selling_Price : ''} 
+                    onChange={(e) => _HandleProduct(e.target.value, 'selling_Price')}
                   />
                 </div>
               </div>
 
               <div className="d-flex justify-content-between" style={{flexDirection:'row'}}>
-                
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
+                  
                   <span>Image</span>
-                  <Dropzone
+
+                  {files.length > 0 &&
+                      <img
+                        src={files[0].url}
+                        height={100}
+                        width={100}
+                      />
+                  }
+                  
+                  {files.length == 0 &&
+                    <Dropzone
                       onDrop={handleUpload}
                       onRemove={removeFile}
                       uploadedFiles={files}
                       additionalText="Files can't be edited once uploaded."
-                  />
+                    />
+                  }
+                  
                 </div>
-
-                <div className="d-flex" style={{flexDirection:'column'}}>
+                <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>Description</span>
                   <input 
                     type="text" 
@@ -92,13 +100,12 @@ class Grade extends PureComponent {
                     onChange={(e) => _HandleProduct(e.target.value, 'description')}
                   />
                 </div>
-
               </div>
 
              
   
 
-             
+            
 
               {/* <div className="d-flex" style={{flexDirection: 'row'}}>
                 <div style={{border : '1px solid black', borderStyle : 'dashed', height: 60, display:'flex', justifyContent:'center', alignItems:'center'}}>
@@ -109,8 +116,7 @@ class Grade extends PureComponent {
                   ProductDetailCategory={ProductDetailCategory} 
                 />
               </div> */}
-          
-          
+             
           
             </div>
           
