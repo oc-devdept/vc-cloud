@@ -7,7 +7,7 @@ import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 
 import AllCars from './components/AllCars'
-import AddNewCar from './components/AddNewCar'
+// import AddNewCar from './components/AddNewCar'
 
 import ProfileTabs from "Components/Layout/ProfileTabs";
 import ProductCard from "./components/ProductCard"
@@ -42,8 +42,8 @@ class AllProducts extends Component {
                     <AllCars/>
                   </div>
 
-                  <div label="Add New Cars">
-                    <AddNewCar/>
+                  <div label="">
+                    
                   </div>
                 </ProfileTabs>
               </div>

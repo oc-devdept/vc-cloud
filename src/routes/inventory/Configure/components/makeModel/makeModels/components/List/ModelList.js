@@ -31,7 +31,7 @@ export default class Index extends PureComponent {
  
   render () {
   
-    const { loading, title, tableData } = this.props
+    const { loading, title, tableData, ToggleDialog } = this.props
 
     const columns = [
       {
@@ -89,7 +89,7 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                     <Edit
-                      onClick={() => console.log('Hi')}
+                      onClick={() => ToggleDialog('Edit_Model', rowState.rowData)}
                     />
                 );
             }
@@ -104,7 +104,7 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                   <Delete
-                    onClick={() => console.log('Hi')}
+                    onClick={() => ToggleDialog('Delete_Model', rowState.rowData)}
                   />
                 );
             }
@@ -123,18 +123,7 @@ export default class Index extends PureComponent {
       download: false,
       viewColumns: false,
       search: false,
-      filter: false,
-      // renderExpandableRow: (rowData, rowMeta) => {
-      //   return (
-      //     <TableRow>
-      //       <TableCell colSpan={rowData.length}>
-      //         <div>
-      //           Show all product variants
-      //         </div>
-      //       </TableCell>
-      //     </TableRow>
-      //   );
-      // }
+      filter: false
     };
 
 
@@ -142,18 +131,19 @@ export default class Index extends PureComponent {
 
       <div style={{}}>
 
-        <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-          <button onClick={()=> console.log('Toggle Tag Model Box!')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20,}}>{`+ CREATE MODEL TO ${this.props.Make.toUpperCase()}`}</button>
-        </div>
+          <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
+            <button onClick={()=> ToggleDialog('Create_Model')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20,}}>{`+ CREATE MODEL TO ${this.props.Make.toUpperCase()}`}</button>
+          </div>
 
-        <RecordsList
-          title={title}
-          columns={columns}
-          data={this.state.ModelSource}
-          options={listOptions}
-          borderRadius={"0px"}
-          boxShadow={"none"}
-        />
+          <RecordsList
+            title={title}
+            columns={columns}
+            data={this.state.ModelSource}
+            options={listOptions}
+            borderRadius={"0px"}
+            boxShadow={"none"}
+          />
+        
       </div>
 
     );

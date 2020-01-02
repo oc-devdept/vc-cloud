@@ -22,33 +22,12 @@ export default class Index extends PureComponent {
 
   })
 
-  _HandleVariant = async (rowState) => {
-
-    // if(this.state.currentProduct){
-
-    //   if(this.state.currentProduct.id != this.props.tableData[rowState.rowIndex].id){
-    //     const Item = this.props.tableData[rowState.rowIndex]
-    //     const Car = await api.get(`/products/${Item.id}`)
-    //     this.setState({currentProduct: Car.data})
-    //   }
-
-    // } else {
-
-    //   const Item = this.props.tableData[rowState.rowIndex]
-    //   const Car = await api.get(`/products/${Item.id}`)
-    //   this.setState({currentProduct: Car.data})
-    // }
-
-    console.log('_HandleVariant', this.props.tableData[rowState.rowIndex])
-    this.setState({object: this.props.tableData[rowState.rowIndex]})
-    
-  }
-
  
+
   render () {
   
-    const { loading, title, tableData } = this.props
-
+    const { loading, title, tableData, ToggleDialog } = this.props
+    
     const columns = [
       {
         name: "id",
@@ -95,21 +74,6 @@ export default class Index extends PureComponent {
           }
         }
       },
-      // {
-      //   name: "CAR MODEL DETAILS",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //             <ExpandMore 
-      //               onClick={() => this._HandleVariant(rowState)}
-      //             />
-      //           );
-      //       }
-      //   }
-      // },
       {
         name: "EDIT",
         options: {
@@ -119,7 +83,7 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                     <Edit
-                      onClick={() => console.log('Edit!')}
+                      onClick={() => ToggleDialog('Edit_Make', rowState.rowData)}
                     />
                 );
             }
@@ -134,23 +98,16 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                   <Delete
-                    onClick={() => console.log('Delete!')}
+                    onClick={() => ToggleDialog('Delete_Make', rowState.rowData)}
                   />
                 );
             }
         }
-      },
-    
+      }
+
     ]
 
-    // const listOptions = {
-    //   filterType: "dropdown",
-    //   responsive: "stacked",
-    //   selectableRows: 'none',
-    //   selectableRowsOnClick: true,
-    //   onCellClick: (rowData, rowState) => this._HandleVariant(rowState),
-    // };
-
+  
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
@@ -162,12 +119,15 @@ export default class Index extends PureComponent {
       search: false,
       filter: false,
       renderExpandableRow: (rowData, rowMeta) => {
+
+
         return (
           <TableRow>
             <TableCell colSpan={rowData.length} style={{padding: 0}}>
                 <ModelList
                   id={rowData[0]}
                   Make={rowData[1]}
+                  ToggleDialog={ToggleDialog}
                 />
             </TableCell>
           </TableRow>
@@ -196,27 +156,3 @@ export default class Index extends PureComponent {
     );
   }
 };
-
-
-
-// customRowRender:(data, dataIndex, rowIndex) => {
-//   console.log('data' + data);
-//   return (
-//     <div>
-//       {data}{' '}{dataIndex}{' '}{rowIndex}
-//     </div>
-//   );
-// }
-// renderExpandableRow: (rowData, rowMeta) => {
-//   console.log(rowData);
-//   return (
-//     <TableRow>
-//       <TableCell colSpan={rowData.length}>
-//         <div>
-//           <button onClick={() => this._HandleVariant(rowMeta.rowIndex)}>Add new variant</button>
-          
-//         </div>
-//       </TableCell>
-//     </TableRow>
-//   );
-// }

@@ -123,9 +123,9 @@ class ModelDetail extends Component {
  
   _RenderGradeDetail = () => {
 
-    if(this.props.GradeItems.length > 0) {
+    if(this.props.GradeItems) {
       return (
-        this.props.GradeItems.map((e, index) => {
+        this.props.GradeItems.product.map((e, index) => {
           return (
                 <div onClick={() => this.props._SelectGradeExterior(e)} key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
 

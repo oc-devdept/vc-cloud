@@ -124,8 +124,7 @@ export default class Index extends PureComponent {
       filter: false,
       // onCellClick: (rowData, rowState) => this._HandleVariant(rowState),
       renderExpandableRow: (rowData, rowMeta) => {
-
-
+        
         const data = {
           MakeId: rowData[1],
           ModelId : rowData[0],

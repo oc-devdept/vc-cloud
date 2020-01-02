@@ -29,13 +29,21 @@ class Interior extends Component {
 
                       {values.length > 0 && 
                         <div style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
-                          {values.map((item, indexes) =>{
+                          {values.map((each, indexes) =>{
+
+                            const item = each.productOption
                             return (
                               <div onClick={() => console.log(item)} key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
                                   <span>name: {item.name}</span>
                                   <span>price: {item.price}</span>
                                   <span>{item.isDefault}</span>
-                                  <span>{item.image}</span>
+                                  {item.files.length > 0 && 
+                                      <img
+                                          src={item.files[0].url}
+                                          height={100}
+                                          width={100}
+                                      />
+                                  }   
                               </div>
                             )
                           })}
@@ -65,7 +73,7 @@ class Interior extends Component {
 
 
   render() {
-    
+        
     return (
       <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'row', justifyContent:'space-between'}}>
                         

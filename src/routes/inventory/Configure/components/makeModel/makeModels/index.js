@@ -6,6 +6,11 @@ import ModelOption from './components/Option/ModelOption'
 
 import MakeList from './components/List/MakeList'
 
+import DialogRoot from "Components/Dialog/DialogRoot";
+
+import Makes from './components/makes'
+import Models from './components/models'
+
 const initialMake = {
     name:'',
     description: '',
@@ -26,7 +31,12 @@ class index extends PureComponent {
 
         ModelSource: [],
         MakeLoading: true,
-        ModelLoading: true
+        ModelLoading: true,
+
+
+        toggle: false,
+        element : null,
+        data: null,
     })
 
     componentDidMount() {
@@ -141,20 +151,19 @@ class index extends PureComponent {
         }
     }
 
+    _SaveMakeDone = async() => {
 
-    _SaveMake = async(datum) => {
 
-        
         // await api.post("/announcements/new", data, config);
-        const {files, start, end, name, description } = datum
+        // const {files, start, end, name, description } = datum
 
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        data.append("name", name);
-        data.append("description", description);
-        data.append("start", start);
-        data.append("end", end);
-        data.append("categoryGroupId", this.state.MakeId);
+        // var data = new FormData();
+        // files.map(file => data.append(`upload`, file));
+        // data.append("name", name);
+        // data.append("description", description);
+        // data.append("start", start);
+        // data.append("end", end);
+        // data.append("categoryGroupId", this.state.MakeId);
 
         // await api.post(`/categories`, {
         //     name: Make.name,
@@ -163,13 +172,11 @@ class index extends PureComponent {
         //     categoryGroupId: this.state.MakeId
         // })
 
-        await api.post(`/categories/new`, data)
+        // await api.post(`/categories/new`, data)
 
         const MakeSource = await this._RenderMakeCategory(this.state.MakeId)
 
         const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
-
-       
 
         this.setState({MakeSource: MakeSource, MakeGroupingSource: MakeGroupingSource, MakeGroupingOriginalSource: MakeGroupingSource})
 
@@ -222,6 +229,129 @@ class index extends PureComponent {
 
 
 
+    
+    _RenderDialog = () => {
+        if(this.state.toggle){
+            switch(this.state.element) {
+            
+                case 'Create_Make':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Makes
+                                Action={'Create'}
+                                Data={this.state.data}
+                                MakeId={this.state.makeId}
+                                _RestartToggle={this._RestartToggle}
+                                _SaveMakeDone={this._SaveMakeDone}
+                            />
+                        </DialogRoot>
+                    )
+                case 'Edit_Make':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Makes
+                                Action={'Edit'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+                                loadInitial={this.loadInitial}
+                            />
+                        </DialogRoot>               
+                    )
+                case 'Delete_Make':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Makes
+                                Action={'Delete'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+                                loadInitial={this.loadInitial}
+
+                            />
+                        </DialogRoot>
+                    )
+
+
+
+
+                case 'Create_Model':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Models
+                                Action={'Create'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+
+                            />
+                        </DialogRoot>
+                    )
+                case 'Edit_Model':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Models
+                                Action={'Edit'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+                            />
+                        </DialogRoot>               
+                    )
+                case 'Delete_Model':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Models
+                                Action={'Delete'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+
+                            />
+                        </DialogRoot>
+                    )
+                default:
+                    return null
+            }
+        }
+    }
+
+    _RestartToggle = () => {
+        this.setState({toggle: false, element : null, data: null, makeId: null})
+    }
+
+    ToggleDialog = (element, data, makeId) => {
+        this.setState({element: element, toggle: !this.state.toggle, data: data, makeId: makeId})
+    }
+
+
+
+
 
     render() {
 
@@ -230,42 +360,42 @@ class index extends PureComponent {
             <div className="d-flex" style={{flexDirection:'row'}}>
                 <div style={{flex: 1, display:'flex', flexDirection:'column'}}>
 
-                    <div style={{}}>
-                        {/* <MakeOption
-                            MakeLoading={this.state.MakeLoading}
-                            MakeSource={this.state.MakeSource}
-                            _HandleMakeOption={this._HandleMakeOption}
-                            _SaveMake={this._SaveMake}
-                        /> */}
-
-                        <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                            <button onClick={() => this.props.ToggleDialog('MakeModel')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop:20, marginRight:20}}>+ CREATE MAKE VALUE</button>
-                        </div>
-
-                        <MakeList
-                            title={'Car Make'}
-                            tableData={this.state.MakeSource}
-                        />
+                    <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
+                        <button onClick={() => this.ToggleDialog('Create_Make', '', this.state.MakeId)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop:20, marginRight:20}}>+ CREATE MAKE VALUE</button>
                     </div>
 
-                    {/* <div style={{}}>
-                        <ModelOption
-                            categoryMakeName={this.state.categoryMakeName}
-                            categoryMakeId={this.state.categoryMakeId}
-                            ModelSource={this.state.ModelSource}
-                            ModelLoading={this.state.ModelLoading}
-                            Tags={this.state.Tags}
-                            _SaveModel={this._SaveModel}
-                        />
-                    </div> */}
+                    <MakeList
+                        title={'Car Make'}
+                        tableData={this.state.MakeSource}
+                        ToggleDialog={this.ToggleDialog}
+                    />
+                  
+                    {this._RenderDialog()}
+            
                 </div>
 
-                {/* <div style={{ display:'flex', flexDirection:'column'}}>
-                    Create Items
-                </div> */}
             </div>
         );
     }
 }
 
 export default index;
+
+
+
+{/* <MakeOption
+    MakeLoading={this.state.MakeLoading}
+    MakeSource={this.state.MakeSource}
+    _HandleMakeOption={this._HandleMakeOption}
+    _SaveMake={this._SaveMake}
+/> */}
+{/* <div style={{}}>
+    <ModelOption
+        categoryMakeName={this.state.categoryMakeName}
+        categoryMakeId={this.state.categoryMakeId}
+        ModelSource={this.state.ModelSource}
+        ModelLoading={this.state.ModelLoading}
+        Tags={this.state.Tags}
+        _SaveModel={this._SaveModel}
+    />
+</div> */}

@@ -32,7 +32,13 @@ class Interior extends Component {
                                   <span>name: {item.name}</span>
                                   <span>price: {item.price}</span>
                                   <span>{item.isDefault}</span>
-                                  <span>{item.image}</span>
+                                  {item.files.length > 0 && 
+                                      <img
+                                          src={item.files[0].url}
+                                          height={100}
+                                          width={100}
+                                      />
+                                  } 
                               </div>
                             )
                           })}

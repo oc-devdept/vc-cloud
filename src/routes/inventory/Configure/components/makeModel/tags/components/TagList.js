@@ -10,7 +10,7 @@ import RctSectionLoader from "Components/RctSectionLoader";
 import {Edit, Delete, ExpandMore} from '@material-ui/icons'
 
 
-export default class Index extends Component {
+export default class Index extends PureComponent {
 
   state=({
     currentProduct: null,
@@ -42,25 +42,13 @@ export default class Index extends Component {
 
   render () {
   
-    const { loading, title, tableData } = this.props
+    const { loading, title, tableData, ToggleDialog } = this.props
 
     const columns = [
       {
         name: "id",
         options: { display: "excluded", filter: false, sort: false }
       },
-      // {
-      //   label: "SKU",
-      //   name: "id",
-      //   options: {
-      //     customBodyRender: (value, tableMeta) => {
-      //       return value
-      //       return (
-      //         <NavLink to={`quotations/${tableMeta.rowData[0]}`}>{value}</NavLink>
-      //       );
-      //     }
-      //   }
-      // },
       {
         label: "Name",
         name: "name",
@@ -79,7 +67,7 @@ export default class Index extends Component {
             customBodyRender: (rowData, rowState) => {
                 return (
                     <Edit
-                      onClick={() => console.log('Edit!')}
+                      onClick={() => ToggleDialog('Edit_Tags', rowState.rowData)}
                     />
                 );
             }
@@ -94,7 +82,7 @@ export default class Index extends Component {
             customBodyRender: (rowData, rowState) => {
                 return (
                   <Delete
-                    onClick={() => console.log('Delete!')}
+                    onClick={() => ToggleDialog('Delete_Tags', rowState.rowData)}
                   />
                 );
             }

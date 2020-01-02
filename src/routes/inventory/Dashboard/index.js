@@ -24,7 +24,7 @@ class Index extends Component {
     this.state = {
       ModelID: '',
       ModelDetail: {},
-      GradeItems : [],
+      GradeItems : null,
 
       ProductDetail: [],
       Exterior: [],
@@ -45,12 +45,12 @@ class Index extends Component {
 
     if(ModelID != e.id){
       const Make = await api.get(`categories/${e.id}`);
-      const GradeItems = await api.get(`products/specificGrades/${e.id}`)
-      
+      const GradeItems = await api.get(`categories/${e.id}`)
+
       return this.setState({
         ModelID: e.id, 
         ModelDetail: Make.data, 
-        GradeItems: GradeItems.data.fields
+        GradeItems: GradeItems.data
       })
 
     }
@@ -69,6 +69,7 @@ class Index extends Component {
 
     const ProductOptions = await api.get(`products/specificGradeProductOption/${e.id}`);
     
+
     this.setState({
       ProductDetail : GradeDetail.data.fields,
       Exterior : ExteriorGrade.data.fields, 

@@ -3,6 +3,10 @@ import api from "Api";
 
 
 import TagList from './components/TagList'
+import Tags from './components/tags'
+
+import DialogRoot from "Components/Dialog/DialogRoot";
+
 
 class index extends PureComponent {
 
@@ -10,7 +14,11 @@ class index extends PureComponent {
     state=({
         Tags: [],
         Value: '',
-        loading: false
+        loading: false,
+
+        toggle: false,
+        element : null,
+        data: null,
     })
 
 
@@ -23,17 +31,12 @@ class index extends PureComponent {
         }    
     }
 
-    _SaveTags = async() => {
-        let Value = this.state.Value
-
+    _SaveTagsDone = async(Value) => {
         await this.setState({loading: true})
-
-        await api.post(`/tags`, {
-            name: Value
-        })
         const Tags =  await api.get(`/tags`)
         await this.setState({Value: '', Tags: Tags.data, loading: false})
     }
+
 
     _HandleDeleteTags = async(e) => {
 
@@ -50,7 +53,6 @@ class index extends PureComponent {
 
     }
 
-
     _RenderTags = () => {
         return (
             this.state.Tags.map((e, index) => {
@@ -66,6 +68,74 @@ class index extends PureComponent {
 
 
 
+
+
+
+    _RenderDialog = () => {
+        if(this.state.toggle){
+            switch(this.state.element) {
+                case 'Tags':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Tags
+                                Action={'Create'}
+                                _RestartToggle={this._RestartToggle}
+                                _SaveTagsDone={this._SaveTagsDone}
+                            />
+                        </DialogRoot>
+                    )
+                case 'Edit_Tags':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Tags
+                                Action={'Edit'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+                                _SaveTagsDone={this._SaveTagsDone}
+                            />
+                        </DialogRoot>
+                    )
+                case 'Delete_Tags':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="sm"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                        >
+                            <Tags
+                                Action={'Delete'}
+                                Data={this.state.data}
+                                _RestartToggle={this._RestartToggle}
+                            />
+                        </DialogRoot>
+                    )
+
+                default:
+                    return null
+            }
+        }
+    }
+
+    _RestartToggle = () => {
+        this.setState({toggle: false, element : null, data: null, makeId: null})
+    }
+
+    ToggleDialog = (element, data, makeId) => {
+        this.setState({element: element, toggle: !this.state.toggle, data: data, makeId: makeId})
+    }
+
+
     render() {
         
         
@@ -78,26 +148,30 @@ class index extends PureComponent {
                         {this.state.Tags.length > 0 && 
                             <div>
                                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                                    <button onClick={() => this.props.ToggleDialog('Tags')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight:20}}>+ CREATE TAG VALUE</button>
+                                    <button onClick={() => this.ToggleDialog('Tags')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight:20}}>+ CREATE TAG VALUE</button>
                                 </div>
                                 <TagList
                                     title={'Car Tags'}
                                     tableData={this.state.Tags}
+                                    ToggleDialog={this.ToggleDialog}
                                 />
                             </div>
                         }
 
                         {this.state.Tags.length == 0 && 
                             <div>
-                                No Tags Found
+                                <TagList
+                                    title={'Car Tags'}
+                                    tableData={this.state.Tags}
+                                    ToggleDialog={this.ToggleDialog}
+                                />
                             </div> 
                         }
 
-                        {/* <div style={{marginTop: 10}}>
-                            <input placeholder={"e.g Hatchback"} value={this.state.Value} onChange={(e) => this.setState({Value: e.target.value})} />
-                            <button style={{}} onClick={this._SaveTags}>Create New Tag Value</button>
-                        </div> */}
+                        {this._RenderDialog()}
+
                     </div>
+
                 }
 
 

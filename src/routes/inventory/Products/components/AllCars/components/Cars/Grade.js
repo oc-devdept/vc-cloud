@@ -57,8 +57,8 @@ export default class Index extends Component {
       files.map(file => data.append(`upload`, file));
       data.append("name", Product.name);
       data.append("description", Product.description);
-      data.append("cost_Price", Product.costPrice);
-      data.append("selling_Price", Product.sellingPrice);
+      data.append("cost_Price", Product.cost_Price);
+      data.append("selling_Price", Product.selling_Price);
       data.append("isActive", Product.isActive);
       data.append("categoryId", ModelId);
       data.append("categoryGroupId", MakeId);
@@ -71,9 +71,23 @@ export default class Index extends Component {
 
   }
 
-  _EditProduct = (Product, Files) =>{
-      // console.log(Product, Files)
-  }
+  _EditProduct = async(Product, Files) =>{
+  
+      await api.post(`/products/editProductDetail/`, 
+      {
+        data: {
+          id: Product.id,
+          name: Product.name,
+          description: Product.description,
+          isActive: Product.isActive,
+          cost_Price: Product.cost_Price,
+          selling_Price: Product.selling_Price
+        }
+      })
+
+      await this.props._FetchProductsAPI()
+
+    }
 
 
   _SaveProductVariant = async(Variant, id) => { 
@@ -192,14 +206,6 @@ export default class Index extends Component {
 
     let Car = {...this.state.Car}
 
-    // await api.post(`/products/${Car.id}/productOption`, {
-    //   name: e.name,
-    //   image: e.image,
-    //   editable: e.editable,
-    //   isDefault: e.isDefault,
-    //   price: e.price,
-    //   productOptionCategoryId: e.productOptionCategoryId
-    // }); 
 
     const data = {
       productId: Car.id,
