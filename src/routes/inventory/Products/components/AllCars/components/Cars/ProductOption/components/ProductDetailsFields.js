@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 
+import Image from 'Components/Image'
 
 export default class Index extends PureComponent {
 
@@ -19,13 +20,12 @@ export default class Index extends PureComponent {
             
             {/* <span>{e.value2}</span>   */}
             {/* <span>{e.image}</span>   */}
-             {/* {e.files.length > 0 && 
-                <img
-                    src={e.files[0].url}
-                    height={100}
-                    width={100}
+             {e.files.length > 0 && 
+                <Image
+                    imageSource={e.files}
+                    single={true}
                 />
-            }    */}
+            }   
             <div>
               <span>{`${e.isDefault}`}</span>
             </div>

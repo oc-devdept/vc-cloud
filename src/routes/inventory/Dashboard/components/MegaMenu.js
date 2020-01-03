@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import api from "Api";
 
+import Image from 'Components/Image'
 
 class MegaMenu extends Component {
 
@@ -137,10 +138,9 @@ class MegaMenu extends Component {
               <span>{e.description}</span>
 
               {e.files.length > 0 && 
-                  <img
-                      src={e.files[0].url}
-                      height={100}
-                      width={100}
+                  <Image
+                    imageSource={e.files}
+                    single={true}
                   />
               }
           </div>

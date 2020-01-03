@@ -4,6 +4,9 @@ import api from "Api";
 import { Tabs, Tab, Panel } from '@bumaga/tabs' 
 
 
+import Image from 'Components/Image'
+
+
 class ModelDetail extends Component {
 
   constructor(props) {
@@ -28,11 +31,11 @@ class ModelDetail extends Component {
             {files &&
               <div>
                 {files.length > 0 &&
-                  <img
-                      src={files[0].url}
-                      height={100}
-                      width={100}
-                  />
+                  
+                  <Image
+                      imageSource={files}
+                      single={true}
+                    />
                 }
               </div>
             }
@@ -131,10 +134,10 @@ class ModelDetail extends Component {
 
 
                     {e.files.length > 0 && 
-                        <img
-                            src={e.files[0].url}
-                            height={100}
-                            width={100}
+                        
+                        <Image
+                          imageSource={e.files}
+                          single={true}
                         />
                     }
 

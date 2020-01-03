@@ -6,32 +6,14 @@ import MakeModel from './makeModels'
 
 class index extends Component {
 
-    state=({
-        toggle: false,
-        element : null,
-        data: null,
-
-    })
-
-
-  
-
     render() {
         
-        // const id = this.props.id
-
         return (
             <div style={{flex:1, display:'flex', flexDirection:'column'}}>
             
-                <Tag
-                    // ToggleDialog={this.ToggleDialog}
-                />
+                <Tag/>
 
-                <MakeModel
-                    // ToggleDialog={this.ToggleDialog}
-                />
-
-                {/* {this._RenderDialog()} */}
+                <MakeModel/>
             
             </div>
         );

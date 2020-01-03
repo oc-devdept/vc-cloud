@@ -1,16 +1,11 @@
 import React, {PureComponent, Component} from "react";
-import { NavLink } from "react-router-dom";
 import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
 
-import BgCard from "Components/BgCard";
-import RctSectionLoader from "Components/RctSectionLoader";
 import {Edit, Delete, ExpandMore} from '@material-ui/icons'
 
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
 
 export default class Index extends PureComponent {
 

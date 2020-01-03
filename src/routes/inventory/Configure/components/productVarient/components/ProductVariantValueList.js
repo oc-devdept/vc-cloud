@@ -37,7 +37,7 @@ export default class Index extends PureComponent {
 
   render () {
   
-    const { loading, title, tableData } = this.props
+    const { loading, title, tableData, ToggleDialog } = this.props
 
     const columns = [
       {
@@ -45,7 +45,7 @@ export default class Index extends PureComponent {
         options: { display: "excluded", filter: false, sort: false }
       },
       {
-        name: "values",
+        name: "groupName",
         options: { display: "excluded", filter: false, sort: false }
       },
       {
@@ -66,27 +66,27 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                     <Edit
-                      onClick={() => console.log('Edit!')}
+                      onClick={() => ToggleDialog('Edit_Variant', rowState.rowData)}
                     />
                 );
             }
         }
       },
-      {
-        name: "DELETE",
-        options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                return (
-                  <Delete
-                    onClick={() => console.log('Delete!')}
-                  />
-                );
-            }
-        }
-      },
+      // {
+      //   name: "DELETE",
+      //   options: {
+      //       filter: true,
+      //       sort: false,
+      //       empty: true,
+      //       customBodyRender: (rowData, rowState) => {
+      //           return (
+      //             <Delete
+      //               onClick={() => console.log('Delete!')}
+      //             />
+      //           );
+      //       }
+      //   }
+      // },
     
     ]
 

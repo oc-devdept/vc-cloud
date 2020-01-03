@@ -23,22 +23,17 @@ export default class Index extends PureComponent {
   })
 
   // _HandleVariant = async (rowState) => {
-
   //   if(this.state.currentProduct){
-
   //     if(this.state.currentProduct.id != this.props.tableData[rowState.rowIndex].id){
   //       const Item = this.props.tableData[rowState.rowIndex]
   //       const Car = await api.get(`/products/${Item.id}`)
   //       this.setState({currentProduct: Car.data})
   //     }
-
   //   } else {
-
   //     const Item = this.props.tableData[rowState.rowIndex]
   //     const Car = await api.get(`/products/${Item.id}`)
   //     this.setState({currentProduct: Car.data})
   //   }
-    
   // }
 
  
@@ -47,7 +42,7 @@ export default class Index extends PureComponent {
 
   render () {
   
-    const { loading, title, tableData } = this.props
+    const { loading, title, tableData, ToggleDialog } = this.props
 
   
     const columns = [
@@ -117,13 +112,14 @@ export default class Index extends PureComponent {
           <TableRow>
             <TableCell colSpan={rowData.length} style={{padding: 0}}>
 
-                <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
+                {/* <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
                   <button onClick={()=> this.props.ToggleDialog('Value', rowData[2])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ CREATE VALUE TO ${rowData[2].toUpperCase()} GROUP`}</button>
-                </div>
+                </div> */}
 
                 <ProductVariantValueList
                   // title={'CAR PRODUCT VARIANT ITEM'}
                   tableData={rowData[1]}
+                  ToggleDialog={ToggleDialog}
                 />
             </TableCell>
           </TableRow>

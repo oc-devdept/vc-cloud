@@ -1,21 +1,11 @@
 import React, { Component, PureComponent } from "react";
 import api from "Api";
 
-import MakeOption from './components/Option/MakeOption'
-import ModelOption from './components/Option/ModelOption'
-
 import MakeList from './components/List/MakeList'
-
 import DialogRoot from "Components/Dialog/DialogRoot";
 
 import Makes from './components/makes'
 import Models from './components/models'
-
-const initialMake = {
-    name:'',
-    description: '',
-    image: '',
-}
 
 class index extends PureComponent {
 
@@ -32,7 +22,6 @@ class index extends PureComponent {
         ModelSource: [],
         MakeLoading: true,
         ModelLoading: true,
-
 
         toggle: false,
         element : null,
@@ -105,8 +94,7 @@ class index extends PureComponent {
         
         try {
             const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
-            const MakeSource = await MakeGroup.data.map((source) => {
-
+            const MakeSource = await MakeGroup.data.map((source) => {             
                 return { 
                     id: source.id, 
                     name: source.name, 
@@ -137,11 +125,6 @@ class index extends PureComponent {
         return modelArray
     }
 
-    _HandleMakeOption = (name, index) => {
-        this.setState({categoryMakeName: name, categoryMakeId: index, ModelLoading: true})
-        this._LaunchModels(index)
-    }
-
     _LaunchModels = async(KeyId) => {
         try {
             const ModelResult = await api.get(`/categories/${KeyId}/category`);
@@ -153,27 +136,6 @@ class index extends PureComponent {
 
     _SaveMakeDone = async() => {
 
-
-        // await api.post("/announcements/new", data, config);
-        // const {files, start, end, name, description } = datum
-
-        // var data = new FormData();
-        // files.map(file => data.append(`upload`, file));
-        // data.append("name", name);
-        // data.append("description", description);
-        // data.append("start", start);
-        // data.append("end", end);
-        // data.append("categoryGroupId", this.state.MakeId);
-
-        // await api.post(`/categories`, {
-        //     name: Make.name,
-        //     description: Make.description,
-        //     image: Make.image,
-        //     categoryGroupId: this.state.MakeId
-        // })
-
-        // await api.post(`/categories/new`, data)
-
         const MakeSource = await this._RenderMakeCategory(this.state.MakeId)
 
         const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
@@ -183,47 +145,11 @@ class index extends PureComponent {
         return
     }
 
-    _SaveModel = async(datum) => {
-
-        const {files, start, end, name, description, tags } = datum
-
-        const ModelId = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
-
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        data.append("name", name);
-        data.append("description", description);
-        data.append("start", start);
-        data.append("end", end);
-        data.append("tagId", tags);
-        data.append("categoryId", this.state.categoryMakeId);
-        data.append("categoryGroupId", ModelId.data.id);
-
-        // categoryId: this.state.categoryMakeId,
-
-
-        // await api.post(`/categories`, {
-        //     name: Make.name,
-        //     description: Make.description,
-        //     image: Make.image,
-        //     categoryGroupId: this.state.MakeId
-        // })
-
-        await api.post(`/categories/newModel`, data)
-
-        // const ModelId = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
-
-        // await api.post(`/categories`, {
-        //     name: Model.name,
-        //     description: Model.description,
-        //     image: Model.image,
-        //     tagId: Model.tags,
-        //     categoryId: this.state.categoryMakeId,
-        //     categoryGroupId: ModelId.data.id
-        // })
-
-        await this._LaunchModels(this.state.categoryMakeId)
-
+    _SaveModelDone = async() => {
+      
+        this._isMounted = true;
+        this.loadInitial()
+        
         return
     }
 
@@ -245,7 +171,8 @@ class index extends PureComponent {
                             <Makes
                                 Action={'Create'}
                                 Data={this.state.data}
-                                MakeId={this.state.makeId}
+                                MakeId={this.state.Id}
+                                
                                 _RestartToggle={this._RestartToggle}
                                 _SaveMakeDone={this._SaveMakeDone}
                             />
@@ -262,8 +189,9 @@ class index extends PureComponent {
                             <Makes
                                 Action={'Edit'}
                                 Data={this.state.data}
+
                                 _RestartToggle={this._RestartToggle}
-                                loadInitial={this.loadInitial}
+                                _SaveMakeDone={this._SaveMakeDone}
                             />
                         </DialogRoot>               
                     )
@@ -278,8 +206,8 @@ class index extends PureComponent {
                             <Makes
                                 Action={'Delete'}
                                 Data={this.state.data}
+
                                 _RestartToggle={this._RestartToggle}
-                                loadInitial={this.loadInitial}
 
                             />
                         </DialogRoot>
@@ -299,8 +227,10 @@ class index extends PureComponent {
                             <Models
                                 Action={'Create'}
                                 Data={this.state.data}
-                                _RestartToggle={this._RestartToggle}
+                                Tags={this.state.Tags}
 
+                                _RestartToggle={this._RestartToggle}
+                                _SaveModelDone={this._SaveModelDone}
                             />
                         </DialogRoot>
                     )
@@ -315,7 +245,11 @@ class index extends PureComponent {
                             <Models
                                 Action={'Edit'}
                                 Data={this.state.data}
+                                Tags={this.state.Tags}
+
                                 _RestartToggle={this._RestartToggle}
+                                _SaveModelDone={this._SaveModelDone}
+
                             />
                         </DialogRoot>               
                     )
@@ -330,6 +264,8 @@ class index extends PureComponent {
                             <Models
                                 Action={'Delete'}
                                 Data={this.state.data}
+                                Tags={this.state.Tags}
+
                                 _RestartToggle={this._RestartToggle}
 
                             />
@@ -342,11 +278,11 @@ class index extends PureComponent {
     }
 
     _RestartToggle = () => {
-        this.setState({toggle: false, element : null, data: null, makeId: null})
+        this.setState({toggle: false, element : null, data: null, Id: null})
     }
 
-    ToggleDialog = (element, data, makeId) => {
-        this.setState({element: element, toggle: !this.state.toggle, data: data, makeId: makeId})
+    ToggleDialog = (element, data, Id) => {
+        this.setState({element: element, toggle: !this.state.toggle, data: data, Id: Id})
     }
 
 
@@ -380,22 +316,3 @@ class index extends PureComponent {
 }
 
 export default index;
-
-
-
-{/* <MakeOption
-    MakeLoading={this.state.MakeLoading}
-    MakeSource={this.state.MakeSource}
-    _HandleMakeOption={this._HandleMakeOption}
-    _SaveMake={this._SaveMake}
-/> */}
-{/* <div style={{}}>
-    <ModelOption
-        categoryMakeName={this.state.categoryMakeName}
-        categoryMakeId={this.state.categoryMakeId}
-        ModelSource={this.state.ModelSource}
-        ModelLoading={this.state.ModelLoading}
-        Tags={this.state.Tags}
-        _SaveModel={this._SaveModel}
-    />
-</div> */}

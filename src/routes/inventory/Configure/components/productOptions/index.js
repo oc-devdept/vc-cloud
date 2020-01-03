@@ -8,12 +8,6 @@ import ProductOptionList from './components/ProductOptionList'
 import DialogRoot from "Components/Dialog/DialogRoot";
 
 
-const initialMake = {
-    name:'',
-    description: '',
-    image: '',
-}
-
 
 class index extends Component {
 

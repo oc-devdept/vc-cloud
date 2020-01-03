@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dropzone from "Components/Dropzone";
 
+import Images from 'Components/Image'
 
 const initProductDetail = {
     name:'',
@@ -201,10 +202,9 @@ export default class ProductOption extends Component {
                                             <span style={{padding: 5}}>{`${e.isDefault}`}</span>
 
                                             {e.files.length > 0 && 
-                                                <img
-                                                    src={e.files[0].url}
-                                                    height={100}
-                                                    width={100}
+                                                <Image
+                                                    imageSource={e.files}
+                                                    single={true}
                                                 />
                                             }
                                             <span onClick={() => this._HandleDeleteProductOption(e.id)} style={{marginLeft: 10, cursor:'pointer'}}>x</span>

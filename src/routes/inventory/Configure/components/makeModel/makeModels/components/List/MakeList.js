@@ -13,6 +13,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
 import ModelList from './ModelList'
+import Images from 'Components/Image'
+
 
 export default class Index extends PureComponent {
 
@@ -27,7 +29,7 @@ export default class Index extends PureComponent {
   render () {
   
     const { loading, title, tableData, ToggleDialog } = this.props
-    
+
     const columns = [
       {
         name: "id",
@@ -61,11 +63,9 @@ export default class Index extends PureComponent {
             // return value;
             if(value.length> 0){
               return (
-                <img
-                    src={value[0].url}
-                    height={100}
-                    width={100}
-                    style={{objectFit:'contain'}}
+                <Images
+                    imageSource ={value}
+                    single={true}
                 />
               )
             } else {

@@ -13,6 +13,7 @@ import TableCell from "@material-ui/core/TableCell";
 
 // import Car from './Car'
 import CarGradeList from './CarGradeList'
+import Image from 'Components/Image'
 
 
 export default class Index extends PureComponent {
@@ -63,13 +64,8 @@ export default class Index extends PureComponent {
         options: { display: "excluded", filter: false, sort: false }
       },
       {
-        label: "CAR MAKE",
         name: "make",
-        options: {
-          customBodyRender: value => {
-            return value
-          }
-        }
+        options: { display: "excluded", filter: false, sort: false }
       },
       {
         label: "CAR MODEL",
@@ -94,18 +90,17 @@ export default class Index extends PureComponent {
         name: "files",
         options: {
           customBodyRender: (value, tableMeta) => {
-            return "value"
-            // if(value.files.length > 0){
-            //   return (
-            //     <img
-            //       src={e.files[0].url}
-            //       height={100}
-            //       width={100}
-            //     />
-            //   )
-            // } else {
-            //   return "No image"
-            // }
+            if(value.length > 0){
+              return (
+                <Image
+                  imageSource={value}
+                  single={true}
+                />
+              )
+            } else {
+              return "No image"
+            }
+                
           }
         }
       },
@@ -136,7 +131,6 @@ export default class Index extends PureComponent {
           <TableRow>
             <TableCell colSpan={rowData.length} style={{padding: 0}}>
 
-                    
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
                     <button onClick={()=> this.props.ToggleDialog('Add_Grade', '', data)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20, marginTop: 10}}>{`+ CREATE GRADE TO ${rowData[4].toUpperCase()}`}</button>
                 </div>
@@ -157,14 +151,14 @@ export default class Index extends PureComponent {
     return (
 
       <div>
-
-        <RecordsList
-          title={title}
-          columns={columns}
-          data={tableData}
-          options={listOptions}
-        />
-      
+        {tableData.length > 0 &&
+          <RecordsList
+            title={title}
+            columns={columns}
+            data={tableData}
+            options={listOptions}
+          /> 
+        }
       </div>
 
     );

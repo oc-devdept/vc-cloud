@@ -1,6 +1,8 @@
 import React, {PureComponent} from "react";
 import Checkbox from '@material-ui/core/Checkbox';
 
+import Image from 'Components/Image'
+
 
 export default class Index extends PureComponent {
 
@@ -19,10 +21,9 @@ export default class Index extends PureComponent {
             
             <div style={{display:'flex', flexDirection:"column", alignItems:'center', justifyContent:'center'}}>
                 {item.files.length > 0 && 
-                    <img
-                        src={item.files[0].url}
-                        height={100}
-                        width={100}
+                    <Image
+                        imageSource={item.files}
+                        single={true}
                     />
                 }
             </div>

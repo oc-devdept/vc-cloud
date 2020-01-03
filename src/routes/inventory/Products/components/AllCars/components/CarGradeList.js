@@ -13,22 +13,14 @@ import TableCell from "@material-ui/core/TableCell";
 
 // import Car from './Car'
 
+import Image from 'Components/Image'
+
 export default class Index extends PureComponent {
 
   state=({
     currentProduct: null,
     ProductDetailLoading: false,
   })
-
-
-  // id: "5df0bcf78db21fb4d95f145b"
-  // name: "Jazz Test Car"
-  // description: "It is the slowest car in the world"
-  // isActive: true
-  // cost_Price: "25000"
-  // categoryId: "5de9c5bcbce4b703a335c206"
-  // categoryGroupId: "5de9c553bce4b703a335c204"
-  // selling_Price: "49990"
 
   render () {
   
@@ -73,10 +65,10 @@ export default class Index extends PureComponent {
           customBodyRender: (value, tableMeta) => {
             if(value.length > 0){
               return (
-                <img
-                  src={value[0].url}
-                  height={100}
-                  width={100}
+               
+                <Image
+                  imageSource={value}
+                  single={true}
                 />
               )
             } else {

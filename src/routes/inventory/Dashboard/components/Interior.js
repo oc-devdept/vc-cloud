@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import api from "Api";
 
+import Image from 'Components/Image'
 
 class Interior extends Component {
 
@@ -33,10 +34,9 @@ class Interior extends Component {
                                   <span>price: {item.price}</span>
                                   <span>{item.isDefault}</span>
                                   {item.files.length > 0 && 
-                                      <img
-                                          src={item.files[0].url}
-                                          height={100}
-                                          width={100}
+                                      <Image
+                                        imageSource={item.files}
+                                        single={true}
                                       />
                                   } 
                               </div>

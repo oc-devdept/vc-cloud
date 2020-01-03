@@ -11,6 +11,7 @@ import RctSectionLoader from "Components/RctSectionLoader";
 import {Edit, Delete, ExpandMore} from '@material-ui/icons'
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import Images from 'Components/Image'
 
 export default class Index extends PureComponent {
 
@@ -31,7 +32,7 @@ export default class Index extends PureComponent {
  
   render () {
   
-    const { loading, title, tableData, ToggleDialog } = this.props
+    const {title, ToggleDialog } = this.props
 
     const columns = [
       {
@@ -66,11 +67,9 @@ export default class Index extends PureComponent {
             // return value;
             if(value.length> 0){
               return (
-                <img
-                    src={value[0].url}
-                    height={100}
-                    width={100}
-                    style={{objectFit:'contain'}}
+                <Images
+                    imageSource ={value}
+                    single={true}
                 />
               )
             } else {
@@ -79,7 +78,10 @@ export default class Index extends PureComponent {
           }
         }
       },
-
+      {
+        name: "tagId",
+        options: { display: "excluded", filter: false, sort: false }
+      },
       {
         name: "EDIT",
         options: {
@@ -126,13 +128,15 @@ export default class Index extends PureComponent {
       filter: false
     };
 
+    const Data = {
+      id: this.props.id,
+      name: this.props.Make,
+    }
 
     return (
-
-      <div style={{}}>
-
+      <div>
           <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-            <button onClick={()=> ToggleDialog('Create_Model')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20,}}>{`+ CREATE MODEL TO ${this.props.Make.toUpperCase()}`}</button>
+            <button onClick={()=> ToggleDialog('Create_Model', Data, this.props.id )} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20,}}>{`+ CREATE MODEL TO ${this.props.Make.toUpperCase()}`}</button>
           </div>
 
           <RecordsList
@@ -143,9 +147,7 @@ export default class Index extends PureComponent {
             borderRadius={"0px"}
             boxShadow={"none"}
           />
-        
       </div>
-
     );
   }
 };

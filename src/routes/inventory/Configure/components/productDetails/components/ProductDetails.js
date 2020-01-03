@@ -1,34 +1,78 @@
-import React, { Component, useState } from "react";
+import React, { PureComponent } from "react";
 import api from "Api";
+
+import { Cancel } from "@material-ui/icons";
 
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 
-const initProductDetail = {
-    name:'',
-    value1: '',
-    value2: '',
-    type: ''
-}
+class index extends PureComponent {
 
-export default class ProductDetails extends Component {
 
-    state=({
-        ProductDetails: [],
-        SelectedCategory: '',
-        ProductDetail : {
+    constructor(props) {
+        super(props);
+        
+        let Title = ""
+        let Button = ""
+        let Category = {
+            id: '',
+            name: ''
+        }
+        let ProductDetail = {
             name:'',
             value1: '',
             value2: '',
             type: ''
-        },
-    })
+        }
 
-    _CreateProductDetail = async () => {
+            
+        switch(this.props.Action){
+            case "Create":
+                Title = "CREATE NEW PRODUCT DETAIL"
+                Button = "CREATE"
+                Category = {
+                    id: this.props.Data[0],
+                    name: this.props.Data[1],
+                }
+                break
+            case "Edit":
+                Title = "EDIT PRODUCT DETAIL"
+                ProductDetail = {
+                    id: this.props.Data[0],
+                    name: this.props.Data[1],
+                    value2: this.props.Data[2]
+                }
+                Button = "SAVE CHANGES"
+                break
+            case "Delete":
+                Title = "DELETE PRODUCT DETAIL"
+                ProductDetail = {
+                    id: this.props.Data[0],
+                    name: this.props.Data[1],
+                    value2: this.props.Data[2]
+                }
+                Button = "CONFIRM DELETE"
+                break
+            default:break
+        }
+
+
+        this.state=({
+            Category: Category,
+            Title: Title,
+            Button: Button,
+            ProductDetail: ProductDetail
+        })
+    }
+
+
+
+    _SaveProductDetail = async() => {
+
         const ProductDetail = this.state.ProductDetail
-        const productDetailCategoryId = this.state.SelectedCategory
+        const productDetailCategoryId = this.state.Category.id
         await api.post("/productDetails", 
             {
                 name: ProductDetail.name,
@@ -38,126 +82,175 @@ export default class ProductDetails extends Component {
                 productDetailCategoryId: productDetailCategoryId
             }
         ); 
+
+       await this.props._SaveProductDetailDone()
+       await this.props._RestartToggle()
+    }
+
+    _EditProductDetail = async() => {
         
-        this.setState({ProductDetail: initProductDetail})
-        this._RenderProductDetails()
-    }
-
-
-    async _RenderProductDetails(value) {
-     
-        try {
-            
-            const SelectedCategory = value? value : this.state.SelectedCategory
-
-            const ProductDetailsSource = await api.get(`/productdetailcategories/specificDetail/${SelectedCategory}`)
-    
-            this.setState({ProductDetails:ProductDetailsSource.data.fields, loading: false})
-
-        } catch (e) {
-            console.log(e)
-
-        }
-
+        await api.post("/productDetails/editProductDetailValues", {data: this.state.ProductDetail}); 
+        await this.props._SaveProductDetailDone()
+        await this.props._RestartToggle()
 
     }
 
-
-    _Toggle = (e) => {
-        this.setState({SelectedCategory: e.target.value, loading: true, ProductDetails: []})
-        this._RenderProductDetails(e.target.value)
-    }
-
-    _ReturnItems() {
-        const item = this.props.ProductCategory.map((e, index) => {
-             return <MenuItem key={index} value={e.value}>{e.name}</MenuItem>
-        })        
-        return item
-    }
-
-
-    _HandleProductDetailValue = (e, value) => {
-        let ProductDetail = {...this.state.ProductDetail}
-        ProductDetail[value] = e
-        this.setState({ProductDetail: ProductDetail})
-    }
-
-    _HandleDeleteProductCategories = async(index) => {
+    _DeleteProductDetail = async() => {
         
-        try {
-            const result = await api.delete(`/productDetails/${index}`)
-
-            if(result.data.count == 1){
-                await this._RenderProductDetails()
-            }
-
-        } catch (e) {
-            console.log(e)
-        }
+        const id = this.state.ProductDetail.id
+        await api.delete(`/productDetails/${id}`)
+        await this.props._SaveProductDetailDone()
+        await this.props._RestartToggle()
 
     }
 
+   
     render() {
-      
-        return (
-            <div style={{display:'flex', justifyContent:'center', flexDirection:'column'}}>
 
-                <div style={{}}>
+        let Body = null
 
-
-                    <div className="d-flex">
-                        <div>Select A ProductDetailCategory: </div>
-                        <FormControl>
-                            <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                value={this.state.SelectedCategory? this.state.SelectedCategory : ""}
-                                onChange={this._Toggle}
-                            >
-                            {this._ReturnItems()}
-                            </Select>
-                        </FormControl>
-                    </div>
-
-
-            
-                    {this.state.SelectedCategory &&
-                        <div className="d-flex flex-column">
-
-                            {this.state.loading && 
-                                <div>Fetching ... </div>
-                            }
-
-                            {this.state.ProductDetails.length > 0 && 
-                                this.state.ProductDetails.map((e,index) => {
-                                    return (
-                                        <div key={index} className="d-flex" >
-                                            <span style={{padding: 5}}>{e.name}</span>
-                                            <span style={{padding: 5}}>{e.value}</span>
-                                            <span style={{padding: 5}}>{e.value2}</span>
-                                            <span style={{padding: 5}}>{e.type}</span>
-                                            <span onClick={() => this._HandleDeleteProductCategories(e.id)} style={{marginLeft: 10, cursor:'pointer'}}>x</span>
-                
-                                        </div>
-                                    )
-                                })
-                            }
-
-                            <div>
-                                <div>Enter your product detail</div>
-                                <input type="name" placeholder={"e.g Power"} value={this.state.ProductDetail.name} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} />
-                                {/* <input type="value1" placeholder={"e.g 890"} value={this.state.ProductDetail.value1} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value1')} /> */}
-                                <input type="value2" placeholder={"e.g cc"} value={this.state.ProductDetail.value2} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'value2')} />
-                                <input type="type" placeholder={"e.g Boolean, String"} value={this.state.ProductDetail.type} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'type')} />
+        switch(this.props.Action){
+            case "Delete":
+                Body = (
+                    <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10, justifyContent:"center"}}>
+                        <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
+                        
+                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                <span>CAR PRODUCT DETAIL NAME</span>
+                                <span>{this.state.ProductDetail.name}</span>
                             </div>
 
-                            <button style={{}} onClick={this._CreateProductDetail}>Create Product Detail</button>
+                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                <span>UNITS OF MEASUREMENT</span>
+                                <span>{this.state.ProductDetail.value2}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                )
+                break
+            
+            case "Edit":
+                Body = (
+                    <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
+   
+                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+
+                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                <span>CAR PRODUCT DETAIL ITEM</span>
+                                <input type="text" placeholder={"Enter Product Detail (e.g Air Bags)"} value={this.state.ProductDetail.name} onChange={(e) =>{
+                                    let ProductDetail = {...this.state.ProductDetail}
+                                    ProductDetail.name = e.target.value
+                                    this.setState({ProductDetail: ProductDetail})
+                                }}/>
+                            </div>
+
+                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                <span>UNITS OF MEASUREMENT</span>
+                                <input type="text" placeholder={"Enter Product Measurement (e.g units / km/h)"} value={this.state.ProductDetail.value2} onChange={(e) =>{
+                                    let ProductDetail = {...this.state.ProductDetail}
+                                    ProductDetail.value2 = e.target.value
+                                    this.setState({ProductDetail: ProductDetail})
+                                }}/>
+                            </div>
 
                         </div>
-                    }
 
+                    </div>
+                )
+                break
+
+            default:
+                
+                Body = (
+                    <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
+
+
+                        <div style={{display:'flex', flexDirection:"column", flex:1}}>
+
+                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                <span>CAR PRODUCT DETAIL CATEGORY</span>
+                                <span>{this.state.Category.name}</span>
+                            </div>
+
+                            <div style={{display:'flex', flexDirection:"row", flex:1}}>
+
+                                <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                    <span>CAR PRODUCT DETAIL ITEM</span>
+                                    <input type="text" placeholder={"Enter Product Detail (e.g Air Bags)"} value={this.state.ProductDetail.name} onChange={(e) =>{
+                                        let ProductDetail = {...this.state.ProductDetail}
+                                        ProductDetail.name = e.target.value
+                                        this.setState({ProductDetail: ProductDetail})
+                                    }}/>
+                                </div>
+                
+                                <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                    <span>UNITS OF MEASUREMENT</span>
+                                    <input type="text" placeholder={"Enter Product Measurement (e.g units / km/h)"} value={this.state.ProductDetail.value2} onChange={(e) =>{
+                                        let ProductDetail = {...this.state.ProductDetail}
+                                        ProductDetail.value2 = e.target.value
+                                        this.setState({ProductDetail: ProductDetail})
+                                    }}/>
+                                </div>
+            
+                            </div>
+     
+                        </div>
+                       
+                    </div>
+                )
+                break
+        }
+
+
+        let SaveButton = null
+        switch(this.props.Action){
+            case "Create":
+                SaveButton = (
+                    <div style={{display:'flex', justifyContent:'flex-end'}}>
+                        <button onClick={this._SaveProductDetail}>{this.state.Button}</button>
+                    </div>
+                )
+                break
+
+            case "Edit" :
+                SaveButton = (
+                    <div style={{display:'flex', justifyContent:'flex-end'}}>
+                        <button onClick={this._EditProductDetail}>{this.state.Button}</button>
+                    </div>
+                )
+                break
+
+            default:
+                SaveButton = (
+                    <div style={{display:'flex', justifyContent:'flex-end'}}>
+                        <button onClick={this._DeleteProductDetail}>{this.state.Button}</button>
+                    </div>
+                )
+                break
+        }
+
+        return (
+            <div className="d-flex" style={{flexDirection:'column', flex: 1}}>
+                
+                <div className="d-flex justify-content-center">
+                    <div style={{flex:1}} className="d-flex justify-content-center">
+                        <span style={{textAlign:'center'}}>{this.state.Title}</span>
+                    </div>
+                    <Cancel fontSize="large" onClick={this.props._RestartToggle} />
                 </div>
+
+                {Body}
+            
+                {SaveButton}
+
             </div>
         )
     }
+  
 }
+
+
+export default index;
+

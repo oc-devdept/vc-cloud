@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 
+import Image from 'Components/Image'
 
 export default class Index extends PureComponent {
 
@@ -28,10 +29,10 @@ export default class Index extends PureComponent {
                     <div style={{display:'flex', flexDirection:"column", marginRight: 20}}>
                         <span>IMAGE</span>
                         {e.files.length > 0 && 
-                            <img
-                                src={e.files[0].url}
-                                height={100}
-                                width={100}
+                            
+                            <Image
+                                imageSource={e.files}
+                                single={true}
                             />
                         }                                        
                     </div>

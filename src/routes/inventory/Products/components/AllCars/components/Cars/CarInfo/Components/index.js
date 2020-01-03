@@ -3,6 +3,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import Dropzone from "Components/Dropzone";
 
+import Image from 'Components/Image'
+
 
 class Grade extends PureComponent {
 
@@ -74,10 +76,10 @@ class Grade extends PureComponent {
                   <span>Image</span>
 
                   {files.length > 0 &&
-                      <img
-                        src={files[0].url}
-                        height={100}
-                        width={100}
+                      
+                      <Image
+                        imageSource={files}
+                        single={true}
                       />
                   }
                   

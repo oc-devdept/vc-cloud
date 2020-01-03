@@ -76,7 +76,6 @@ This method is used to retrieve Product Option of a Grade
 GET - /products/specificGradeProductOption/:id
 Return a JSON data type = response.data.fields : Array
 
-
 RETRIEVE PRODUCT DETAILS
 
 This method is used to retrieve Product Detail of a Grade with selected Grade ID

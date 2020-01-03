@@ -1,85 +1,28 @@
 import React, { Component } from "react";
 import api from "Api";
 
-import ProductVariant from './components/ProductVariant'
-import ProductVariantValue from './components/ProductVariantValue'
 
 import ProductVariantList from './components/ProductVariantList'
 import DialogRoot from "Components/Dialog/DialogRoot";
 
-
-const initialMake = {
-    name:'',
-    description: '',
-    image: '',
-}
-
+import ProductGroup from './components/ProductGroup'
 
 class index extends Component {
 
  
     state=({
         ProductVariantCategory : [],
+        ProductVariantCategoryKey: [],
         loading: true,
         toggle: false,
         element : null,
-        groupName: null
+        data: null
     })
-
-  
-    _RenderDialog = () => {
-        if(this.state.toggle){
-            switch(this.state.element) {
-                case 'Group':
-                    return (
-                        <DialogRoot
-                            title={"Hello world"}
-                            size="sm"
-                            show={this.state.toggle}
-                            handleHide={this._RestartToggle}
-                            >
-                            <div className="row">
-                                
-                                {this.state.element}
-            
-                            </div>
-                        </DialogRoot>
-                    )
-                case 'Value':
-                    return (
-                        <DialogRoot
-                            title={"Hello world"}
-                            size="sm"
-                            show={this.state.toggle}
-                            handleHide={this._RestartToggle}
-                            >
-                            <div className="row">
-                                
-                                {this.state.element}
-                                add to {this.state.groupName}
-            
-                            </div>
-                        </DialogRoot>
-                    )
-                    
-                default:
-                    return null
-            }
-        }
-    }
-
-    _RestartToggle = () => {
-        this.setState({toggle: false, element: null, groupName: null})
-    }
-
-    ToggleDialog = (element, groupName) => {
-        this.setState({element: element, toggle: !this.state.toggle, groupName: groupName})
-    }
 
     async componentDidMount() {
         try {
             const ProductVariantCategory = await this._FetchProductVariants()
-            this.setState({ProductVariantCategory: ProductVariantCategory, loading: false})
+            this.setState({ProductVariantCategory: ProductVariantCategory[0], ProductVariantCategoryKey: ProductVariantCategory[1], loading: false})
         } catch (e){
             this.setState({ProductVariantCategory: [], loading: false})
         }
@@ -87,23 +30,15 @@ class index extends Component {
 
     async _FetchProductVariants() {
         let ProductVariantCategory = await api.get(`/productvariants/formFields`)
-
         const data = ProductVariantCategory.data.fields
-
-        return data
+        return [data.array, data.keyArray]
     }
 
-    _CreateProductCategory = async(value) => {
-
-        await api.post(`/productvariants`, 
-            {
-                name: value.name,
-                groupName: value.groupName
-            }
-        )
+    _CreateProductCategoryDone = async() => {
         const ProductVariantCategory = await this._FetchProductVariants()
-        this.setState({ProductVariantCategory: ProductVariantCategory, loading: false})
+        this.setState({ProductVariantCategory: ProductVariantCategory[0], ProductVariantCategoryKey: ProductVariantCategory[1], loading: false})
     }
+
 
     _HandleDeleteProductCateogry = async(index) =>{
         
@@ -123,23 +58,75 @@ class index extends Component {
     }
 
 
+  
+    _RenderDialog = () => {
+        if(this.state.toggle){
+            switch(this.state.element) {
+                case 'Create_Variant':
+                    return (
+                        <DialogRoot
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">                                
+                                <ProductGroup
+                                    Action={'Create'}
+                                    ProductVariantCategoryKey={this.state.ProductVariantCategoryKey}
+
+                                    _RestartToggle={this._RestartToggle}
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                />
+                            </div>
+                        </DialogRoot>
+                    )
+                case 'Edit_Variant':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">
+
+                                <ProductGroup
+                                    Action={'Edit'}
+                                    Data={this.state.data}
+                                    ProductVariantCategoryKey={this.state.ProductVariantCategoryKey}
+
+                                    _RestartToggle={this._RestartToggle}
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                />
+            
+                            </div>
+                        </DialogRoot>
+                    )
+                    
+                default:
+                    return null
+            }
+        }
+    }
+
+    _RestartToggle = () => {
+        this.setState({toggle: false, element: null, data: null})
+    }
+
+    ToggleDialog = (element, data) => {
+        this.setState({element: element, toggle: !this.state.toggle, data: data})
+    }
+
 
     render() {
 
 
         return (
-            <div style={{flex:1, display:'flex', flexDirection:'column'}}>
+            <div style={{flex:1, display:'flex', flexDirection:'column',}}>
             
-            
-                {/* <ProductVariant
-                    _CreateProductCategory = {this._CreateProductCategory}
-                    _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
-                    ProductVariantCategory={this.state.ProductVariantCategory}
-                    loading={this.state.loading}
-                /> */}
 
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                    <button onClick={()=> this.ToggleDialog('Group')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE VARIANT GROUP NAME</button>
+                    <button onClick={()=> this.ToggleDialog('Create_Variant')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE PRODUCT VARIANT</button>
                 </div>
                 
                 <ProductVariantList
@@ -149,12 +136,6 @@ class index extends Component {
                 />
 
                 {this._RenderDialog()}
-
-                {/* <div style={{margin: 15}}>
-                    <ProductVariantValue
-                        ProductVariantCategory={this.state.ProductVariantCategory}
-                    />
-                </div> */}
 
             </div>
         );

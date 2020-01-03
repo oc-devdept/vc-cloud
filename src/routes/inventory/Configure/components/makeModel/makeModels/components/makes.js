@@ -4,6 +4,7 @@ import api from "Api";
 import { Cancel } from "@material-ui/icons";
 import Dropzone from "Components/Dropzone";
 
+import Images from 'Components/Image'
 
 class index extends PureComponent {
 
@@ -13,7 +14,7 @@ class index extends PureComponent {
         
         let Title = ""
         let Button = ""
-        let Tags = {
+        let Make = {
             name: '',
             description: '',
         }
@@ -25,7 +26,7 @@ class index extends PureComponent {
                 break
             case "Edit":
                 Title = "EDIT CAR MAKE"
-                Tags = {
+                Make = {
                     id: this.props.Data[0],
                     name: this.props.Data[1],
                     description: this.props.Data[2],
@@ -34,7 +35,7 @@ class index extends PureComponent {
                 break
             case "Delete":
                 Title = "DELETE CAR MAKE"
-                Tags = {
+                Make = {
                     id: this.props.Data[0],
                     name: this.props.Data[1],
                     description: this.props.Data[2],
@@ -46,10 +47,11 @@ class index extends PureComponent {
         }
 
         this.state=({
-            Tags: Tags,
+            Make: Make,
             Title: Title,
             Button: Button,
-            files: this.props.Data? this.props.Data[3]: [],
+            images : this.props.Data? this.props.Data[3]? this.props.Data[3] : []: [],
+            files: [],
             MakeId: this.props.MakeId
         })
     }
@@ -72,7 +74,7 @@ class index extends PureComponent {
 
     _SaveMake = async() => {
 
-        const {name, description} = this.state.Tags
+        const {name, description} = this.state.Make
         const files = this.state.files
 
         var data = new FormData();
@@ -88,11 +90,20 @@ class index extends PureComponent {
 
     }
 
-
     _EditMake = async() => {
-        console.log(this.state.Tags)
-        console.log(this.state.files)
+        const files = this.state.files
+        const Make = this.state.Make
 
+        var data = new FormData();
+        files.map(file => data.append(`upload`, file));
+        data.append("id", Make.id);
+        data.append("name", Make.name);
+        data.append("description", Make.description);
+
+        await api.post(`/categories/editMakeDetail`, data)
+
+        await this.props._SaveMakeDone()
+        await this.props._RestartToggle()
     }
 
     render() {
@@ -104,7 +115,7 @@ class index extends PureComponent {
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
                         <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
-                        <span>{this.state.Tags.name}</span>
+                        <span>{this.state.Make.name}</span>
                     </div>
                 )
                 break
@@ -115,31 +126,44 @@ class index extends PureComponent {
                         <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                             <div style={{display:'flex', flexDirection:"column"}}>
                                 <span>CAR MAKE NAME</span>
-                                <input type="text" placeholder={"Enter a new car make here (e.g BMW)"} value={this.state.Tags.name} onChange={(e) => {
-                                    let Tags = {...this.state.Tags}
-                                    Tags.name =  e.target.value
-                                    this.setState({Tags: Tags})
+                                <input type="text" placeholder={"Enter a new car make here (e.g BMW)"} value={this.state.Make.name} onChange={(e) => {
+                                    let Make = {...this.state.Make}
+                                    Make.name =  e.target.value
+                                    this.setState({Make: Make})
                                 }} />
                             </div>
 
-                            <div style={{display:'flex', flexDirection:"column",}}>
-                                <span>IMAGE UPLOAD</span>
-                                <Dropzone
-                                    onDrop={this.handleUpload}
-                                    onRemove={this.removeFile}
-                                    uploadedFiles={this.state.files}
-                                    additionalText="Files can't be edited once uploaded."
-                                />
-                            </div>
+
+                                <div style={{display:'flex', flexDirection:"column"}}>
+                                    <span>CAR MAKE IMAGE</span>
+                                    {this.state.images.length > 0 && 
+                                        <Images
+                                            imageSource ={this.state.images}
+                                            single={true}
+                                        />
+                                    }
+                                </div>
+                            
+
+                                <div style={{display:'flex', flexDirection:"column",}}>
+                                    <span>IMAGE UPLOAD</span>
+                                    <Dropzone
+                                        onDrop={this.handleUpload}
+                                        onRemove={this.removeFile}
+                                        uploadedFiles={this.state.files}
+                                        additionalText="Files can't be edited once uploaded."
+                                    />
+                                </div>
+                            
                         </div>
 
                         
                         <div style={{display:'flex', flexDirection:"column",  flex: 1}}>
                             <span>DESCRIPTION</span>
-                            <textarea style={{height:'100%'}} type="text" placeholder={"Enter description for this make"} value={this.state.Tags.description} onChange={(e) => {
-                                let Tags = {...this.state.Tags}
-                                Tags.description =  e.target.value
-                                this.setState({Tags: Tags})
+                            <textarea style={{height:'100%'}} type="text" placeholder={"Enter description for this make"} value={this.state.Make.description} onChange={(e) => {
+                                let Make = {...this.state.Make}
+                                Make.description =  e.target.value
+                                this.setState({Make: Make})
                             }} />
                         </div>
                     </div>

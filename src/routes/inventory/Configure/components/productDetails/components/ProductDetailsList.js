@@ -22,36 +22,13 @@ export default class Index extends PureComponent {
     ProductDetailLoading: false,
   })
 
-  // _HandleVariant = async (rowState) => {
-
-  //   if(this.state.currentProduct){
-
-  //     if(this.state.currentProduct.id != this.props.tableData[rowState.rowIndex].id){
-  //       const Item = this.props.tableData[rowState.rowIndex]
-  //       const Car = await api.get(`/products/${Item.id}`)
-  //       this.setState({currentProduct: Car.data})
-  //     }
-
-  //   } else {
-
-  //     const Item = this.props.tableData[rowState.rowIndex]
-  //     const Car = await api.get(`/products/${Item.id}`)
-  //     this.setState({currentProduct: Car.data})
-  //   }
-    
-  // }
-
- 
-
-
-
   render () {
 
-    const { loading, title, tableData } = this.props
+    const { loading, title, tableData, ToggleDialog } = this.props
 
     const columns = [
       {
-        name: "id",
+        name: "value",
         options: { display: "excluded", filter: false, sort: false }
       },
       {
@@ -67,36 +44,36 @@ export default class Index extends PureComponent {
           }
         }
       },
-      // {
-      //   name: "EDIT",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //               <Edit
-      //                 onClick={() => console.log('Edit!')}
-      //               />
-      //           );
-      //       }
-      //   }
-      // },
-      // {
-      //   name: "DELETE",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //             <Delete
-      //               onClick={() => console.log('Delete!')}
-      //             />
-      //           );
-      //       }
-      //   }
-      // },
+      {
+        name: "EDIT",
+        options: {
+            filter: true,
+            sort: false,
+            empty: true,
+            customBodyRender: (rowData, rowState) => {
+                return (
+                    <Edit
+                      onClick={() => ToggleDialog('Edit_Detail', [rowState.rowData[0], rowState.rowData[2]])}
+                    />
+                );
+            }
+        }
+      },
+      {
+        name: "DELETE",
+        options: {
+            filter: true,
+            sort: false,
+            empty: true,
+            customBodyRender: (rowData, rowState) => {
+                return (
+                  <Delete
+                    onClick={() => ToggleDialog('Delete_Detail', [rowState.rowData[0], rowState.rowData[2]])}
+                  />
+                );
+            }
+        }
+      },
     
     ]
 
@@ -111,18 +88,18 @@ export default class Index extends PureComponent {
       search: false,
       filter: false,
       renderExpandableRow: (rowData, rowMeta) => {
-
         return (
           <TableRow>
             <TableCell colSpan={rowData.length} style={{padding: 0}}>
 
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                  <button onClick={()=> this.props.ToggleDialog('Value', rowData[2])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ CREATE VALUE TO ${rowData[2].toUpperCase()} GROUP`}</button>
+                  <button onClick={()=> ToggleDialog('Create_Detail_Value', [rowData[0], rowData[2]])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ CREATE VALUE TO ${rowData[2].toUpperCase()} GROUP`}</button>
                 </div>
 
                 <ProductDetailsValueList
                   // title={'CAR PRODUCT VARIANT ITEM'}
                   tableData={rowData[1]}
+                  ToggleDialog={ToggleDialog}
                 />
             </TableCell>
           </TableRow>

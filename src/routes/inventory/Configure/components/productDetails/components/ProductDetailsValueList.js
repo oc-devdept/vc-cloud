@@ -18,28 +18,11 @@ export default class Index extends PureComponent {
     currentProduct: null,
     ProductDetailLoading: false,
   })
-  // _HandleVariant = async (rowState) => {
-  //   if(this.state.currentProduct){
-  //     if(this.state.currentProduct.id != this.props.tableData[rowState.rowIndex].id){
-  //       const Item = this.props.tableData[rowState.rowIndex]
-  //       const Car = await api.get(`/products/${Item.id}`)
-  //       this.setState({currentProduct: Car.data})
-  //     }
-  //   } else {
-  //     const Item = this.props.tableData[rowState.rowIndex]
-  //     const Car = await api.get(`/products/${Item.id}`)
-  //     this.setState({currentProduct: Car.data})
-  //   }
-  // }
-
  
-
-
-
   render () {
   
 
-    const { loading, title, tableData } = this.props
+    const {loading, title, tableData, ToggleDialog} = this.props
 
     const columns = [
       {
@@ -68,15 +51,7 @@ export default class Index extends PureComponent {
           }
         }
       },
-      // {
-      //   label: "type",
-      //   name: "type",
-      //   options: {
-      //     customBodyRender: value => {
-      //       return value;
-      //     }
-      //   }
-      // },
+
       {
         name: "EDIT",
         options: {
@@ -86,7 +61,7 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                     <Edit
-                      onClick={() => console.log('Edit!')}
+                      onClick={() => ToggleDialog('Edit_Detail_Value', [rowState.rowData[0], rowState.rowData[2], rowState.rowData[3]])}
                     />
                 );
             }
@@ -101,7 +76,7 @@ export default class Index extends PureComponent {
             customBodyRender: (rowData, rowState) => {
                 return (
                   <Delete
-                    onClick={() => console.log('Delete!')}
+                  onClick={() => ToggleDialog('Delete_Detail_Value', [rowState.rowData[0], rowState.rowData[2], rowState.rowData[3]])}
                   />
                 );
             }
