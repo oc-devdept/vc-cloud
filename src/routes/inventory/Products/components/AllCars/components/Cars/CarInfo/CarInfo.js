@@ -1,7 +1,7 @@
 import React, {PureComponent, Component} from "react";
 import api from "Api";
 
-import Grade from './Components/index'
+import CarInfo from './Components/index'
 
 
 export default class Index extends PureComponent {
@@ -13,7 +13,8 @@ export default class Index extends PureComponent {
            
             this.state = {
                 Product: this.props.Car,
-                files: this.props.Car.files,
+                Images: this.props.Car.files,
+                files: [],
             }
             
         } else {
@@ -28,6 +29,7 @@ export default class Index extends PureComponent {
                     selling_Price: '',
                     isActive: true,
                 },
+                Images:[],
                 files: [],
             }
             
@@ -75,9 +77,10 @@ export default class Index extends PureComponent {
 
                 <h1 style={{textAlign:'center'}}>Car Information</h1>
 
-                <Grade
+                <CarInfo
                     _HandleProduct={this._HandleProduct}
                     Product = {this.state.Product}
+                    Images={this.state.Images}
                     files={this.state.files}
                     handleUpload={this.handleUpload}
                     removeFile={this.removeFile}

@@ -17,7 +17,7 @@ import CarInfo from './CarInfo/CarInfo'
 
 export default class Index extends Component {
 
-    constructor(props) {
+  constructor(props) {
     super(props);
 
       this.state=({
@@ -66,28 +66,36 @@ export default class Index extends Component {
       const result = await api.post("/products/new", data)
 
       await this.props._FetchProductsAPI()
-
       await this.setState({Car: result.data.data})
 
   }
 
   _EditProduct = async(Product, Files) =>{
   
-      await api.post(`/products/editProductDetail/`, 
-      {
-        data: {
-          id: Product.id,
-          name: Product.name,
-          description: Product.description,
-          isActive: Product.isActive,
-          cost_Price: Product.cost_Price,
-          selling_Price: Product.selling_Price
-        }
-      })
+      await this.setState({loading: true})
+
+      const ModelId = this.props.ModelId
+      const MakeId = this.props.MakeId
+
+      var data = new FormData();
+      Files.map(file => data.append(`upload`, file));
+      data.append("id", Product.id);
+      data.append("name", Product.name);
+      data.append("description", Product.description);
+      data.append("cost_Price", Product.cost_Price);
+      data.append("selling_Price", Product.selling_Price);
+      data.append("isActive", Product.isActive);
+      data.append("categoryId", ModelId);
+      data.append("categoryGroupId", MakeId);
+
+      await api.post(`/products/editProductDetail/`, data)
+
 
       await this.props._FetchProductsAPI()
+      const Car = await this._FetchGrade(this.props.GradeId)
+      await this.setState({loading: false, Car: Car})
 
-    }
+  }
 
 
   _SaveProductVariant = async(Variant, id) => { 

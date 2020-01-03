@@ -10,7 +10,7 @@ class Grade extends PureComponent {
 
     
     render() {
-      const {_HandleProduct, Product, files, handleUpload, removeFile} = this.props
+      const {_HandleProduct, Product, Images, files, handleUpload, removeFile} = this.props
 
       return (
         <div className='d-flex' style={{margin: 5, flexDirection:'column'}}>
@@ -75,22 +75,20 @@ class Grade extends PureComponent {
                   
                   <span>Image</span>
 
-                  {files.length > 0 &&
-                      
+                  {Images.length > 0 &&
                       <Image
-                        imageSource={files}
+                        imageSource={Images}
                         single={true}
                       />
                   }
                   
-                  {files.length == 0 &&
-                    <Dropzone
-                      onDrop={handleUpload}
-                      onRemove={removeFile}
-                      uploadedFiles={files}
-                      additionalText="Files can't be edited once uploaded."
-                    />
-                  }
+                  <Dropzone
+                    onDrop={handleUpload}
+                    onRemove={removeFile}
+                    uploadedFiles={files}
+                    additionalText="Files can't be edited once uploaded."
+                  />
+                
                   
                 </div>
                 <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
