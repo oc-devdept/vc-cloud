@@ -18,7 +18,12 @@ class Exterior extends Component {
 
       return (
         <div style={{display: 'flex', flexDirection:'column'}}>
+          
           {this.props.Exterior.map((e, index) => {
+            if(e.objects.length == 0){
+              return null
+            }
+
             return (
                   <div key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
                       
@@ -42,12 +47,6 @@ class Exterior extends Component {
                               </div>
                             )
                           })}
-                        </div>
-                      }
-
-                      {e.objects.length == 0 && 
-                        <div>
-                          <span>No Product Variant Found</span>
                         </div>
                       }
 

@@ -50,14 +50,15 @@ export default class Index extends PureComponent {
         let productOptionStage = this.state.productOptionStage
         let ProductOptionCategories = this.state.ProductOptionCategories
 
+    
         let Options = this.props.Car? this.props.Car: []
         let BelongsTo = []
 
         if(Options.length > 0){
             Options.map(e => {
-                if(e.productOption.productOptionCategoryId == ProductOptionCategories[productOptionStage].value){
+                // console.log(e.productOption.productOptionCategoryId, ProductOptionCategories[productOptionStage].value, e.productOption.productOptionCategoryId == ProductOptionCategories[productOptionStage].value)
+                if(e.productOption.productOptionCategoryId == ProductOptionCategories[productOptionStage].id){
                     BelongsTo.push(e)
-                    
                 }
             })
         }
@@ -109,6 +110,7 @@ export default class Index extends PureComponent {
         if(!Car){
             return null
         }
+
 
         return (
         
