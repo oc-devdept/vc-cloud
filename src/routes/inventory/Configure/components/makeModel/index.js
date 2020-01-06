@@ -10,11 +10,11 @@ class index extends Component {
         
         return (
             <div style={{flex:1, display:'flex', flexDirection:'column'}}>
-            
-                <Tag/>
-
+           
                 <MakeModel/>
             
+                <Tag/>
+           
             </div>
         );
     }

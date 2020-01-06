@@ -21,7 +21,6 @@ export default class Index extends PureComponent {
  
   render () {
   
-
     const {loading, title, tableData, ToggleDialog} = this.props
 
     const columns = [
@@ -59,9 +58,14 @@ export default class Index extends PureComponent {
             sort: false,
             empty: true,
             customBodyRender: (rowData, rowState) => {
+                const data = {
+                  id: rowState.rowData[0],
+                  name: rowState.rowData[2],
+                  value2:  rowState.rowData[3]
+                }
                 return (
                     <Edit
-                      onClick={() => ToggleDialog('Edit_Detail_Value', [rowState.rowData[0], rowState.rowData[2], rowState.rowData[3]])}
+                      onClick={() => ToggleDialog('Edit_Detail_Value', data)}
                     />
                 );
             }
@@ -74,9 +78,14 @@ export default class Index extends PureComponent {
             sort: false,
             empty: true,
             customBodyRender: (rowData, rowState) => {
+                const data = {
+                  id: rowState.rowData[0],
+                  name: rowState.rowData[2],
+                  value2:  rowState.rowData[3]
+                }
                 return (
                   <Delete
-                  onClick={() => ToggleDialog('Delete_Detail_Value', [rowState.rowData[0], rowState.rowData[2], rowState.rowData[3]])}
+                  onClick={() => ToggleDialog('Delete_Detail_Value', data)}
                   />
                 );
             }

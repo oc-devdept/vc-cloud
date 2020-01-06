@@ -27,7 +27,6 @@ class index extends PureComponent {
             type: ''
         }
 
-            
         switch(this.props.Action){
             case "Create":
                 Title = "CREATE NEW PRODUCT DETAIL"
@@ -40,18 +39,18 @@ class index extends PureComponent {
             case "Edit":
                 Title = "EDIT PRODUCT DETAIL"
                 ProductDetail = {
-                    id: this.props.Data[0],
-                    name: this.props.Data[1],
-                    value2: this.props.Data[2]
+                    id: this.props.Data.id,
+                    name: this.props.Data.name,
+                    value2: this.props.Data.value2
                 }
                 Button = "SAVE CHANGES"
                 break
             case "Delete":
                 Title = "DELETE PRODUCT DETAIL"
                 ProductDetail = {
-                    id: this.props.Data[0],
-                    name: this.props.Data[1],
-                    value2: this.props.Data[2]
+                    id: this.props.Data.id,
+                    name: this.props.Data.name,
+                    value2: this.props.Data.value2
                 }
                 Button = "CONFIRM DELETE"
                 break

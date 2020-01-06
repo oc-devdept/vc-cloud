@@ -73,21 +73,21 @@ export default class Index extends PureComponent {
             }
         }
       },
-      {
-        name: "DELETE",
-        options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                return (
-                  <Delete
-                    onClick={() => ToggleDialog('Delete_Tags', rowState.rowData)}
-                  />
-                );
-            }
-        }
-      },
+      // {
+      //   name: "DELETE",
+      //   options: {
+      //       filter: true,
+      //       sort: false,
+      //       empty: true,
+      //       customBodyRender: (rowData, rowState) => {
+      //           return (
+      //             <Delete
+      //               onClick={() => ToggleDialog('Delete_Tags', rowState.rowData)}
+      //             />
+      //           );
+      //       }
+      //   }
+      // },
     
     ]
 

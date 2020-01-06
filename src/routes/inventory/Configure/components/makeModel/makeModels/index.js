@@ -297,7 +297,7 @@ class index extends PureComponent {
                 <div style={{flex: 1, display:'flex', flexDirection:'column'}}>
 
                     <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                        <button onClick={() => this.ToggleDialog('Create_Make', '', this.state.MakeId)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop:20, marginRight:20}}>+ CREATE MAKE VALUE</button>
+                        <button onClick={() => this.ToggleDialog('Create_Make', '', this.state.MakeId)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop:20, marginRight:20}}>+ CREATE MAKE</button>
                     </div>
 
                     <MakeList

@@ -14,9 +14,7 @@ class index extends PureComponent {
                 <div className="d-flex" style={{height: 120, width: 120, justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: 20}}>
                     <img
                         src={imageSource[0].url}
-                        height={120}
-                        width={120}
-                        style={{objectFit:'contain', borderRadius: 20}}
+                        style={{objectFit:'cover', borderRadius: 20, maxWidth:'100%', padding: 5}}
                     />
                 </div>
             );

@@ -29,16 +29,16 @@ class index extends PureComponent {
             case "Edit":
                 Title = "EDIT PRODUCT DETAIL"
                 Category = {
-                    id: this.props.Data[0],
-                    name: this.props.Data[1]
+                    id: this.props.Data.id,
+                    name: this.props.Data.name
                 }
                 Button = "SAVE CHANGES"
                 break
             case "Delete":
                 Title = "DELETE PRODUCT DETAIL"
                 Category = {
-                    id: this.props.Data[0],
-                    name: this.props.Data[1]
+                    id: this.props.Data.id,
+                    name: this.props.Data.name
                 }
                 Button = "CONFIRM DELETE"
                 break

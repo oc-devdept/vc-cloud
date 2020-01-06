@@ -148,7 +148,7 @@ class index extends PureComponent {
                         {this.state.Tags.length > 0 && 
                             <div>
                                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                                    <button onClick={() => this.ToggleDialog('Tags')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight:20}}>+ CREATE TAG VALUE</button>
+                                    <button onClick={() => this.ToggleDialog('Tags')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight:20}}>+ CREATE TAG</button>
                                 </div>
                                 <TagList
                                     title={'Car Tags'}

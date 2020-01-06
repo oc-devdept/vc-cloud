@@ -7,6 +7,8 @@ import ProductOption from './components/ProductOption'
 import ProductOptionList from './components/ProductOptionList'
 import DialogRoot from "Components/Dialog/DialogRoot";
 
+import ProductOption_Create from './components/ProductOption_Create'
+import ProductOptionValue_Create from './components/ProductOptionValue_Create'
 
 
 class index extends Component {
@@ -18,12 +20,13 @@ class index extends Component {
 
         toggle: false,
         element : null,
-        groupName: null
+        data: null
     })
 
     async componentDidMount() {
         try {
             const ProductOptionCategories = await this._FetchProductOptionCategories()
+            console.log(ProductOptionCategories)
             this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
         } catch (e) {
             this.setState({ProductOptionCategory: [], loading: false})
@@ -35,72 +38,130 @@ class index extends Component {
         return ProductOptionCategories.data.fields
     }
 
-    _CreateProductCategory = async(value) => {
-
-        await api.post(`/productoptioncategories`, 
-            {
-                name: value.name,
-                selectOne: value.selectOne
-            }
-        )
-
+    _CreateProductCategoryDone = async() => {
+        this.setState({loading: true})
         const ProductOptionCategories = await this._FetchProductOptionCategories()
         this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
     }
 
-    _HandleDeleteProductCateogry = async(index) =>{
-        
-        try {
-            const result = await api.delete(`/productoptioncategories/${index}`)
-
-            if(result.data.count == 1){
-                const ProductDetailCategories = await api.get(`/productoptioncategories/formFields `)
-                this.setState({ProductOptionCategory: ProductDetailCategories.data.fields})
-            } else {
-
-            }    
-        } catch (e) {
-            console.log(e)
-        }
-
-    }
-
-
     _RenderDialog = () => {
         if(this.state.toggle){
             switch(this.state.element) {
-                case 'Group':
+                case 'Create_ProductOption':
                     return (
                         <DialogRoot
-                            title={"Hello world"}
-                            size="sm"
+                            // title={"Hello world"}
+                            size="md"
                             show={this.state.toggle}
                             handleHide={this._RestartToggle}
                             >
                             <div className="row">
-                                
-                                {this.state.element}
-            
+                                <ProductOption_Create
+                                    Action={'Create'}
+                                    Data = {[]}
+
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                    _RestartToggle={this._RestartToggle}
+                                />
                             </div>
                         </DialogRoot>
                     )
-                case 'Value':
+                case 'Edit_ProductOption':
                     return (
                         <DialogRoot
-                            title={"Hello world"}
-                            size="sm"
+                            // title={"Hello world"}
+                            size="md"
                             show={this.state.toggle}
                             handleHide={this._RestartToggle}
                             >
                             <div className="row">
-                                
-                                {this.state.element}
-                                add to {this.state.groupName}
-            
+                                <ProductOption_Create
+                                    Action={'Edit'}
+                                    Data = {this.state.data}
+
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                    _RestartToggle={this._RestartToggle}
+                                />
                             </div>
                         </DialogRoot>
                     )
-                    
+
+                case 'Delete_ProductOption':
+                        return (
+                            <DialogRoot
+                                // title={"Hello world"}
+                                size="md"
+                                show={this.state.toggle}
+                                handleHide={this._RestartToggle}
+                                >
+                                <div className="row">
+                                    <ProductOption_Create
+                                        Action={'Delete'}
+                                        Data = {this.state.data}
+    
+                                        _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                        _RestartToggle={this._RestartToggle}
+                                    />
+                                </div>
+                            </DialogRoot>
+                        )
+                case 'Create_ProductOptionValue':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">
+                                <ProductOptionValue_Create
+                                    Action={'Create'}
+                                    Data = {this.state.data}
+
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                    _RestartToggle={this._RestartToggle}
+                                />
+                            </div>
+                        </DialogRoot>
+                    )
+                case 'Edit_ProductOptionValue':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">
+                                <ProductOptionValue_Create
+                                    Action={'Edit'}
+                                    Data = {this.state.data}
+
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                    _RestartToggle={this._RestartToggle}
+                                />
+                            </div>
+                        </DialogRoot>
+                    )
+                case 'Delete_ProductOptionValue':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">
+                                <ProductOptionValue_Create
+                                    Action={'Delete'}
+                                    Data = {this.state.data}
+
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                    _RestartToggle={this._RestartToggle}
+                                />
+                            </div>
+                        </DialogRoot>
+                    )
                 default:
                     return null
             }
@@ -108,11 +169,11 @@ class index extends Component {
     }
 
     _RestartToggle = () => {
-        this.setState({toggle: false, element: null, groupName: null})
+        this.setState({toggle: false, element: null, data: null})
     }
 
-    ToggleDialog = (element, groupName) => {
-        this.setState({element: element, toggle: !this.state.toggle, groupName: groupName})
+    ToggleDialog = (element, data) => {
+        this.setState({element: element, toggle: !this.state.toggle, data: data})
     }
 
    
@@ -121,23 +182,9 @@ class index extends Component {
 
         return (
             <div style={{flex:1, display:'flex', flexDirection:'column'}}>
-                
-                {/* <div style={{margin: 15}}> */}
-                    {/* <ProductOptionCategory
-                        _CreateProductCategory = {this._CreateProductCategory}
-                        _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
-                        ProductCategory={this.state.ProductOptionCategory}
-                        loading={this.state.loading}
-                    /> */}
-                      {/* <div style={{margin: 15}}>
-                    <ProductOption
-                        ProductCategory={this.state.ProductOptionCategory}
-                    />
-                </div> */}
-                   {/* </div> */}
-
+           
                     <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                        <button onClick={()=> this.ToggleDialog('Group')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE PRODUCT OPTION</button>
+                        <button onClick={()=> this.ToggleDialog('Create_ProductOption')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE PRODUCT OPTION</button>
                     </div>
 
                     <ProductOptionList

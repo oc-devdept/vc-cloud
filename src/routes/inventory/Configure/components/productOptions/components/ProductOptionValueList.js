@@ -3,8 +3,8 @@ import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
-
 import {Edit, Delete, ExpandMore} from '@material-ui/icons'
+import Image from 'Components/Image'
 
 
 export default class Index extends PureComponent {
@@ -39,15 +39,11 @@ export default class Index extends PureComponent {
 
   render () {
   
-    const { loading, title, tableData } = this.props
+    const { loading, title, tableData, ToggleDialog } = this.props
 
     const columns = [
       {
         name: "id",
-        options: { display: "excluded", filter: false, sort: false }
-      },
-      {
-        name: "values",
         options: { display: "excluded", filter: false, sort: false }
       },
       {
@@ -59,6 +55,26 @@ export default class Index extends PureComponent {
           }
         }
       },
+      {
+        label: "Name",
+        name: "files",
+        options: {
+          customBodyRender: value => {
+            if(value.length > 0){
+              return (
+                <Image
+                    imageSource={value}
+                    single={true}
+                />
+              )
+            } else {
+              return null
+            }
+          }
+        }
+      },
+
+      
       {
         label: "Price",
         name: "price",
@@ -93,9 +109,18 @@ export default class Index extends PureComponent {
             sort: false,
             empty: true,
             customBodyRender: (rowData, rowState) => {
+                // [rowState.rowData[0], rowState.rowData[2]]
+                const data = {
+                  id: rowState.rowData[0],
+                  name: rowState.rowData[1],
+                  image: rowState.rowData[2],
+                  price: rowState.rowData[3],
+                  isDefault: rowState.rowData[4],
+                  editable: rowState.rowData[5],
+                }
                 return (
                     <Edit
-                      onClick={() => console.log('Edit!')}
+                      onClick={() => ToggleDialog('Edit_ProductOptionValue', data)}
                     />
                 );
             }
@@ -108,9 +133,17 @@ export default class Index extends PureComponent {
             sort: false,
             empty: true,
             customBodyRender: (rowData, rowState) => {
+                const data = {
+                  id: rowState.rowData[0],
+                  name: rowState.rowData[1],
+                  image: rowState.rowData[2],
+                  price: rowState.rowData[3],
+                  isDefault: rowState.rowData[4],
+                  editable: rowState.rowData[5],
+                }
                 return (
                   <Delete
-                    onClick={() => console.log('Delete!')}
+                    onClick={() => ToggleDialog('Delete_ProductOptionValue', data)}
                   />
                 );
             }

@@ -51,9 +51,13 @@ export default class Index extends PureComponent {
             sort: false,
             empty: true,
             customBodyRender: (rowData, rowState) => {
+                const data = {
+                  id : rowState.rowData[0],
+                  name: rowState.rowData[2]
+                }
                 return (
                     <Edit
-                      onClick={() => ToggleDialog('Edit_Detail', [rowState.rowData[0], rowState.rowData[2]])}
+                      onClick={() => ToggleDialog('Edit_Detail', data)}
                     />
                 );
             }
@@ -66,11 +70,23 @@ export default class Index extends PureComponent {
             sort: false,
             empty: true,
             customBodyRender: (rowData, rowState) => {
-                return (
-                  <Delete
-                    onClick={() => ToggleDialog('Delete_Detail', [rowState.rowData[0], rowState.rowData[2]])}
-                  />
-                );
+        
+                if(rowState.rowData[1].length == 0){
+                  
+                  const data = {
+                    id: rowState.rowData[0],
+                    name: rowState.rowData[2],
+                  }
+
+                  return (
+                    <Delete
+                      onClick={() => ToggleDialog('Delete_Detail', data)}
+                    />
+                  );
+                } else {
+                  return null
+                }
+                
             }
         }
       },
@@ -93,7 +109,7 @@ export default class Index extends PureComponent {
             <TableCell colSpan={rowData.length} style={{padding: 0}}>
 
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                  <button onClick={()=> ToggleDialog('Create_Detail_Value', [rowData[0], rowData[2]])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ CREATE VALUE TO ${rowData[2].toUpperCase()} GROUP`}</button>
+                  <button onClick={()=> ToggleDialog('Create_Detail_Value', [rowData[0], rowData[2]])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ CREATE ITEM TO ${rowData[2].toUpperCase()} GROUP`}</button>
                 </div>
 
                 <ProductDetailsValueList
