@@ -65,9 +65,33 @@ export default class Index extends PureComponent {
       
         if(BelongsTo.length > 0){
             return (
-                BelongsTo.map((e, index) => {
+                <div>
+                     <div style={{width: '100%', display:'flex', flexDirection:"row", backgroundColor: 'rgba(73,100,150,1)', padding: 10, marginTop: 10}}>
+                        <div style={{flex: 1}}>
+                            <span style={{color:"white"}}>NAME</span>
+                        </div>
+                        <div style={{display:'flex', justifyContent:'space-evenly', flexDirection:'row', flex: 1}}>
+                            <div>
+                            <span style={{color:"white"}}>IMAGE</span>
+                            </div>
+                            <div>
+                            <span style={{color:"white"}}>PRICE</span>
+                            </div>
+                            <div>
+                            <span style={{color:"white"}}>SET DEFAULT</span>
+                            </div>
+                            <div>
+                            <span style={{color:"white"}}>EDIT</span>
+                            </div>
+                            <div>
+                            <span style={{color:"white"}}>DELETE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {BelongsTo.map((e, index) => {
                     return (
-                        <div key={index} style={{border: '1px solid black', marginTop: 10, marginBottom: 10, borderRadius: 10, padding: 5,}}>
+                        <div key={index} style={{}}>
                             <ProductDetailsFields
                                 Fields={e.productOption}
                                 Id = {e.id}
@@ -77,7 +101,9 @@ export default class Index extends PureComponent {
                             />
                         </div>
                     )
-                })
+                    })}
+                </div>
+                
             )
     
         } else {
@@ -118,24 +144,30 @@ export default class Index extends PureComponent {
 
                     <div style={{display:'flex', flex: 1, flexDirection:'column', position:'relative'}}>
 
-                        <div style={{border : '1px solid black', display:'flex', justifyContent: 'space-around'}}>
-                            {this.state.ProductOptionCategories.map((e, index)=>{
+                        <div style={{ display:'flex', justifyContent: 'space-around'}}>
+                        {this.state.ProductOptionCategories.map((e, index)=>{
 
+                                let fontStyle = {}
                                 let style = {}
                                 if(this.state.productOptionStage == index){
-                                    style = {backgroundColor: 'blue'}
+                                    fontStyle = {color:'rgba(244,132,33,1)'}
+                                    style = {padding: 5, borderBottom: '1.5px solid rgba(244,132,33,1)'}
+                                } else{
+                                    fontStyle = {color:'rgba(0,0,0,0.6)'}
+                                    style = {padding: 5}
                                 }
 
                                 return (
                                     <div key={index} style={style} onClick={() => this.setState({productOptionStage: index, addItemInformation : null})}>
-                                        <span>{e.name}</span>
+                                        <span style={fontStyle}>{e.name}</span>
                                     </div>
                                 )
                             })}
                         </div>
 
+
                         {this.state.ProductOptionCategories.length > 0 &&
-                            <div style={{flex : 1, height: '100%'}}>
+                            <div style={{flex : 1, height: '100%', paddingBottom:10, borderBottom: '1px solid rgba(0,0,0,0.70)'}}>
                                 {this._RenderCarDetails()}
                             </div>
                         }   

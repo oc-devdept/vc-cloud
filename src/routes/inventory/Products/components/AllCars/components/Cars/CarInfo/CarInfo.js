@@ -8,7 +8,7 @@ export default class Index extends PureComponent {
     
     constructor(props) {
         super(props);
-
+        
         if(this.props.Car){
            
             this.state = {

@@ -2,7 +2,6 @@ import React, { Component, PureComponent } from "react";
 import Checkbox from '@material-ui/core/Checkbox';
 
 import Dropzone from "Components/Dropzone";
-
 import Image from 'Components/Image'
 
 
@@ -19,6 +18,7 @@ class Grade extends PureComponent {
 
               <div className="d-flex justify-content-between" style={{flexDirection:'row'}}>
                 <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
+                
                   <span>SKU NUMBER</span>
                   <input 
                     type="SKU" 
