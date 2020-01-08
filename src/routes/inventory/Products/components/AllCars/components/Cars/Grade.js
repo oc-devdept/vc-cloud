@@ -34,6 +34,7 @@ export default class Index extends Component {
 
 
   async componentDidMount(){
+    console.log('Grade componentDidMount')
     if(this.props.GradeId){
       await this.setState({loading: true})
       const Car = await this._FetchGrade(this.props.GradeId)
@@ -42,8 +43,12 @@ export default class Index extends Component {
   }
 
   _FetchGrade = async(Id) => {
-    const result = await api.get(`/products/${Id}`)
-    return result.data
+    // const result = await api.get(`/products/${Id}`)
+
+    const test = await api.get(`/products/specificOneGrade/${Id}`)
+    console.log(test.data.fields)
+
+    return test.data.fields
   }
 
  
@@ -264,8 +269,7 @@ export default class Index extends Component {
 
 
     const Car = this.state.Car
-
-    
+   
     return (
 
        

@@ -9,6 +9,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import Images from 'Components/Image'
+import Input from 'Components/Inventory/Input'
+import Text from 'Components/Inventory/Text'
+
+import Button from 'Components/Inventory/Button'
 
 
 class index extends PureComponent {
@@ -146,6 +150,12 @@ class index extends PureComponent {
     _ToggleModelTag = (item) => {
         this.setState({TagId: item.target.value})
     }
+    
+    _OnChange = (e, element) => { 
+        let Model = {...this.state.Model}
+        Model[element] =  e
+        this.setState({Model: Model})
+    }
 
     
     render() {
@@ -168,30 +178,42 @@ class index extends PureComponent {
                 let tagName = null
                 if(tag.length>0){
                     tagName = (
-                        <div style={{display:'flex', flexDirection:"column"}}>
-                            <span>CAR MODEL TYPE</span>
-                            <span>{tag[0].name.toUpperCase()}</span>
-                        </div>
+                        <Text
+                            divStyle={{width: '100%'}}
+                            title="CAR MODEL TYPE"
+                            value={tag[0].name.toUpperCase()}
+                        />
                     )
                 }
 
                 Body = (
                     <div className="d-flex" style={{flexDirection:'row', flex: 1}}>
 
-                        <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                        <div style={{display:'flex', flexDirection:"column", flex: 1, marginRight: 30}}>
                             
                             {tagName}
 
-                            <div style={{display:'flex', flexDirection:"column"}}>
+                            {/* <div style={{display:'flex', flexDirection:"column"}}>
                                 <span>CAR MODEL NAME</span>
                                 <input type="text" placeholder={"Enter a new car make here (e.g BMW)"} value={this.state.Model.name} onChange={(e) => {
                                     let Model = {...this.state.Model}
                                     Model.name =  e.target.value
                                     this.setState({Model: Model})
                                 }} />
-                            </div>
+                            </div> */}
 
-                            <div style={{display:'flex', flexDirection:"column"}}>
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR MODEL NAME"
+                                placeholder="Enter a new car model here (e.g BMW)"
+                                value={this.state.Model.name}
+                                element={'name'}
+                                _HandleProduct={this._OnChange}
+                            />
+                                
+
+
+                            <div style={{display:'flex', flexDirection:"column", marginTop: 10, marginBottom: 10}}>
                                 <span>CAR MODEL IMAGE</span>
                                 {this.state.images.length > 0 && 
                                     <Images
@@ -218,15 +240,22 @@ class index extends PureComponent {
                             
                         </div>
 
-                        
-                        <div style={{display:'flex', flexDirection:"column",  flex: 1}}>
-                            <span>DESCRIPTION</span>
-                            <textarea style={{height:'100%'}} type="text" placeholder={"Enter description for this make"} value={this.state.Model.description} onChange={(e) => {
-                                let Model = {...this.state.Model}
-                                Model.description =  e.target.value
-                                this.setState({Model: Model})
-                            }} />
-                        </div>
+
+                        <Input
+                            textarea={true}
+                            divStyle={{width: '100%', flex:1, display:'flex'}}
+                            title="DESCRIPTION"
+                            placeholder="Enter description for this model"
+                            value={this.state.Model.description}
+                            element={'description'}
+                            _HandleProduct={this._OnChange}
+                            style={{height:'100%', backgroundColor: 'rgba(244,246,251,1)', borderRadius: 8, border: 'none', padding: 20}}
+                        />
+
+
+
+
+
                     </div>
                 )
                 break
@@ -236,7 +265,7 @@ class index extends PureComponent {
                 Body = (
                     <div className="d-flex" style={{flexDirection:'row', flex: 1}}>
 
-                        <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                        <div style={{display:'flex', flexDirection:"column", flex: 1, marginRight: 30}}>
 
                             <div style={{display:'flex', flexDirection:"column"}}>
                                 <span>CAR MODEL TYPE</span>
@@ -259,16 +288,25 @@ class index extends PureComponent {
                                 }
                             </div>
                              
-                            <div style={{display:'flex', flexDirection:"column"}}>
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR MODEL NAME"
+                                placeholder="Enter a new car model here (e.g BMW)"
+                                value={this.state.Model.name}
+                                element={'name'}
+                                _HandleProduct={this._OnChange}
+                            />
+
+                            {/* <div style={{display:'flex', flexDirection:"column"}}>
                                 <span>CAR MODEL NAME</span>
                                 <input type="text" placeholder={"Enter a new car make here (e.g BMW)"} value={this.state.Model.name} onChange={(e) => {
                                     let Model = {...this.state.Model}
                                     Model.name =  e.target.value
                                     this.setState({Model: Model})
                                 }} />
-                            </div>
+                            </div> */}
 
-                            <div style={{display:'flex', flexDirection:"column",}}>
+                            <div style={{display:'flex', flexDirection:"column", marginTop: 10, marginBottom: 10}}>
                                 <span>IMAGE UPLOAD</span>
                                 <Dropzone
                                     onDrop={this.handleUpload}
@@ -279,14 +317,26 @@ class index extends PureComponent {
                             </div>
                         </div>
 
-                        <div style={{display:'flex', flexDirection:"column",  flex: 1}}>
+                        {/* <div style={{display:'flex', flexDirection:"column",  flex: 1}}>
                             <span>DESCRIPTION</span>
                             <textarea style={{height:'100%'}} type="text" placeholder={"Enter description for this make"} value={this.state.Model.description} onChange={(e) => {
                                 let Model = {...this.state.Model}
                                 Model.description =  e.target.value
                                 this.setState({Model: Model})
                             }} />
-                        </div>
+                        </div> */}
+
+                        <Input
+                            textarea={true}
+                            divStyle={{width: '100%', flex:1, display:'flex'}}
+                            title="DESCRIPTION"
+                            placeholder="Enter description for this model"
+                            value={this.state.Model.description}
+                            element={'description'}
+                            _HandleProduct={this._OnChange}
+                            style={{height:'100%', backgroundColor: 'rgba(244,246,251,1)', borderRadius: 8, border: 'none', padding: 20}}
+                        />
+
                     </div>
                 )
                 break
@@ -300,17 +350,27 @@ class index extends PureComponent {
         switch(this.props.Action){
             case "Create":
                 SaveButton = (
-                    <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._SaveModel}>{this.state.Button}</button>
-                    </div>
+                   
+                    <Button
+                        divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
+                        _Function={this._SaveModel}
+                        product={''}
+                        files={''}
+                        title={this.state.Button}
+                    />
                 )
                 break
 
             case "Edit" :
                 SaveButton = (
-                    <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditModel}>{this.state.Button}</button>
-                    </div>
+                    
+                    <Button
+                        divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
+                        _Function={this._EditModel}
+                        product={''}
+                        files={''}
+                        title={this.state.Button}
+                    />
                 )
                 break
 

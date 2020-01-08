@@ -85,27 +85,44 @@ export default class Index extends PureComponent {
                         </div>
                     </div>
                 
-
-                    {BelongsTo.map((e, index) => {
-                        return (
-                            <div key={index}>
-                                <ProductDetailsFields
-                                    Fields={e}
-                                    index={index}
-                                    _DeleteProductDetailFields={this.props._DeleteProductDetailFields}
-                                    _HandleProductDetailValue={(e) => this.props._HandleProductDetailValue(e.target.value, 'value', index)}
-                                />
-                            </div>
-                        )
-                    })}
+                    <div style={{ paddingBottom:10, borderBottom: '1px solid rgba(0,0,0,0.70)'}}>
+                        {BelongsTo.map((e, index) => {
+                            return (
+                                <div key={index}>
+                                    <ProductDetailsFields
+                                        Fields={e}
+                                        index={index}
+                                        _DeleteProductDetailFields={this.props._DeleteProductDetailFields}
+                                        _HandleProductDetailValue={(e) => this.props._HandleProductDetailValue(e.target.value, 'value', index)}
+                                    />
+                                </div>
+                            )
+                        })}
+                    </div>
 
                 </div>
             )
     
         } else {
             return (
-                <div style={{border : '1px solid black', borderStyle : 'dashed', display:'flex',height: '100%', flex:1, justifyContent:'center', alignItems:'center', height: 100}}>
-                    Drag columns from the sidebar and drop them here to create your product detail
+                <div style={{width: '100%', display:'flex', flexDirection:"row", backgroundColor: 'rgba(73,100,150,1)', padding: 10, marginTop: 10}}>
+                    <div style={{flex: 1}}>
+                        <span style={{color:"white"}}>CAR DETAIL ITEM</span>
+                    </div>
+                    <div style={{display:'flex', justifyContent:'space-evenly', flexDirection:'row', flex: 1}}>
+                        <div style={{minWidth: 90,}}>
+                        <span style={{color:"white"}}>AMOUNT</span>
+                        </div>
+                        <div style={{minWidth: 90,}}>
+                        <span style={{color:"white"}}>UNIT</span>
+                        </div>
+                        <div style={{minWidth: 90,}}>
+                        <span style={{color:"white",}}>EDIT</span>
+                        </div>
+                        <div style={{minWidth: 90,}}>
+                        <span style={{color:"white"}}>DELETE</span>
+                        </div>
+                    </div>
                 </div>
             )
         }
@@ -162,7 +179,7 @@ export default class Index extends PureComponent {
                         </div>
 
                         {this.state.ProductDetailCategory.length > 0 &&
-                            <div style={{flex : 1, height: '100%', paddingBottom:10, borderBottom: '1px solid rgba(0,0,0,0.70)'}}>
+                            <div style={{flex : 1, height: '100%'}}>
                                 {this._RenderCarDetails()}
                             </div>
                         }   

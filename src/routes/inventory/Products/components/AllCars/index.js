@@ -66,7 +66,7 @@ class index extends PureComponent {
                     
                     return (
                         <DialogRoot
-                            title={"Select Grade"}
+                            // title={"Select Grade"}
                             size="md"
                             show={this.state.toggle}
                             handleHide={this._RestartToggle}

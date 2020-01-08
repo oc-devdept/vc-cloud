@@ -2,7 +2,7 @@ import React, {PureComponent, Component} from "react";
 import api from "Api";
 
 import CarInfo from './Components/index'
-
+import Button from 'Components/Inventory/Button'
 
 export default class Index extends PureComponent {
     
@@ -75,7 +75,7 @@ export default class Index extends PureComponent {
         return (
             <div style={{}}>
 
-                <h1 style={{textAlign:'center'}}>Car Information</h1>
+                <h1 style={{textAlign:'center'}}>GENERAL CAR INFORMATION</h1>
 
                 <CarInfo
                     _HandleProduct={this._HandleProduct}
@@ -88,13 +88,25 @@ export default class Index extends PureComponent {
 
                 {!this.props.Car && 
                     <div className="d-flex" style={{marginTop: 20, justifyContent:"flex-end"}}>
-                        <button onClick={() => this.props._CreateProduct(this.state.Product, this.state.files)}>SAVE CHANGES</button>     
+                        <Button
+                            _Function={this.props._CreateProduct}
+                            product={this.state.Product}
+                            files={this.state.files}
+                            title={"SAVE CHANGES"}
+                        />
+                        {/* <button onClick={() => this.props._CreateProduct(this.state.Product, this.state.files)}>SAVE CHANGES</button>      */}
                     </div>
                 }
             
                 {this.props.Car && 
                     <div className="d-flex" style={{marginTop: 20, justifyContent:"flex-end"}}>
-                        <button onClick={() => this.props._EditProduct(this.state.Product, this.state.files)}>EDIT CHANGES</button>     
+                        {/* <button onClick={() => this.props._EditProduct(this.state.Product, this.state.files)}>EDIT CHANGES</button>    */}
+                        <Button
+                            _Function={this.props._EditProduct}
+                            product={this.state.Product}
+                            files={this.state.files}
+                            title={"EDIT CHANGES"}
+                        />  
                     </div>
                 }
 

@@ -86,7 +86,7 @@ export default class Index extends PureComponent {
         }
       },
       {
-        label: "Image",
+        label: "IMAGE",
         name: "files",
         options: {
           customBodyRender: (value, tableMeta) => {
@@ -95,6 +95,8 @@ export default class Index extends PureComponent {
                 <Image
                   imageSource={value}
                   single={true}
+                  thumbNail={true}
+
                 />
               )
             } else {

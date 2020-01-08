@@ -26,13 +26,15 @@ export default class Index extends PureComponent {
   
     const { loading, title, tableData } = this.props
     
+    console.log(tableData)
+    
     const columns = [
       {
         name: "id",
         options: { display: "excluded", filter: false, sort: false }
       },
       {
-        label: "Name",
+        label: "NAME",
         name: "name",
         options: {
           customBodyRender: (value, tableMeta) => {
@@ -41,7 +43,7 @@ export default class Index extends PureComponent {
         }
       },
       {
-        label: "Description",
+        label: "DESCRIPTION",
         name: "description",
         options: {
           customBodyRender: (value, tableMeta) => {
@@ -49,7 +51,7 @@ export default class Index extends PureComponent {
           }
         }
       },
-      {
+       {
         label: "DISPLAY STATUS",
         name: "isActive",
         options: {
@@ -69,6 +71,8 @@ export default class Index extends PureComponent {
                 <Image
                   imageSource={value}
                   single={true}
+                  thumbNail={true}
+
                 />
               )
             } else {

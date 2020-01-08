@@ -5,6 +5,11 @@ import { Cancel } from "@material-ui/icons";
 import Dropzone from "Components/Dropzone";
 
 import Images from 'Components/Image'
+import Input from 'Components/Inventory/Input'
+import Text from 'Components/Inventory/Text'
+
+import Button from 'Components/Inventory/Button'
+
 
 class index extends PureComponent {
 
@@ -106,6 +111,12 @@ class index extends PureComponent {
         await this.props._RestartToggle()
     }
 
+    _OnChange = (e, element) => { 
+        let Make = {...this.state.Make}
+        Make[element] =  e
+        this.setState({Make: Make})
+    }
+
     render() {
         
         let Body = null
@@ -123,18 +134,19 @@ class index extends PureComponent {
                 Body = (
                     <div className="d-flex" style={{flexDirection:'row', flex: 1}}>
 
-                        <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                            <div style={{display:'flex', flexDirection:"column"}}>
-                                <span>CAR MAKE NAME</span>
-                                <input type="text" placeholder={"Enter a new car make here (e.g BMW)"} value={this.state.Make.name} onChange={(e) => {
-                                    let Make = {...this.state.Make}
-                                    Make.name =  e.target.value
-                                    this.setState({Make: Make})
-                                }} />
-                            </div>
+                        <div style={{display:'flex', flexDirection:"column", flex: 1, marginRight: 30}}>
+                                
+                                <Input
+                                    divStyle={{width: '100%'}}
+                                    title="CAR MAKE NAME"
+                                    placeholder="Enter a new car make here (e.g BMW)"
+                                    value={this.state.Make.name}
+                                    element={'name'}
+                                    _HandleProduct={this._OnChange}
+                                />
+                                
 
-
-                                <div style={{display:'flex', flexDirection:"column"}}>
+                                <div style={{display:'flex', flexDirection:"column", marginTop: 10, marginBottom: 10}}>
                                     <span>CAR MAKE IMAGE</span>
                                     {this.state.images.length > 0 && 
                                         <Images
@@ -156,16 +168,18 @@ class index extends PureComponent {
                                 </div>
                             
                         </div>
+                
+                        <Input
+                            textarea={true}
+                            divStyle={{width: '100%', flex:1, display:'flex'}}
+                            title="DESCRIPTION"
+                            placeholder="Enter description for this make"
+                            value={this.state.Make.description}
+                            element={'description'}
+                            _HandleProduct={this._OnChange}
+                            style={{height:'100%', backgroundColor: 'rgba(244,246,251,1)', borderRadius: 8, border: 'none', padding: 20}}
+                        />
 
-                        
-                        <div style={{display:'flex', flexDirection:"column",  flex: 1}}>
-                            <span>DESCRIPTION</span>
-                            <textarea style={{height:'100%'}} type="text" placeholder={"Enter description for this make"} value={this.state.Make.description} onChange={(e) => {
-                                let Make = {...this.state.Make}
-                                Make.description =  e.target.value
-                                this.setState({Make: Make})
-                            }} />
-                        </div>
                     </div>
                 )
                 break
@@ -176,17 +190,27 @@ class index extends PureComponent {
         switch(this.props.Action){
             case "Create":
                 SaveButton = (
-                    <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._SaveMake}>{this.state.Button}</button>
-                    </div>
+                   
+                    <Button
+                        divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
+                        _Function={this._SaveMake}
+                        product={''}
+                        files={''}
+                        title={this.state.Button}
+                    />
                 )
                 break
 
             case "Edit" :
                 SaveButton = (
-                    <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditMake}>{this.state.Button}</button>
-                    </div>
+                    
+                    <Button
+                        divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
+                        _Function={this._EditMake}
+                        product={''}
+                        files={''}
+                        title={this.state.Button}
+                    />
                 )
                 break
 
@@ -219,4 +243,6 @@ class index extends PureComponent {
 
 
 export default index;
+
+
 
