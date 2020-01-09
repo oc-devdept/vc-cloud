@@ -65,6 +65,7 @@ export default class Index extends PureComponent {
                 <Image
                     imageSource={value}
                     single={true}
+                    thumbNail={true}
                 />
               )
             } else {
