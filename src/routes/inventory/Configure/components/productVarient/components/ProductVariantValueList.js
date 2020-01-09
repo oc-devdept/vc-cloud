@@ -39,8 +39,9 @@ export default class Index extends PureComponent {
   
     const { loading, title, tableData, ToggleDialog } = this.props
 
+    console.log(tableData)
     let columns
-    if(tableData.length > 0){
+    if(tableData.length > 1){
      columns = [
       {
         name: "id",
