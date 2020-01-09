@@ -7,6 +7,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import Input from 'Components/Inventory/Input'
+import Text from 'Components/Inventory/Text'
+import Button from 'Components/Inventory/Button'
+
 
 class index extends PureComponent {
 
@@ -99,6 +103,12 @@ class index extends PureComponent {
     }
 
    
+    _HandleProduct = (e, element) => {
+        let Tags = {...this.state.Tags}
+        Tags[element] = e
+        this.setState({Tags: Tags, groupName: ''})
+    }
+
     render() {
 
         let Body = null
@@ -117,16 +127,33 @@ class index extends PureComponent {
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
 
-                        <span>CAR PRODUCT VARIANT GROUP NAME</span>
+                        {/* <span>CAR PRODUCT VARIANT GROUP NAME</span> */}
 
-                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+                        {/* <div style={{display:'flex', flexDirection:"row", flex:1}}>
                             <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>PRODUCT VARIANT</span>
                                 <span>{this.state.Tags.groupName}</span>
                             </div>
-                        </div>
-                       
+                        </div> */}
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
+                            
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="PRODUCT VARIANT"
+                                value={this.state.Tags.groupName}
+                            />
+
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT VARAIANT ITEM"
+                                placeholder="e.g Enter a new product variant item"
+                                value={this.state.Tags.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />
+
+                       
+                        {/* <div style={{display:'flex', flexDirection:"row", flex:1}}>
                             <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT VARAIANT ITEM</span>
                                 <input type="text" placeholder={"Enter a new product variant item"} value={this.state.Tags.name} onChange={(e) =>{
@@ -135,8 +162,9 @@ class index extends PureComponent {
                                     this.setState({Tags: Tags})
                                 }}/>
                             </div>
-                        </div>
+                        </div> */}
 
+                        </div>
 
                     </div>
                 )
@@ -146,12 +174,10 @@ class index extends PureComponent {
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
 
-                        <span>CAR PRODUCT VARIANT GROUP NAME</span>
-
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>SELECT EXISITING CATEGORY</span>
+                            <div style={{display:'flex', flexDirection:"column", width:'100%', marginRight: 30,}}>
+                                <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT VARIANT GROUP NAME</span>
                                 <FormControl>
                                     <Select 
                                         labelId="demo-simple-select-helper-label"
@@ -169,31 +195,47 @@ class index extends PureComponent {
                                 </FormControl>
                             </div>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CREATE NEW CATEGORY</span>
                                 <input type="text" placeholder={"Enter a new product variant group"} value={this.state.Tags.groupName} onChange={(e) =>{
                                     let Tags = {...this.state.Tags}
                                     Tags.groupName = e.target.value
                                     this.setState({Tags: Tags, groupName: ''})
                                 }}/>
-                            </div>
+                            </div> */}
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CREATE NEW CATEGORY"
+                                placeholder="e.g Enter a new product variant group"
+                                value={this.state.Tags.groupName}
+                                element={'groupName'}
+                                _HandleProduct={this._HandleProduct}
+                            />
                                 
      
                         </div>
                        
-                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+                        {/* <div style={{display:'flex', flexDirection:"row", flex:1}}> */}
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT VARAIANT ITEM</span>
                                 <input type="text" placeholder={"Enter a new product variant item"} value={this.state.Tags.name} onChange={(e) =>{
                                     let Tags = {...this.state.Tags}
                                     Tags.name = e.target.value
                                     this.setState({Tags: Tags})
                                 }}/>
-                            </div>
-                                
+                            </div> */}
+
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT VARAIANT ITEM"
+                                placeholder="e.g Enter a new product variant item"
+                                value={this.state.Tags.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />   
      
-                        </div>
+                        {/* </div> */}
 
 
                     </div>
@@ -207,7 +249,13 @@ class index extends PureComponent {
             case "Create":
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._SaveProductVariant}>{this.state.Button}</button>
+                        {/* <button onClick={this._SaveProductVariant}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._SaveProductVariant}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
@@ -215,14 +263,26 @@ class index extends PureComponent {
             case "Edit" :
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditProductVariant}>{this.state.Button}</button>
+                        {/* <button onClick={this._EditProductVariant}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._EditProductVariant}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
             default:
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditTags}>{this.state.Button}</button>
+                        {/* <button onClick={this._EditTags}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._EditTags}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break

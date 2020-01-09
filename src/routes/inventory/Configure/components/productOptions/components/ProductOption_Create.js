@@ -5,6 +5,11 @@ import { Cancel } from "@material-ui/icons";
 
 const Option = [true, false]
 
+import Input from 'Components/Inventory/Input'
+import Text from 'Components/Inventory/Text'
+import Button from 'Components/Inventory/Button'
+import StaticName from 'Components/Inventory/StaticName'
+
 class index extends PureComponent {
 
 
@@ -91,6 +96,12 @@ class index extends PureComponent {
     }
 
    
+    _HandleProduct = (e, element) => {
+        let Category = {...this.state.Category}
+        Category[element] = e
+        this.setState({Category: Category})
+    }
+
     render() {
 
         let Body = null
@@ -102,20 +113,29 @@ class index extends PureComponent {
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
 
                         <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
-                            <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
+                            <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<br/><span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
                         </div>
 
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT OPTION</span>
                                 <span>{this.state.Category.name}</span>
-                            </div>
+                            </div> */}
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span>
-                                <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT OPTION"
+                                value={this.state.Category.name}
+                            />
+
+                            <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span> */}
+                                <StaticName
+                                    title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
+                                />
+                                <div style={{display:'flex', flexDirection:'row'}}>
                                     {Option.map((e, item) => {
 
                                         const selectOne = this.state.Category.selectOne
@@ -156,18 +176,30 @@ class index extends PureComponent {
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT OPTION</span>
                                 <input type="text" placeholder={"Enter a new product option category"} value={this.state.Category.name} onChange={(e) =>{
                                     let Category = {...this.state.Category}
                                     Category.name = e.target.value
                                     this.setState({Category: Category})
                                 }}/>
-                            </div>
+                            </div> */}
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span>
-                                <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                            <Input
+                                divStyle={{width: '100%', marginRight: 30}}
+                                title="CAR PRODUCT OPTION"
+                                placeholder="Enter a new product option category"
+                                value={this.state.Category.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
+
+                            <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span> */}
+                                <StaticName
+                                    title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
+                                />
+                                <div style={{display:'flex', flexDirection:'row'}}>
                                     {Option.map((e, item) => {
 
                                         const selectOne = this.state.Category.selectOne
@@ -208,18 +240,23 @@ class index extends PureComponent {
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT OPTION</span>
-                                <input type="text" placeholder={"Enter a new product option category"} value={this.state.Category.name} onChange={(e) =>{
-                                    let Category = {...this.state.Category}
-                                    Category.name = e.target.value
-                                    this.setState({Category: Category})
-                                }}/>
-                            </div>
+                        
+                            <Input
+                                divStyle={{width: '100%', marginRight: 30}}
+                                title="CAR PRODUCT OPTION"
+                                placeholder="Enter a new product option category"
+                                value={this.state.Category.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span>
-                                <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                            <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span> */}
+                                <StaticName
+                                    title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
+                                />
+
+                                <div style={{display:'flex', flexDirection:'row'}}>
                                     {Option.map((e, item) => {
 
                                         const selectOne = this.state.Category.selectOne
@@ -262,7 +299,13 @@ class index extends PureComponent {
             case "Create":
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._SaveProductOption}>{this.state.Button}</button>
+                        {/* <button onClick={this._SaveProductOption}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._SaveProductOption}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
@@ -270,14 +313,26 @@ class index extends PureComponent {
             case "Edit" :
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditProductOption}>{this.state.Button}</button>
+                        {/* <button onClick={this._EditProductOption}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._EditProductOption}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
             default:
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._DeleteProductOption}>{this.state.Button}</button>
+                        {/* <button onClick={this._DeleteProductOption}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._DeleteProductOption}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break

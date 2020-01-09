@@ -3,9 +3,11 @@ import api from "Api";
 
 import { Cancel } from "@material-ui/icons";
 
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+
+import Input from 'Components/Inventory/Input'
+import Text from 'Components/Inventory/Text'
+import Button from 'Components/Inventory/Button'
+
 
 
 class index extends PureComponent {
@@ -73,6 +75,12 @@ class index extends PureComponent {
         await this.props._RestartToggle()
     }
 
+
+    _HandleProduct = (e, element) => {
+        let Category = {...this.state.Category}
+        Category[element] = e
+        this.setState({Category: Category})
+    }
    
     render() {
 
@@ -82,14 +90,20 @@ class index extends PureComponent {
             case "Delete":
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10, justifyContent:"center"}}>
-                        <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
+                        <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<br/><span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
                         
-                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+                        {/* <div style={{display:'flex', flexDirection:"row", flex:1}}>
                             <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT DETAIL NAME</span>
                                 <span>{this.state.Category.name}</span>
                             </div>
-                        </div>
+                        </div> */}
+
+                        <Text
+                            divStyle={{width: '100%'}}
+                            title="CAR PRODUCT DETAIL NAME"
+                            value={this.state.Category.name}
+                        />
 
                     </div>
                 )
@@ -99,15 +113,22 @@ class index extends PureComponent {
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
    
-                        <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                        {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                             <span>CAR PRODUCT DETAIL</span>
                             <input type="text" placeholder={"Enter A New Car Product Detail here (e.g SAFETY FEATURES)"} value={this.state.Category.name} onChange={(e) =>{
                                 let Category = {...this.state.Category}
                                 Category.name = e.target.value
                                 this.setState({Category: Category})
                             }}/>
-                        </div>
-                    
+                        </div> */}
+                        <Input
+                            divStyle={{width: '100%'}}
+                            title="CAR PRODUCT DETAIL"
+                            placeholder="Enter A New Car Product Detail here (e.g SAFETY FEATURES)"
+                            value={this.state.Category.name}
+                            element={'name'}
+                            _HandleProduct={this._HandleProduct}
+                        />  
 
                     </div>
                 )
@@ -121,15 +142,22 @@ class index extends PureComponent {
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT DETAIL</span>
                                 <input type="text" placeholder={"Enter A New Car Product Detail here (e.g SAFETY FEATURES)"} value={this.state.Category.name} onChange={(e) =>{
                                     let Category = {...this.state.Category}
                                     Category.name = e.target.value
                                     this.setState({Category: Category})
                                 }}/>
-                            </div>
-                                
+                            </div> */}
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT DETAIL"
+                                placeholder="Enter A New Car Product Detail here (e.g SAFETY FEATURES)"
+                                value={this.state.Category.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
      
                         </div>
                        
@@ -144,7 +172,13 @@ class index extends PureComponent {
             case "Create":
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._SaveProductDetail}>{this.state.Button}</button>
+                        {/* <button onClick={this._SaveProductDetail}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._SaveProductDetail}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
@@ -152,14 +186,26 @@ class index extends PureComponent {
             case "Edit" :
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditProductDetail}>{this.state.Button}</button>
+                        {/* <button onClick={this._EditProductDetail}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._EditProductDetail}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
             default:
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._DeleteProductDetail}>{this.state.Button}</button>
+                        {/* <button onClick={this._DeleteProductDetail}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._DeleteProductDetail}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break

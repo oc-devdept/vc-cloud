@@ -181,7 +181,7 @@ export default class Index extends PureComponent {
                                 }
 
                                 return (
-                                    <div key={index} style={style} onClick={() => this.setState({productOptionStage: index, addItemInformation : null})}>
+                                    <div key={index} style={style} onClick={() => this.setState({productOptionStage: index, addItemInformation : null, addItem: false})}>
                                         <span style={fontStyle}>{e.name}</span>
                                     </div>
                                 )
@@ -271,13 +271,11 @@ export default class Index extends PureComponent {
                  
                     
                     {this.state.addItem && 
-                     
                         <AddProductOptionFields
                             Fields={this.state.addItemInformation}
                             _HandleSaveProductOption = {this._HandleSaveProductOption}
                             _HandleCancelProductOption = {this._HandleCancelProductOption}
                         />
-                        
                     }
                     
                 </div>

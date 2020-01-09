@@ -54,7 +54,7 @@ export default class Index extends PureComponent {
                 </div>
                 <div>
                     <Delete
-                        onClick={() => this.props._DeleteProductVariant(Id)}
+                        onClick={() => this.props._DeleteProductOptionFields(Id)}
                     />
                 </div>
             </div>

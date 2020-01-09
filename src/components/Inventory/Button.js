@@ -11,7 +11,7 @@ class Button extends PureComponent {
                 <button style={{
                     border: 'none', backgroundColor:'rgba(244, 132, 33, 1', 
                     padding:10,  paddingLeft: 25, paddingRight: 25, 
-                    borderRadius: 5,
+                    borderRadius: 5, marginBottom: 10, marginTop: 10,
                     color:'white'
                 }} onClick={() => _Function(product, files)}>{title}</button>    
             </div> 

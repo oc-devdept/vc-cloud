@@ -7,6 +7,11 @@ import Image from 'Components/Image'
 
 const Option = [true, false]
 
+import Input from 'Components/Inventory/Input'
+import Text from 'Components/Inventory/Text'
+import Button from 'Components/Inventory/Button'
+import StaticName from 'Components/Inventory/StaticName'
+
 
 class index extends PureComponent {
 
@@ -165,6 +170,11 @@ class index extends PureComponent {
     };
 
 
+    _HandleProduct = (e, element) => {
+        let Item = {...this.state.Item}
+        Item[element] = e
+        this.setState({Item: Item})
+    }
 
     render() {
 
@@ -177,45 +187,59 @@ class index extends PureComponent {
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
 
                         <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
-                            <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
+                            <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<br/><span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
                             <span>{this.state.Category.name}</span>
                         </div>
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
                                 <span>CAR PRODUCT OPTION ITEM</span>
                                 <span>{this.state.Item.name}</span>
-                            </div>
+                            </div> */}
+                            <Text
+                                divStyle={{width: '100%', marginRight: 30}}
+                                title="CAR PRODUCT OPTION ITEM"
+                                value={this.state.Item.name}
+                            />
 
-                            <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="PRICE"
+                                value={this.state.Item.price}
+                            />
+                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
                                 <span>PRICE</span>
                                 <span>{this.state.Item.price}</span>
-                            </div>
+                            </div> */}
 
                         </div>
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            {this.state.Item.image.length > 0 &&
-                                <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-
-                                    <span>IMAGE UPLOAD</span>
-
+                            
+                            <div style={{display:'flex', flexDirection:"column", width: '100%', marginRight: 30}}>
+                                <StaticName
+                                    title={"CURRENT IMAGE"}
+                                />
+                                {this.state.Item.image.length > 0 &&
                                     <Image
                                         imageSource={this.state.Item.image}
                                         single={true}
                                     />
-
-                                </div>
-                            }
+                                }
+                            </div>
+                        
                             
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            <div style={{display:'flex', flexDirection:"column", width:'100%'}}>
                                 
                                 <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                    <span>ITEM EDITABLE</span>
-                                    <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                                    {/* <span>ITEM EDITABLE</span> */}
+                                    <StaticName
+                                        title={"ITEM EDITABLE"}
+                                    />
+                                    <div style={{display:'flex', flexDirection:'row'}}>
                                         {Option.map((e, item) => {
 
                                             const editable = this.state.Item.editable
@@ -244,8 +268,11 @@ class index extends PureComponent {
 
 
                                 <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                    <span>ITEM DEFAULT SET</span>
-                                    <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                                    {/* <span>ITEM DEFAULT SET</span> */}
+                                    <StaticName
+                                        title={"ITEM DEFAULT SET"}
+                                    />
+                                    <div style={{display:'flex', flexDirection:'row'}}>
                                         {Option.map((e, item) => {
                                             const isDefault = this.state.Item.isDefault
 
@@ -288,50 +315,82 @@ class index extends PureComponent {
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
                                 <span>CAR PRODUCT OPTION ITEM</span>
                                 <input type="text" placeholder={"Enter a new Car Product Option Item (e.g Audtio Model 123)"} value={this.state.Item.name} onChange={(e) =>{
                                     let Item = {...this.state.Item}
                                     Item.name = e.target.value
                                     this.setState({Item: Item})
                                 }}/>
-                            </div>
+                            </div> */}
 
-                            <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
+                            <Input
+                                divStyle={{width: '100%', marginRight: 30}}
+                                title="CAR PRODUCT OPTION ITEM"
+                                placeholder="Enter a new Car Product Option Item (e.g Bose Speaker Model Xl)"
+                                value={this.state.Item.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            /> 
+
+
+                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
                                 <span>PRICE</span>
                                 <input type="text" placeholder={"Enter the price here"} value={this.state.Item.price} onChange={(e) =>{
                                     let Item = {...this.state.Item}
                                     Item.price = e.target.value
                                     this.setState({Item: Item})
                                 }}/>
-                            </div>
+                            </div> */}
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="PRICE"
+                                placeholder="Enter the price here"
+                                value={this.state.Item.price}
+                                element={'price'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
 
                         </div>
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>IMAGE UPLOAD</span>
-                                {this.state.Item.image.length > 0 &&
-                                    <Image
-                                        imageSource={this.state.Item.image}
-                                        single={true}
+                            <div style={{display:'flex', flexDirection:"row", width: '100%', marginRight: 30}}>
+                              
+                                <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
+                                    <StaticName
+                                        title={"CURRENT IMAGE"}
                                     />
-                                }
-                                
-                                <Dropzone
-                                    onDrop={this.handleUpload}
-                                    onRemove={this.removeFile}
-                                    uploadedFiles={this.state.files}
-                                    additionalText="Files can't be edited once uploaded."
-                                />
+                                    {this.state.Item.image.length > 0 &&
+                                        <Image
+                                            imageSource={this.state.Item.image}
+                                            single={true}
+                                        />
+                                    }
+                                </div>
+
+                                <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
+                                    <StaticName
+                                        title={'UPLOAD NEW IMAGE'}
+                                    />
+                                    <Dropzone
+                                        onDrop={this.handleUpload}
+                                        onRemove={this.removeFile}
+                                        uploadedFiles={this.state.files}
+                                        additionalText="Files can't be edited once uploaded."
+                                    />
+                                </div>
+
                             </div>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                            <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
                                 
                                 <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                    <span>IS THE ITEM EDITABLE</span>
-                                    <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                                    {/* <span>IS THE ITEM EDITABLE</span> */}
+                                    <StaticName
+                                        title={'IS THE ITEM EDITABLE'}
+                                    />
+                                    <div style={{display:'flex', flexDirection:'row'}}>
                                         {Option.map((e, item) => {
 
                                             const editable = this.state.Item.editable
@@ -361,8 +420,11 @@ class index extends PureComponent {
 
 
                                 <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                    <span>IS THE ITEM DEFAULT SET</span>
-                                    <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                                    {/* <span>IS THE ITEM DEFAULT SET</span> */}
+                                    <StaticName
+                                        title={'IS THE ITEM DEFAULT SET'}
+                                    />
+                                    <div style={{display:'flex', flexDirection:'row'}}>
                                         {Option.map((e, item) => {
                                             const isDefault = this.state.Item.isDefault
 
@@ -406,38 +468,64 @@ class index extends PureComponent {
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
 
 
-                        <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                        {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                             <span>CREATE NEW ITEM INTO PRODUCT OPTION</span>
                             <span>{this.state.Category.name}</span>                                
-                        </div>
-
+                        </div> */}
+                        <Text
+                            divStyle={{width: '100%'}}
+                            title="CREATE NEW ITEM INTO PRODUCT OPTION"
+                            value={this.state.Category.name}
+                        />
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
+                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
                                 <span>CAR PRODUCT OPTION ITEM</span>
                                 <input type="text" placeholder={"Enter a new Car Product Option Item (e.g Audtio Model 123)"} value={this.state.Item.name} onChange={(e) =>{
                                     let Item = {...this.state.Item}
                                     Item.name = e.target.value
                                     this.setState({Item: Item})
                                 }}/>
-                            </div>
+                            </div> */}
 
-                            <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
+                            <Input
+                                divStyle={{width: '100%', marginRight: 30}}
+                                title="CAR PRODUCT OPTION ITEM"
+                                placeholder="Enter a new Car Product Option Item (e.g Bose Speaker Model Xl)"
+                                value={this.state.Item.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
+
+                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
                                 <span>PRICE</span>
                                 <input type="text" placeholder={"Enter the price here"} value={this.state.Item.price} onChange={(e) =>{
                                     let Item = {...this.state.Item}
                                     Item.price = e.target.value
                                     this.setState({Item: Item})
                                 }}/>
-                            </div>
+                            </div> */}
+
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="PRICE"
+                                placeholder="Enter the price here"
+                                value={this.state.Item.price}
+                                element={'price'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
 
                         </div>
 
+
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>IMAGE UPLOAD</span>
+                            <div style={{display:'flex', flexDirection:"column", flex: 1, marginRight: 30}}>
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>IMAGE UPLOAD</span> */}
+                                <StaticName
+                                    title={"IMAGE UPLOAD"}
+                                />
                                 <Dropzone
                                     onDrop={this.handleUpload}
                                     onRemove={this.removeFile}
@@ -449,8 +537,11 @@ class index extends PureComponent {
                             <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 
                                 <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                    <span>IS THE ITEM EDITABLE</span>
-                                    <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                                    {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>IS THE ITEM EDITABLE</span> */}
+                                    <StaticName
+                                        title={"IS THE ITEM EDITABLE"}
+                                    />
+                                    <div style={{display:'flex', flexDirection:'row', }}>
                                         {Option.map((e, item) => {
 
                                             const editable = this.state.Item.editable
@@ -480,8 +571,11 @@ class index extends PureComponent {
 
 
                                 <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                    <span>IS THE ITEM DEFAULT SET</span>
-                                    <div style={{display:'flex', flexDirection:'row', marginTop: 10}}>
+                                    {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>IS THE ITEM DEFAULT SET</span> */}
+                                    <StaticName
+                                        title={"IS THE ITEM DEFAULT SET"}
+                                    />
+                                    <div style={{display:'flex', flexDirection:'row',}}>
                                         {Option.map((e, item) => {
                                             const isDefault = this.state.Item.isDefault
 
@@ -513,7 +607,6 @@ class index extends PureComponent {
 
                             </div>
 
-
                         </div>
 
                        
@@ -530,7 +623,13 @@ class index extends PureComponent {
             case "Create":
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._SaveProductOption}>{this.state.Button}</button>
+                        {/* <button onClick={this._SaveProductOption}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._SaveProductOption}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
@@ -538,14 +637,26 @@ class index extends PureComponent {
             case "Edit" :
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._EditProductOptionValue}>{this.state.Button}</button>
+                        {/* <button onClick={this._EditProductOptionValue}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._EditProductOptionValue}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break
             default:
                 SaveButton = (
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
-                        <button onClick={this._DeleteProductOptionValue}>{this.state.Button}</button>
+                        {/* <button onClick={this._DeleteProductOptionValue}>{this.state.Button}</button> */}
+                        <Button
+                            _Function={this._DeleteProductOptionValue}
+                            product={''}
+                            files={''}
+                            title={this.state.Button}
+                        />
                     </div>
                 )
                 break

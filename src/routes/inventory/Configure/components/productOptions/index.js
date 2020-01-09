@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import api from "Api";
 
-import ProductOptionCategory from './components/ProductOptionCategory'
-import ProductOption from './components/ProductOption'
 
 import ProductOptionList from './components/ProductOptionList'
 import DialogRoot from "Components/Dialog/DialogRoot";

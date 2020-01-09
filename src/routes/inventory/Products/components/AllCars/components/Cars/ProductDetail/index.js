@@ -171,7 +171,7 @@ export default class Index extends PureComponent {
                                 }
 
                                 return (
-                                    <div key={index} style={style} onClick={() => this.setState({productDetailStage: index, addItemInformation: null})}>
+                                    <div key={index} style={style} onClick={() => this.setState({productDetailStage: index, addItemInformation: null, addItem: false})}>
                                         <span style={fontStyle}>{e.name}</span>
                                     </div>
                                 )

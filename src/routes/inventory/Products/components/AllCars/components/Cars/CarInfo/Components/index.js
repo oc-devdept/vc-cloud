@@ -126,14 +126,17 @@ class Grade extends PureComponent {
 
                 <div className="d-flex" style={{flexDirection:'column',}}>
                   
-                  <span>Image</span>
-
-                  {Images.length > 0 &&
-                      <Image
-                        imageSource={Images}
-                        single={true}
-                      />
-                  }
+                  <div style={{marginBottom: 10}}>
+                    <span style={{ color:'rgba(150,150,150,1)'}}>IMAGE</span>
+                    <div style={{paddingBottom: 10, paddingTop: 10,}}>
+                      {Images.length > 0 &&
+                          <Image
+                            imageSource={Images}
+                            single={true}
+                          />
+                      }
+                    </div>
+                  </div>
                   
                   <Dropzone
                     onDrop={handleUpload}
