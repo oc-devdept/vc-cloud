@@ -20,11 +20,11 @@ export default class Index extends PureComponent {
                 <div style={{minWidth: 80,}}>
                   <span style={{color:"rgba(0,0,0,0.7)"}}>{e.value2}</span>
                 </div>
-                <div style={{minWidth: 80,}}>
+                {/* <div style={{minWidth: 80,}}>
                     <Edit
                       onClick={() => console.log('Edit!')}
                     />
-                </div>
+                </div> */}
                 <div style={{minWidth: 80,}}>
                     <Delete
                         onClick={() => this.props._DeleteProductDetailFields(e.id)}

@@ -86,9 +86,9 @@ export default class Index extends PureComponent {
                                 <div>
                                 <span style={{color:"white"}}>SET DEFAULT</span>
                                 </div>
-                                <div>
+                                {/* <div>
                                 <span style={{color:"white"}}>EDIT</span>
-                                </div>
+                                </div> */}
                                 <div>
                                 <span style={{color:"white"}}>DELETE</span>
                                 </div>
@@ -103,6 +103,7 @@ export default class Index extends PureComponent {
                                             ProductVariantValues={e}
                                             index={index}
                                             _DeleteProductVariant={this.props._DeleteProductVariant}
+                                            _EditProductVariant={this.props._EditProductVariant}
                                         />
                                     </div>
                                 )
@@ -131,9 +132,9 @@ export default class Index extends PureComponent {
                                 <div>
                                 <span style={{color:"white"}}>SET DEFAULT</span>
                                 </div>
-                                <div>
+                                {/* <div>
                                 <span style={{color:"white"}}>EDIT</span>
-                                </div>
+                                </div> */}
                                 <div>
                                 <span style={{color:"white"}}>DELETE</span>
                                 </div>

@@ -80,9 +80,9 @@ export default class Index extends PureComponent {
                             <div>
                             <span style={{color:"white"}}>SET DEFAULT</span>
                             </div>
-                            <div>
+                            {/* <div>
                             <span style={{color:"white"}}>EDIT</span>
-                            </div>
+                            </div> */}
                             <div>
                             <span style={{color:"white"}}>DELETE</span>
                             </div>
@@ -125,9 +125,9 @@ export default class Index extends PureComponent {
                         <div>
                         <span style={{color:"white"}}>SET DEFAULT</span>
                         </div>
-                        <div>
+                        {/* <div>
                         <span style={{color:"white"}}>EDIT</span>
-                        </div>
+                        </div> */}
                         <div>
                         <span style={{color:"white"}}>DELETE</span>
                         </div>

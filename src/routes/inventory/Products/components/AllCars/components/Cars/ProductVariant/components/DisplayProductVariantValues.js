@@ -50,11 +50,13 @@ export default class Index extends PureComponent {
                         inputProps={{ 'aria-label': 'A' }}
                     />
                 </div>
-                <div>
+                {/* <div>
                     <Edit
-                      onClick={() => console.log('Edit!')}
+                        // onClick={() => this.props._EditProductVariant(item)}
+                        onClick={() => console.log(item)}
+
                     />
-                </div>
+                </div> */}
                 <div>
                     <Delete
                         onClick={() => this.props._DeleteProductVariant(index)}

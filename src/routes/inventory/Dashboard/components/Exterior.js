@@ -13,56 +13,42 @@ class Exterior extends Component {
   }
  
   _RenderProductVariant = () => {
-
-    if(this.props.Exterior.length > 0) {
-
-      return (
-        <div style={{display: 'flex', flexDirection:'column'}}>
-          
-          {this.props.Exterior.map((e, index) => {
-            if(e.objects.length == 0){
-              return null
-            }
-
-            return (
-                  <div key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
-                      
-                      <span>{e.name}</span>
-                      
-                      {e.objects.length > 0 && 
-                        <div  style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
-                          {e.objects.map((item, indexes) =>{
-                            return (
-                              <div onClick={() => console.log(item)} key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
-                                  <span>name: {item.name}</span>
-                                  <span>price: {item.price}</span>
-                                  <span>{item.isDefault}</span>
-                                  {item.files.length > 0 && 
-                                      
-                                      <Image
-                                        imageSource={item.files}
-                                        single={true}
-                                      />
-                                  } 
-                              </div>
-                            )
-                          })}
-                        </div>
-                      }
-
-                  </div>
-              )
-          })}
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          No Exterior Product Variant Found
-        </div>
-      )
-    }
     
+    return (
+      Object.keys(this.props.Exterior).map((ee, indexes) => {
+        if(this.props.Exterior[ee].objects.length > 0) {
+          return (
+            <div key={indexes} style={{display:'flex', flexDirection:'row'}}>
+  
+              <span>{ee}</span>
+  
+              {this.props.Exterior[ee].objects.map((e, index) => {
+                return (
+                        
+                    <div key={index} style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
+                        <div onClick={() => console.log(e)} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
+                            <span>name: {e.name}</span>
+                            <span>price: {event.price}</span>
+                            <span>{e.isDefault}</span>
+                            {e.files.length > 0 && 
+                                
+                                <Image
+                                  imageSource={e.files}
+                                  single={true}
+                                />
+                            } 
+                        </div>
+                    </div>
+                      
+                  )
+              })}
+            </div>
+          )
+        } else {
+          return null
+        }
+      })
+    )
   }
 
 

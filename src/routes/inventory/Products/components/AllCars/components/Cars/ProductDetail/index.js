@@ -76,9 +76,9 @@ export default class Index extends PureComponent {
                             <div style={{minWidth: 90,}}>
                             <span style={{color:"white"}}>UNIT</span>
                             </div>
-                            <div style={{minWidth: 90,}}>
+                            {/* <div style={{minWidth: 90,}}>
                             <span style={{color:"white",}}>EDIT</span>
-                            </div>
+                            </div> */}
                             <div style={{minWidth: 90,}}>
                             <span style={{color:"white"}}>DELETE</span>
                             </div>
@@ -116,9 +116,9 @@ export default class Index extends PureComponent {
                         <div style={{minWidth: 90,}}>
                         <span style={{color:"white"}}>UNIT</span>
                         </div>
-                        <div style={{minWidth: 90,}}>
+                        {/* <div style={{minWidth: 90,}}>
                         <span style={{color:"white",}}>EDIT</span>
-                        </div>
+                        </div> */}
                         <div style={{minWidth: 90,}}>
                         <span style={{color:"white"}}>DELETE</span>
                         </div>
