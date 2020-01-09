@@ -44,10 +44,9 @@ export default class Index extends PureComponent {
   
     const { loading, title, tableData, ToggleDialog } = this.props
 
-  
     const columns = [
       {
-        name: "id",
+        name: "value",
         options: { display: "excluded", filter: false, sort: false }
       },
       {
@@ -87,7 +86,7 @@ export default class Index extends PureComponent {
       //       customBodyRender: (rowData, rowState) => {
       //           return (
       //             <Delete
-      //               onClick={() => console.log('Delete!')}
+      //               onClick={() => console.log(rowState.rowData)}
       //             />
       //           );
       //       }

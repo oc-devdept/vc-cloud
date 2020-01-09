@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
+import StaticName from 'Components/Inventory/StaticName'
 
 
 class index extends PureComponent {
@@ -51,7 +52,6 @@ class index extends PureComponent {
                 break
             default:break
         }
-
 
         this.state=({
             Tags: Tags,
@@ -95,6 +95,14 @@ class index extends PureComponent {
         await this.props._RestartToggle()
     }
 
+    _DeleteProductVariant = async() => {
+   
+        await api.delete(`/productvariants/${this.state.Tags.id}`)
+        await this.props._CreateProductCategoryDone()
+        await this.props._RestartToggle()
+
+    }
+
 
     _ToggleCategoryKey = (item) => {
         let Tags = this.state.Tags
@@ -106,7 +114,7 @@ class index extends PureComponent {
     _HandleProduct = (e, element) => {
         let Tags = {...this.state.Tags}
         Tags[element] = e
-        this.setState({Tags: Tags, groupName: ''})
+        this.setState({Tags: Tags})
     }
 
     render() {
@@ -118,7 +126,23 @@ class index extends PureComponent {
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
                         <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span></span>
-                        <span>{this.state.Tags}</span>
+                        {/* <StaticName
+                            title={this.state.Tags.name}
+                        /> */}
+                        <div style={{display:'flex', flexDirection:"row"}}>
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="PRODUCT VARIANT"
+                                value={this.state.Tags.groupName}
+                            />
+
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="PRODUCT VARIANT Name"
+                                value={this.state.Tags.name}
+                            />
+                        </div>
+
                     </div>
                 )
                 break
@@ -203,20 +227,28 @@ class index extends PureComponent {
                                     this.setState({Tags: Tags, groupName: ''})
                                 }}/>
                             </div> */}
-                            <Input
+
+                            {/* <Input
                                 divStyle={{width: '100%'}}
                                 title="CREATE NEW CATEGORY"
                                 placeholder="e.g Enter a new product variant group"
                                 value={this.state.Tags.groupName}
                                 element={'groupName'}
                                 _HandleProduct={this._HandleProduct}
-                            />
-                                
+                            /> */}
+                            
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT VARAIANT ITEM"
+                                placeholder="e.g Enter a new product variant item name"
+                                value={this.state.Tags.name}
+                                element={'name'}
+                                _HandleProduct={this._HandleProduct}
+                            />  
      
                         </div>
                        
                         {/* <div style={{display:'flex', flexDirection:"row", flex:1}}> */}
-
                             {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
                                 <span>CAR PRODUCT VARAIANT ITEM</span>
                                 <input type="text" placeholder={"Enter a new product variant item"} value={this.state.Tags.name} onChange={(e) =>{
@@ -225,16 +257,6 @@ class index extends PureComponent {
                                     this.setState({Tags: Tags})
                                 }}/>
                             </div> */}
-
-                            <Input
-                                divStyle={{width: '100%'}}
-                                title="CAR PRODUCT VARAIANT ITEM"
-                                placeholder="e.g Enter a new product variant item"
-                                value={this.state.Tags.name}
-                                element={'name'}
-                                _HandleProduct={this._HandleProduct}
-                            />   
-     
                         {/* </div> */}
 
 
@@ -278,7 +300,7 @@ class index extends PureComponent {
                     <div style={{display:'flex', justifyContent:'flex-end'}}>
                         {/* <button onClick={this._EditTags}>{this.state.Button}</button> */}
                         <Button
-                            _Function={this._EditTags}
+                            _Function={this._DeleteProductVariant}
                             product={''}
                             files={''}
                             title={this.state.Button}

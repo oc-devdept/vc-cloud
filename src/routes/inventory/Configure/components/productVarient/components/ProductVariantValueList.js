@@ -39,7 +39,9 @@ export default class Index extends PureComponent {
   
     const { loading, title, tableData, ToggleDialog } = this.props
 
-    const columns = [
+    let columns
+    if(tableData.length > 0){
+     columns = [
       {
         name: "id",
         options: { display: "excluded", filter: false, sort: false }
@@ -72,23 +74,59 @@ export default class Index extends PureComponent {
             }
         }
       },
-      // {
-      //   name: "DELETE",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //             <Delete
-      //               onClick={() => console.log('Delete!')}
-      //             />
-      //           );
-      //       }
-      //   }
-      // },
+      {
+        name: "DELETE",
+        options: {
+            filter: true,
+            sort: false,
+            empty: true,
+            customBodyRender: (rowData, rowState) => {
+                return (
+                  <Delete
+                    onClick={() => ToggleDialog('Delete_Variant', rowState.rowData)}
+                  />
+                );
+            }
+        }
+      },
     
     ]
+    } else {
+      columns = [
+        {
+          name: "id",
+          options: { display: "excluded", filter: false, sort: false }
+        },
+        {
+          name: "groupName",
+          options: { display: "excluded", filter: false, sort: false }
+        },
+        {
+          label: "Name",
+          name: "name",
+          options: {
+            customBodyRender: value => {
+              return value;
+            }
+          }
+        },
+        {
+          name: "EDIT",
+          options: {
+              filter: true,
+              sort: false,
+              empty: true,
+              customBodyRender: (rowData, rowState) => {
+                  return (
+                      <Edit
+                        onClick={() => ToggleDialog('Edit_Variant', rowState.rowData)}
+                      />
+                  );
+              }
+          }
+        },
+      ]
+    }
 
     const listOptions = {
       filterType: "dropdown",

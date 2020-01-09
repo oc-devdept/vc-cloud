@@ -103,6 +103,28 @@ class index extends Component {
                         </DialogRoot>
                     )
                     
+                case 'Delete_Variant':
+                    return (
+                        <DialogRoot
+                            // title={"Hello world"}
+                            size="md"
+                            show={this.state.toggle}
+                            handleHide={this._RestartToggle}
+                            >
+                            <div className="row">
+
+                                <ProductGroup
+                                    Action={'Delete'}
+                                    Data={this.state.data}
+                                    ProductVariantCategoryKey={this.state.ProductVariantCategoryKey}
+
+                                    _RestartToggle={this._RestartToggle}
+                                    _CreateProductCategoryDone={this._CreateProductCategoryDone}
+                                />
+            
+                            </div>
+                        </DialogRoot>
+                    )
                 default:
                     return null
             }
@@ -120,7 +142,7 @@ class index extends Component {
 
     render() {
 
-
+        
         return (
             <div style={{flex:1, display:'flex', flexDirection:'column',}}>
             
