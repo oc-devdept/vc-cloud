@@ -12,6 +12,7 @@ import ModelDetail from './components/ModelDetail'
 import Exterior from './components/Exterior'
 import Interior from './components/Interior'
 import ProductOptions from './components/ProductOptions'
+import Booking from './components/Booking'
 
 
 import DashboardCard from "./components/DashboardCard"
@@ -135,6 +136,19 @@ class Index extends Component {
                         ProductOptions={this.state.ProductOptions}
                       />
                     </div>
+
+                    <div label="Booking">
+                      <Booking
+
+                      />
+                    </div>
+
+                    {/* <div label="Testing">
+                      <Testing
+                      
+                      />
+                    </div> */}
+                    
 
                   </ProfileTabs>
                 </div>

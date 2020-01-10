@@ -1,17 +1,21 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, Component} from 'react'
 
-class Input extends PureComponent {
+class Input extends Component {
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.props.value != nextProps.value){
+            return true
+        }
+        return false
+    }
 
     render() {
 
         const {title, placeholder, value, _HandleProduct, element, style, divStyle, textarea} = this.props
 
         let styles = {...style}
-        
-
         let divStyles = {...divStyle}
         divStyles.flexDirection = 'column'
-
 
         if(textarea){
             return (
@@ -38,6 +42,7 @@ class Input extends PureComponent {
                         placeholder={placeholder} 
                         value={value} 
                         onChange={(e) => _HandleProduct(e.target.value, element)}
+                        // onChange={_HandleProduct}
                         style={styles}
                     />
                 </div>

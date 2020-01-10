@@ -16,7 +16,8 @@ import {
 import {
   inventoryPage,
   allCarsPage,
-  configurePage
+  configurePage,
+  bookingSystemPage
 } from "Helpers/inventoryURL";
 
 
@@ -102,6 +103,10 @@ export default [
       {
         title: "sidebar.settings",
         path: configurePage
+      },
+      {
+        title: "sidebar.booking",
+        path: bookingSystemPage
       },
     ]
   }

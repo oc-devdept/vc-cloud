@@ -199,6 +199,7 @@ class index extends PureComponent {
                                 <StaticName
                                     title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
                                 />
+                                
                                 <div style={{display:'flex', flexDirection:'row'}}>
                                     {Option.map((e, item) => {
 

@@ -10,6 +10,7 @@ import {
 } from "Components/Layout/ProfileCard";
 
 import NumberFormat from "react-number-format";
+import { singleAccount, singleCustomer } from "Helpers/crmURL";
 
 function QuotationCard(props) {
 
@@ -19,8 +20,8 @@ function QuotationCard(props) {
     <Wrapper>
       <Contact
         noAvatar
-        name={`New Cars`}
-        subHeading={`Edit your cars' details, options and variation`}
+        name={`Dashboard`}
+        subHeading={`Overview of all the bookings in your company`}
         // indicator={quotation.latest}
       />
       {/* <div className="d-flex flex-column">

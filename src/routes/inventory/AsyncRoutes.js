@@ -20,4 +20,9 @@ export const Configure = Loadable({
   loading: () => <RctPageLoader />
 });
 
+export const BookingSystem = Loadable({
+  loader: () => import("./BookingSystem/index"),
+  loading: () => <RctPageLoader />
+});
+
 // export default InventoryComponent;

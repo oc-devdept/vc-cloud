@@ -105,7 +105,7 @@ export default class Index extends PureComponent {
                             _Function={this.props._EditProduct}
                             product={this.state.Product}
                             files={this.state.files}
-                            title={"EDIT CHANGES"}
+                            title={"SAVE CHANGES"}
                         />  
                     </div>
                 }

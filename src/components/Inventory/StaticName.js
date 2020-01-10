@@ -3,6 +3,14 @@ import React, {PureComponent} from 'react'
 
 class StaticName extends PureComponent {
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.props.title != nextProps.title){
+            return true
+        }
+        return false
+    }
+
+
     render() {
 
         const {title} = this.props

@@ -23,6 +23,7 @@ module.exports = {
   "sidebar.team": "Team",
   "sidebar.newTeam": "New Team",
   "sidebar.editTeam": "Edit Team",
+  
 
   "sidebar.proj": "Project Management",
 
@@ -42,12 +43,9 @@ module.exports = {
   "sidebar.reports": "Reports",
   "sidebar.reminders": "Reminders",
 
-
   "sidebar.dashboard": "Dashboard",
-  "sidebar.allCars": "All Cars",
+  "sidebar.allCars": "New Cars",
   "sidebar.settings": "Settings",
-
-
-
+  "sidebar.booking": "Bookings",
 
 };

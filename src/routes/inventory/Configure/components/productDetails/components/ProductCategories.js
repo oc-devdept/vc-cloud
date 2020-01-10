@@ -3,11 +3,9 @@ import api from "Api";
 
 import { Cancel } from "@material-ui/icons";
 
-
 import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
-
 
 
 class index extends PureComponent {
