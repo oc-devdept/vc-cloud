@@ -97,8 +97,10 @@ class Booking extends Component {
     const {name, email, contact, service, interest} = this.state.booking
 
     return (
-      <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'row', flex: 1}}>
-                            
+      <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'column', flex: 1}}>
+
+            <h1>Booking System</h1>   
+
             <div style={{display:'flex', flexDirection:"column", padding: 10, flex: 1}}>
    
                 <div style={{display:'flex', flexDirection:"row", flex:1}}>
