@@ -11,21 +11,9 @@ import DisplayValues from './components/DisplayValues'
 
 
 class index extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            MaintenanceBookings:[]
-        }
-    }
-
-    async componentDidMount() {
-        const data = await api.get(`bookings`)
-        this.setState({MaintenanceBookings: data.data})
-    }
-
+ 
     _RenderBookings = () => {
-        const MaintenanceBookings = this.state.MaintenanceBookings
+        const AllBookings = this.props.bookings
 
         return (
             <div style={{flex: 1}}>
@@ -55,7 +43,7 @@ class index extends Component {
                 </div>
 
                 <div style={{paddingBottom:10,}}>
-                    {MaintenanceBookings.map((e, index) => {
+                    {AllBookings.map((e, index) => {
                         return (
                             <div key={index} >
                                 <DisplayValues
@@ -76,12 +64,12 @@ class index extends Component {
         return (
             <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'row', flex: 1}}>
                 
-                {this.state.MaintenanceBookings.length > 0 && 
+                {this.props.bookings.length > 0 && 
                     this._RenderBookings()
                 }
 
 
-                {this.state.MaintenanceBookings.length == 0 && 
+                {this.props.bookings.length == 0 && 
                     <div>
                         No Bookings 
                     </div>

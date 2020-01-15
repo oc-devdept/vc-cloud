@@ -11,14 +11,14 @@ import { singleAccount } from "Helpers/crmURL";
 import ShowUpcoming from "../../components/ShowUpcomingEvents";
 
 function CustomerCard(props) {
-  const { cust } = props;
+  const { cust, _handleDeployAgent } = props;
+
   return (
     <Wrapper>
       <Contact
         name={cust.name}
-        call={cust.baseContact.mobile}
-        email={cust.baseContact.email}
-        website={cust.baseContact.website}
+        call={cust.contact}
+        email={cust.email}
         indicator={
           cust.isActive
             ? { classes: "border-success text-success", name: "Active" }
@@ -26,29 +26,29 @@ function CustomerCard(props) {
         }
       />
       <div className="profile-card-section">
-        <div className="profile-heading">
+        {/* <div className="profile-heading">
           <EventOutlined />
           Upcoming Events
-        </div>
-        <ShowUpcoming events={cust.events} />
+        </div> */}
+        {/* <ShowUpcoming events={cust.events} /> */}
         {/* {showEvents(cust.events)} */}
       </div>
       <KeyDetails
         keyDetails={[
           {
-            label: "Account",
-            value: cust.accountId && (
-              <Link to={singleAccount(cust.accountInfo.id)}>
-                {cust.accountInfo.name}
-              </Link>
-            )
-          },
-          {
             label: "Owner",
-            value: cust.userInfo && cust.userInfo.name
+            // value: cust.userInfo && cust.userInfo.name
+            value: cust.userInfo? cust.userInfo.name : 'Waiting For Agent'
           }
         ]}
       />
+
+      {!cust.userInfo && 
+        <button onClick={() => _handleDeployAgent(cust.id)}>
+          Pick up the Orphan
+        </button>
+      }
+  
     </Wrapper>
   );
 }

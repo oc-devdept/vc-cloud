@@ -22,10 +22,10 @@ export default [
     path: "crm",
     component: crm
   },
-  {
-    path: "acct",
-    component: Accounting
-  },
+  // {
+  //   path: "acct",
+  //   component: Accounting
+  // },
   {
     path: "reports",
     component: ReportComponent

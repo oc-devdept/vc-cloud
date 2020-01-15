@@ -11,10 +11,12 @@ import RecordNotFound from "Components/Error/RecordNotFound";
 import CustomerCard from "../components/CustomerCard";
 import ProfileTabs from "Components/Layout/ProfileTabs";
 // Tabs
-import OverviewTab from "./tabs/Overview";
+import OverviewTab from "./tabs/Overview/Overview";
 import DetailsTab from "./tabs/Details";
 import DealsTab from "./tabs/Deals";
 import EventsTab from "../../components/EventsTab";
+
+import api from "Api";
 
 // routes
 import {
@@ -41,11 +43,25 @@ class crm_view_customer extends Component {
     this.trasnfer = this.transfer.bind(this);
     this.refresh = this.refresh.bind(this);
     this.newCust = this.newCust.bind(this);
+
+
+    this.state = ({
+      customer: null,
+      loading: true
+    })
   }
-  componentDidMount() {
+
+  async componentDidMount() {
+
     var id = this.props.match.params.id;
-    this.props.getSingleCustomer(id);
+    const item = await api.get(`/customers/getOneCustomer/${id}`);
+
+    this.setState({customer: item.data.fields, loading: false})
+
+    console.log(item.data.fields)
+    // this.props.getSingleCustomer(id);
   }
+
   componentWillUnmount() {
     this.props.clearSingleCustomer();
   }
@@ -114,8 +130,22 @@ class crm_view_customer extends Component {
     this.props.addNoteCustomer(this.props.match.params.id, note);
   }
 
+  _handleDeployAgent = async(id) => {
+    console.log('handle id', id)
+
+    const item = await api.post(`/customers/deployAgent`, {data: {id}});
+
+    this.setState({customer: item.data.fields})
+
+
+  }
+
+
+
   render() {
-    const { loading, customer, sectionLoading } = this.props.customerToView;
+    const {sectionLoading } = this.props.customerToView;
+
+    const {customer,loading} = this.state
 
     return (
       <React.Fragment>
@@ -150,25 +180,25 @@ class crm_view_customer extends Component {
             />
             <div className="row">
               <div className="col-lg-3">
-                <CustomerCard cust={customer} />
+                <CustomerCard 
+                  cust={customer} 
+                  _handleDeployAgent={this._handleDeployAgent}
+                />
               </div>
               <div className="col-lg-9">
                 <ProfileTabs loading={sectionLoading}>
                   <div label="Overview">
-                    <OverviewTab cust={customer} />
+                    <OverviewTab 
+                      bookings={customer.bookings}
+                    />
                   </div>
                   {/*  <div label="Deals">
                     <DealsTab deals={customer.deals} />
                   </div> */}
-                  <div label="Events">
-                    <EventsTab
-                      eventableType="Customer"
-                      eventableId={customer.id}
-                      events={customer.events}
-                    />
-                  </div>
-                  <div label="Details">
-                    <DetailsTab cust={customer} />
+                  <div label="Maintenance">
+                    {/* <DetailsTab 
+                    cust={customer}
+                     /> */}
                   </div>
                 </ProfileTabs>
               </div>

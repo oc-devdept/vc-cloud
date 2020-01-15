@@ -20,9 +20,9 @@ class Interior extends Component {
         <div style={{display: 'flex', flexDirection:'column'}}>
           {this.props.ProductOptions.map((e, index) => {
               
-              const key = Object.keys(e)[0]
-              const values = Object.values(e)[0]
-
+            const key = Object.keys(e)[0]
+            const values = Object.values(e)[0]
+            
             return (
                   <div key={index} style={{margin :10, border: '1px black solid', flexDirection:'column'}} className="d-flex">
                       

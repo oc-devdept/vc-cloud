@@ -8,6 +8,7 @@ class index extends PureComponent {
     render() {
        
         const {imageSource, single, thumbNail } = this.props
+
         if(single) {
             if(thumbNail){
                 return (
@@ -40,3 +41,4 @@ class index extends PureComponent {
 }
 
 export default index;
+

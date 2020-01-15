@@ -20,8 +20,8 @@ function QuotationCard(props) {
     <Wrapper>
       <Contact
         noAvatar
-        name={`Dashboard`}
-        subHeading={`Overview of all the cars in your company`}
+        name={`Frontend`}
+        subHeading={`Simulate customer interaction`}
         // indicator={quotation.latest}
       />
       {/* <div className="d-flex flex-column">
