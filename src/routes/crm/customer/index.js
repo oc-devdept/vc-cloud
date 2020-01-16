@@ -12,15 +12,41 @@ import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import { changeCustomerView, getAllCustomer } from "Ducks/crm/customer";
 import { customerNewPage } from "Helpers/crmURL";
 
+import api from "Api";
+
+
 class crm_customer extends Component {
   constructor(props) {
     super(props);
     this.refresh = this.refresh.bind(this);
     this.importCust = this.importCust.bind(this);
     this.newCust = this.newCust.bind(this);
+
+
+    this.state = ({
+      withoutAgents: [],
+      withAgents: []
+    })
   }
-  componentDidMount() {
-    this.props.getAllCustomer();
+
+
+  async componentDidMount() {
+    // this.props.getAllCustomer();
+
+    // await api.post(`/bookings/createBooking`, {data: booking});
+
+    const item = await api.get(`/customers/getall`);
+    
+    const withoutAgents = item.data.data.withoutAgents
+    const withAgents = item.data.data.withAgents
+    
+
+
+    this.setState({
+      withoutAgents: withoutAgents,
+      withAgents: withAgents
+    })
+
   }
 
   newCust() {
@@ -34,14 +60,18 @@ class crm_customer extends Component {
     console.log("importCust");
   }
 
+
   render() {
     const {
       // options,
       nowShowing,
       action,
-      tableData,
+      // tableData,
       loading
     } = this.props.customerState.customerList;
+
+    // console.log('tableData')
+    // console.log(tableData)
 
     return (
       <React.Fragment>
@@ -53,7 +83,6 @@ class crm_customer extends Component {
           title={nowShowing}
           actionGroup={{
             add: { onClick: this.newCust },
-            // mid: { label: "Import", onClick: this.importCust },
             more: [{ label: "Refresh List", onClick: this.refresh }]
           }}
         />
@@ -64,7 +93,10 @@ class crm_customer extends Component {
                 onChangeValue={this.props.changeCustomerView}
               />
         </div> */}
-        <CustomerList action={action} tableData={tableData} loading={loading} />
+        <CustomerList action={action} tableData={this.state.withoutAgents} loading={loading} />
+
+        <CustomerList action={action} tableData={this.state.withAgents} loading={loading} />
+
       </React.Fragment>
     );
   }

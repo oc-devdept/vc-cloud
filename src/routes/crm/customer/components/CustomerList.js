@@ -11,6 +11,7 @@ import RctSectionLoader from "Components/RctSectionLoader";
 import ActiveStatusBadge from "Components/StatusBadge/ActiveStatusBadge";
 
 const CustomerList = ({ tableData, loading, title, action }) => {
+
   const columns = [
     {
       name: "id",
@@ -27,22 +28,22 @@ const CustomerList = ({ tableData, loading, title, action }) => {
         }
       }
     },
-    {
-      label: "Account",
-      name: "accountInfo",
-      options: {
-        customBodyRender: value => {
-          return value ? (
-            <NavLink to={singleAccount(value.id)}>{value.name}</NavLink>
-          ) : (
-            ""
-          );
-        }
-      }
-    },
+    // {
+    //   label: "Account",
+    //   name: "accountInfo",
+    //   options: {
+    //     customBodyRender: value => {
+    //       return value ? (
+    //         <NavLink to={singleAccount(value.id)}>{value.name}</NavLink>
+    //       ) : (
+    //         ""
+    //       );
+    //     }
+    //   }
+    // },
     { label: "Email", name: "email" },
-    { label: "Mobile", name: "mobile" },
-    { label: "Source", name: "source" },
+    { label: "Mobile", name: "contact" },
+    // { label: "Source", name: "source" },
     {
       label: "Status",
       name: "isActive",
@@ -53,11 +54,20 @@ const CustomerList = ({ tableData, loading, title, action }) => {
       }
     },
     {
+      label: "Booking(s)",
+      name: "bookings",
+      options: {
+        customBodyRender: value => {
+          return value? value.length : 0
+        }
+      },
+    },
+    {
       label: "Owner",
       name: "userInfo",
       options: {
         customBodyRender: value => {
-          return value ? value.name : "";
+          return value ? value.name : "Waiting For Agent";
         }
       }
     },

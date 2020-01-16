@@ -35,14 +35,14 @@ export default [
     child_routes: []
   },
   {
-    url: "/app/crm/leads",
+    url: "/app/crm/customers",
     baseUrl: "/app/crm",
     name: "CRM",
     child_routes: [
-      {
-        title: "sidebar.leads",
-        path: leadListPage
-      },
+      // {
+      //   title: "sidebar.leads",
+      //   path: leadListPage
+      // },
       {
         title: "sidebar.customers",
         path: customerListPage
@@ -57,29 +57,29 @@ export default [
       }
     ]
   },
-  {
-    url: "/app/acct/quotations",
-    baseUrl: "/app/acct",
-    name: "Accounting",
-    child_routes: [
-      {
-        title: "sidebar.quotations",
-        path: quoteListPage
-      },
-      {
-        title: "sidebar.invoices",
-        path: invoiceListPage
-      },
-      {
-        title: "sidebar.payment",
-        path: paymentPage
-      },
-      {
-        title: "sidebar.credit_note",
-        path: crednoteListPage
-      }
-    ]
-  },
+  // {
+  //   url: "/app/acct/quotations",
+  //   baseUrl: "/app/acct",
+  //   name: "Accounting",
+  //   child_rouztes: [
+  //     {
+  //       title: "sidebar.quotations",
+  //       path: quoteListPage
+  //     },
+  //     {
+  //       title: "sidebar.invoices",
+  //       path: invoiceListPage
+  //     },
+  //     {
+  //       title: "sidebar.payment",
+  //       path: paymentPage
+  //     },
+  //     {
+  //       title: "sidebar.credit_note",
+  //       path: crednoteListPage
+  //     }
+  //   ]
+  // },
   {
     url: "/app/reports",
     baseUrl: "/app/reports",

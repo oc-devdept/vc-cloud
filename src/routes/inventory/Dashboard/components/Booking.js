@@ -48,7 +48,7 @@ class Booking extends Component {
     //   },
       booking: {
         name: 'John Doe',
-        email: 'hello@gmail.com',
+        email: '123@gmail.com',
         service: '',
         interest: 'BMW3i Series X',
         contact: '92289321',
@@ -68,7 +68,6 @@ class Booking extends Component {
   }
 
   handleContact = (field, value) => {
-    console.log(typeof(value))
     let booking = {...this.state.booking}
     booking[field] = value
     this.setState({booking: booking})
@@ -98,8 +97,6 @@ class Booking extends Component {
 
     return (
       <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'column', flex: 1}}>
-
-            <h1>Booking System</h1>   
 
             <div style={{display:'flex', flexDirection:"column", padding: 10, flex: 1}}>
    
@@ -147,7 +144,7 @@ class Booking extends Component {
                 <div style={{display:'flex', flexDirection:"row", flex:1}}>
                    
                     <div style={{display:'flex', flexDirection:"column", width:'100%', marginRight: 30,}}>
-                        <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT VARIANT GROUP NAME</span>
+                        <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>YOUR SERVICE</span>
                         <FormControl>
                             <Select 
                                 labelId="demo-simple-select-helper-label"
