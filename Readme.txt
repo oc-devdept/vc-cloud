@@ -13,6 +13,7 @@ Retrieve Product Variant
 Retrieve Product Options
 Retrieve Product Details
 Retrieve Tags
+Retrieve Featured Grades
 
 
 
@@ -99,3 +100,13 @@ Return a JSON data type = response.data.fields : Array
 This method is used to retrieve all Models under a Tag
 GET - /tags/getAllTagsModels/:id
 Return a JSON data type = response.data.fields : Array
+
+
+
+RETRIEVE FEATURED GRADES
+
+This method is used to retrieve Featured Grades
+GET - /products/getAllFeaturedCars
+Return a JSON data type = response.data.fields : Array
+
+

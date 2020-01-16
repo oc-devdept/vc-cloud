@@ -28,6 +28,7 @@ export default class Index extends PureComponent {
                     cost_Price: '',
                     selling_Price: '',
                     isActive: true,
+                    isFeature: false,
                 },
                 Images:[],
                 files: [],
@@ -42,9 +43,13 @@ export default class Index extends PureComponent {
 
     _HandleProduct = (e, element) => {
         let Product = {...this.state.Product}
-    
+            
+
         if(element == "isActive") {
           Product.isActive = !Product.isActive
+          this.setState({Product: Product})
+        } else if (element == "isFeature"){
+          Product.isFeature = !Product.isFeature
           this.setState({Product: Product})
         } else {
           Product[element] = e

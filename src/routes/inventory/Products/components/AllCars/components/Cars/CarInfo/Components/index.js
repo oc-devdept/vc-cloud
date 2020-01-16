@@ -6,6 +6,7 @@ import Image from 'Components/Image'
 
 import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
+import Switch from 'Components/Inventory/Switch';
 
 
 class Grade extends PureComponent {
@@ -31,8 +32,6 @@ class Grade extends PureComponent {
                 />
 
                 
-
-
                 <Input
                   divStyle={{width: '40%'}}
                   title="NAME"
@@ -43,6 +42,13 @@ class Grade extends PureComponent {
                 />
 
 
+                <Switch
+                  title={'FEATURED CAR'}
+                  checked = {Product.isFeature}
+                  element={'isFeature'}
+                  _HandleProduct={_HandleProduct}
+                />
+    
                 {/* <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>
                   <span>SKU NUMBER</span>
                   <input 
