@@ -48,7 +48,7 @@ class Booking extends Component {
     //   },
       booking: {
         name: 'John Doe',
-        email: '123@gmail.com',
+        email: 'gianjie@ocdigitalnetwork.com',
         service: '',
         interest: 'BMW3i Series X',
         contact: '92289321',
@@ -57,7 +57,8 @@ class Booking extends Component {
         created: '',
         start: '',
         end: '',
-      }
+      },
+      error: false
     }
   }
  
@@ -79,9 +80,19 @@ class Booking extends Component {
       booking.created = new Date()
 
       // Create Api to backend to save bookings
-      await api.post(`/bookings/createBooking`, {data: booking});
+      const result = await api.post(`/bookings/createBooking`, {data: booking});
+      
+      switch(result.data.success){
+            case 0:
+                this.setState({error: true})
+                break
+            case 1:
+                this.setState({booking: origin})
+                break
+            default:
+                break
+      }
 
-      this.setState({booking: origin})
   }
 
   _ToggleCategoryKey = (item) => {
@@ -207,6 +218,28 @@ class Booking extends Component {
 
             </div>
 
+
+            {this.state.error && 
+        
+                <div style={{display:'flex', flexDirection:"column", padding: 10, flex: 1, marginTop: 50}}>
+
+                    <h1>You have an account with us, please login to make your booking</h1>
+
+                    <div style={{display:'flex', justifyContent:'flex-end', marginTop: 25}}>
+                        <Button
+                            _Function={() => this.setState({error: false})}
+                            product={''}
+                            files={''}
+                            title={'Okay'}
+                        />
+                    </div>
+
+                </div>
+
+            }
+        
+        
+        
         </div>
     );
   }

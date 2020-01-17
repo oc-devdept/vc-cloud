@@ -53,13 +53,18 @@ class crm_view_customer extends Component {
 
   async componentDidMount() {
 
-    var id = this.props.match.params.id;
-    const item = await api.get(`/customers/getOneCustomer/${id}`);
+    try {
 
-    this.setState({customer: item.data.fields, loading: false})
+      var id = this.props.match.params.id;
+      const item = await api.get(`/customers/getOneCustomer/${id}`);  
+      this.setState({customer: item.data.fields, loading: false})
+  
+    } catch (e) {
 
-    console.log(item.data.fields)
-    // this.props.getSingleCustomer(id);
+      console.log(e)
+
+    }
+ 
   }
 
   componentWillUnmount() {
@@ -131,12 +136,9 @@ class crm_view_customer extends Component {
   }
 
   _handleDeployAgent = async(id) => {
-    console.log('handle id', id)
 
     const item = await api.post(`/customers/deployAgent`, {data: {id}});
-
     this.setState({customer: item.data.fields})
-
 
   }
 

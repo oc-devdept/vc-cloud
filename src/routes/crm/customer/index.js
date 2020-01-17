@@ -25,7 +25,8 @@ class crm_customer extends Component {
 
     this.state = ({
       withoutAgents: [],
-      withAgents: []
+      withAgents: [],
+      loading: true,
     })
   }
 
@@ -39,12 +40,12 @@ class crm_customer extends Component {
     
     const withoutAgents = item.data.data.withoutAgents
     const withAgents = item.data.data.withAgents
-    
-
+  
 
     this.setState({
       withoutAgents: withoutAgents,
-      withAgents: withAgents
+      withAgents: withAgents,
+      loading: false
     })
 
   }
@@ -93,9 +94,9 @@ class crm_customer extends Component {
                 onChangeValue={this.props.changeCustomerView}
               />
         </div> */}
-        <CustomerList action={action} tableData={this.state.withoutAgents} loading={loading} />
+        <CustomerList action={action} tableData={this.state.withoutAgents} loading={this.state.loading} />
 
-        <CustomerList action={action} tableData={this.state.withAgents} loading={loading} />
+        <CustomerList action={action} tableData={this.state.withAgents} loading={this.state.loading} />
 
       </React.Fragment>
     );
