@@ -27,7 +27,7 @@ class Index extends Component {
       ModelDetail: {},
       GradeItems : null,
 
-      ProductDetail: [],
+      ProductDetail: {},
       Exterior: [],
       Interior: [],
       ProductOptions: [],
@@ -48,6 +48,7 @@ class Index extends Component {
       const Make = await api.get(`categories/${e.id}`);
       const GradeItems = await api.get(`categories/${e.id}`)
 
+      
       return this.setState({
         ModelID: e.id, 
         ModelDetail: Make.data, 
@@ -62,6 +63,7 @@ class Index extends Component {
   _SelectGradeExterior = async(e) => {
     
     // Grade Detail
+
     const GradeDetail = await api.get(`products/specificGradeDetail/${e.id}`);
 
     const ExteriorGrade = await api.get(`products/specificVariantExterior/${e.id}`);

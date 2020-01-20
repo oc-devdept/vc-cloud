@@ -43,7 +43,7 @@ export default class Index extends PureComponent {
       },
       {
         label: "Unit",
-        name: "value2",
+        name: "unit",
         options: {
           customBodyRender: value => {
             return value;
@@ -61,7 +61,7 @@ export default class Index extends PureComponent {
                 const data = {
                   id: rowState.rowData[0],
                   name: rowState.rowData[2],
-                  value2:  rowState.rowData[3]
+                  unit:  rowState.rowData[3]
                 }
                 return (
                     <Edit
@@ -81,7 +81,7 @@ export default class Index extends PureComponent {
                 const data = {
                   id: rowState.rowData[0],
                   name: rowState.rowData[2],
-                  value2:  rowState.rowData[3]
+                  unit:  rowState.rowData[3]
                 }
                 return (
                   <Delete

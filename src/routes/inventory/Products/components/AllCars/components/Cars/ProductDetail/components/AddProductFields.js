@@ -11,7 +11,7 @@ export default class Index extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            addItemInformation : this.props.Fields
+            addItemInformation : {...this.props.Fields, value: ''}
         }
     }
     
@@ -28,7 +28,7 @@ export default class Index extends PureComponent {
         // if(!e){
         //     return null
         // }
-
+        
         return (
             <div className="d-flex" style={{flexDirection:"column", paddingLeft: 20, paddingRight: 20, paddingBottom: 20}}>
 
@@ -58,7 +58,7 @@ export default class Index extends PureComponent {
                     <Text
                         divStyle={{width: '30%'}}
                         title="UNIT OF MEASUREMENT"
-                        value={this.state.addItemInformation.value2}
+                        value={this.state.addItemInformation.unit}
                     />
 
                 </div>

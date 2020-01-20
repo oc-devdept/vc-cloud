@@ -33,8 +33,14 @@ class index extends PureComponent {
     }
 
     _FetchProductsAPI = async() => {
-        const ModelGrade = await api.get(`categories/ModelGrade`);  
-        return this.setState({Products: ModelGrade.data.fields, loading: false})
+        try {
+            const ModelGrade = await api.get(`categories/ModelGrade`);  
+            return this.setState({Products: ModelGrade.data.fields, loading: false})
+        } catch (e) {
+            console.log('error')
+            console.log(e)
+        }
+       
     }
 
 

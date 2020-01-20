@@ -76,9 +76,6 @@ export default class Index extends PureComponent {
                             <div style={{minWidth: 90,}}>
                             <span style={{color:"white"}}>UNIT</span>
                             </div>
-                            {/* <div style={{minWidth: 90,}}>
-                            <span style={{color:"white",}}>EDIT</span>
-                            </div> */}
                             <div style={{minWidth: 90,}}>
                             <span style={{color:"white"}}>DELETE</span>
                             </div>
@@ -212,7 +209,7 @@ export default class Index extends PureComponent {
                                             if(Car.length > 0){
                                                 Car.map(e => {
                                                     if(each){
-                                                        if(e.name == each.name){
+                                                        if(e.detailCategory.name == each.name){
                                                             contain = true
                                                         }
                                                     }

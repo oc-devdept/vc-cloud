@@ -168,19 +168,35 @@ export default class Index extends Component {
     await this.setState({ProductDetailLoading: true})
 
     let Car = {...this.state.Car}
+   
 
-    await api.post(`/products/${Car.id}/productDetail`, {
-      name: e.name,
-      type: e.type,
+    await api.post(`/productDetailValues`, {
       value: e.value,
-      value2: e.value2,
-      productDetailCategoryId: e.productDetailCategoryId
+      detailCategoryId: e.id,
+      productDetailCategoryId: e.productDetailCategoryId,
+      productId: Car.id
     }); 
     
     const latestProduct = await api.get(`/products/${Car.id}`)
     this.setState({Car: latestProduct.data})
 
     await this.setState({ProductDetailLoading: false})
+
+
+
+
+    // await api.post(`/products/${Car.id}/productDetail`, {
+    //   name: e.name,
+    //   type: e.type,
+    //   value: e.value,
+    //   value2: e.value2,
+    //   productDetailCategoryId: e.productDetailCategoryId
+    // }); 
+    
+    // const latestProduct = await api.get(`/products/${Car.id}`)
+    // this.setState({Car: latestProduct.data})
+
+    // await this.setState({ProductDetailLoading: false})
 
   }
 
@@ -196,7 +212,9 @@ export default class Index extends Component {
 
     let Car = {...this.state.Car}
 
-    const result = await api.delete(`/productDetails/${index}`); 
+    const result = await api.delete(`/productDetailValues/${index}`); 
+    // DELETE /productDetailValues/{id}
+
 
     if(result.data.count == 1){
         const latestProduct = await api.get(`/products/${Car.id}`)
@@ -269,7 +287,6 @@ export default class Index extends Component {
    
     return (
 
-       
         <div>
             {this.state.loading && 
               <div>
@@ -341,7 +358,7 @@ export default class Index extends Component {
 
                       {this.state.stage == 1 &&
                         <ProductDetail
-                          Car={Car.productDetail}
+                          Car={Car.productDetailValue}
                           _AddCarDetail = {this._AddCarDetail}
                           _SaveCarDetail = {this._SaveCarDetail}
                           _HandleProductDetailValue={this._HandleProductDetailValue}

@@ -23,10 +23,10 @@ class index extends PureComponent {
         }
         let ProductDetail = {
             name:'',
-            value1: '',
-            value2: '',
-            type: ''
+            unit: '',
         }
+
+        console.log(this.props.Data)
 
         switch(this.props.Action){
             case "Create":
@@ -42,7 +42,7 @@ class index extends PureComponent {
                 ProductDetail = {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
-                    value2: this.props.Data.value2
+                    unit: this.props.Data.unit
                 }
                 Button = "SAVE CHANGES"
                 break
@@ -51,7 +51,7 @@ class index extends PureComponent {
                 ProductDetail = {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
-                    value2: this.props.Data.value2
+                    unit: this.props.Data.unit
                 }
                 Button = "CONFIRM DELETE"
                 break
@@ -76,9 +76,7 @@ class index extends PureComponent {
         await api.post("/productDetails", 
             {
                 name: ProductDetail.name,
-                type: ProductDetail.type,
-                value: ProductDetail.value1,
-                value2: ProductDetail.value2,
+                unit: ProductDetail.unit,
                 productDetailCategoryId: productDetailCategoryId
             }
         ); 
@@ -88,7 +86,7 @@ class index extends PureComponent {
     }
 
     _EditProductDetail = async() => {
-        
+                
         await api.post("/productDetails/editProductDetailValues", {data: this.state.ProductDetail}); 
         await this.props._SaveProductDetailDone()
         await this.props._RestartToggle()
@@ -142,7 +140,7 @@ class index extends PureComponent {
                             <Text
                                 divStyle={{width: '100%'}}
                                 title="UNITS OF MEASUREMENT"
-                                value={this.state.ProductDetail.value2}
+                                value={this.state.ProductDetail.unit}
                             />
 
 
@@ -189,8 +187,8 @@ class index extends PureComponent {
                                 divStyle={{width: '100%'}}
                                 title="UNITS OF MEASUREMENT"
                                 placeholder="Enter Product Measurement (e.g units / km/h)"
-                                value={this.state.ProductDetail.value2}
-                                element={'value2'}
+                                value={this.state.ProductDetail.unit}
+                                element={'unit'}
                                 _HandleProduct={this._HandleProduct}
                             />  
                               
@@ -236,8 +234,8 @@ class index extends PureComponent {
                                     divStyle={{width: '100%'}}
                                     title="UNITS OF MEASUREMENT"
                                     placeholder="Enter Product Measurement (e.g units / km/h)"
-                                    value={this.state.ProductDetail.value2}
-                                    element={'value2'}
+                                    value={this.state.ProductDetail.unit}
+                                    element={'unit'}
                                     _HandleProduct={this._HandleProduct}
                                 />  
                             </div>
