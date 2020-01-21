@@ -43,15 +43,53 @@ Retrieve all models under a selected make's Id
 
 <br/>
 
+<h3>GET - <span>/categories/{ID}</span></h3>  
+
+    {
+        id: ...,
+        name : ...,
+        description : ...,
+        files: [...] <-- array of images 
+        product : [
+            {...},
+            {...}
+        ]
+    }
+
+Retrieve a specific model with its information and products
+
+<br/>
+
+<h3>GET - <span>/products/specificGrades/{ID}</span></h3>  
+
+    fields: [
+        {
+            id: ...,
+            name: ...,
+            description: ...,
+            cost_Price: ...,
+            selling_Price: ...,
+            engine: {
+                value: ...,
+                detailCategory: {
+                    name: "Engine",
+                    unit: "Horsepower",
+                    ...
+                }
+            },
+            power: {...},
+            fuel: {...},
+            files: [...] <-- array of images 
+        },
+        {...}
+    ]
+
+Retrieve all grades under a specific model
+
+<br/>
 
 
 
-
-
-
-This method is used to retrieve A specific Model, using id of selected Make
-GET - /categories/:id
-Return a JSON data type = response.data.fields : Object
 
 This method is used to retrieve Grades, using id of selected Model
 GET - /products/specificGrades/:id
