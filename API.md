@@ -18,9 +18,6 @@ Retrieve Featured Grades
 
 <h1>hello world</h1>
 
-
-
-
 RETRIEVE MAKE | MODEL
 
 This method is used to retrieve All Make 
@@ -28,10 +25,12 @@ This method is used to retrieve All Make
 GET - /products/getMake
 
 Return a JSON Object = {
+
     fields: [
         {...},
         {...}
     ]
+    
 }
 
 
@@ -111,6 +110,7 @@ Return a JSON data type = {
         Info: {...},
         Detail: [...]
     }
+
 }
 
 
