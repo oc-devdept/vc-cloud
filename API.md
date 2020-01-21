@@ -6,7 +6,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 
 
 
-<h2>BASE URL: http://159.65.14.175:3001/api</h2>
+<h2>BASE URL - http://159.65.14.175:3001/api</h2>
 
 
 <h3>GET - <span>/products/getMake</span></h3>  
@@ -31,15 +31,17 @@ Retrieve all the models from the inventory list
 
 <br/>
 
-This method is used to retrieve All Models under a selected Make’s Id
+<h3>GET - <span>/categories/{ID}/category</span></h3>  
 
-GET - /categories/:id/category
+    [
+        {...},
+        {...},
+        {...}
+    ]
 
-Return a JSON Array = [
-    {...},
-    {...},
-    {...}
-]
+Retrieve all models under a selected make's Id
+
+<br/>
 
 
 
