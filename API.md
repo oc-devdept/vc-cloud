@@ -1,10 +1,12 @@
-API Reference
+<h1>API DOCUMENTATION</h1>
 
+<span>
 The Venture Care API is organised around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+</span>
 
 
-BASE URL:
-http://159.65.14.175:3001/api
+
+<h2>BASE URL: http://159.65.14.175:3001/api</h2>
 
 API CONTENT
 
@@ -16,11 +18,8 @@ Retrieve Product Details
 Retrieve Tags
 Retrieve Featured Grades
 
-<h1>hello world</h1>
 
-RETRIEVE MAKE | MODEL
-
-<h2>retrieve All Make</h2>
+<h2>Retrieve all make</h2>
 
 <h2>GET <span>/products/getMake</span></h2>  
 
