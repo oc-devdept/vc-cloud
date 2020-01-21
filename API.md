@@ -12,8 +12,16 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 <h3>GET - <span>/products/getMake</span></h3>  
 
     fields: [
-        {...},
-        {...}
+        {
+            id: String,
+            name: String,
+            description: String,
+            categoryGroupId: String,
+            files: Array <-- Images,
+            category: Array,
+            product: Array,
+        }
+        
     ]
 
 Retrieve all the makes from the inventory list
@@ -23,8 +31,29 @@ Retrieve all the makes from the inventory list
 <h3>GET - <span>/products/getModel</span></h3>  
 
     fields: [
-        {...},
-        {...}
+        {
+            id: String,
+            name: String,
+            description: String,
+            categoryGroupId: String,
+            categoryGroupId: String,
+            files: Array <-- Images,
+            product: [
+                {
+                    id: String,
+                    name : String,
+                    description : String,
+                    isActive: Boolean,
+                    isFeature: Boolean,
+                    cost_Price: String,
+                    selling_Price: String,
+                    productVariant: Array,
+                    productDetailValue: Array,
+                    productOption: Array,
+                    files: Array <-- array of images 
+                }
+            ]
+        }
     ]
 
 Retrieve all the models from the inventory list
@@ -46,14 +75,11 @@ Retrieve all models under a selected make's Id
 <h3>GET - <span>/categories/{ID}</span></h3>  
 
     {
-        id: ...,
-        name : ...,
-        description : ...,
-        files: [...] <-- array of images 
-        product : [
-            {...},
-            {...}
-        ]
+        id: String,
+        name : String,
+        description : String,
+        files: Array <-- array of images 
+        product : Array
     }
 
 Retrieve a specific model with its information and products
@@ -64,45 +90,49 @@ Retrieve a specific model with its information and products
 
     fields: [
         {
-            id: ...,
-            name: ...,
-            description: ...,
-            cost_Price: ...,
-            selling_Price: ...,
-            engine: {
-                value: ...,
-                detailCategory: {
-                    name: "Engine",
-                    unit: "Horsepower",
-                    ...
-                }
-            },
-            power: {...},
-            fuel: {...},
-            files: [...] <-- array of images 
+            id: String,
+            name: String,
+            description: String,
+            cost_Price: String,
+            selling_Price: String,
+            engine: object,
+            power: object,
+            fuel: object,
+            files: array <-- array of images 
         },
-        {...}
     ]
 
 Retrieve all grades under a specific model
 
 <br/>
 
+<h3>GET - <span>/products/{ID}</span></h3>  
 
+    {
+        id: String,
+        name : String,
+        description : String,
+        isActive: Boolean,
+        isFeature: Boolean,
+        cost_Price: String,
+        selling_Price: String,
+        productVariant: Array,
+        productDetailValue: Array,
+        productOption: Array,
+        files: Array <-- array of images 
+    }
 
+Retrieve a specific grade 
 
-This method is used to retrieve Grades, using id of selected Model
-GET - /products/specificGrades/:id
-Return a JSON data type = response.data.fields : Array
+<br/>
+
 
 
 
 RETRIEVE SPECIFIC ONE GRADE
 
-This method is used to retrieve specific one grade, using id of selected Grade
 GET - /products/:id
 Return a JSON data type = response.data
-
 
 
 
