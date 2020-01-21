@@ -18,7 +18,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 
 Retrieve all the makes from the inventory list
 
-<br/><br/><br/>
+<br/>
 
 <h2>GET - <span>/products/getModel</span></h2>  
 
