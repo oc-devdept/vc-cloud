@@ -1,7 +1,7 @@
 <h1>API DOCUMENTATION</h1>
 
 <span>
-The Venture Care API is organised around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+The Venture Care API is organised around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs. Make sure to configure base api to the below api
 </span>
 
 
@@ -19,29 +19,26 @@ Retrieve Tags
 Retrieve Featured Grades
 
 
-<h2>Retrieve all make</h2>
-
-<h2>GET <span>/products/getMake</span></h2>  
+<h2>GET - <span>/products/getMake</span></h2>  
 
     fields: [
         {...},
         {...}
     ]
 
+Retrieve all the makes from the inventory list
 
 
+<h2>GET - <span>/products/getModel</span></h2>  
 
-
-This method is used to retrieve All Model 
-
-GET - /products/getModel
-
-Return a JSON Object = {
     fields: [
         {...},
         {...}
     ]
-}
+
+Retrieve all the models from the inventory list
+
+
 
 
 This method is used to retrieve All Models under a selected Make’s Id
