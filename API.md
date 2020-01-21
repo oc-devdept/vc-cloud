@@ -5,6 +5,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 </span>
 
 <br/>
+<br/>
 
 <h2>BASE URL - http://159.65.14.175:3001/api</h2>
 
@@ -12,7 +13,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 
 <h3>GET - <span>/products/getMake</span></h3>  
 
-    fields: [
+    fields : [
         {
             id: String,
             name: String,
@@ -31,7 +32,7 @@ Retrieve all the makes from the inventory list
 
 <h3>GET - <span>/products/getModel</span></h3>  
 
-    fields: [
+    fields : [
         {
             id: String,
             name: String,
@@ -112,7 +113,7 @@ Retrieve a specific model with its information and products
 
 <h3>GET - <span>/products/specificGrades/{ID}</span></h3>  
 
-    fields: [
+    fields : [
         {
             id: String,
             name: String,
@@ -152,21 +153,26 @@ Retrieve a specific grade
 
 <h3>GET - <span>/products/specificVariantExterior/{ID}</span></h3>  
 
-    {
-        id: String,
-        name : String,
-        description : String,
-        isActive: Boolean,
-        isFeature: Boolean,
-        cost_Price: String,
-        selling_Price: String,
-        productVariant: Array,
-        productDetailValue: Array,
-        productOption: Array,
-        files: Array <-- images 
+    fields : {
+        String : {
+            id: String,
+            name: String,
+            groupName: "Exterior",
+            objects: [
+                {
+                    id: String
+                    name: String,
+                    price: String,
+                    isDefault: String,
+                    productId: String,
+                    productVariantId: String,
+                    files : Array <-- images
+                }
+            ]
+        }
     }
 
-Retrieve a specific grade 
+Retrieve dynamic keys and values of the product variant exterior, remember to use dynamic mapping to extract the keys and values, hard coding may produce errors in frontend as admin may change the variants anytime
 
 <br/>
 
