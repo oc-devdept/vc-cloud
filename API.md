@@ -2,6 +2,15 @@ API Reference
 
 The Venture Care API is organised around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
+
+
+
+<!DOCTYPE html>
+
+
+
+
+
 BASE URL:
 http://159.65.14.175:3001/api
 
@@ -15,13 +24,7 @@ Retrieve Product Details
 Retrieve Tags
 Retrieve Featured Grades
 
-
-
-
-
-
-
-
+<h1>hello world</h1>
 
 
 
@@ -29,16 +32,45 @@ Retrieve Featured Grades
 RETRIEVE MAKE | MODEL
 
 This method is used to retrieve All Make 
+
 GET - /products/getMake
-Return a JSON data = response.data.fields : Array
+
+Return a JSON Object = {
+    fields: [
+        {...},
+        {...}
+    ]
+}
+
+
 
 This method is used to retrieve All Model 
+
 GET - /products/getModel
-Return a JSON data type = response.data.fields : Array 
+
+Return a JSON Object = {
+    fields: [
+        {...},
+        {...}
+    ]
+}
+
 
 This method is used to retrieve All Models under a selected Make’s Id
+
 GET - /categories/:id/category
-Return a JSON data type = response.data.fields : Array
+
+Return a JSON Array = [
+    {...},
+    {...},
+    {...}
+]
+
+
+
+
+
+
 
 This method is used to retrieve A specific Model, using id of selected Make
 GET - /categories/:id
@@ -81,7 +113,16 @@ RETRIEVE PRODUCT DETAILS
 
 This method is used to retrieve Product Detail of a Grade with selected Grade ID
 GET - /products/specificGradeDetail/:id
-Return a JSON data type = response.data.fields : Array
+Return a JSON data type = {
+
+    fields : {
+        Info: {...},
+        Detail: [...]
+    }
+}
+
+
+
 
 
 RETRIEVE PRODUCT DETAILS
