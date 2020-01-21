@@ -8,16 +8,6 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 
 <h2>BASE URL: http://159.65.14.175:3001/api</h2>
 
-API CONTENT
-
-Retrieve Make | Model
-Retrieve One Specific Grade
-Retrieve Product Variant
-Retrieve Product Options
-Retrieve Product Details
-Retrieve Tags
-Retrieve Featured Grades
-
 
 <h2>GET - <span>/products/getMake</span></h2>  
 
