@@ -24,14 +24,14 @@ This method is used to retrieve All Make
 
 GET - /products/getMake
 
-Return a JSON Object = {
+Return a JSON Object = 
 
     fields: [
         {...},
         {...}
     ]
-    
-}
+
+
 
 
 
