@@ -22,9 +22,7 @@ RETRIEVE MAKE | MODEL
 
 This method is used to retrieve All Make 
 
-GET - /products/getMake
-
-Return a JSON Object = 
+<h2>GET</h2>  /products/getMake
 
     fields: [
         {...},
