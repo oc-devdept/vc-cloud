@@ -3,14 +3,6 @@ API Reference
 The Venture Care API is organised around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
 
 
-
-
-<!DOCTYPE html>
-
-
-
-
-
 BASE URL:
 http://159.65.14.175:3001/api
 
