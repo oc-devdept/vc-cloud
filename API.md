@@ -18,7 +18,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
             name: String,
             description: String,
             categoryGroupId: String,
-            files: Array <-- Images,
+            files: Array <-- images,
             category: Array,
             product: Array,
         }
@@ -38,7 +38,7 @@ Retrieve all the makes from the inventory list
             description: String,
             categoryGroupId: String,
             categoryGroupId: String,
-            files: Array <-- Images,
+            files: Array <-- images,
             product: [
                 {
                     id: String,
@@ -53,7 +53,7 @@ Retrieve all the makes from the inventory list
                     productVariant: Array,
                     productDetailValue: Array,
                     productOption: Array,
-                    files: Array <-- array of images 
+                    files: Array <-- images 
                 }
             ]
         }
@@ -87,7 +87,7 @@ Retrieve all the models from the inventory list
                 productVariant: Array,
                 productDetailValue: Array,
                 productOption: Array,
-                files: Array <-- array of images 
+                files: Array <-- images 
             ]
         }
     ]
@@ -102,7 +102,7 @@ Retrieve all models under a selected make's Id
         id: String,
         name : String,
         description : String,
-        files: Array <-- array of images 
+        files: Array <-- images 
         product : Array
     }
 
@@ -122,7 +122,7 @@ Retrieve a specific model with its information and products
             engine: object,
             power: object,
             fuel: object,
-            files: array <-- array of images 
+            files: array <-- images 
         },
     ]
 
@@ -143,22 +143,32 @@ Retrieve all grades under a specific model
         productVariant: Array,
         productDetailValue: Array,
         productOption: Array,
-        files: Array <-- array of images 
+        files: Array <-- images 
     }
 
 Retrieve a specific grade 
 
 <br/>
 
+<h3>GET - <span>/products/specificVariantExterior/{ID}</span></h3>  
 
+    {
+        id: String,
+        name : String,
+        description : String,
+        isActive: Boolean,
+        isFeature: Boolean,
+        cost_Price: String,
+        selling_Price: String,
+        productVariant: Array,
+        productDetailValue: Array,
+        productOption: Array,
+        files: Array <-- images 
+    }
 
+Retrieve a specific grade 
 
-RETRIEVE SPECIFIC ONE GRADE
-
-GET - /products/:id
-Return a JSON data type = response.data
-
-
+<br/>
 
 
 RETRIEVE PRODUCT VARIANT
