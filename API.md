@@ -45,6 +45,8 @@ Retrieve all the makes from the inventory list
                     description : String,
                     isActive: Boolean,
                     isFeature: Boolean,
+                    categoryGroupId: String,
+                    categoryId:	String,
                     cost_Price: String,
                     selling_Price: String,
                     productVariant: Array,
@@ -63,9 +65,30 @@ Retrieve all the models from the inventory list
 <h3>GET - <span>/categories/{ID}/category</span></h3>  
 
     [
-        {...},
-        {...},
-        {...}
+        {
+            id: String,
+            name: String,
+            description: String,
+            categoryGroupId: String,
+            categoryId:	String,
+            tagId: String,
+            files: Array,
+            product: [
+                 id: String,
+                name : String,
+                description : String,
+                isActive: Boolean,
+                isFeature: Boolean,
+                categoryGroupId: String,
+                categoryId:	String,
+                cost_Price: String,
+                selling_Price: String,
+                productVariant: Array,
+                productDetailValue: Array,
+                productOption: Array,
+                files: Array <-- array of images 
+            ]
+        }
     ]
 
 Retrieve all models under a selected make's Id
