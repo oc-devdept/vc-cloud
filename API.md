@@ -22,8 +22,9 @@ The Venture Care API is organised around REST. Our API has predictable resource-
             files: Array <-- images,
             category: Array,
             product: Array,
-        }
-        
+        },
+        {...},
+        {...},
     ]
 
 Retrieve all the makes from the inventory list
@@ -57,14 +58,16 @@ Retrieve all the makes from the inventory list
                     files: Array <-- images 
                 }
             ]
-        }
+        },
+        {...},
+        {...},
     ]
 
 Retrieve all the models from the inventory list
 
 <br/>
 
-<h3>GET - <span>/categories/{ID}/category</span></h3>  
+<h3>GET - <span>/categories/{id}/category</span></h3>  
 
     [
         {
@@ -90,14 +93,16 @@ Retrieve all the models from the inventory list
                 productOption: Array,
                 files: Array <-- images 
             ]
-        }
+        },
+        {...},
+        {...},
     ]
 
 Retrieve all models under a selected make's Id
 
 <br/>
 
-<h3>GET - <span>/categories/{ID}</span></h3>  
+<h3>GET - <span>/categories/{id}</span></h3>  
 
     {
         id: String,
@@ -111,7 +116,7 @@ Retrieve a specific model with its information and products
 
 <br/>
 
-<h3>GET - <span>/products/specificGrades/{ID}</span></h3>  
+<h3>GET - <span>/products/specificGrades/{id}</span></h3>  
 
     fields : [
         {
@@ -125,13 +130,15 @@ Retrieve a specific model with its information and products
             fuel: object,
             files: array <-- images 
         },
+        {...},
+        {...},
     ]
 
 Retrieve all grades under a specific model
 
 <br/>
 
-<h3>GET - <span>/products/{ID}</span></h3>  
+<h3>GET - <span>/products/{id}</span></h3>  
 
     {
         id: String,
@@ -151,13 +158,13 @@ Retrieve a specific grade
 
 <br/>
 
-<h3>GET - <span>/products/specificVariantExterior/{ID}</span></h3>  
+<h3>GET - <span>/products/specificVariantExterior/{id}</span></h3>  
 
     fields : {
         String : {
             id: String,
             name: String,
-            groupName: "Exterior",
+            groupName: String,
             objects: [
                 {
                     id: String
@@ -169,71 +176,190 @@ Retrieve a specific grade
                     files : Array <-- images
                 }
             ]
-        }
+        },
+        {...},
+        {...},
     }
 
 Retrieve dynamic keys and values of the product variant exterior, remember to use dynamic mapping to extract the keys and values, hard coding may produce errors in frontend as admin may change the variants anytime
 
 <br/>
 
-
-RETRIEVE PRODUCT VARIANT
-
-This method is used to retrieve exterior product variant of a Grade
-GET - /products/specificVariantExterior/:id
-Return a JSON data type = response.data.fields : Array
-
-This method is used to retrieve interior product variant of a Grade
-GET - /products/specificVariantInterior/:id
-Return a JSON data type = response.data.fields : Array
-
-
-RETRIEVE PRODUCT OPTIONS
-
-This method is used to retrieve Product Option of a Grade
-GET - /products/specificGradeProductOption/:id
-Return a JSON data type = response.data.fields : Array
-
-RETRIEVE PRODUCT DETAILS
-
-This method is used to retrieve Product Detail of a Grade with selected Grade ID
-GET - /products/specificGradeDetail/:id
-Return a JSON data type = {
+<h3>GET - <span>/products/specificVariantInterior/{id}</span></h3>  
 
     fields : {
-        Info: {...},
-        Detail: [...]
+        String : {
+            id: String,
+            name: String,
+            groupName: String,
+            objects: [
+                {
+                    id: String
+                    name: String,
+                    price: String,
+                    isDefault: String,
+                    productId: String,
+                    productVariantId: String,
+                    files : Array <-- images
+                }
+            ]
+        },
+        {...},
+        {...},
     }
 
-}
+Retrieve dynamic keys and values of the product variant interior, remember to use dynamic mapping to extract the keys and values, hard coding may produce errors in frontend as admin may change the variants anytime
 
+<br/>
 
+<h3>GET - <span>/products/specificGradeProductOption/{id}</span></h3>  
 
+    fields : {
+        String : [
+            id: String,
+            productOptionId: String
+            productId: String
+            productOption: {
+                id: String,
+                name: String,
+                price	Number,
+                isDefault	Boolean,
+                editable	Boolean,
+                productOptionCategoryId: String
+                type: String,
+                value2	String,
+                files: Array
+            }
+        ],
+        [...],
+        [...],
+    }
 
+Retrieve dynamic keys and values of the product options, remember to use dynamic mapping to extract the keys and values, hard coding may produce errors in frontend as admin may change the choices anytime
 
-RETRIEVE PRODUCT DETAILS
+<br/>
 
-This method is used to retrieve Product Detail of a Grade with selected Grade ID
-GET - /products/specificGradeDetail/:id
-Return a JSON data type = response.data.fields : Array
+<h3>GET - <span>/products/specificGradeDetail/:id</span></h3>  
 
+    fields : {
+        Info : {
+            id: String
+            name: String
+            description: String
+            cost_Price	String
+            selling_Price	String
+        },
+        Detail : [
+            {
+                String : [
+                    {
+                        id: String,
+                        value: String
+                        detailCategoryId: String,
+                        productId: String,
+                        productDetailCategoryId: String,
+                        detailCategory: {
+                            name: String,
+                            unit: String,
+                            id: String,
+                            productDetailCategoryId: String
+                        }
+                    },
+                    {...}
+                ]
+            },
+            {
+                String : [
+                    {
 
-RETRIEVE TAGS
+                    },
+                    {...}
+                ]
+            },
+            {...}
+        ]
+    }
 
-This method is used to retrieve Tags of the Models
-GET - /tags/getAllTags
-Return a JSON data type = response.data.fields : Array
+Retrieve product details and the infomation of the grade - name, description. Use this to get the full information of the product specifications
 
-This method is used to retrieve all Models under a Tag
-GET - /tags/getAllTagsModels/:id
-Return a JSON data type = response.data.fields : Array
+<br/>
 
+<h3>GET - <span>/tags/getAllTags</span></h3>  
 
+    fields : [
+        {
+            id: String,
+            name: String,
+            tags: Number,
+        },
+        {...},
+        {...}
+    ]
 
-RETRIEVE FEATURED GRADES
+Retrieve all tags or types of models - etc Sedan, Hatchback, Crossover 
 
-This method is used to retrieve Featured Grades
-GET - /products/getAllFeaturedCars
-Return a JSON data type = response.data.fields : Array
+<br/>
+
+<h3>GET - <span>/tags/getAllTagsModels/{id}</span></h3>  
+
+    fields : [
+        {
+            id: String,
+            name: String,
+            description: String,
+            categoryGroupId: String,
+            categoryId: String,
+            tagId: String,
+            tags: Array,
+            files: Array,
+            category: Array
+            product: [
+                {
+                    id: String,
+                    name : String,
+                    description : String,
+                    isActive: Boolean,
+                    isFeature: Boolean,
+                    categoryGroupId: String,
+                    categoryId:	String,
+                    cost_Price: String,
+                    selling_Price: String,
+                    productVariant: Array,
+                    productDetailValue: Array,
+                    productOption: Array,
+                    files: Array <-- images 
+                },
+                {...},
+                {...}
+            ]
+        },
+        {...},
+    ]
+
+Retrieve all grades or mixture of grades under the same tag -  etc sedan, hatchback
+
+<br/>
+
+<h3>GET - <span>/products/getAllFeaturedCars</span></h3>  
+
+    fields : [
+        {
+            id: String,
+            name: String,
+            modelId: String,
+            cost_Price: String,
+            selling_Price: String,
+            images: Array
+            engine: Object : return null if no item found
+            fuel: Object : return null if no item found
+            power: Object : return null if no item found
+        },
+        {...},
+        {...}
+    ]
+
+Retrieve all featured cars in the inventory list set by the admin 
+
+<br/>
 
 
