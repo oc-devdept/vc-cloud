@@ -20,9 +20,9 @@ Retrieve Featured Grades
 
 RETRIEVE MAKE | MODEL
 
-This method is used to retrieve All Make 
+<h2>retrieve All Make</h2>
 
-<h2>GET</h2>  /products/getMake
+<h2>GET <span>/products/getMake</span></h2>  
 
     fields: [
         {...},
