@@ -49,8 +49,8 @@ module.exports = function(env) {
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       // We don't currently advertise code splitting but Webpack supports it.
-      filename: "static/js/[name].[hash:8].js",
-      chunkFilename: "static/js/[name].[hash:8].chunk.js",
+      filename: "../assets/images/ js/[name].[hash:8].js",
+      chunkFilename: "../assets/images/ js/[name].[hash:8].chunk.js",
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath: publicPath,
       hotUpdateChunkFilename: "hot/hot-update.js",
@@ -113,7 +113,7 @@ module.exports = function(env) {
               loader: "url-loader",
               options: {
                 limit: 10000,
-                name: "static/media/[name].[hash:8].[ext]"
+                name: "../assets/images/ media/[name].[hash:8].[ext]"
               }
             }
           ]
@@ -185,7 +185,7 @@ module.exports = function(env) {
       }),
       new MiniCssExtractPlugin({
         filename: "[name].css",
-        chunkFilename: "static/css/[name].[hash:8].css"
+        chunkFilename: "../assets/images/ css/[name].[hash:8].css"
       })
       // new BundleAnalyzerPlugin()
     ]

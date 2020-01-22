@@ -1,17 +1,16 @@
 {
-  "name": "everyday",
+  "name": "venturecar",
   "version": "0.1.0",
-  "description": "Everday, a System for your Everyday Needs",
+  "description": "Venture Cars",
   "scripts": {
     "start": "npm run dev",
-    "staging": "webpack --env.API_URL=https://staging-api.everydaycrm.sg/api --mode production",
     "dev": "webpack-dev-server --env.API_URL=http://localhost:3001/api  --mode development --inline --progress",
-    "build": "webpack --env.API_URL=http://159.65.14.175:3001/api  --mode production"
+    "build": "webpack --env.API_URL=http://157.230.248.96:3001/api  --mode production"
   },
   "keywords": [
     "reactjs"
   ],
-  "author": "OC Digital",
+  "author": "Venture Car",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
