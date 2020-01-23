@@ -60,7 +60,7 @@ module.exports = function(env) {
       contentBase: "./src/index.js",
       host: "0.0.0.0",
       compress: true,
-      port: 3000, // port number
+      port: 3002, // port number
       historyApiFallback: true,
       quiet: true,
       disableHostCheck: true
