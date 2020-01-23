@@ -111,21 +111,21 @@ export default class Index extends PureComponent {
             }
           }
         },
-        {
-          name: "EDIT",
-          options: {
-              filter: true,
-              sort: false,
-              empty: true,
-              customBodyRender: (rowData, rowState) => {
-                  return (
-                      <Edit
-                        onClick={() => ToggleDialog('Edit_Variant', rowState.rowData)}
-                      />
-                  );
-              }
-          }
-        },
+        // {
+        //   name: "EDIT",
+        //   options: {
+        //       filter: true,
+        //       sort: false,
+        //       empty: true,
+        //       customBodyRender: (rowData, rowState) => {
+        //           return (
+        //               <Edit
+        //                 onClick={() => ToggleDialog('Edit_Variant', rowState.rowData)}
+        //               />
+        //           );
+        //       }
+        //   }
+        // },
       ]
     }
 
