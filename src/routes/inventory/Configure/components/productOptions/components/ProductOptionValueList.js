@@ -40,7 +40,7 @@ export default class Index extends PureComponent {
   render () {
   
     const { loading, title, tableData, ToggleDialog } = this.props
-
+    
     const columns = [
       {
         name: "id",
@@ -56,7 +56,7 @@ export default class Index extends PureComponent {
         }
       },
       {
-        label: "Name",
+        label: "Image",
         name: "files",
         options: {
           customBodyRender: value => {
@@ -74,8 +74,6 @@ export default class Index extends PureComponent {
           }
         }
       },
-
-      
       {
         label: "Price",
         name: "price",
@@ -102,7 +100,11 @@ export default class Index extends PureComponent {
             return `${value}`;
           }
         }
-      },
+      }, 
+      {
+        name: "description",
+        options: { display: "excluded", filter: false, sort: false }
+      },  
       {
         name: "EDIT",
         options: {
@@ -118,6 +120,7 @@ export default class Index extends PureComponent {
                   price: rowState.rowData[3],
                   isDefault: rowState.rowData[4],
                   editable: rowState.rowData[5],
+                  description: rowState.rowData[6],
                 }
                 return (
                     <Edit
@@ -141,6 +144,7 @@ export default class Index extends PureComponent {
                   price: rowState.rowData[3],
                   isDefault: rowState.rowData[4],
                   editable: rowState.rowData[5],
+                  description: rowState.rowData[6],
                 }
                 return (
                   <Delete

@@ -5,13 +5,7 @@ import Image from 'Components/Image'
 
 class Exterior extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      
-    }
-  }
- 
+
   _RenderProductVariant = () => {
     
     return (
@@ -24,7 +18,6 @@ class Exterior extends Component {
   
               {this.props.Exterior[ee].objects.map((e, index) => {
                 return (
-                        
                     <div key={index} style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
                         <div onClick={() => console.log(e)} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
                             <span>name: {e.name}</span>
@@ -39,7 +32,6 @@ class Exterior extends Component {
                             } 
                         </div>
                     </div>
-                      
                   )
               })}
             </div>

@@ -5,22 +5,30 @@ import api from "Api";
 import ProductVariant  from './components/ProductVariant'
 import ProductVariantValues  from './components/ProductVariantValues'
 import DisplayProductVariantValues from './components/DisplayProductVariantValues'
+import EditProductVariantValues from './components/EditProductVariantValues'
 
 
-export default class Index extends PureComponent {
-
+export default class Index extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            ProductVariantCategories : [],
+            currentCategory: null,
+
+            productVariantCategories : [],
             productVariantStage: 0,
 
             addItem: false,
-            addItemInformation : null,
+            editItem: false,
 
-            currentCategory: null
+            addItemInformation : null,
+            indexes: null,
+
+            Car : this.props.Car,
+            Id: this.props.Id,
+            ProductVariantLoading: false
         }
+
         this._isMounted = false;
     }
 
@@ -33,11 +41,11 @@ export default class Index extends PureComponent {
 
         try {
 
-            const ProductVariantCategories = await this._FetchProductVariantCategories()
+            const productVariantCategories = await this._FetchProductVariantCategories()
             
             if(this._isMounted) {
                 this.setState({
-                    ProductVariantCategories: ProductVariantCategories,
+                    productVariantCategories: productVariantCategories,
                 })
             }
 
@@ -48,22 +56,22 @@ export default class Index extends PureComponent {
     }  
 
     async _FetchProductVariantCategories() {
-        const ProductVariantCategories = await api.get(`/productvariants/OneProductVariant`)
-        return ProductVariantCategories.data.fields
+        const productVariantCategories = await api.get(`/productvariants/OneProductVariant`)
+        return productVariantCategories.data.fields
     }
 
-    _RenderCarDetails = () =>{
+    _RenderCarDetails = () => {
 
             let productVariantStage = this.state.productVariantStage
-            let ProductVariantCategories = this.state.ProductVariantCategories
+            let productVariantCategories = this.state.productVariantCategories
 
-            let Options = this.props.Car ? this.props.Car: []
+            let Options = this.state.Car ? this.state.Car: []
             let BelongsTo = []
 
 
             if(Options.length > 0){
                 Options.map(e => {
-                    if(e.productVariantId == ProductVariantCategories[this.state.currentCategory][productVariantStage].value){
+                    if(e.productVariantId == productVariantCategories[this.state.currentCategory][productVariantStage].value){
                         BelongsTo.push(e)
                     }
                 })
@@ -86,9 +94,9 @@ export default class Index extends PureComponent {
                                 <div>
                                 <span style={{color:"white"}}>SET DEFAULT</span>
                                 </div>
-                                {/* <div>
+                                <div>
                                 <span style={{color:"white"}}>EDIT</span>
-                                </div> */}
+                                </div>
                                 <div>
                                 <span style={{color:"white"}}>DELETE</span>
                                 </div>
@@ -102,8 +110,9 @@ export default class Index extends PureComponent {
                                         <DisplayProductVariantValues
                                             ProductVariantValues={e}
                                             index={index}
-                                            _DeleteProductVariant={this.props._DeleteProductVariant}
-                                            _EditProductVariant={this.props._EditProductVariant}
+                                            indexes={this.state.indexes}
+                                            _DeleteProductVariant={this._DeleteProductVariant}
+                                            _EditProductVariant={this._EditProductVariant}
                                         />
                                     </div>
                                 )
@@ -132,9 +141,9 @@ export default class Index extends PureComponent {
                                 <div>
                                 <span style={{color:"white"}}>SET DEFAULT</span>
                                 </div>
-                                {/* <div>
+                                <div>
                                 <span style={{color:"white"}}>EDIT</span>
-                                </div> */}
+                                </div>
                                 <div>
                                 <span style={{color:"white"}}>DELETE</span>
                                 </div>
@@ -148,19 +157,95 @@ export default class Index extends PureComponent {
 
     }
 
+    _EditProductVariant = (e, indexes) => {
+        this.setState({editItem: true, addItemInformation: e, indexes: indexes})
+    }
+
+    _AddVariantValues = async (item, files, images) => {
+
+        const productVariantId = this.state.productVariantCategories[this.state.currentCategory][this.state.productVariantStage].value
+        const Id = this.state.Id
+
+        await this.setState({ProductVariantLoading: true})
+    
+        var data = new FormData();
+        files.map(file => data.append(`newThumbNail`, file));
+        images.map(file => data.append(`newSecondaryPhotos`, file))
+
+        data.append("name", item.name);
+        data.append("isDefault", item.isDefault);
+        data.append("price", item.price);
+        data.append("productId", Id);
+        data.append("productVariantId", productVariantId);
+    
+        await api.post("/productvariantvalues/newVariant", data)
+
+        this._ReloadCar()
+    }
+    
+    _EditVariantValues = async (item) => {
+
+        await this.setState({ProductVariantLoading: true})
+
+        var data = new FormData();
+
+        item.newThumbNail.map(file => data.append(`newThumbNail`, file));
+        item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
+        
+        data.append("name", item.name);
+        data.append("price", item.price);
+        data.append("isDefault", item.isDefault);
+        data.append("id", item.id);
+        data.append("productId", item.productId);
+        data.append("productVariantId", item.productVariantId);
+
+        await api.post("/Productvariantvalues/editProductVariantValues", data)
+
+        await this._ReloadCar()
+        await this._ReloadItemInformation()
+    }
+
+    _DeleteSingleImage = async (item) => {    
+        await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
+        await this._ReloadCar()
+        await this._ReloadItemInformation()
+    }
+    
+    _DeleteProductVariant = async(index) => {
+        await this.setState({ProductVariantLoading: true})
+                
+        const result = await api.delete(`/productvariantvalues/${index}`); 
+        
+        if(result.data.count == 1){
+            await this._ReloadCar()
+            await this._RestartItemInformation()
+        } else {
+            await this.setState({ ProductVariantLoading: false})
+        }
+    }
+    
+
+
+    _ReloadCar = async() => {
+        const Id = this.state.Id
+        const latestProduct = await api.get(`/products/${Id}`)
+        await this.setState({
+            Car: latestProduct.data.productVariant, ProductVariantLoading: false,
+        })
+    }
+
+    _ReloadItemInformation = async() => { await this.setState({addItemInformation: this.state.Car[this.state.indexes]})}
+
+    _RestartItemInformation = async() => { await this.setState({editItem: false, addItemInformation: null, indexes: null})}
+
 
     render () {
+        const Car = this.state.Car
 
-        const Car = this.props.Car
-
-        
         if(!Car){
             return null
         }
     
-
-       
-
         return (
           
             
@@ -170,7 +255,7 @@ export default class Index extends PureComponent {
 
 
                     <div style={{ display:'flex', justifyContent: 'space-around'}}>
-                        {Object.keys(this.state.ProductVariantCategories).map((e, index) => {
+                        {Object.keys(this.state.productVariantCategories).map((e, index) => {
 
                             let fontStyle = {}
                             let style = {}
@@ -183,7 +268,7 @@ export default class Index extends PureComponent {
                             }
 
                             return (
-                                <div key={index} style={style} onClick={() => this.setState({currentCategory: e, productVariantStage: 0})}>
+                                <div key={index} style={style} onClick={() => this.setState({currentCategory: e, productVariantStage: 0, editItem: false, addItemInformation: null, indexes: null})}>
                                     <span style={fontStyle}>{e}</span>
                                 </div>
                             )
@@ -193,7 +278,7 @@ export default class Index extends PureComponent {
 
                     {this.state.currentCategory && 
                         <div style={{ display:'flex', justifyContent: 'space-around', padding:5}}>
-                            {this.state.ProductVariantCategories[this.state.currentCategory].map((e, index)=>{
+                            {this.state.productVariantCategories[this.state.currentCategory].map((e, index)=>{
                                
                                 let fontStyle = {}
                                 let style = {}
@@ -206,7 +291,7 @@ export default class Index extends PureComponent {
                                 }
 
                                 return (
-                                    <div key={index} style={style} onClick={() => this.setState({productVariantStage: index, })}>
+                                    <div key={index} style={style} onClick={() => this.setState({productVariantStage: index, editItem: false, addItemInformation: null, indexes: null})}>
                                         <span style={fontStyle}>{e.name}</span>
                                     </div>
                                 )
@@ -223,17 +308,28 @@ export default class Index extends PureComponent {
                     }   
 
 
-                    {this.props.ProductVariantLoading && 
+                    {this.state.ProductVariantLoading && 
                         <div style={{position:'absolute', top:0, left: 0, right: 0, bottom:0, backgroundColor: 'red', borderRadius: 10, opacity: 0.25 }}>
                             ProductVariantLoading
                         </div>
                     }
 
-                    {this.state.currentCategory && 
+                    {this.state.currentCategory &&  !this.state.editItem &&
                         <ProductVariantValues
-                            _AddVariantValues = {(item, files) => this.props._AddVariantValues(item, this.state.ProductVariantCategories[this.state.currentCategory][this.state.productVariantStage].value, files)}
+                            _AddVariantValues = {this._AddVariantValues}
                         />
-                    }                        
+                    }                   
+
+                    {this.state.editItem && 
+                        <EditProductVariantValues
+                            ProductVariantValues={this.state.addItemInformation}
+                            _EditVariantValues={this._EditVariantValues}
+                            _DeleteSingleImage={this._DeleteSingleImage}
+                            AddNewVariant={()=> this.setState({editItem: false, addItemInformation: null, indexes: null})}
+                        />
+                    }
+
+
                 </div>
 
 

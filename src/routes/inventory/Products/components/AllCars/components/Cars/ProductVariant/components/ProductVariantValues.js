@@ -1,4 +1,6 @@
-import React, {PureComponent} from "react";
+import React, {PureComponent, useState} from "react";
+import { PropTypes, object } from 'prop-types';
+
 import Checkbox from '@material-ui/core/Checkbox';
 import Dropzone from "Components/Dropzone";
 
@@ -7,152 +9,188 @@ import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
 import StaticName from 'Components/Inventory/StaticName'
+import BlobImage from 'Components/Inventory/BlobImage'
 
 
-const OriginalProductVariantValues = {
-    name: '',
-    image: '',
-    price : '',
-    isDefault: false,
-}
 
-export default class Index extends PureComponent {
+const Index = ({_AddVariantValues}) => {
 
-    state=({
-        ProductVariantValues : {
-            name: '',
-            image: '',
-            price : '',
-            isDefault: false,
-        },
-        files:[]
-    })
+    const [form, setState] = useState({
+        name : '',
+        price: '',
+        isDefault: false,
+     
+        // Display ThumbNail
+        files: [],
 
-    // Handle Category Name Value
-    _HandleProductDetailValue = (e, value) => {
-        let ProductVariantValues = {...this.state.ProductVariantValues}
-        ProductVariantValues[value] = e
-        this.setState({ProductVariantValues: ProductVariantValues})
-    }
+        // Secondary Photos
+        images :[],
+        imagesString :[],
+    });
 
-    _HandleCheckBox = (e) => {
-        const name = e.target.name
-        let ProductVariantValues = {...this.state.ProductVariantValues}
-        ProductVariantValues[name] = !ProductVariantValues[name]
-        this.setState({ProductVariantValues: ProductVariantValues})
-    }
-
-    removeFile = (file) => {
-        this.setState(state => {
-        const index = state.files.indexOf(file);
-        const files = state.files.slice(0);
-        files.splice(index, 1);
-        return { files };
-        });
-    }
-
-    handleUpload = file => {
-        this.setState({
-            files: file
-        });
+    const _HandleProductDetailValue = (e, element) => {
+        setState(form => ({ ...form, [element]: e }));
     };
 
-    _Add = () => {
-        this.props._AddVariantValues(this.state.ProductVariantValues, this.state.files)
-        this.setState({ProductVariantValues: OriginalProductVariantValues, files:[]})
+    const _HandleCheckBox = (e) => {
+        setState(form => ({ ...form, [e.target.name]: !form[e.target.name]}));
+    };
+
+    
+    const handleUpload = file => {
+        setState(form => ({ ...form, files: file}));
+    };
+  
+    const removeFile = (file) => {
+        const CloneArray = Array.from(form.files)
+        const index = CloneArray.indexOf(file);
+        const files = CloneArray.slice(0);
+        files.splice(index, 1)
+        setState(form => ({ ...form, files: files}));
     }
 
-    render () {
+    const removeNewImages = async(index) => {
 
-        return (
-            <div className="d-flex" style={{flex: 1, flexDirection:"column", padding :20}}>
+        // Needs to add to both arrays
+        let CloneImages = form.images.slice(0)
+        let CloneImagesStrings = form.imagesString.slice(0)
+        
+        CloneImages = CloneImages.filter((e, indexes) => indexes!=index)
+        CloneImagesStrings = CloneImagesStrings.filter((e, indexes) => indexes!=index)
 
-                {/* <span style={{paddingBottom: 20}}>CREATE A NEW VARIANT BELOW</span> */}
-                <StaticName
-                    title="CREATE A NEW VARIANT BELOW"
-                />
+        setState(form => ({ ...form, images: CloneImages, imagesString: CloneImagesStrings}));
+    }
 
-                <div className="d-flex" style={{display:'flex', flexDirection:"row", justifyContent:"space-between", paddingBottom: 20}}>
-                    {/* <div style={{display:'flex', flexDirection:"column"}}>
-                        <span>NAME OF THE VARIANT ITEM</span>
-                        <input 
-                            type="text" 
-                            placeholder={""} 
-                            value={this.state.ProductVariantValues.name} 
-                            onChange={(e) => this._HandleProductDetailValue(e.target.value, 'name')} 
-                        />
-                    </div> */}
-                    <Input
-                        divStyle={{width: '100%', marginRight: 30}}
-                        title="NAME OF THE VARIANT ITEM"
-                        placeholder="e.g Enter a new product variant item name"
-                        value={this.state.ProductVariantValues.name}
-                        element={'name'}
-                        _HandleProduct={this._HandleProductDetailValue}
-                    />   
-            
-                    {/* <div style={{display:'flex', flexDirection:"column"}}>
-                        <span>PRICE</span>
-                        <input type="text" placeholder={"e.g price"} value={this.state.ProductVariantValues.price} onChange={(e) => this._HandleProductDetailValue(e.target.value, 'price')} />
-                    </div> */}
-                    <Input
-                        divStyle={{width: '100%'}}
-                        title="PRICE"
-                        placeholder="e.g Enter a price for the item"
-                        value={this.state.ProductVariantValues.price}
-                        element={'price'}
-                        _HandleProduct={this._HandleProductDetailValue}
-                    />  
+    const handleNewImagesUpload = file => {
+        // Needs to add to both arrays
+        let CloneImages = form.images.slice(0)
+        let CloneImagesStrings = form.imagesString.slice(0)
+        
+        const item = URL.createObjectURL(file[0])
+        CloneImages = CloneImages.concat(file)
+        CloneImagesStrings = CloneImagesStrings.concat(item)
 
-                </div>
+        setState(form => ({ ...form, images: CloneImages, imagesString: CloneImagesStrings}));
+
+    };
+
+    const _Add = () => {
+        _AddVariantValues({name: form.name, isDefault: form.isDefault, price: form.price}, form.files, form.images)
+    }
+
+   
+    return (
+        <div className="d-flex" style={{flex: 1, flexDirection:"column", padding :20}}>
 
 
-                <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
-                    <div style={{display:'flex', flexDirection:"column", width: '100%', marginRight: 30}}>
-                        <StaticName
-                            title="IMAGE UPLOAD"
-                        />
-                        <Dropzone
-                            onDrop={this.handleUpload}
-                            onRemove={this.removeFile}
-                            uploadedFiles={this.state.files}
-                            additionalText="Files can't be edited once uploaded."
-                        />
-                    </div>
+            <div className="d-flex" style={{display:'flex', flexDirection:"row", justifyContent:"space-between", paddingBottom: 20}}>
+                
+                <Input
+                    divStyle={{width: '100%', marginRight: 30}}
+                    title="NAME OF THE VARIANT ITEM"
+                    placeholder="e.g Enter a new product variant item name"
+                    value={form.name}
+                    element={'name'}
+                    _HandleProduct={_HandleProductDetailValue}
+                />   
+        
+                <Input
+                    divStyle={{width: '100%'}}
+                    title="PRICE"
+                    placeholder="e.g Enter a price for the item"
+                    value={form.price}
+                    element={'price'}
+                    _HandleProduct={_HandleProductDetailValue}
+                />  
+
+            </div>
 
 
-                    <div style={{display:'flex', flexDirection:"column", width: '100%'}}>                        
-                        <StaticName
-                            title="MAKE THE ITEM DEFAULT"
-                        />
-                        <div>
-                            <Checkbox
-                                edge="end"
-                                onChange={this._HandleCheckBox}
-                                checked={this.state.ProductVariantValues.isDefault}
-                                name="isDefault"
-                            /> 
-                        </div>
-                    </div>
-                </div>
-
-
-                <div style={{display:'flex', justifyContent:'flex-end'}}>
-                    {/* <button onClick={() => {
-                        this.props._AddVariantValues(this.state.ProductVariantValues, this.state.files)
-                        this.setState({ProductVariantValues: OriginalProductVariantValues, files:[]})
-                    }}>ADD</button> */}
-                    <Button
-                        _Function={this._Add}
-                        product={''}
-                        files={''}
-                        title={'ADD'}
+            <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
+                <div style={{display:'flex', flexDirection:"column", width: '100%', marginRight: 30}}>
+                    <StaticName
+                        title="IMAGE UPLOAD"
+                    />
+                    <Dropzone
+                        onDrop={handleUpload}
+                        onRemove={removeFile}
+                        uploadedFiles={form.files}
+                        additionalText="Files can't be edited once uploaded."
                     />
                 </div>
 
+
+                <div style={{display:'flex', flexDirection:"column", width: '100%'}}>                        
+                    <StaticName
+                        title="MAKE THE ITEM DEFAULT"
+                    />
+                    
+                    <Checkbox
+                        edge="end"
+                        onChange={_HandleCheckBox}
+                        checked={form.isDefault}
+                        name="isDefault"
+                    /> 
+                </div>
             </div>
-        );
-    }
+
+            <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
+
+                <StaticName
+                    title="UPLOAD SECONDARY PHOTOS"
+                />
+                
+                <div style={{display:'flex', flex:0.5, flexDirection:"column"}}>
+                    
+                
+
+                    {form.imagesString.length > 0 && 
+                        <div className="d-flex flex-column">
+                            <StaticName
+                                title="YOUR NEW IMAGES"
+                            />
+
+                            <BlobImage
+                                imageSource={form.imagesString}
+                                url={false}
+                            />
+                        </div>
+                    }
+                </div>
+
+                <div style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
+                <div style={{width: '100%'}}>
+                    <Dropzone
+                        onDrop={handleNewImagesUpload}
+                        uploadedFiles={[]}
+                        additionalText="Files can't be edited once uploaded."
+                    />
+                </div>
+            </div>
+
+            </div>
+
+            <div style={{display:'flex', justifyContent:'flex-end'}}>
+                {/* <button onClick={() => {
+                    this.props._AddVariantValues(this.state.ProductVariantValues, this.state.files)
+                    this.setState({ProductVariantValues: OriginalProductVariantValues, files:[]})
+                }}>ADD</button> */}
+                <Button
+                    _Function={_Add}
+                    product={''}
+                    files={''}
+                    title={'ADD'}
+                />
+            </div>
+
+        </div>
+    );
+    
 };
 
+Index.propTypes = {
+    _AddVariantValues: PropTypes.func,
+    _Add: PropTypes.func
+};
 
+export default Index 

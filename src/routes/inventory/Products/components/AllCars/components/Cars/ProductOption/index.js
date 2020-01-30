@@ -4,7 +4,7 @@ import api from "Api";
 import ProductDetailsFields from './components/ProductDetailsFields'
 import AddProductOptionFields from './components/AddProductOptionFields'
 
-export default class Index extends PureComponent {
+export default class Index extends Component {
     
     constructor(props) {
         super(props);
@@ -152,6 +152,9 @@ export default class Index extends PureComponent {
     }
     
     render () {
+
+        console.log('ProductOption Rendered')
+
 
         const Car = this.props.Car
         

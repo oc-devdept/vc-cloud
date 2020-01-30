@@ -86,15 +86,6 @@ class MegaMenu extends Component {
     }
 
 
-    // let AllModelSource = []
-    // if(index == 0){
-    //   const Model = await  api.get(`products/getModel`);
-    //   AllModelSource = await Model.data.fields
-    // } else {
-    //   let AllMakeSource = this.state.AllMakeSource[index]
-    //   AllModelSource = await this._RenderSpecificModelCategory(AllMakeSource.id)
-    // }
-    // await this.setState({ModelLoading: false, AllModelSource: AllModelSource})
   }
 
   // Render Make Categories
@@ -119,8 +110,6 @@ class MegaMenu extends Component {
       })
     )
   }
-
-
 
   // Render Model Values
   _RenderModel = () => {

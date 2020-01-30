@@ -11,11 +11,17 @@ export default class Index extends PureComponent {
   render () {
 
     const item = this.props.ProductVariantValues
+    const indexes = this.props.indexes
     const index = this.props.index
 
-    
+
+    let style = {}
+    if(index == indexes){
+        style = {backgroundColor: 'rgba(0,0,0,0.075)'}
+    }
+
     return (
-        <div style={{width: '100%', display:'flex', flexDirection:"row", padding: 10, marginTop: 5, alignItems:'center'}}>
+        <div style={{...style, width: '100%', display:'flex', flexDirection:"row", padding: 10, alignItems:'center'}}>
 
 
             <div style={{flex: 1}}>
@@ -38,28 +44,21 @@ export default class Index extends PureComponent {
                     <span style={{color:"rgba(0,0,0,0.7)"}}>{item.price}</span>
                 </div>
                 <div>
-                    {/* <Checkbox
-                        checked={item.isDefault}
-                        name="isDefault"
-                    />  */}
                     <Radio
                         checked={item.isDefault}
-                        // onChange={handleChange}
                         value="a"
                         name="radio-button-demo"
                         inputProps={{ 'aria-label': 'A' }}
                     />
                 </div>
-                {/* <div>
+                <div>
                     <Edit
-                        // onClick={() => this.props._EditProductVariant(item)}
-                        onClick={() => console.log(item)}
-
+                        onClick={() => this.props._EditProductVariant(item, index)}
                     />
-                </div> */}
+                </div>
                 <div>
                     <Delete
-                        onClick={() => this.props._DeleteProductVariant(index)}
+                        onClick={() => this.props._DeleteProductVariant(item.id)}
                     />
                 </div>
             </div>

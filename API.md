@@ -19,7 +19,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
             name: String,
             description: String,
             categoryGroupId: String,
-            files: Array <-- images,
+            files : Array <-- thumbnail,
             category: Array,
             product: Array,
         },
@@ -55,7 +55,8 @@ Retrieve all the makes from the inventory list
                     productVariant: Array,
                     productDetailValue: Array,
                     productOption: Array,
-                    files: Array <-- images 
+                    files : Array <-- thumbnail,
+
                 }
             ]
         },
@@ -91,7 +92,8 @@ Retrieve all the models from the inventory list
                 productVariant: Array,
                 productDetailValue: Array,
                 productOption: Array,
-                files: Array <-- images 
+                files : Array <-- thumbnail,
+
             ]
         },
         {...},
@@ -108,7 +110,7 @@ Retrieve all models under a selected make's Id
         id: String,
         name : String,
         description : String,
-        files: Array <-- images 
+        files : Array <-- thumbnail,
         product : Array
     }
 
@@ -128,7 +130,8 @@ Retrieve a specific model with its information and products
             engine: object,
             power: object,
             fuel: object,
-            files: array <-- images 
+            files : Array <-- thumbnail,
+ 
         },
         {...},
         {...},
@@ -151,7 +154,8 @@ Retrieve all grades under a specific model
         productVariant: Array,
         productDetailValue: Array,
         productOption: Array,
-        files: Array <-- images 
+        files : Array <-- thumbnail,
+
     }
 
 Retrieve a specific grade 
@@ -173,7 +177,8 @@ Retrieve a specific grade
                     isDefault: String,
                     productId: String,
                     productVariantId: String,
-                    files : Array <-- images
+                    files : Array <-- thumbnail,
+                    images: Array <-- secondary images
                 }
             ]
         },
@@ -200,7 +205,8 @@ Retrieve dynamic keys and values of the product variant exterior, remember to us
                     isDefault: String,
                     productId: String,
                     productVariantId: String,
-                    files : Array <-- images
+                    files : Array <-- thumbnail,
+                    images: Array <-- secondary images
                 }
             ]
         },
@@ -223,6 +229,7 @@ Retrieve dynamic keys and values of the product variant interior, remember to us
                 id: String,
                 name: String,
                 price	Number,
+                description: String,
                 isDefault	Boolean,
                 editable	Boolean,
                 productOptionCategoryId: String
@@ -327,7 +334,7 @@ Retrieve all tags or types of models - etc Sedan, Hatchback, Crossover
                     productVariant: Array,
                     productDetailValue: Array,
                     productOption: Array,
-                    files: Array <-- images 
+                    files : Array <-- thumbnail,
                 },
                 {...},
                 {...}

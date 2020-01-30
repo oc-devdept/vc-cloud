@@ -57,6 +57,7 @@ class crm_customer extends Component {
   refresh() {
     this.props.getAllCustomer();
   }
+  
   importCust() {
     console.log("importCust");
   }
@@ -71,8 +72,6 @@ class crm_customer extends Component {
       loading
     } = this.props.customerState.customerList;
 
-    // console.log('tableData')
-    // console.log(tableData)
 
     return (
       <React.Fragment>

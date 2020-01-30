@@ -72,7 +72,6 @@ class Index extends Component {
 
     const ProductOptions = await api.get(`products/specificGradeProductOption/${e.id}`);
     
-
     this.setState({
       ProductDetail : GradeDetail.data.fields,
       Exterior : ExteriorGrade.data.fields, 
@@ -84,7 +83,7 @@ class Index extends Component {
 
   
   render() {
-            
+                
     return (    
         <div>
             <React.Fragment>

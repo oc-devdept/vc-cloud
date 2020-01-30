@@ -100,6 +100,9 @@ export default class Index extends Component {
   }
 
 
+
+
+  // Product Variants
   _SaveProductVariant = async(Variant, id) => { 
     await api.post(`/productvariants`, 
         {
@@ -137,6 +140,31 @@ export default class Index extends Component {
 
   }
 
+  _EditVariantValues = async (item) => {
+
+    const Car = {...this.state.Car}
+    await this.setState({ProductVariantLoading: true})
+
+    var data = new FormData();
+
+    item.newThumbNail.map(file => data.append(`newThumbNail`, file));
+    item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
+  
+    
+    data.append("name", item.name);
+    data.append("price", item.price);
+    data.append("isDefault", item.isDefault);
+    data.append("id", item.id);
+    data.append("productId", item.productId);
+    data.append("productVariantId", item.productVariantId);
+
+    await api.post("/Productvariantvalues/editProductVariantValues", data)
+
+    const latestProduct = await api.get(`/products/${Car.id}`)
+    await this.setState({Car: latestProduct.data, ProductVariantLoading: false})
+
+  }
+
   _DeleteProductVariant = async(index) => {
 
     await this.setState({ProductVariantLoading: true})
@@ -155,6 +183,18 @@ export default class Index extends Component {
     }
 
   }
+
+  _DeleteSingleImage = async (item) => {
+    const Car = {...this.state.Car}
+
+    await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
+
+    const latestProduct = await api.get(`/products/${Car.id}`)
+    await this.setState({Car: latestProduct.data})
+  }
+
+
+
 
   // Product Detail
   _AddCarDetail = (productDetail) => {
@@ -330,9 +370,11 @@ export default class Index extends Component {
                       {this.state.stage == 0 &&
                         <ProductVariant
                           Car={Car.productVariant}
-                          _AddVariantValues={this._AddVariantValues}
-                          _DeleteProductVariant = {this._DeleteProductVariant}
-
+                          Id={Car.id}
+                          // _AddVariantValues={this._AddVariantValues}
+                          // _EditVariantValues={this._EditVariantValues}
+                          // _DeleteProductVariant = {this._DeleteProductVariant}
+                          // _DeleteSingleImage={this._DeleteSingleImage}
                           ProductVariantLoading={this.state.ProductVariantLoading}
                         />
                       }
@@ -370,33 +412,31 @@ export default class Index extends Component {
                     </BgCard>
 
                     <BgCard fullBlock customStyles={{paddingTop: 20, paddingBottom: 20, marginBottom: 50}} >
+                      <div className="d-flex" style={{paddingRight: 20}} onClick={() => this._RenderStage(2)}>
+                        <span style={{flex: 1, textAlign:'center'}}>CAR PRODUCT</span>
+                        {this.state.stage != 2 &&
+                          <Add
+                            fontSize="small"
+                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                          />
+                        }
+                        {this.state.stage == 2 &&
+                          <Remove
+                            fontSize="small"
+                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                          />
+                        }
+                      </div>
+                      {this.state.stage == 2 &&
+                        <ProductOption
+                          Car={Car.productOption}
+                          ProductOptionLoading={this.state.ProductOptionLoading}
 
-                  <div className="d-flex" style={{paddingRight: 20}} onClick={() => this._RenderStage(2)}>
-                    <span style={{flex: 1, textAlign:'center'}}>CAR PRODUCT</span>
-                    {this.state.stage != 2 &&
-                      <Add
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    }
-                    {this.state.stage == 2 &&
-                      <Remove
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    }
-                  </div>
-
-                  {this.state.stage == 2 &&
-                    <ProductOption
-                      Car={Car.productOption}
-                      ProductOptionLoading={this.state.ProductOptionLoading}
-
-                      _DeleteProductOptionFields = {this._DeleteProductOptionFields}
-                      _HandleSaveProductOption={this._HandleSaveProductOption}
-                    />
-                  }
-                </BgCard>
+                          _DeleteProductOptionFields = {this._DeleteProductOptionFields}
+                          _HandleSaveProductOption={this._HandleSaveProductOption}
+                        />
+                      }
+                    </BgCard>
                   </div>
                 }
 

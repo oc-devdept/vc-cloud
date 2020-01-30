@@ -10,8 +10,14 @@ import RecordNotFound from "Components/Error/RecordNotFound";
 // Layout
 import CustomerCard from "../components/CustomerCard";
 import ProfileTabs from "Components/Layout/ProfileTabs";
+
 // Tabs
-import OverviewTab from "./tabs/Overview/Overview";
+import Overview from "./tabs/Overview"
+import Booking from "./tabs/Booking"
+import Maintenance from "./tabs/Maintenance"
+
+
+
 import DetailsTab from "./tabs/Details";
 import DealsTab from "./tabs/Deals";
 import EventsTab from "../../components/EventsTab";
@@ -52,19 +58,13 @@ class crm_view_customer extends Component {
   }
 
   async componentDidMount() {
-
     try {
-
       var id = this.props.match.params.id;
       const item = await api.get(`/customers/getOneCustomer/${id}`);  
       this.setState({customer: item.data.fields, loading: false})
-  
     } catch (e) {
-
       console.log(e)
-
     }
- 
   }
 
   componentWillUnmount() {
@@ -136,10 +136,8 @@ class crm_view_customer extends Component {
   }
 
   _handleDeployAgent = async(id) => {
-
     const item = await api.post(`/customers/deployAgent`, {data: {id}});
     this.setState({customer: item.data.fields})
-
   }
 
 
@@ -147,7 +145,9 @@ class crm_view_customer extends Component {
   render() {
     const {sectionLoading } = this.props.customerToView;
 
-    const {customer,loading} = this.state
+    const {customer, loading} = this.state
+
+    console.log('customer', customer)
 
     return (
       <React.Fragment>
@@ -190,18 +190,23 @@ class crm_view_customer extends Component {
               <div className="col-lg-9">
                 <ProfileTabs loading={sectionLoading}>
                   <div label="Overview">
-                    <OverviewTab 
+                    <Overview
+                    
+                    />
+                  </div>
+
+                  <div label="Maintenance">
+                    <Maintenance 
                       bookings={customer.bookings}
                     />
                   </div>
-                  {/*  <div label="Deals">
-                    <DealsTab deals={customer.deals} />
-                  </div> */}
-                  <div label="Maintenance">
-                    {/* <DetailsTab 
-                    cust={customer}
-                     /> */}
+
+                  <div label="Test Booking">
+                    <Booking 
+                      customerID={customer.id}
+                    />
                   </div>
+
                 </ProfileTabs>
               </div>
             </div>

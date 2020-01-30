@@ -99,3 +99,9 @@ export const crm_import_deal = Loadable({
   loader: () => import("./deal/import"),
   loading: () => <RctPageLoader />
 });
+
+
+export const crm_marketing_list = Loadable({
+  loader: () => import("./marketing"),
+  loading: () => <RctPageLoader />
+});

@@ -23,7 +23,7 @@ module.exports = {
   "sidebar.team": "Team",
   "sidebar.newTeam": "New Team",
   "sidebar.editTeam": "Edit Team",
-  
+  "sidebar.marketing": "Marketing",
 
   "sidebar.proj": "Project Management",
 

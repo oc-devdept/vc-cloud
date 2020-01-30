@@ -1,7 +1,7 @@
 
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 
-class StaticName extends PureComponent {
+class StaticName extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if(this.props.title != nextProps.title){
@@ -9,7 +9,6 @@ class StaticName extends PureComponent {
         }
         return false
     }
-
 
     render() {
 

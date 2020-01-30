@@ -3,8 +3,11 @@ import {
   leadListPage,
   customerListPage,
   accountListPage,
-  dealListPage
+  dealListPage,
+  marketingListPage
 } from "Helpers/crmURL";
+
+
 // acct routes
 import {
   quoteListPage,
@@ -51,10 +54,14 @@ export default [
         title: "sidebar.accounts",
         path: accountListPage
       },
+      // {
+      //   title: "sidebar.deals",
+      //   path: dealListPage
+      // },
       {
-        title: "sidebar.deals",
-        path: dealListPage
-      }
+        title: "sidebar.marketing",
+        path: marketingListPage
+      },
     ]
   },
   // {

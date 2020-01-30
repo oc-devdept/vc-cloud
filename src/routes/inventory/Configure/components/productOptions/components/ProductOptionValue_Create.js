@@ -30,6 +30,7 @@ class index extends PureComponent {
         let Item = {
             id: '',
             name: '',
+            description: '',
             editable: false,
             isDefault: false,
             image: [],
@@ -53,6 +54,7 @@ class index extends PureComponent {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
                     editable: this.props.Data.editable,
+                    description: this.props.Data.description,
                     image: this.props.Data.image,
                     isDefault: this.props.Data.isDefault,
                     price: this.props.Data.price,
@@ -65,6 +67,7 @@ class index extends PureComponent {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
                     editable: this.props.Data.editable,
+                    description: this.props.Data.description,
                     image: this.props.Data.image,
                     isDefault: this.props.Data.isDefault,
                     price: this.props.Data.price,
@@ -95,6 +98,7 @@ class index extends PureComponent {
 
         files.map(file => data.append(`upload`, file));
         data.append("name", ProductOption.name);
+        data.append("description", ProductOption.description);
         data.append("editable", ProductOption.editable);
         data.append("isDefault", ProductOption.isDefault);
         data.append("price", ProductOption.price);
@@ -108,10 +112,6 @@ class index extends PureComponent {
 
     _EditProductOptionValue = async() => {
       
-        // await api.post(`/productoptioncategories/editProductOption`, {data: this.state.Category})
-        // await this.props._CreateProductCategoryDone()
-        // await this.props._RestartToggle()
-
         const ProductOption = this.state.Item
 
         var data = new FormData();
@@ -120,12 +120,12 @@ class index extends PureComponent {
         files.map(file => data.append(`upload`, file));
         data.append("name", ProductOption.name);
         data.append("editable", ProductOption.editable);
+        data.append("description", ProductOption.description);
         data.append("isDefault", ProductOption.isDefault);
         data.append("price", ProductOption.price);
         data.append("id", ProductOption.id);
 
         await api.post("/productoptions/editProductOptionValue", data)
-
 
         await this.props._CreateProductCategoryDone()
         await this.props._RestartToggle()
@@ -152,8 +152,6 @@ class index extends PureComponent {
         this.setState({Item: Item})
     }
 
-
-   
     removeFile = (file) => {
         this.setState(state => {
         const index = state.files.indexOf(file);
@@ -169,7 +167,6 @@ class index extends PureComponent {
         });
     };
 
-
     _HandleProduct = (e, element) => {
         let Item = {...this.state.Item}
         Item[element] = e
@@ -179,6 +176,8 @@ class index extends PureComponent {
     render() {
 
         let Body = null
+
+        console.log(this.state.Item)
 
         switch(this.props.Action){
             case "Delete":
@@ -193,10 +192,6 @@ class index extends PureComponent {
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                <span>CAR PRODUCT OPTION ITEM</span>
-                                <span>{this.state.Item.name}</span>
-                            </div> */}
                             <Text
                                 divStyle={{width: '100%', marginRight: 30}}
                                 title="CAR PRODUCT OPTION ITEM"
@@ -208,10 +203,16 @@ class index extends PureComponent {
                                 title="PRICE"
                                 value={this.state.Item.price}
                             />
-                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                <span>PRICE</span>
-                                <span>{this.state.Item.price}</span>
-                            </div> */}
+                          
+                        </div>
+
+                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="DESCRIPTION"
+                                value={this.state.Item.description}
+                            />
 
                         </div>
 
@@ -315,15 +316,6 @@ class index extends PureComponent {
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                <span>CAR PRODUCT OPTION ITEM</span>
-                                <input type="text" placeholder={"Enter a new Car Product Option Item (e.g Audtio Model 123)"} value={this.state.Item.name} onChange={(e) =>{
-                                    let Item = {...this.state.Item}
-                                    Item.name = e.target.value
-                                    this.setState({Item: Item})
-                                }}/>
-                            </div> */}
-
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
                                 title="CAR PRODUCT OPTION ITEM"
@@ -334,14 +326,6 @@ class index extends PureComponent {
                             /> 
 
 
-                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                <span>PRICE</span>
-                                <input type="text" placeholder={"Enter the price here"} value={this.state.Item.price} onChange={(e) =>{
-                                    let Item = {...this.state.Item}
-                                    Item.price = e.target.value
-                                    this.setState({Item: Item})
-                                }}/>
-                            </div> */}
                             <Input
                                 divStyle={{width: '100%'}}
                                 title="PRICE"
@@ -350,6 +334,19 @@ class index extends PureComponent {
                                 element={'price'}
                                 _HandleProduct={this._HandleProduct}
                             />  
+
+                        </div>
+
+                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT OPTION ITEM DESCRIPTION"
+                                placeholder="Enter a new Car Product Option Item description"
+                                value={this.state.Item.description}
+                                element={'description'}
+                                _HandleProduct={this._HandleProduct}
+                            /> 
 
                         </div>
 
@@ -467,11 +464,6 @@ class index extends PureComponent {
                 Body = (
                     <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
 
-
-                        {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                            <span>CREATE NEW ITEM INTO PRODUCT OPTION</span>
-                            <span>{this.state.Category.name}</span>                                
-                        </div> */}
                         <Text
                             divStyle={{width: '100%'}}
                             title="CREATE NEW ITEM INTO PRODUCT OPTION"
@@ -479,15 +471,6 @@ class index extends PureComponent {
                         />
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
-
-                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                <span>CAR PRODUCT OPTION ITEM</span>
-                                <input type="text" placeholder={"Enter a new Car Product Option Item (e.g Audtio Model 123)"} value={this.state.Item.name} onChange={(e) =>{
-                                    let Item = {...this.state.Item}
-                                    Item.name = e.target.value
-                                    this.setState({Item: Item})
-                                }}/>
-                            </div> */}
 
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
@@ -497,15 +480,6 @@ class index extends PureComponent {
                                 element={'name'}
                                 _HandleProduct={this._HandleProduct}
                             />  
-
-                            {/* <div style={{display:'flex', flexDirection:'column', marginTop: 10, flex: 1}}>
-                                <span>PRICE</span>
-                                <input type="text" placeholder={"Enter the price here"} value={this.state.Item.price} onChange={(e) =>{
-                                    let Item = {...this.state.Item}
-                                    Item.price = e.target.value
-                                    this.setState({Item: Item})
-                                }}/>
-                            </div> */}
 
                             <Input
                                 divStyle={{width: '100%'}}
@@ -518,6 +492,18 @@ class index extends PureComponent {
 
                         </div>
 
+                        <div style={{display:'flex', flexDirection:"row", flex:1}}>
+
+                            <Input
+                                divStyle={{width: '100%'}}
+                                title="CAR PRODUCT OPTION ITEM DESCRIPTION"
+                                placeholder="Enter a new Car Product Option Item description"
+                                value={this.state.Item.description}
+                                element={'description'}
+                                _HandleProduct={this._HandleProduct}
+                            /> 
+
+                        </div>
 
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 

@@ -25,9 +25,7 @@ export default class Index extends PureComponent {
   render () {
   
     const { loading, title, tableData } = this.props
-    
-    console.log(tableData)
-    
+        
     const columns = [
       {
         name: "id",

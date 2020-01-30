@@ -12,8 +12,28 @@ import DisplayValues from './components/DisplayValues'
 
 class index extends Component {
  
+    constructor(props) {
+        super(props);
+        this.state = ({
+          bookings: [],
+          loading: true
+        })
+      }
+
+    async componentDidMount() {
+        try {
+          var id = this.props.customerID
+          const item = await api.get(`/customers/${id}/bookings`);
+          this.setState({bookings: item.data, loading: false})
+        } catch (e) {
+          console.log(e)
+        } 
+    }
+
+
+
     _RenderBookings = () => {
-        const AllBookings = this.props.bookings
+        const AllBookings = this.state.bookings
 
         return (
             <div style={{flex: 1}}>
@@ -59,17 +79,20 @@ class index extends Component {
         
     }
 
+    
     render() {
         
         return (
             <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'row', flex: 1}}>
                 
-                {this.props.bookings.length > 0 && 
-                    this._RenderBookings()
+                {this.state.bookings.length > 0 && 
+                    <div style={{height: 300, width:'100%', overflow:'auto'}}>
+                        {this._RenderBookings()}
+                    </div>
                 }
 
 
-                {this.props.bookings.length == 0 && 
+                {this.state.bookings.length == 0 && 
                     <div>
                         No Bookings 
                     </div>

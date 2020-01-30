@@ -7,7 +7,6 @@ const rootEl = document.getElementById("root");
 // Create a reusable render method that we can call more than once
 let render = () => {
   // Dynamically import our main App component, and render it
-  console.log('hi')
   const MainApp = require("./App").default;
   ReactDOM.render(<MainApp />, rootEl);
 };
