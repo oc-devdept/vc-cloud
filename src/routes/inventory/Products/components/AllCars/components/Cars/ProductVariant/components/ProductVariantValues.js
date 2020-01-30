@@ -134,31 +134,32 @@ const Index = ({_AddVariantValues}) => {
                 </div>
             </div>
 
-            <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
+            <div className="d-flex" style={{display:'flex', flexDirection:"column", flex: 1 }}>
 
                 <StaticName
                     title="UPLOAD SECONDARY PHOTOS"
                 />
-                
-                <div style={{display:'flex', flex:0.5, flexDirection:"column"}}>
+
+                <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
+                    <div style={{display:'flex', flex:0.5, flexDirection:"column"}}>
+                        
                     
-                
 
-                    {form.imagesString.length > 0 && 
-                        <div className="d-flex flex-column">
-                            <StaticName
-                                title="YOUR NEW IMAGES"
-                            />
+                        {form.imagesString.length > 0 && 
+                            <div className="d-flex flex-column">
+                                <StaticName
+                                    title="YOUR NEW IMAGES"
+                                />
 
-                            <BlobImage
-                                imageSource={form.imagesString}
-                                url={false}
-                            />
-                        </div>
-                    }
-                </div>
+                                <BlobImage
+                                    imageSource={form.imagesString}
+                                    url={false}
+                                />
+                            </div>
+                        }
+                    </div>
 
-                <div style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
+                    <div style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
                 <div style={{width: '100%'}}>
                     <Dropzone
                         onDrop={handleNewImagesUpload}
@@ -167,7 +168,7 @@ const Index = ({_AddVariantValues}) => {
                     />
                 </div>
             </div>
-
+                </div>
             </div>
 
             <div style={{display:'flex', justifyContent:'flex-end'}}>
