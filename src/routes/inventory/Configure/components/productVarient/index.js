@@ -146,10 +146,9 @@ class index extends Component {
         return (
             <div style={{flex:1, display:'flex', flexDirection:'column',}}>
             
-
-                <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
+                {/* <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
                     <button onClick={()=> this.ToggleDialog('Create_Variant')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE PRODUCT VARIANT</button>
-                </div>
+                </div> */}
                 
                 <ProductVariantList
                     title={'CAR PRODUCT VARIANT GROUP NAME'}
