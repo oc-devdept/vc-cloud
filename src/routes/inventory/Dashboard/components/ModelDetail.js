@@ -71,7 +71,7 @@ class ModelDetail extends Component {
                                 {values.map((item, indexes) =>{
                                   const detailCategory = item.detailCategory
                                   return (
-                                    <div onClick={() => console.log(item)} key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
+                                    <div key={indexes} onClick={() => console.log(item)} key={indexes} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
                                         <span>name: {detailCategory.name}</span>
                                         <span>unit: {detailCategory.unit}</span>
                                         <span>value: {item.value}</span>

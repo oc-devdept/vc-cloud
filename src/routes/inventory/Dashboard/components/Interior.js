@@ -5,16 +5,8 @@ import Image from 'Components/Image'
 
 class Interior extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      
-    }
-  }
- 
 
   _RenderProductVariant = () => {
-    
     return (
       Object.keys(this.props.Interior).map((ee, indexes) => {
 
@@ -25,9 +17,9 @@ class Interior extends Component {
               <span>{ee}</span>
   
               {this.props.Interior[ee].objects.map((e, index) => {
-                return (
-                        
-                    <div key={index} style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
+                console.log(e.id)
+                return (                     
+                    <div key={e.id} style={{display: 'flex', flexDirection:'row', overflow:'auto'}}>
                         <div onClick={() => console.log(e)} style={{display: 'flex', flexDirection:'column', border : '1px solid black', borderStyle : 'dashed', margin: 10}}>
                             <span>name: {e.name}</span>
                             <span>price: {event.price}</span>

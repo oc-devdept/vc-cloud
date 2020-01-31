@@ -42,7 +42,7 @@ const CustomerList = ({ tableData, loading, title, action }) => {
     //   }
     // },
     { label: "Email", name: "email" },
-    { label: "Mobile", name: "contact" },
+    // { label: "Mobile", name: "contact" },
     // { label: "Source", name: "source" },
     {
       label: "Status",
@@ -58,7 +58,7 @@ const CustomerList = ({ tableData, loading, title, action }) => {
       name: "bookings",
       options: {
         customBodyRender: value => {
-          return value? value.length : 0
+          return value
         }
       },
     },

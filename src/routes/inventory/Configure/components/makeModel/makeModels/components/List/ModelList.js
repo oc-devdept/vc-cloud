@@ -25,7 +25,7 @@ export default class Index extends PureComponent {
       const ModelSource = await api.get(`/categories/${this.props.id}/category`);
       this.setState({ModelSource: ModelSource.data, ModelLoading: false})
     } catch (e) {
-        this.setState({ModelSource: [], ModelLoading: false})
+      this.setState({ModelSource: [], ModelLoading: false})
     }
   }
 
@@ -97,6 +97,14 @@ export default class Index extends PureComponent {
             }
         }
       },
+      {
+        name: "header",
+        options: { display: "excluded", filter: false, sort: false }
+      },
+      {
+        name: "images",
+        options: { display: "excluded", filter: false, sort: false }
+      },
       // {
       //   name: "DELETE",
       //   options: {
@@ -115,7 +123,6 @@ export default class Index extends PureComponent {
     
     ]
 
- 
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",

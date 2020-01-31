@@ -21,6 +21,8 @@ class index extends Component {
                 <div>detail of last appointment: Object</div>
                 <div>Number of pending booking: Number</div>
 
+                <div>Pending Transaction?</div>
+
 
             </div>
         );

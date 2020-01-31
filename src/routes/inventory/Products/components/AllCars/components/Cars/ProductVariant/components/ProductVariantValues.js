@@ -142,9 +142,6 @@ const Index = ({_AddVariantValues}) => {
 
                 <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
                     <div style={{display:'flex', flex:0.5, flexDirection:"column"}}>
-                        
-                    
-
                         {form.imagesString.length > 0 && 
                             <div className="d-flex flex-column">
                                 <StaticName
@@ -160,22 +157,18 @@ const Index = ({_AddVariantValues}) => {
                     </div>
 
                     <div style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
-                <div style={{width: '100%'}}>
-                    <Dropzone
-                        onDrop={handleNewImagesUpload}
-                        uploadedFiles={[]}
-                        additionalText="Files can't be edited once uploaded."
-                    />
-                </div>
-            </div>
+                        <div style={{width: '100%'}}>
+                            <Dropzone
+                                onDrop={handleNewImagesUpload}
+                                uploadedFiles={[]}
+                                additionalText="Files can't be edited once uploaded."
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div style={{display:'flex', justifyContent:'flex-end'}}>
-                {/* <button onClick={() => {
-                    this.props._AddVariantValues(this.state.ProductVariantValues, this.state.files)
-                    this.setState({ProductVariantValues: OriginalProductVariantValues, files:[]})
-                }}>ADD</button> */}
                 <Button
                     _Function={_Add}
                     product={''}

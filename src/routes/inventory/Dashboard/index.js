@@ -84,6 +84,8 @@ class Index extends Component {
   
   render() {
                 
+    console.log(this.state)
+
     return (    
         <div>
             <React.Fragment>
@@ -133,20 +135,18 @@ class Index extends Component {
                     </div>
 
                     <div label="ProductOption">
-                      <ProductOptions
+                      {/* <ProductOptions
                         ProductOptions={this.state.ProductOptions}
-                      />
+                      /> */}
                     </div>
 
                     <div label="Booking">
                       <Booking
-
                       />
                     </div>
 
                     {/* <div label="Testing">
                       <Testing
-                      
                       />
                     </div> */}
                     

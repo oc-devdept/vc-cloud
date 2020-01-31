@@ -35,7 +35,7 @@ class index extends PureComponent {
                 <div className="d-flex flex-row" style={{flexWrap:'wrap'}}>
                     {imageSource.map((e, index) =>{
                         return (
-                            <div key={index} className="d-flex" style={{width: 80, height: 80}}>
+                            <div key={index} className="d-flex" style={{width: 100, height: 100}}>
                                 <img
                                     src={e.path}
                                     style={{objectFit:'cover', borderRadius: 20, maxWidth:'100%', padding: 5}}

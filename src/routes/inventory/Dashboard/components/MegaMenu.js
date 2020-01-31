@@ -104,7 +104,6 @@ class MegaMenu extends Component {
         return (
           <div key={index} style={style} onClick={() => this._HandleMake(index)}>
               {e.name}
-
           </div>
         )
       })
