@@ -203,13 +203,13 @@ export default class Index extends Component {
         await api.post("/Productvariantvalues/editProductVariantValues", data)
 
         await this._ReloadCar(false)
-        await this._ReloadItemInformation()
+        // await this._ReloadItemInformation()
     }
 
     _DeleteSingleImage = async (item) => {    
         await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
         await this._ReloadCar(false)
-        await this._ReloadItemInformation()
+        // await this._ReloadItemInformation()
     }
     
     _DeleteProductVariant = async(index) => {
@@ -218,8 +218,7 @@ export default class Index extends Component {
         const result = await api.delete(`/productvariantvalues/${index}`); 
         
         if(result.data.count == 1){
-            await this._ReloadCar()
-            await this._RestartItemInformation()
+            await this._ReloadCar(true)
         } else {
             await this.setState({ ProductVariantLoading: false})
         }
@@ -230,7 +229,7 @@ export default class Index extends Component {
 
         this.setState({
             addItem: false,
-            editItem: fullRestart? null : this.state.editItem,
+            editItem: fullRestart? false : this.state.editItem,
             ProductVariantLoading: false,
             addItemInformation :  fullRestart? null : this.state.addItemInformation,
             indexes: fullRestart? null : this.state.indexes,
@@ -238,10 +237,6 @@ export default class Index extends Component {
             Id: this.props.Id,
         })
     }
-
-    _ReloadItemInformation = async() => { await this.setState({addItemInformation: this.state.Car[this.state.indexes]})}
-
-    _RestartItemInformation = async() => { await this.setState({editItem: false, addItemInformation: null, indexes: null})}
 
 
     render () {
