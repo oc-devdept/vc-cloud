@@ -48,4 +48,6 @@ module.exports = {
   "sidebar.settings": "Settings",
   "sidebar.booking": "Bookings",
 
+  "sidebar.sendmail": "Mails",
+  "sidebar.analytics": "Analytics"
 };

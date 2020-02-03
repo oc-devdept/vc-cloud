@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import api from "Api";
 
-import Image from 'Components/Image'
-
-import Input from 'Components/Inventory/Input'
-import Text from 'Components/Inventory/Text'
-import Button from 'Components/Inventory/Button'
 
 import DisplayValues from './components/DisplayValues'
 

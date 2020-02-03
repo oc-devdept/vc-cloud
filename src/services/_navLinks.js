@@ -24,6 +24,14 @@ import {
 } from "Helpers/inventoryURL";
 
 
+
+import {
+  marketingPage,
+  mailPage,
+  analyticsPage
+} from "Helpers/marketingURL";
+
+
 export default [
   {
     url: "/app/homebase",
@@ -58,10 +66,7 @@ export default [
       //   title: "sidebar.deals",
       //   path: dealListPage
       // },
-      {
-        title: "sidebar.marketing",
-        path: marketingListPage
-      },
+  
     ]
   },
   // {
@@ -116,6 +121,25 @@ export default [
         path: bookingSystemPage
       },
     ]
+  },
+
+  {
+    url: "/app/marketing/dashboard",
+    baseUrl: "/app/marketing",
+    name: "Marketing",
+    child_routes: [
+      {
+        title: "sidebar.dashboard",
+        path: marketingPage
+      },
+      {
+        title: "sidebar.sendmail",
+        path: mailPage
+      },
+      {
+        title: "sidebar.analytics",
+        path: analyticsPage
+      }
+    ]
   }
 ];
-

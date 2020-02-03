@@ -79,9 +79,6 @@ function crmSwitcher() {
           component={async.crm_edit_deal}
         /> */}
 
-        <Route exact path={url.marketingListPage} component={async.crm_marketing_list} />
-
-
         {/* ------- /404 ------- */}
         <Redirect to="/404" />
       </Switch>

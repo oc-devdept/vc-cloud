@@ -19,77 +19,105 @@ import BlobImage from 'Components/Inventory/BlobImage'
 
 class index extends PureComponent {
 
-    state=({
-        loading : true
-    })
+    state=({loading : true})
  
     async componentDidMount() {
-        console.log(this.props)
 
-        const result = await api.get(`/categories/${this.props.Data[0]}`)
-
-        let Title = ""
-        let Button = ""
-
-        let Model = {
-            name: '',
-            description: '',
-        }
-        
-        const {id, name, description, tagId, files, images, header } = result.data
-
-        // create, edit, delete
         switch(this.props.Action){
             case "Create":
-                Title = "CREATE NEW MODEL"
-                Button = "CREATE"
-                break
-            case "Edit":
-                Title = "EDIT CAR MODEL"
-                Model = {
-                    id: id,
-                    name: name,
-                    description: description,
-                    tagId: tagId,
-                }
-                Button = "SAVE CHANGES"
-                break
-            case "Delete":
-                Title = "DELETE CAR MODEL"
-                Model = {
-                    id: id,
-                    name: name,
-                    description: description,
-                    tagId: tagId,           
-                }
-                Button = "CONFIRM DELETE"
-                break
-            default:break
+                
+                this.setState({
+                    Model: {
+                        id: null,
+                        name: '',
+                        description: '',
+                        tagId: null,
+                    },
+                    Title: "CREATE NEW MODEL",
+                    Button: "CREATE",
+                    Tags: this.props.Tags,
+                    TagId: null,
+                    images : [],
+                    files: [],
+                    MakeId: this.props.MakeId,
+                    actualHeader: [],
+                    header: [],
+                    headerString: [],
+                    actualGallery: [],
+                    gallery: [],
+                    galleryString:[],
+                    loading : false
+                })
+
+                return
+
+            default:
+                
+                let Model = {}
+
+                const result = await api.get(`/categories/${this.props.Data[0]}`)
+                const {id, name, description, tagId, files, images, header } = result.data
+
+                if(this.props.Action == "Edit"){
+
+                    Model = {
+                        id: id,
+                        name: name,
+                        description: description,
+                        tagId: tagId,
+                    }
+    
+                    this.setState({
+                        Model: Model,
+                        Title: "EDIT CAR MODEL",
+                        Button: "SAVE CHANGES",
+                        Tags: this.props.Tags,
+                        TagId: null,
+                        images : files? files : [],
+                        files: [],
+                        MakeId: this.props.MakeId,
+                        actualHeader: header? header: [],
+                        header: [],
+                        headerString: [],
+                        actualGallery: images? images: [],
+                        gallery: [],
+                        galleryString:[],
+                        loading : false
+                    })
+
+                } else {
+
+                    Model = {
+                        id: id,
+                        name: name,
+                        description: description,
+                        tagId: tagId,
+                    }
+
+                    this.setState({
+                        Model: Model,
+                        Title: "DELETE CAR MODEL",
+                        Button: "CONFIRM DELETE",
+                        Tags: this.props.Tags,
+                        TagId: null,
+                        images : files? files : [],
+                        files: [],
+                        MakeId: this.props.MakeId,
+                        actualHeader: header? header: [],
+                        header: [],
+                        headerString: [],
+                        actualGallery: images? images: [],
+                        gallery: [],
+                        galleryString:[],
+                        loading : false
+                    })
+                    
+                    }
+
+           
+            break
+    
         }
-
-        this.setState({
-            Model: Model,
-            Title: Title,
-            Button: Button,
-            Tags: this.props.Tags,
-            TagId: null,
-
-            images : files? files : [],
-            files: [],
-
-            MakeId: id,
-
-            actualHeader: header? header: [],
-            header: [],
-            headerString: [],
-
-            actualGallery: images? images: [],
-            gallery: [],
-            galleryString:[],
-
-            loading : false
-        })
-
     }
 
     removeFile = (file) => {
@@ -127,19 +155,20 @@ class index extends PureComponent {
 
     _SaveModel = async() => {
 
-        const {TagId, MakeId, Model, files} = this.state
+        const {TagId, MakeId, Model, files, header, gallery} = this.state
 
         const ModelId = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
 
         var data = new FormData();
         files.map(file => data.append(`upload`, file));
+        header.map(file => data.append(`headerThumbNail`, file));
+        gallery.map(file => data.append(`newSecondaryPhotos`, file));
+
         data.append("name", Model.name);
         data.append("description", Model.description);
-
         data.append("tagId", TagId);
         data.append("categoryId", MakeId);
         data.append("categoryGroupId", ModelId.data.id);
-
 
         await api.post(`/categories/newModel`, data)
 
@@ -182,8 +211,6 @@ class index extends PureComponent {
         this.setState({Model: Model})
     }
 
-    
-
     handleNewHeaderUpload = file => {
         // Needs to add to both arrays
         const item = URL.createObjectURL(file[0])
@@ -207,16 +234,18 @@ class index extends PureComponent {
 
     // Need API Call
     removeActualGallery = async(index) => {
-        console.log('removeActualGallery', index)
-        // const CloneArray = Array.from(form.images)
-        // _DeleteSingleImage(CloneArray[index])
 
-        // await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
-        // await this._ReloadCar()
-        // await this._ReloadItemInformation()
+        this.setState({loading: true})
 
+        const actualGallery = this.state.actualGallery.slice(0)
+        const image = actualGallery[index]
+
+        await api.delete(`categories/deleteImages/${image.id}`); 
+
+        const result = await api.get(`/categories/${this.props.Data[0]}`)
+
+        this.setState({actualGallery: result.data.images, loading: false})
     }
-
 
     handleNewGalleryUpload = file => {
         // Needs to add to both arrays
@@ -256,9 +285,6 @@ class index extends PureComponent {
 
 
 
-
-
-
     _RenderBody = () => {
         let Body = null
 
@@ -294,9 +320,9 @@ class index extends PureComponent {
                 Body = (
                     <div className="d-flex" style={{flexDirection:'column', flex: 1}}>
 
-                        <div style={{display:'flex', flexDirection:"row", flex: 1, marginRight: 30}}>
+                        <div style={{display:'flex', flexDirection:"row", flex: 1}}>
                             
-                            <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
+                            <div style={{display:'flex', flexDirection:"column", flex: 0.5, marginRight: 30}}>
                                 {tagName}
 
                                 <Input
@@ -351,38 +377,38 @@ class index extends PureComponent {
                         />
 
                         
-                        
+        
                         <div style={{display:'flex', flexDirection:"row", flex: 1, marginTop: 10, marginBottom: 10,}}>
-                            <div style={{display:'flex', flexDirection:"row", flex: 1}}>
+
+                            <div style={{display:'flex', flexDirection:"row", flex: 0.5}}>
+                                <div className="d-flex flex-column" style={{flex: 0.5}}>
+                                    <StaticName
+                                        title="CURRENT HEADER IMAGE"
+                                    />
                                 
-                                {this.state.actualHeader.length > 0 && 
-                                    <div className="d-flex flex-column" style={{flex: 0.5}}>
-                                        <StaticName
-                                            title="CAR MODEL HEADER IMAGE"
-                                        />
-                                    
+                                    {this.state.actualHeader.length > 0 && 
                                         <Images
                                             imageSource ={this.state.actualHeader}
                                             single={true}
                                         />
-                                    </div>
-                                }
+                                    }
+                                </div>
 
-                                {this.state.headerString.length > 0 && 
-                                    <div className="d-flex flex-column" style={{flex: 0.5}}>
-                                        <StaticName
-                                            title="NEW HEADER IMAGE"
-                                        />
+                                <div className="d-flex flex-column" style={{flex: 0.5}}>
+                                    <StaticName
+                                        title="NEW HEADER IMAGE"
+                                    />
+                                    {this.state.headerString.length > 0 && 
                                         <BlobImage
                                             imageSource={this.state.headerString}
                                             url={false}
                                             remove={true}
                                             removeNewImages={this.removeActualHeader}
                                         />
-                                    </div>
-                                }
+                                    }
+                                </div>
+                            </div>                   
 
-                            </div>                             
                             <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
                                 <StaticName
                                     title="IMAGE UPLOAD"
@@ -396,41 +422,40 @@ class index extends PureComponent {
                             </div>
                         </div>
 
-
-
-
                         <div style={{display:'flex', flexDirection:"row", flex: 1, marginTop: 10, marginBottom: 10,}}>
                             
                             <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
                                 
-                                {this.state.actualGallery.length > 0 && 
+                               
                                     <div className="d-flex flex-column" style={{flex: 1}}>
                                         <StaticName
-                                            title="CAR MODEL HEADER IMAGE"
+                                            title="CURRENT SECONDARY IMAGES"
                                         />
                                     
-                                        <BlobImage
-                                            imageSource={this.state.actualGallery}
-                                            url={true}
-                                            remove={true}
-                                            removeNewImages={this.removeActualGallery}
-                                        />
+                                        {this.state.actualGallery.length > 0 && 
+                                            <BlobImage
+                                                imageSource={this.state.actualGallery}
+                                                url={true}
+                                                remove={true}
+                                                removeNewImages={this.removeActualGallery}
+                                            />
+                                        }
                                     </div>
-                                }
+                                
 
-                                {this.state.galleryString.length > 0 && 
                                     <div className="d-flex flex-column" style={{flex: 1}}>
                                         <StaticName
-                                            title="NEW HEADER IMAGE"
+                                            title="NEW SECONDARY IMAGES"
                                         />
-                                        <BlobImage
-                                            imageSource={this.state.galleryString}
-                                            url={false}
-                                            remove={true}
-                                            removeNewImages={this.removeGalleryString}
-                                        />
+                                        {this.state.galleryString.length > 0 && 
+                                            <BlobImage
+                                                imageSource={this.state.galleryString}
+                                                url={false}
+                                                remove={true}
+                                                removeNewImages={this.removeGalleryString}
+                                            />
+                                        }
                                     </div>
-                                }
 
                             </div>   
 
@@ -455,53 +480,71 @@ class index extends PureComponent {
             case "Create":
             
                 Body = (
-                    <div className="d-flex" style={{flexDirection:'row', flex: 1}}>
+                    <div className="d-flex" style={{flexDirection:'column', flex: 1}}>
 
-                        <div style={{display:'flex', flexDirection:"column", flex: 1, marginRight: 30}}>
-
-                            <div style={{display:'flex', flexDirection:"column"}}>
-                                <StaticName
-                                    title="CAR MODEL TYPE"
-                                />
-                                {this.state.Tags.length > 0 && 
-                                    <FormControl>
-                                        <Select 
-                                        labelId="demo-simple-select-helper-label"
-                                        id="demo-simple-select-helper"
-                                        value={this.state.TagId ? this.state.TagId : ''}
-                                        onChange={this._ToggleModelTag}
-                                        style={{minWidth: 100, marginLeft: 5}}
-                                        >
-                                        
-                                            {this.state.Tags.map((e, index) => {
-                                                return <MenuItem key={index} value={e.id}>{e.name}</MenuItem>
-                                            })}
-                                        
-                                        </Select>
-                                    </FormControl>
-                                }
-                            </div>
+                        <div style={{display:'flex', flexDirection:"row", flex: 1, }}>
                             
-                            <Input
-                                divStyle={{width: '100%'}}
-                                title="CAR MODEL NAME"
-                                placeholder="Enter a new car model here (e.g BMW)"
-                                value={this.state.Model.name}
-                                element={'name'}
-                                _HandleProduct={this._OnChange}
-                            />
+                            <div style={{display:'flex', flexDirection:"column", flex: 0.5, marginRight: 30}}>
+                                <div style={{display:'flex', flexDirection:"column"}}>
+                                    <StaticName
+                                        title="CAR MODEL TYPE"
+                                    />
+                                    {this.state.Tags.length > 0 && 
+                                        <FormControl>
+                                            <Select 
+                                            labelId="demo-simple-select-helper-label"
+                                            id="demo-simple-select-helper"
+                                            value={this.state.TagId ? this.state.TagId : ''}
+                                            onChange={this._ToggleModelTag}
+                                            style={{minWidth: 100, marginLeft: 5}}
+                                            >
+                                            
+                                                {this.state.Tags.map((e, index) => {
+                                                    return <MenuItem key={index} value={e.id}>{e.name}</MenuItem>
+                                                })}
+                                            
+                                            </Select>
+                                        </FormControl>
+                                    }
+                                </div>
 
-                            <div style={{display:'flex', flexDirection:"column", marginTop: 10, marginBottom: 10}}>
-                                <StaticName
-                                    title="IMAGE UPLOAD"
+                                <Input
+                                    divStyle={{width: '100%'}}
+                                    title="CAR MODEL NAME"
+                                    placeholder="Enter a new car model here (e.g BMW)"
+                                    value={this.state.Model.name}
+                                    element={'name'}
+                                    _HandleProduct={this._OnChange}
                                 />
-                                <Dropzone
-                                    onDrop={this.handleUpload}
-                                    onRemove={this.removeFile}
-                                    uploadedFiles={this.state.files}
-                                    additionalText="Files can't be edited once uploaded."
-                                />
+
                             </div>
+
+                            <div style={{display:'flex', flexDirection:"row", flex: 0.5}}>
+                                {/* <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
+                                    <StaticName
+                                        title="CAR MODEL IMAGE"
+                                    />
+                                    {this.state.images.length > 0 && 
+                                        <Images
+                                            imageSource ={this.state.images}
+                                            single={true}
+                                        />
+                                    }
+                                </div>       */}
+                                <div style={{display:'flex', flexDirection:"column", flex: 1}}>
+                                    {/* <span>IMAGE UPLOAD</span> */}
+                                    <StaticName
+                                        title="IMAGE UPLOAD"
+                                    />
+                                    <Dropzone
+                                        onDrop={this.handleUpload}
+                                        onRemove={this.removeFile}
+                                        uploadedFiles={this.state.files}
+                                        additionalText="Files can't be edited once uploaded."
+                                    />
+                                </div>
+                            </div>
+                        
                         </div>
 
                         <Input
@@ -515,7 +558,86 @@ class index extends PureComponent {
                             style={{height:'100%', backgroundColor: 'rgba(244,246,251,1)', borderRadius: 8, border: 'none', padding: 20}}
                         />
 
+                        <div style={{display:'flex', flexDirection:"row", flex: 1, marginTop: 10, marginBottom: 10,}}>                                
+                            <div className="d-flex flex-column" style={{flex: 0.5}}>
+                                <StaticName
+                                    title="PREVIEW CAR HEADER IMAGE"
+                                />
+                                {this.state.headerString.length > 0 && 
+                                    <BlobImage
+                                        imageSource={this.state.headerString}
+                                        url={false}
+                                        remove={true}
+                                        removeNewImages={this.removeActualHeader}
+                                    />
+                                }
+                            </div>
+                    
+                            <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
+                                <StaticName
+                                    title="UPLOAD HEADER IMAGE"
+                                />
+                                <Dropzone
+                                    onDrop={this.handleNewHeaderUpload}
+                                    uploadedFiles={[]}
+                                    additionalText="Files can't be edited once uploaded."
+                                />
+                            </div>
+                        </div>
+
+
+                        <div style={{display:'flex', flexDirection:"row", flex: 1, marginTop: 10, marginBottom: 10,}}>
+                            
+                            <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
+                                
+                                
+                                    {/* <div className="d-flex flex-column" style={{flex: 1}}>
+                                        <StaticName
+                                            title="CAR MODEL HEADER IMAGE"
+                                        />
+                                        {this.state.actualGallery.length > 0 && 
+                                            <BlobImage
+                                                imageSource={this.state.actualGallery}
+                                                url={true}
+                                                remove={false}
+                                            />
+                                        }
+                                    </div> */}
+                                
+
+                                
+                                    <div className="d-flex flex-column" style={{flex: 1}}>
+                                        <StaticName
+                                            title="NEW HEADER IMAGE"
+                                        />
+                                        {this.state.galleryString.length > 0 && 
+                                            <BlobImage
+                                                imageSource={this.state.galleryString}
+                                                url={false}
+                                                remove={true}
+                                                removeNewImages={this.removeGalleryString}
+                                            />
+                                        }
+                                    </div>
+                                
+
+                            </div>   
+
+                            <div style={{display:'flex', flexDirection:"column", flex: 0.5}}>
+                                <StaticName
+                                    title="IMAGE UPLOAD"
+                                />
+                                <Dropzone
+                                    onDrop={this.handleNewGalleryUpload}
+                                    // onRemove={this.removeFile}
+                                    uploadedFiles={[]}
+                                    additionalText="Files can't be edited once uploaded."
+                                />
+                            </div>
+                        
+                        </div>
                     </div>
+
                 )
                 break
             default:
@@ -527,7 +649,6 @@ class index extends PureComponent {
         switch(this.props.Action){
             case "Create":
                 SaveButton = (
-                
                     <Button
                         divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
                         _Function={this._SaveModel}

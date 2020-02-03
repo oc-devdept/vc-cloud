@@ -10,7 +10,7 @@ const Index = ({imageSource, removeNewImages, url, remove }) => {
             <div className="d-flex flex-row" style={{flexWrap:'wrap'}}>
                 {imageSource.map((e, index) =>{
                     return (
-                        <div key={index} className="d-flex" style={{justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)', borderRadius: 20, width: 100, height: 100, position:'relative'}}>
+                        <div key={index} className="d-flex" style={{justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)', borderRadius: 20, width: 100, height: 100, position:'relative', marginRight: 10}}>
                             <img
                                 src={e.path}
                                 style={{objectFit:'cover', borderRadius: 20, maxWidth:'100%', padding: 5}}
@@ -31,7 +31,7 @@ const Index = ({imageSource, removeNewImages, url, remove }) => {
             <div className="d-flex flex-row" style={{flexWrap:'wrap'}}>
                 {imageSource.map((e, index) =>{
                     return (
-                        <div key={index} className="d-flex" style={{justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)', borderRadius: 20, width: 100, height: 100, position:'relative'}}>
+                        <div key={index} className="d-flex" style={{justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)', borderRadius: 20, width: 100, height: 100, position:'relative', marginRight: 10}}>
 
                             <img
                                 src={e}

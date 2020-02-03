@@ -82,81 +82,76 @@ const Index = ({_AddVariantValues}) => {
     return (
         <div className="d-flex" style={{flex: 1, flexDirection:"column", padding :20}}>
 
+            <div className="d-flex flex-row" style={{paddingBottom: 20,}}>
+                <div className="d-flex flex-column" style={{justifyContent:"space-between", flex:0.5, marginRight: 30}}>
+                    
+                    <Input
+                        divStyle={{width: '100%', marginRight: 30}}
+                        title="NAME OF THE VARIANT ITEM"
+                        placeholder="e.g Enter a new product variant item name"
+                        value={form.name}
+                        element={'name'}
+                        _HandleProduct={_HandleProductDetailValue}
+                    />   
+            
+                    <Input
+                        divStyle={{width: '100%'}}
+                        title="PRICE"
+                        placeholder="e.g Enter a price for the item"
+                        value={form.price}
+                        element={'price'}
+                        _HandleProduct={_HandleProductDetailValue}
+                    />  
 
-            <div className="d-flex" style={{display:'flex', flexDirection:"row", justifyContent:"space-between", paddingBottom: 20}}>
-                
-                <Input
-                    divStyle={{width: '100%', marginRight: 30}}
-                    title="NAME OF THE VARIANT ITEM"
-                    placeholder="e.g Enter a new product variant item name"
-                    value={form.name}
-                    element={'name'}
-                    _HandleProduct={_HandleProductDetailValue}
-                />   
-        
-                <Input
-                    divStyle={{width: '100%'}}
-                    title="PRICE"
-                    placeholder="e.g Enter a price for the item"
-                    value={form.price}
-                    element={'price'}
-                    _HandleProduct={_HandleProductDetailValue}
-                />  
+                    <div className="d-flex flex-row" style={{width: '100%'}}>                        
+                        <StaticName
+                            title="MAKE THE ITEM DEFAULT"
+                        />
+                        
+                        <Checkbox
+                            edge="end"
+                            onChange={_HandleCheckBox}
+                            checked={form.isDefault}
+                            name="isDefault"
+                        /> 
+                    </div>
 
-            </div>
-
-
-            <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
-                <div style={{display:'flex', flexDirection:"column", width: '100%', marginRight: 30}}>
-                    <StaticName
-                        title="IMAGE UPLOAD"
-                    />
-                    <Dropzone
-                        onDrop={handleUpload}
-                        onRemove={removeFile}
-                        uploadedFiles={form.files}
-                        additionalText="Files can't be edited once uploaded."
-                    />
                 </div>
 
-
-                <div style={{display:'flex', flexDirection:"column", width: '100%'}}>                        
-                    <StaticName
-                        title="MAKE THE ITEM DEFAULT"
-                    />
-                    
-                    <Checkbox
-                        edge="end"
-                        onChange={_HandleCheckBox}
-                        checked={form.isDefault}
-                        name="isDefault"
-                    /> 
+                <div className="d-flex flex-row" style={{flex: 0.5 }}>
+                    <div className="d-flex flex-column" style={{width: '100%'}}>
+                        <StaticName
+                            title="IMAGE UPLOAD"
+                        />
+                        <Dropzone
+                            onDrop={handleUpload}
+                            onRemove={removeFile}
+                            uploadedFiles={form.files}
+                            additionalText="Files can't be edited once uploaded."
+                        />
+                    </div>
                 </div>
             </div>
 
             <div className="d-flex" style={{display:'flex', flexDirection:"column", flex: 1 }}>
 
-                <StaticName
-                    title="UPLOAD SECONDARY PHOTOS"
-                />
-
-                <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
-                    <div style={{display:'flex', flex:0.5, flexDirection:"column"}}>
-                        {form.imagesString.length > 0 && 
+                <div className="d-flex flex-row flex-fill">
+                    <div className="d-flex flex-column" style={{flex:0.5, marginRight: 30}}>
                             <div className="d-flex flex-column">
                                 <StaticName
                                     title="YOUR NEW IMAGES"
                                 />
 
-                                <BlobImage
-                                    imageSource={form.imagesString}
-                                    url={false}
-                                />
+                                {form.imagesString.length > 0 && 
+                                    <BlobImage
+                                        imageSource={form.imagesString}
+                                        url={false}
+                                    />
+                                }
                             </div>
-                        }
                     </div>
 
-                    <div style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
+                    <div className="d-flex flex-row" style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
                         <div style={{width: '100%'}}>
                             <Dropzone
                                 onDrop={handleNewImagesUpload}

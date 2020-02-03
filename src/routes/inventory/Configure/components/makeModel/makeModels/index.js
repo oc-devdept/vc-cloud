@@ -228,6 +228,7 @@ class index extends PureComponent {
                                 Action={'Create'}
                                 Data={this.state.data}
                                 Tags={this.state.Tags}
+                                MakeId={this.state.Id}
 
                                 _RestartToggle={this._RestartToggle}
                                 _SaveModelDone={this._SaveModelDone}
@@ -246,6 +247,7 @@ class index extends PureComponent {
                                 Action={'Edit'}
                                 Data={this.state.data}
                                 Tags={this.state.Tags}
+                                MakeId={this.state.Id}
 
                                 _RestartToggle={this._RestartToggle}
                                 _SaveModelDone={this._SaveModelDone}
@@ -265,6 +267,7 @@ class index extends PureComponent {
                                 Action={'Delete'}
                                 Data={this.state.data}
                                 Tags={this.state.Tags}
+                                MakeId={this.state.Id}
 
                                 _RestartToggle={this._RestartToggle}
 

@@ -39,12 +39,6 @@ export const dealEditPage = id => `${dealListPage}/${id}/edit`;
 export const dealImportPage = dealListPage + "/import";
 
 /**
- * Marketing Pages
- */
-export const marketingListPage = "/app/crm/marketing";
-
-
-/**
  * Team Pages
  */
 export const teamListPage = "/app/crm/teams";

@@ -1,8 +1,8 @@
 import React, {Component, PureComponent} from "react";
 import api from "Api";
 
+import Button from 'Components/Inventory/Button'
 
-import ProductVariant  from './components/ProductVariant'
 import ProductVariantValues  from './components/ProductVariantValues'
 import DisplayProductVariantValues from './components/DisplayProductVariantValues'
 import EditProductVariantValues from './components/EditProductVariantValues'
@@ -26,6 +26,7 @@ export default class Index extends Component {
 
             Car : this.props.Car,
             Id: this.props.Id,
+            
             ProductVariantLoading: false
         }
 
@@ -103,7 +104,7 @@ export default class Index extends Component {
                             </div>
                         </div>
 
-                        <div style={{borderBottom: '1px solid rgba(0,0,0,0.70)', paddingBottom:10,}}>
+                        <div style={{borderBottom: '1.5px solid rgba(0,0,0,0.15)', paddingBottom:10,}}>
                             {BelongsTo.map((e, index) => {
                                 return (
                                     <div key={index} style={{}}>
@@ -180,7 +181,7 @@ export default class Index extends Component {
     
         await api.post("/productvariantvalues/newVariant", data)
 
-        this._ReloadCar()
+        await this._ReloadCar(true)
     }
     
     _EditVariantValues = async (item) => {
@@ -201,13 +202,13 @@ export default class Index extends Component {
 
         await api.post("/Productvariantvalues/editProductVariantValues", data)
 
-        await this._ReloadCar()
+        await this._ReloadCar(false)
         await this._ReloadItemInformation()
     }
 
     _DeleteSingleImage = async (item) => {    
         await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
-        await this._ReloadCar()
+        await this._ReloadCar(false)
         await this._ReloadItemInformation()
     }
     
@@ -223,14 +224,24 @@ export default class Index extends Component {
             await this.setState({ ProductVariantLoading: false})
         }
     }
-    
 
+    _ReloadCar = async(fullRestart) => {
+        const latestProduct = await api.get(`/products/${this.state.Id}`)
 
-    _ReloadCar = async() => {
-        const Id = this.state.Id
-        const latestProduct = await api.get(`/products/${Id}`)
-        await this.setState({
-            Car: latestProduct.data.productVariant, ProductVariantLoading: false,
+        console.log(latestProduct.data.productVariant)
+
+        
+        this.setState({
+            addItem: false,
+            editItem: false,
+
+            addItemInformation : null,
+            indexes: fullRestart? null : this.state.indexes,
+
+            Car : latestProduct.data.productVariant,
+            Id: this.props.Id,
+
+            ProductVariantLoading: false
         })
     }
 
@@ -314,7 +325,19 @@ export default class Index extends Component {
                         </div>
                     }
 
-                    {this.state.currentCategory &&  !this.state.editItem &&
+
+                    {this.state.currentCategory && !this.state.addItem &&  !this.state.editItem &&
+                        <div style={{display:'flex', justifyContent:'flex-end', marginRight: 20}}>
+                            <Button
+                                _Function={() => this.setState({addItem: true})}
+                                product={''}
+                                files={''}
+                                title={'ADD ITEM'}
+                            />
+                        </div>
+                    }
+
+                    {this.state.currentCategory &&  !this.state.editItem && this.state.addItem &&
                         <ProductVariantValues
                             _AddVariantValues = {this._AddVariantValues}
                         />
@@ -325,7 +348,7 @@ export default class Index extends Component {
                             ProductVariantValues={this.state.addItemInformation}
                             _EditVariantValues={this._EditVariantValues}
                             _DeleteSingleImage={this._DeleteSingleImage}
-                            AddNewVariant={()=> this.setState({editItem: false, addItemInformation: null, indexes: null})}
+                            AddNewVariant={()=> this.setState({editItem: false, addItemInformation: null, indexes: null, addItem: true})}
                         />
                     }
 

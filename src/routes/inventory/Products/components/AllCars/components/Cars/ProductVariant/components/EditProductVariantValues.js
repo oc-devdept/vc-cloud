@@ -119,45 +119,58 @@ const Index = ({AddNewVariant, _EditVariantValues, ProductVariantValues, _Delete
     return (
         <div className="d-flex" style={{flex: 1, flexDirection:"column", padding :20}}>
 
-            <div className="d-flex" style={{display:'flex', flexDirection:"row", justifyContent:"space-between", paddingBottom: 20}}>
-                
-                <Input
-                    divStyle={{width: '100%', marginRight: 30}}
-                    title="NAME OF THE VARIANT ITEM"
-                    placeholder="e.g Enter a new product variant item name"
-                    value={form.name}
-                    element={'name'}
-                    _HandleProduct={_HandleProductDetailValue}
-                />   
-        
+            <div className="d-flex flex-row flex-fill" style={{paddingBottom: 20,}}>
 
-                <Input
-                    divStyle={{width: '100%'}}
-                    title="PRICE"
-                    placeholder="e.g Enter a price for the item"
-                    value={form.price}
-                    element={'price'}
-                    _HandleProduct={_HandleProductDetailValue}
-                />  
+                <div className="d-flex flex-column justify-content-between" style={{flex: 0.5, marginRight: 30}}>
+                    
+                    <Input
+                        divStyle={{width: '100%', marginRight: 30}}
+                        title="NAME OF THE VARIANT ITEM"
+                        placeholder="e.g Enter a new product variant item name"
+                        value={form.name}
+                        element={'name'}
+                        _HandleProduct={_HandleProductDetailValue}
+                    />   
+            
 
-            </div>
+                    <Input
+                        divStyle={{width: '100%'}}
+                        title="PRICE"
+                        placeholder="e.g Enter a price for the item"
+                        value={form.price}
+                        element={'price'}
+                        _HandleProduct={_HandleProductDetailValue}
+                    />  
 
-            <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
+                    <div className="d-flex flex-row" style={{width: '100%'}}>                        
+                        <StaticName
+                            title="MAKE THE ITEM DEFAULT"
+                        />
+                        <div>
+                            <Checkbox
+                                edge="end"
+                                onChange={_HandleCheckBox}
+                                checked={form.isDefault}
+                                name="isDefault"
+                            /> 
+                        </div>
+                    </div>
 
-                <div style={{display:'flex', flexDirection:"column", width: '100%', marginRight: 30}}>
+                </div>
+
+                <div className="d-flex flex-column" style={{width: '100%', flex: 0.5}}>
                     <div>
                         <StaticName
-                            title="DEFAULT THUMBNAIL"
+                            title="UPLOAD NEW THUMBNAIL"
                         />     
 
-                        {form.files.length > 0 && 
+                        {/* {form.files.length > 0 && 
                             <div style={{display:'flex', flexDirection:"row", justifyContent:"space-between", marginTop: 10}}>
                                 <Image
                                     imageSource={form.files}
                                     single={true}
                                     thumbNail={true}
                                 />
-                                    
                                 <Dropzone
                                     onDrop={handleUpload}
                                     onRemove={removeFile}
@@ -166,7 +179,6 @@ const Index = ({AddNewVariant, _EditVariantValues, ProductVariantValues, _Delete
                                 />
                             </div>
                         }
-
                         {form.files.length == 0 && 
                             <Dropzone
                                 onDrop={handleUpload}
@@ -174,29 +186,24 @@ const Index = ({AddNewVariant, _EditVariantValues, ProductVariantValues, _Delete
                                 uploadedFiles={form.newThumbNail}
                                 additionalText="Files can't be edited once uploaded."
                             />
-                        }
+                        } */}
+
+                        <Dropzone
+                            onDrop={handleUpload}
+                            onRemove={removeFile}
+                            uploadedFiles={form.newThumbNail}
+                            additionalText="Files can't be edited once uploaded."
+                        />
 
                     </div>
                 </div>
 
-                <div style={{display:'flex', flexDirection:"column", width: '100%'}}>                        
-                    <StaticName
-                        title="MAKE THE ITEM DEFAULT"
-                    />
-                    <div>
-                        <Checkbox
-                            edge="end"
-                            onChange={_HandleCheckBox}
-                            checked={form.isDefault}
-                            name="isDefault"
-                        /> 
-                    </div>
-                </div>
             </div>
+            
 
             <div className="d-flex" style={{display:'flex', flexDirection:"row", flex: 1 }}>
 
-                <div style={{display:'flex', flex:0.5, flexDirection:"column"}}>
+                <div style={{display:'flex', flex:0.5, flexDirection:"column", marginRight: 30}}>
                     
                     {form.images.length > 0 && 
                         <div className="d-flex flex-column">
