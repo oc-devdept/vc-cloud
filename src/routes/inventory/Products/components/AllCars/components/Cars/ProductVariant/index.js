@@ -228,20 +228,14 @@ export default class Index extends Component {
     _ReloadCar = async(fullRestart) => {
         const latestProduct = await api.get(`/products/${this.state.Id}`)
 
-        console.log(latestProduct.data.productVariant)
-
-        
         this.setState({
             addItem: false,
-            editItem: false,
-
-            addItemInformation : null,
+            editItem: fullRestart? null : this.state.editItem,
+            ProductVariantLoading: false,
+            addItemInformation :  fullRestart? null : this.state.addItemInformation,
             indexes: fullRestart? null : this.state.indexes,
-
             Car : latestProduct.data.productVariant,
             Id: this.props.Id,
-
-            ProductVariantLoading: false
         })
     }
 
