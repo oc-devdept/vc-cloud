@@ -111,6 +111,8 @@ Retrieve all models under a selected make's Id
         name : String,
         description : String,
         files : Array <-- thumbnail,
+        header: Array,
+        images: Array,
         product : Array
     }
 
