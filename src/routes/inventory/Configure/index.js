@@ -15,14 +15,7 @@ import ConfigureCard from "./components/ConfigureCard"
 
 class CreateProduct extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
 
-    }
-  }
-
- 
   render() {
 
     return (
@@ -37,7 +30,6 @@ class CreateProduct extends Component {
 
               <PageTitleBar
                 title={"Settings"}
-                // createLink={quoteNewPage}
               />
 
               <div className="row">

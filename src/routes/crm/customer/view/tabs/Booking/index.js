@@ -33,41 +33,35 @@ class index extends Component {
         return (
             <div style={{flex: 1}}>
                 <div style={{width: '100%', display:'flex', flexDirection:"row", backgroundColor: 'rgba(73,100,150,1)', padding: 10, justifyContent:'space-between'}}>
-                        <div >
-                            <span style={{color:"white"}}>NAME</span>
-                        </div>
-                        <div>
-                            <span style={{color:"white"}}>EMAIL</span>
-                        </div>
-                        <div>
-                            <span style={{color:"white"}}>CONTACT</span>
-                        </div>
-                        <div>
-                            <span style={{color:"white"}}>SERVICE</span>
-                        </div>
-                        <div>
-                            <span style={{color:"white"}}>INTEREST</span>
-                        </div>
-                        <div>
-                            <span style={{color:"white"}}>DATE</span>
-                        </div>
-                        <div>
-                            <span style={{color:"white"}}>STATUS</span>
-                        </div>
-                    {/* </div> */}
+                    <div style={{width: 100}}>
+                        <span style={{color:"white",}}>NAME</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>CREATED DATE</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>EMAIL</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>CONTACT</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>SERVICE</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>INTEREST</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>SCHEDULED</span>
+                    </div>
+                    <div style={{width: 100}}>
+                        <span style={{color:"white"}}>STATUS</span>
+                    </div>
                 </div>
 
-                <div style={{paddingBottom:10,}}>
-                    {AllBookings.map((e, index) => {
-                        return (
-                            <div key={index} >
-                                <DisplayValues
-                                    DisplayValues={e}
-                                />
-                            </div>
-                        )
-                    })}
-                </div>
+                <DisplayValues
+                    Bookings={AllBookings}
+                />
             </div>
         )
                

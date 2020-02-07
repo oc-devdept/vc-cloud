@@ -19,11 +19,11 @@ const CustomerList = ({ tableData, loading, title, action }) => {
     },
     {
       label: "Name",
-      name: "name",
+      name: "customer",
       options: {
         customBodyRender: (value, tableMeta) => {
           return (
-            <NavLink to={singleCustomer(tableMeta.rowData[0])}>{value}</NavLink>
+            <NavLink to={singleCustomer(tableMeta.rowData[0])}>{`${value.firstName} ${value.lastName}`}</NavLink>
           );
         }
       }
@@ -67,6 +67,7 @@ const CustomerList = ({ tableData, loading, title, action }) => {
       name: "userInfo",
       options: {
         customBodyRender: value => {
+          console.log(value)
           return value ? value.name : "Waiting For Agent";
         }
       }

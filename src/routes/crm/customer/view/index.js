@@ -197,7 +197,7 @@ class crm_view_customer extends Component {
 
                   <div label="Maintenance">
                     <Maintenance 
-                      bookings={customer.bookings}
+                      // bookings={customer.bookings}
                     />
                   </div>
 
