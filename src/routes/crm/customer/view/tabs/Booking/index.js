@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import api from "Api";
 
-
-import DisplayValues from './components/DisplayValues'
-
+import BookingList from './components/BookingList'
 
 class index extends Component {
  
@@ -26,57 +24,19 @@ class index extends Component {
     }
 
 
-
-    _RenderBookings = () => {
-        const AllBookings = this.state.bookings
-
-        return (
-            <div style={{flex: 1}}>
-                <div style={{width: '100%', display:'flex', flexDirection:"row", backgroundColor: 'rgba(73,100,150,1)', padding: 10, justifyContent:'space-between'}}>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white",}}>NAME</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>CREATED DATE</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>EMAIL</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>CONTACT</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>SERVICE</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>INTEREST</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>SCHEDULED</span>
-                    </div>
-                    <div style={{width: 100}}>
-                        <span style={{color:"white"}}>STATUS</span>
-                    </div>
-                </div>
-
-                <DisplayValues
-                    Bookings={AllBookings}
-                />
-            </div>
-        )
-               
-        
-    }
-
     
     render() {
         
         return (
-            <div className="todo-dashboard" style={{border : '1px solid black', borderStyle : 'dashed', marginTop: 50, display: 'flex', flexDirection:'row', flex: 1}}>
+            <div className="todo-dashboard">
                 
                 {this.state.bookings.length > 0 && 
-                    <div style={{height: 300, width:'100%', overflow:'auto'}}>
-                        {this._RenderBookings()}
+                    <div className="d-flex flex-fill" style={{width:'100%'}}>
+                        <BookingList
+                            tableData={this.state.bookings}
+                            // loading={Loading}
+                            // SetSingleBooking={SetBookingId}
+                        />
                     </div>
                 }
 

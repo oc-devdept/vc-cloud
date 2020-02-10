@@ -14,7 +14,6 @@ import ProfileTabs from "Components/Layout/ProfileTabs";
 // Tabs
 import Overview from "./tabs/Overview"
 import Booking from "./tabs/Booking"
-import Maintenance from "./tabs/Maintenance"
 
 
 
@@ -195,13 +194,7 @@ class crm_view_customer extends Component {
                     />
                   </div>
 
-                  <div label="Maintenance">
-                    <Maintenance 
-                      // bookings={customer.bookings}
-                    />
-                  </div>
-
-                  <div label="Test Booking">
+                  <div label="All Bookings">
                     <Booking 
                       customerID={customer.id}
                     />
