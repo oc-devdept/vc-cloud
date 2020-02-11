@@ -66,7 +66,7 @@ function crmSwitcher() {
         />
 
         {/* ------- /Deals ------- */}
-        {/* <Route exact path={url.dealListPage} component={async.crm_deal_list} />
+        <Route exact path={url.dealListPage} component={async.crm_deal_list} />
         <Route path={url.dealNewPage} component={async.crm_new_deal} />
         <Route path={url.dealImportPage} component={async.crm_import_deal} />
         <Route
@@ -77,7 +77,7 @@ function crmSwitcher() {
         <Route
           path={`${url.dealListPage}/:id/edit`}
           component={async.crm_edit_deal}
-        /> */}
+        />
 
         {/* ------- /404 ------- */}
         <Redirect to="/404" />
