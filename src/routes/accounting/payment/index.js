@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 // List View
@@ -10,7 +10,7 @@ import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
 import PaymentList from "./components/tables/PaymentList";
 
 // Actions
-import {fetchAllPayment} from "Ducks/accounting/payment";
+import { fetchAllPayment } from "Ducks/accounting/payment";
 
 import { newPayment } from "Helpers/accountingURL";
 
@@ -43,10 +43,7 @@ class acct_payment extends Component {
 
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Payment</title>
-          <meta name="description" content="Everyday Payment Management" />
-        </Helmet>
+        <Helmet title="Payment" />
         <PageTitleBar
           title={"All Payments"}
           actionGroup={{
@@ -73,7 +70,4 @@ const mapStateToProps = ({ accountingState }) => {
   return { paymentState };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchAllPayment }
-)(acct_payment);
+export default connect(mapStateToProps, { fetchAllPayment })(acct_payment);

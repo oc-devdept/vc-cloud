@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 //Page Req
@@ -51,10 +51,7 @@ class ReportsComponent extends Component {
     const { nestedView, activeView } = this.state;
     return (
       <div className="todo-dashboard">
-        <Helmet>
-          <title>Everyday | Reports</title>
-          <meta name="description" content="Everyday Informational Reports" />
-        </Helmet>
+        <Helmet title="Reports" />
         <PageTitleBar title="Reports" />
         <div className="row">
           <div className="col-lg-2">

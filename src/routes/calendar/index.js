@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 import { connect } from "react-redux";
 import { show } from "redux-modal";
@@ -85,10 +85,7 @@ class Calendar extends Component {
     return (
       <React.Fragment>
         <div className="calendar-wrapper">
-          <Helmet>
-            <title>Everyday | Calendar</title>
-            <meta name="description" content="Everyday Calendar" />
-          </Helmet>
+          <Helmet title="Calendar" />
 
           <div className="row">
             <div
@@ -147,11 +144,8 @@ const mapStateToProps = ({ calendarState }) => {
   return { showEvents };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getAllEvents,
-    addEvent,
-    show
-  }
-)(Calendar);
+export default connect(mapStateToProps, {
+  getAllEvents,
+  addEvent,
+  show
+})(Calendar);

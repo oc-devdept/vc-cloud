@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 // import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
 import { accountNewPage } from "Helpers/crmURL";
@@ -48,10 +48,7 @@ class crm_account extends Component {
     } = this.props.accountState.accountList;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Accounts</title>
-          <meta name="description" content="Everyday Accounts Management" />
-        </Helmet>
+        <Helmet title="Accounts" />
         <PageTitleBar
           title={nowShowing}
           actionGroup={{
@@ -80,11 +77,8 @@ const mapStateToProps = ({ crmState }) => {
   return { accountState };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    changeAccountView,
-    toggleAccountDropDown,
-    getAllAccount
-  }
-)(crm_account);
+export default connect(mapStateToProps, {
+  changeAccountView,
+  toggleAccountDropDown,
+  getAllAccount
+})(crm_account);

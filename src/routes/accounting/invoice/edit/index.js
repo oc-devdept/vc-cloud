@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Sub components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 // intl messages
 import IntlMessages from "Util/IntlMessages";
@@ -23,17 +23,12 @@ import InvoiceForm from "../components/InvoiceForm";
 
 // Actions
 import {
-
   clearSingleInvoice,
   submitInvoice,
   getSingleInvoice
 } from "Ducks/accounting/invoice";
 
-
-
-
 class acct_edit_quotation extends Component {
-
   UNSAFE_componentWillMount() {
     var id = this.props.match.params.id;
     this.props.getSingleInvoice(id);
@@ -56,10 +51,7 @@ class acct_edit_quotation extends Component {
       <RctPageLoader />
     ) : invoice ? (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | New Invoice</title>
-          <meta name="description" content="Everyday Invoices Creation" />
-        </Helmet>
+        <Helmet title="New Invoices" />
         <InvoiceForm
           title="sidebar.newQuotation"
           handleSubmit={this._quotationParent}
@@ -94,11 +86,8 @@ const mapStateToProps = ({ accountingState }) => {
 
 // deleted
 
-export default connect(
-  mapStateToProps,
-  {
-    clearSingleInvoice,
-    submitInvoice,
-    getSingleInvoice
-  }
-)(acct_edit_quotation);
+export default connect(mapStateToProps, {
+  clearSingleInvoice,
+  submitInvoice,
+  getSingleInvoice
+})(acct_edit_quotation);

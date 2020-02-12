@@ -11,21 +11,21 @@ function BgCard(props) {
     actionButtons,
     headingCustomClasses,
     contentCustomClasses
-
   } = props;
   return (
     <div className="d-block">
-      <div className={`rct-block ${customClasses ? customClasses : ""}`} style={customStyles} >
-        {heading && (
+      <div
+        className={`rct-block ${customClasses ? customClasses : ""}`}
+        style={customStyles}
+      >
+        {(heading || actionButtons) && (
           <div
-            className={`rct-block-title ${
+            className={`rct-block-title d-flex align-items-center justify-content-between ${
               headingCustomClasses ? headingCustomClasses : ""
             }`}
           >
-            <h4>{heading}</h4>
-            {actionButtons && (
-              <div className="contextual-link">{actionButtons}</div>
-            )}
+            <h4>{heading ? heading : ""}</h4>
+            {actionButtons && <div className="">{actionButtons}</div>}
           </div>
         )}
         <div
