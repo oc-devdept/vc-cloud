@@ -16,6 +16,3 @@ export const allCarsPage = "/app/inventory/allcars";
  * Credit Note Pages
  */
 export const configurePage = "/app/inventory/configure";
-
-
-export const bookingSystemPage = "/app/inventory/booking";

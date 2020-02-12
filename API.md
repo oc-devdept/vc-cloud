@@ -6,10 +6,21 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 
 <br/>
 <br/>
-
 <h2>BASE URL - http://159.65.14.175:3001/api</h2>
+<br/>
+
+<h3>GET - <span>categories/getMegaMenu</span></h3>  
+
+    fields : {
+        All: [...],
+        BMW: [...],
+        HONDA: [...]
+    }
+
+Retrieve all categories and items for megamenu
 
 <br/>
+
 
 <h3>GET - <span>/products/getMake</span></h3>  
 

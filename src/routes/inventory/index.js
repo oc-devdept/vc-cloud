@@ -21,8 +21,6 @@ function acctSwitcher() {
           <Route exact path={url.inventoryPage} component={async.Inventory} />
           <Route path={url.allCarsPage} component={async.Products} />
           <Route path={url.configurePage} component={async.Configure} />
-          <Route path={url.bookingSystemPage} component={async.BookingSystem} />
-
           <Redirect to="/404" />
         </Switch>
     </div>

@@ -21,6 +21,8 @@ import DetailsTab from "./tabs/Details";
 import DealsTab from "./tabs/Deals";
 import EventsTab from "../../components/EventsTab";
 
+
+
 import api from "Api";
 
 // routes
@@ -179,6 +181,8 @@ class crm_view_customer extends Component {
                 ]
               }}
             />
+
+
             <div className="row">
               <div className="col-lg-3">
                 <CustomerCard 
@@ -203,6 +207,11 @@ class crm_view_customer extends Component {
                 </ProfileTabs>
               </div>
             </div>
+
+
+
+
+
           </React.Fragment>
         ) : (
           <RecordNotFound />

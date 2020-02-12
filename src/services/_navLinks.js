@@ -115,11 +115,7 @@ export default [
       {
         title: "sidebar.settings",
         path: configurePage
-      },
-      {
-        title: "sidebar.booking",
-        path: bookingSystemPage
-      },
+      }
     ]
   },
 
