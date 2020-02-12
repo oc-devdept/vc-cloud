@@ -7,7 +7,6 @@ import {
   marketingListPage
 } from "Helpers/crmURL";
 
-
 // acct routes
 import {
   quoteListPage,
@@ -23,14 +22,7 @@ import {
   bookingSystemPage
 } from "Helpers/inventoryURL";
 
-
-
-import {
-  marketingPage,
-  mailPage,
-  analyticsPage
-} from "Helpers/marketingURL";
-
+import { marketingPage, mailPage, analyticsPage } from "Helpers/marketingURL";
 
 export default [
   {
@@ -62,11 +54,10 @@ export default [
         title: "sidebar.accounts",
         path: accountListPage
       },
-      // {
-      //   title: "sidebar.deals",
-      //   path: dealListPage
-      // },
-  
+      {
+        title: "sidebar.deals",
+        path: dealListPage
+      }
     ]
   },
   // {
@@ -98,7 +89,7 @@ export default [
     name: "Reports",
     child_routes: []
   },
-  
+
   {
     url: "/app/inventory/dashboard",
     baseUrl: "/app/inventory",
