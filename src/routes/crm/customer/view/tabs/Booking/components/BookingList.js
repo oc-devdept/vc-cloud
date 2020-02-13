@@ -21,9 +21,7 @@ const CustomerList = ({ tableData, loading, title, action, SetSingleBooking }) =
             const {firstName, lastName} = value
             const id = tableMeta.rowData[0]
             return (
-                <div onClick={() => SetSingleBooking(id)}>
-                    <span style={{color:"rgba(0,0,0,0.7)"}}>{firstName + ' ' + lastName}</span>
-                </div>
+                <span style={{color:"rgba(0,0,0,0.7)"}}>{firstName + ' ' + lastName}</span>                   
             );
         }
       }
@@ -110,6 +108,7 @@ const CustomerList = ({ tableData, loading, title, action, SetSingleBooking }) =
         }
     }
   ];
+
   // if (action == true) {
   //   columns.push({
   //     name: "Actions",
@@ -136,15 +135,28 @@ const CustomerList = ({ tableData, loading, title, action, SetSingleBooking }) =
   // }
 
   // listOptions.onRowClick = rowData => onRowClick(rowData[0]);
-  listOptions.customToolbarSelect = (
-    selectedRows,
-    displayData,
-    setSelectRows
-  ) => null;
+  // listOptions.customToolbarSelect = (
+  //   selectedRows,
+  //   displayData,
+  //   setSelectRows
+  // ) => null;
+
+  const listOptions = {
+    filterType: "dropdown",
+    responsive: "stacked",
+    selectableRows: 'none',
+    expandableRows: false, // Try Adding This
+    print: false,
+    download: false,
+    viewColumns: false,
+    search: false,
+    filter: false,
+    onRowClick: (rowData, rowState) => (SetSingleBooking(rowData[0]))
+  };
 
   return (
 
-      <div className="rct-block" style={{margin: 20, borderRadius:10, boxShadow: '0 5px 9px 0 rgba(0,0,0,0.15), 0 8px 25px 0 rgba(0,0,0,0.15)', flex:1}}>
+      <div className="rct-block" style={{borderRadius:10, boxShadow: '0 5px 9px 0 rgba(0,0,0,0.15), 0 8px 25px 0 rgba(0,0,0,0.15)', flex:1, overflow:'auto'}}>
         <RecordsList
             title={title}
             columns={columns}

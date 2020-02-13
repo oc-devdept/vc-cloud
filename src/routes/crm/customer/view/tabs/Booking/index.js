@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
-
 import api from "Api";
+
+import { NotificationManager } from "react-notifications";
 
 import BookingList from './components/BookingList'
 import DialogRoot from "Components/Dialog/DialogRoot";
@@ -47,6 +48,40 @@ const index = ({customerID}) => {
         setSingleBookingId(() => null)
     }
    
+    const ChangeStatus = async(id, status) =>{
+        const item = await api.post(`/bookings/changeBookingStatus`, {data: {id, status}});
+        const modifiedItem = item.data.fields
+
+        // DeepClone
+        const cloneBookings = JSON.parse(JSON.stringify(Bookings)); 
+        cloneBookings.map((e, index) => {
+            if(e.id == modifiedItem.id){
+                return cloneBookings[index] = modifiedItem
+            }
+        })
+
+        // Update current array with modified item
+        setBookings(() => cloneBookings)
+        setSingleBooking(() => modifiedItem)
+
+        NotificationManager.success('Booking status has been changed');
+
+    }
+
+
+    const MakeNotes = async(id, notes) =>{
+        const item = await api.post(`/bookings/${id}/notes`, {content: notes});
+
+        let cloneSingleBooking = JSON.parse(JSON.stringify(SingleBooking)); 
+        cloneSingleBooking.notes.unshift(item.data)
+        setSingleBooking(() => cloneSingleBooking)
+
+        NotificationManager.success('New note has been added');
+    }
+    
+
+
+
     return (
         <div className="todo-dashboard">
             
@@ -75,6 +110,8 @@ const index = ({customerID}) => {
                 >
                     <SingleBookingForm
                         SingleBooking={SingleBooking}
+                        ChangeStatus={ChangeStatus}
+                        MakeNotes={MakeNotes}
                     />
                 </DialogRoot> 
             }

@@ -1,5 +1,4 @@
 import React, {useState, useEffect } from 'react';
-import api from 'Api'
 import Moment from 'moment'
 
 import MenuItem from '@material-ui/core/MenuItem';
@@ -8,16 +7,22 @@ import Select from '@material-ui/core/Select';
 
 const StatusOption = ['Awaiting', 'Processing', 'Confirmed', 'Rejected']
 
-const Index = ({SingleBooking}) => {
+import Input from 'Components/Inventory/Input'
+import Button from 'Components/Inventory/Button'
+
+
+
+const Index = ({SingleBooking, ChangeStatus, MakeNotes}) => {
     
     if(!SingleBooking) {return null}
 
-    const {created_at, service, status, contact, content, id} = SingleBooking
+
+    const {created_at, service, status, contact, content, id, notes} = SingleBooking
     const {firstName, lastName, email, phone} = contact
     const {model, date, timeslot, description} = content
 
     const [newStatus, setnewStatus] = useState(null);
-
+    const [newNotes, setnewNotes] = useState('');
 
     return (
         <div className="d-flex" style={{flex: 1, margin: 20}}>   
@@ -65,33 +70,80 @@ const Index = ({SingleBooking}) => {
                     </div> 
                 </div>
 
-                <div>
-                    Change Status Awaiting, Processing, Confirmed || Rejected
-                    <FormControl>
-                        <Select 
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            value={newStatus ? newStatus : ''}
-                            onChange={(e)=> setnewStatus(()=> e.target.value)}
-                            style={{minWidth: 100, marginLeft: 5}}
-                        >
-                        
-                            {StatusOption.map((e, index) => {
-                                return <MenuItem key={index} value={e}>{e}</MenuItem>
-                            })}
-                        
-                        </Select>
-                    </FormControl>
+                <div className="d-flex flex-column" >
+                    <Input
+                        textarea={true}
+                        divStyle={{width: '100%', flex:1, display:'flex'}}
+                        title="Notes"
+                        placeholder="Enter notes for this booking"
+                        value={newNotes}
+                        _HandleProduct={(e) => setnewNotes(() => e)}
+                        style={{height:'100%', backgroundColor: 'rgba(244,246,251,1)', borderRadius: 8, border: 'none', padding: 20}}
+                    />
+
+                    <Button
+                        divStyle={{display:'flex', justifyContent:'flex-end'}}
+                        _Function={() => {
+                            MakeNotes(id, newNotes)
+                            setnewNotes(() => null)
+                        }}
+                        product={''}
+                        files={''}
+                        title={'Save Notes'}
+                    />
+
+                </div>
+                            
+                {notes.length > 0 &&
+                    notes.map((e, index) =>{
+                        return(
+                            <div key={index} className="d-flex justify-content-between">
+                                <span>{e.content}</span>
+                                <span>{Moment(e.createdAt).format('LL')}</span>
+                            </div>
+                        )
+                    })
+                }
+
+                {notes.length == 0 &&
+                    <div className="d-flex justify-content-between">
+                        <span>No notes</span>
+                    </div>
+                }
+
+
+
+                <div className="d-flex flex-row justify-content-between align-items-center" style={{marginTop:10}}>
+                    <span>When actions has been taken, you may change the status of the booking. Each succesful status change will invoke auto update email to client.</span>
                     
-                    <button>Change Status</button>
+                    <div className="d-flex flex-row justify-content-center align-items-center">
+                        <FormControl>
+                            <Select 
+                                labelId="demo-simple-select-helper-label"
+                                id="demo-simple-select-helper"
+                                value={newStatus ? newStatus : ''}
+                                onChange={(e)=> setnewStatus(()=> e.target.value)}
+                                style={{minWidth: 100, marginLeft: 5}}
+                            >
+                            
+                                {StatusOption.map((e, index) => {
+                                    return <MenuItem key={index} value={e}>{e}</MenuItem>
+                                })}
+                            
+                            </Select>
+                        </FormControl>
+
+                        <Button
+                            divStyle={{display:'flex', justifyContent:'flex-end', marginLeft: 20}}
+                            _Function={() => ChangeStatus(id, newStatus)}
+                            product={''}
+                            files={''}
+                            title={'Change Status'}
+                        />
+                    </div>
                 </div>
 
-                <div>
-                    Input replies // noteable?
-
-                    or Input comment Description
-                </div>
-
+              
                 </div>
         </div>
     );

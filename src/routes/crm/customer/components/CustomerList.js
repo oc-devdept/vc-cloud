@@ -67,7 +67,6 @@ const CustomerList = ({ tableData, loading, title, action }) => {
       name: "userInfo",
       options: {
         customBodyRender: value => {
-          console.log(value)
           return value ? value.name : "Waiting For Agent";
         }
       }
