@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 function Contact(props) {
   const classes = useStyles();
-  const { name, subHeading, noAvatar, call, email, website, indicator } = props;
+  const { name, subHeading, noAvatar, call, email, website, indicator, address } = props;
   return (
     <div className="profile-card-header">
       {indicator && (
@@ -83,6 +83,12 @@ function Contact(props) {
           )}
         </div>
       )}
+      {address && 
+        <div className="mt-30">
+          <h3>Address</h3>
+          <span>{address}</span>
+        </div>
+      }
     </div>
   );
 }

@@ -10,15 +10,17 @@ import { singleAccount } from "Helpers/crmURL";
 
 import ShowUpcoming from "../../components/ShowUpcomingEvents";
 
-function CustomerCard(props) {
-  const { cust, _handleDeployAgent } = props;
+function CustomerCard({cust, _handleDeployAgent}) {
+
+  const {firstName, lastName, email, phone, address} = cust.customer.baseContact
 
   return (
     <Wrapper>
       <Contact
-        name={cust.name}
-        call={cust.contact}
-        email={cust.email}
+        name={`${firstName} ${lastName}`}
+        call={phone}
+        email={email}
+        address={address}
         indicator={
           cust.isActive
             ? { classes: "border-success text-success", name: "Active" }
