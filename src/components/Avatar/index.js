@@ -29,7 +29,7 @@ const IconAvatar = ({ name, size, customClasses, props }) => {
   };
   return (
     <Avatar
-      className={`size-${size} rounded-circle ${customClasses}`}
+      className={`size-${size} rounded-circle ${customClasses} d-flex justify-content-center`}
       style={{ fontSize: getFontSize() }}
     >
       {getInitials(name)}

@@ -9,7 +9,7 @@ const StatusOption = ['Awaiting', 'Processing', 'Confirmed', 'Rejected']
 
 import Input from 'Components/Inventory/Input'
 import Button from 'Components/Inventory/Button'
-
+import NoteList from './NoteList'
 
 
 const Index = ({SingleBooking, ChangeStatus, MakeNotes}) => {
@@ -93,8 +93,12 @@ const Index = ({SingleBooking, ChangeStatus, MakeNotes}) => {
                     />
 
                 </div>
-                            
-                {notes.length > 0 &&
+
+                <NoteList
+                    title={'Describe the actions taken for customer'}
+                    tableData={notes}
+                />      
+                {/* {notes.length > 0 &&
                     notes.map((e, index) =>{
                         return(
                             <div key={index} className="d-flex justify-content-between">
@@ -109,12 +113,12 @@ const Index = ({SingleBooking, ChangeStatus, MakeNotes}) => {
                     <div className="d-flex justify-content-between">
                         <span>No notes</span>
                     </div>
-                }
+                } */}
 
 
 
                 <div className="d-flex flex-row justify-content-between align-items-center" style={{marginTop:10}}>
-                    <span>When actions has been taken, you may change the status of the booking. Each succesful status change will invoke auto update email to client.</span>
+                    <span style={{color:"rgba(0,0,0,0.7)"}}>When actions has been taken, you may change the status of the booking. Each succesful status change will invoke auto update email to client.</span>
                     
                     <div className="d-flex flex-row justify-content-center align-items-center">
                         <FormControl>
@@ -138,7 +142,7 @@ const Index = ({SingleBooking, ChangeStatus, MakeNotes}) => {
                             _Function={() => ChangeStatus(id, newStatus)}
                             product={''}
                             files={''}
-                            title={'Change Status'}
+                            title={'Update'}
                         />
                     </div>
                 </div>
