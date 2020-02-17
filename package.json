@@ -1,7 +1,7 @@
 {
-  "name": "everyday",
+  "name": "vc-cloud",
   "version": "0.1.0",
-  "description": "Everday, a System for your Everyday Needs",
+  "description": "Venture Cars Admin Panel",
   "scripts": {
     "start": "npm run dev",
     "staging": "webpack --env.API_URL=https://staging-api.everydaycrm.sg/api --mode production",

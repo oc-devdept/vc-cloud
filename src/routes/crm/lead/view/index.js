@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { show } from "redux-modal";
 // Global Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 //Page Components
 import RctPageLoader from "Components/RctPageLoader";
@@ -115,9 +115,7 @@ class crm_view_lead extends Component {
     const { lead, loading, sectionLoading } = this.props.leadToView;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | View Lead</title>
-        </Helmet>
+        <Helmet title="View Lead" />
         {loading ? (
           <RctPageLoader />
         ) : lead ? (
@@ -191,16 +189,13 @@ const mapStateToProps = ({ crmState }) => {
   return { leadToView };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getSingleLead,
-    clearSingleLead,
-    handleConvertModal,
-    show,
-    deleteLead,
-    addNoteLead,
-    checkAccountExist,
-    transferLead
-  }
-)(crm_view_lead);
+export default connect(mapStateToProps, {
+  getSingleLead,
+  clearSingleLead,
+  handleConvertModal,
+  show,
+  deleteLead,
+  addNoteLead,
+  checkAccountExist,
+  transferLead
+})(crm_view_lead);

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 // Sub components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 // Page Components
 import CustomerForm from "../components/forms/CustomerForm";
@@ -12,10 +12,7 @@ import { newCustomer } from "Ducks/crm/customer";
 
 const crm_new_customer = props => (
   <React.Fragment>
-    <Helmet>
-      <title>Everyday | New Customer</title>
-      <meta name="description" content="Everyday Customers Creation" />
-    </Helmet>
+    <Helmet title="New Customer" />
 
     <CustomerForm
       title="sidebar.newCustomer"
@@ -24,7 +21,4 @@ const crm_new_customer = props => (
   </React.Fragment>
 );
 
-export default connect(
-  null,
-  { newCustomer }
-)(crm_new_customer);
+export default connect(null, { newCustomer })(crm_new_customer);

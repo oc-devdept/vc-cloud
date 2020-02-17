@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 //Sub Components
 import LeadList from "./components/LeadList";
 //Page Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 // List View
 // import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
@@ -55,10 +55,7 @@ class crm_lead extends Component {
     // const { summary } = this.props.leadSummary;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Leads</title>
-          <meta name="description" content="Everyday Leads Generation" />
-        </Helmet>
+        <Helmet title="Leads" />
         <PageTitleBar
           title={nowShowing}
           actionGroup={{
@@ -93,11 +90,8 @@ const mapStateToProps = ({ crmState }) => {
   return { leadList, leadSummary };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    changeLeadView,
-    getAllLead,
-    getLeadSummary
-  }
-)(crm_lead);
+export default connect(mapStateToProps, {
+  changeLeadView,
+  getAllLead,
+  getLeadSummary
+})(crm_lead);

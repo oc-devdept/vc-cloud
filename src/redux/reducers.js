@@ -29,6 +29,11 @@ import {
   CrmFieldReducer
 } from "Ducks/crm";
 
+// Marketing
+import { MailReducer } from "Ducks/marketing/mail";
+import { CampaignReducer } from "Ducks/marketing/campaign";
+import { TemplateReducer } from "Ducks/marketing/template";
+
 // follow ups
 import { FollowupReducer } from "Ducks/followUp";
 
@@ -39,6 +44,8 @@ import { UserManagementReducer, RolesReducer } from "Ducks/setting";
 import { ReportReducer } from "Ducks/report";
 import { CalendarReducer } from "Ducks/calendar";
 import { WidgetReducer } from "Ducks/widget";
+// Call To Action
+import { AnnouncementReducer } from "Ducks/CallToAction";
 
 const reducers = combineReducers({
   sessionState: combineReducers({
@@ -60,7 +67,13 @@ const reducers = combineReducers({
     paymentState: PaymentReducer
     // accountState: AccountingReducer
   }),
+  marketingState: combineReducers({
+    mailState: MailReducer,
+    campaignState: CampaignReducer,
+    templateState: TemplateReducer
+  }),
   followupState: FollowupReducer,
+  announcementState: AnnouncementReducer,
   widgetState: WidgetReducer,
   reportState: ReportReducer,
   calendarState: CalendarReducer,

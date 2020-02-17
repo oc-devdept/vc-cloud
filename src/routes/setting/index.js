@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 import settingsList from "./components/_settingsList";
@@ -15,10 +15,7 @@ class Settings extends Component {
     }
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | System Settings</title>
-          <meta name="description" content="Everyday System" />
-        </Helmet>
+        <Helmet title="System Settings" />
         <PageTitleBar title="Settings" />
         <div className="row">
           <div className="col-lg-2">

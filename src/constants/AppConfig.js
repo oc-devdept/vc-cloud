@@ -3,15 +3,15 @@
  */
 const AppConfig = {
   appLogo: require("Assets/img/appLogo_orig_light.png"), // App Logo
-  tagLine: "For Your Everyday System Needs",
-  brandName: "Everyday", // Brand Name
+  tagLine: "",
+  brandName: "Venture Cars Admin Panel", // Brand Name
   locale: {
     languageId: "english",
     locale: "en",
     name: "English",
     icon: "en"
   },
-  copyRightText: "Everyday © All Rights Reserved.", // Copy Right Text
+  copyRightText: "VC-Cloud © All Rights Reserved.", // Copy Right Text
   // light theme colors
   themeColors: {
     primary: "#ff952e",

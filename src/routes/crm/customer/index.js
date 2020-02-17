@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import CustomerList from "./components/CustomerList";
 
 // page req
-import { Helmet } from "react-helmet";
+// import Helmet from "Components/Helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 // import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
 
@@ -14,7 +15,6 @@ import { customerNewPage } from "Helpers/crmURL";
 
 import api from "Api";
 
-
 class crm_customer extends Component {
   constructor(props) {
     super(props);
@@ -22,14 +22,12 @@ class crm_customer extends Component {
     this.importCust = this.importCust.bind(this);
     this.newCust = this.newCust.bind(this);
 
-
-    this.state = ({
+    this.state = {
       withoutAgents: [],
       withAgents: [],
-      loading: true,
-    })
+      loading: true
+    };
   }
-
 
   async componentDidMount() {
     // this.props.getAllCustomer();
@@ -37,17 +35,15 @@ class crm_customer extends Component {
     // await api.post(`/bookings/createBooking`, {data: booking});
 
     const item = await api.get(`/customers/getall`);
-    
-    const withoutAgents = item.data.data.withoutAgents
-    const withAgents = item.data.data.withAgents
-  
+
+    const withoutAgents = item.data.data.withoutAgents;
+    const withAgents = item.data.data.withAgents;
 
     this.setState({
       withoutAgents: withoutAgents,
       withAgents: withAgents,
       loading: false
-    })
-
+    });
   }
 
   newCust() {
@@ -57,11 +53,10 @@ class crm_customer extends Component {
   refresh() {
     this.props.getAllCustomer();
   }
-  
+
   importCust() {
     console.log("importCust");
   }
-
 
   render() {
     const {
@@ -72,13 +67,9 @@ class crm_customer extends Component {
       loading
     } = this.props.customerState.customerList;
 
-
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Customers</title>
-          <meta name="description" content="Everyday Customers Retention" />
-        </Helmet>
+        <Helmet title="Customers" metaDesc="Everyday Customers Retention" />
         <PageTitleBar
           title={nowShowing}
           actionGroup={{
@@ -93,10 +84,17 @@ class crm_customer extends Component {
                 onChangeValue={this.props.changeCustomerView}
               />
         </div> */}
-        <CustomerList action={action} tableData={this.state.withoutAgents} loading={this.state.loading} />
+        <CustomerList
+          action={action}
+          tableData={this.state.withoutAgents}
+          loading={this.state.loading}
+        />
 
-        <CustomerList action={action} tableData={this.state.withAgents} loading={this.state.loading} />
-
+        <CustomerList
+          action={action}
+          tableData={this.state.withAgents}
+          loading={this.state.loading}
+        />
       </React.Fragment>
     );
   }
@@ -106,10 +104,7 @@ const mapStateToProps = ({ crmState }) => {
   return { customerState };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    changeCustomerView,
-    getAllCustomer
-  }
-)(crm_customer);
+export default connect(mapStateToProps, {
+  changeCustomerView,
+  getAllCustomer
+})(crm_customer);

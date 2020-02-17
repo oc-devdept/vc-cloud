@@ -1,58 +1,50 @@
 import React, { Component } from "react";
 import api from "Api";
 
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 import ProfileTabs from "Components/Layout/ProfileTabs";
 
+import MegaMenu from "./components/MegaMenu";
+import ModelDetail from "./components/ModelDetail";
+import Exterior from "./components/Exterior";
+import Interior from "./components/Interior";
+import ProductOptions from "./components/ProductOptions";
+import Booking from "./components/Booking";
 
-import DashboardCard from "./components/DashboardCard"
+import DashboardCard from "./components/DashboardCard";
 
 const Index = () => {
+  return (
+    <div>
+      <React.Fragment>
+        <Helmet>
+          <title>Everyday | Inventory</title>
+          <meta name="description" content="Everyday Quotation Management" />
+        </Helmet>
 
+        <PageTitleBar title={"All Cars"} />
 
-    return (    
-      <div>
-          <React.Fragment>
-
-            <Helmet>
-              <title>Everyday | Inventory</title>
-              <meta name="description" content="Everyday Quotation Management" />
-            </Helmet>
-
-            <PageTitleBar
-              title={"All Cars"}
-            />
-
-            <div className="row">
+        <div className="row">
           <div className="col-md-3">
             <DashboardCard />
           </div>
 
           <div className="col-md-9">
-
             <ProfileTabs loading={false}>
-              <div label="Dashboard">
-                Dashboard
-              </div>
+              <div label="Dashboard">Dashboard</div>
 
-              <div label="Second Panel">
-                Second Panel
-              </div>
-
-             
+              <div label="Second Panel">Second Panel</div>
             </ProfileTabs>
           </div>
         </div>
-
-          </React.Fragment>
-      </div>
-    );
-}
+      </React.Fragment>
+    </div>
+  );
+};
 
 export default Index;
-
 
 // import React, { Component } from "react";
 // import api from "Api";
@@ -62,7 +54,6 @@ export default Index;
 
 // import ProfileTabs from "Components/Layout/ProfileTabs";
 
-
 // import MegaMenu from './components/MegaMenu'
 // import ModelDetail from './components/ModelDetail'
 // import Exterior from './components/Exterior'
@@ -70,7 +61,6 @@ export default Index;
 // import ProductOptions from './components/ProductOptions'
 
 // import DashboardCard from "./components/DashboardCard"
-
 
 // class Index extends Component {
 
@@ -86,13 +76,11 @@ export default Index;
 //       Interior: [],
 //       ProductOptions: [],
 
-
 //       // Fields : {name: ''},
 //       // PureFields : { name: '' },
 
 //     }
 //   }
-
 
 //   _SetModelID = async (e) => {
 
@@ -102,10 +90,9 @@ export default Index;
 //       const Make = await api.get(`categories/${e.id}`);
 //       const GradeItems = await api.get(`categories/${e.id}`)
 
-      
 //       return this.setState({
-//         ModelID: e.id, 
-//         ModelDetail: Make.data, 
+//         ModelID: e.id,
+//         ModelDetail: Make.data,
 //         GradeItems: GradeItems.data
 //       })
 
@@ -115,7 +102,7 @@ export default Index;
 //   }
 
 //   _SelectGradeExterior = async(e) => {
-    
+
 //     // Grade Detail
 
 //     const GradeDetail = await api.get(`products/specificGradeDetail/${e.id}`);
@@ -125,20 +112,19 @@ export default Index;
 //     const InteriorGrade = await api.get(`products/specificVariantInterior/${e.id}`);
 
 //     const ProductOptions = await api.get(`products/specificGradeProductOption/${e.id}`);
-    
+
 //     this.setState({
 //       ProductDetail : GradeDetail.data.fields,
-//       Exterior : ExteriorGrade.data.fields, 
-//       Interior: InteriorGrade.data.fields, 
+//       Exterior : ExteriorGrade.data.fields,
+//       Interior: InteriorGrade.data.fields,
 //       ProductOptions : ProductOptions.data.fields
 //     })
 
 //   }
 
-  
 //   render() {
-                
-//     return (    
+
+//     return (
 //         <div>
 //             <React.Fragment>
 

@@ -1,16 +1,17 @@
 import React from "react";
-
+import { connectModal } from "redux-modal";
 import DialogRoot from "Components/Dialog/DialogRoot";
 import AddUserForm from "../forms/AddUserForm";
 
-const AddUserDialog = ({ handleClose, show }) => {
+function AddUserDialog(props) {
+  const { show, handleHide, toEdit } = props;
   return (
-    <DialogRoot show={show} handleHide={handleClose} size="md">
+    <DialogRoot show={show} handleHide={handleHide} size="md">
       <div className="p-20 pb-0">
-        <AddUserForm />
+        <AddUserForm toEdit={toEdit} />
       </div>
     </DialogRoot>
   );
-};
+}
 
-export default AddUserDialog;
+export default connectModal({ name: "add_user_form" })(AddUserDialog);

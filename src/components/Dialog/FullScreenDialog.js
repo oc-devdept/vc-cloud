@@ -3,7 +3,7 @@ import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 
@@ -11,7 +11,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FullScreenDialog = ({ children, show, handleHide, title }) => {
+const FullScreenDialog = ({
+  children,
+  show,
+  handleHide,
+  title,
+  dialogAction,
+  dialogActionLabel
+}) => {
   return (
     <Dialog
       fullScreen
@@ -25,9 +32,19 @@ const FullScreenDialog = ({ children, show, handleHide, title }) => {
             <CloseIcon className="text-white" fontSize="small" />
           </IconButton>
           <h2 className="ml-10 mb-0 text-white">{title}</h2>
+          {dialogAction && (
+            <Button
+              size="small"
+              className="ml-auto btn-success text-white"
+              variant="contained"
+              onClick={dialogAction}
+            >
+              {dialogActionLabel}
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
-      <div>{children}</div>
+      <div className="p-20">{children}</div>
     </Dialog>
   );
 };

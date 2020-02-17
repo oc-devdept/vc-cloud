@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 // List View
@@ -25,7 +25,6 @@ import {
 } from "Ducks/accounting/invoice";
 
 class acct_invoice extends Component {
-  
   componentDidMount() {
     this.props.getAllInvoice();
   }
@@ -56,10 +55,7 @@ class acct_invoice extends Component {
 
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Invoices</title>
-          <meta name="description" content="Everyday Invoice Management" />
-        </Helmet>
+        <Helmet title="Invoices" />
         <PageTitleBar
           title={"All Invoices"}
           actionGroup={{
@@ -85,12 +81,9 @@ const mapStateToProps = ({ accountingState }) => {
   return { invoiceState };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    changeInvoiceView,
-    toggleInvoiceDropDown,
-    toggleInvoiceSummary,
-    getAllInvoice
-  }
-)(acct_invoice);
+export default connect(mapStateToProps, {
+  changeInvoiceView,
+  toggleInvoiceDropDown,
+  toggleInvoiceSummary,
+  getAllInvoice
+})(acct_invoice);

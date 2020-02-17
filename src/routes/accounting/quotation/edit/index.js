@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Sub components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 import PageErrorMessage from "Components/Error/PageErrorMessage";
 import RctPageLoader from "Components/RctPageLoader";
@@ -16,7 +16,6 @@ import {
 } from "Ducks/accounting/quotation";
 
 class acct_edit_quotation extends Component {
-
   componentDidMount() {
     var id = this.props.match.params.id;
     this.props.getSingleQuotation(id, true);
@@ -31,17 +30,13 @@ class acct_edit_quotation extends Component {
   };
 
   render() {
-
     const { loading, quotation } = this.props.quotationToView;
 
     return loading ? (
       <RctPageLoader />
     ) : quotation ? (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | New Quotation</title>
-          <meta name="description" content="Everyday Quotation Creation" />
-        </Helmet>
+        <Helmet title="New Quotation" />
 
         <QuotationForm
           title="sidebar.newQuotation"
@@ -68,7 +63,8 @@ const mapStateToProps = ({ accountingState, crmState, usersState }) => {
 
 // deleted
 
-export default connect(
-  mapStateToProps,
-  { getSingleQuotation, clearSingleQuotation, submitNewQuote }
-)(acct_edit_quotation);
+export default connect(mapStateToProps, {
+  getSingleQuotation,
+  clearSingleQuotation,
+  submitNewQuote
+})(acct_edit_quotation);

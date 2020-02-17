@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 // List View
@@ -33,10 +33,7 @@ import {
   getQuotationSummary
 } from "Ducks/accounting/quotation";
 
-
 class acct_quotation extends Component {
-
-
   componentDidMount() {
     this.props.getAllQuotation();
     this.props.getQuotationSummary();
@@ -66,10 +63,7 @@ class acct_quotation extends Component {
 
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Quotations</title>
-          <meta name="description" content="Everyday Quotation Management" />
-        </Helmet>
+        <Helmet title="Quotations" />
         <PageTitleBar
           title={"All Quotations"}
           // createLink={quoteNewPage}
@@ -97,13 +91,10 @@ const mapStateToProps = ({ accountingState }) => {
   return { quotationState };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    changeQuotationView,
-    toggleQuotationDropDown,
-    toggleQuotationSummary,
-    getAllQuotation,
-    getQuotationSummary
-  }
-)(acct_quotation);
+export default connect(mapStateToProps, {
+  changeQuotationView,
+  toggleQuotationDropDown,
+  toggleQuotationSummary,
+  getAllQuotation,
+  getQuotationSummary
+})(acct_quotation);

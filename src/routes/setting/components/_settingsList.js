@@ -1,4 +1,9 @@
-import { profileSettings, userManagement, roles } from "../AsyncRoutes";
+import {
+  profileSettings,
+  userManagement,
+  roles,
+  announcements
+} from "../AsyncRoutes";
 
 export default [
   {
@@ -25,6 +30,17 @@ export default [
         title: "Roles & Permissions",
         asyncComponent: roles,
         path: "/users-control/roles-permissions"
+      }
+    ]
+  },
+  {
+    title: "Call To Actions",
+    stateName: "cta",
+    links: [
+      {
+        title: "Announcements",
+        asyncComponent: announcements,
+        path: "/cta/announcements"
       }
     ]
   }

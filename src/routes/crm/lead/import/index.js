@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Global Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 // Components
 import ImportRecords from "Components/ImportRecords";
 
@@ -25,16 +25,13 @@ class crm_import_lead extends Component {
   render() {
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Import Leads</title>
-        </Helmet>
+        <Helmet title="Import Leads" />
         <ImportRecords importType="lead" importAction={this.importLeadRecord} />
       </React.Fragment>
     );
   }
 }
 
-export default connect(
-  null,
-  { importRecord, fetchImportMapping }
-)(crm_import_lead);
+export default connect(null, { importRecord, fetchImportMapping })(
+  crm_import_lead
+);

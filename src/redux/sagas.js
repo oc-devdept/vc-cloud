@@ -20,6 +20,12 @@ import {
   CrmFieldSaga
 } from "Ducks/crm";
 
+// marketing
+import { MailSaga, CampaignSaga, TemplateSaga } from "Ducks/marketing";
+
+// Call To Actions
+import { AnnouncementSaga } from "Ducks/CallToAction";
+
 // follow ups
 import { FollowupSaga } from "Ducks/followUp";
 
@@ -54,6 +60,11 @@ export default function* rootSaga() {
     DealSaga(),
     CrmFieldSaga(),
 
+    // Marketing
+    MailSaga(),
+    CampaignSaga(),
+    TemplateSaga(),
+
     // Follow ups
     FollowupSaga(),
 
@@ -71,6 +82,7 @@ export default function* rootSaga() {
 
     // Settings
     RolesSaga(),
-    UserManagementSaga()
+    UserManagementSaga(),
+    AnnouncementSaga()
   ]);
 }

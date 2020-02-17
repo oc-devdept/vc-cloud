@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Global Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import { NavLink } from "react-router-dom";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import MoreButton from "Components/PageTitleBar/MoreButton";
@@ -41,7 +41,6 @@ import {
   HandleStateRevertPreviousVersion,
   HandleConvertInvoiceQuotation
 } from "Ducks/accounting/quotation";
-
 
 // addNoteToQuotation(acctID), onNoteChange, clearNote
 // Add events dialog
@@ -200,9 +199,7 @@ class acct_view_quotation extends Component {
       <RctPageLoader />
     ) : quotation ? (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | View Quotation</title>
-        </Helmet>
+        <Helmet title="View Quotation" />
 
         {buttonCollection}
 
@@ -249,17 +246,13 @@ const mapStateToProps = ({ accountingState }) => {
   return { quotationToView, quotationList };
 };
 
-
-export default connect(
-  mapStateToProps,
-  {
-    getSingleQuotation,
-    clearSingleQuotation,
-    deleteSingleQuote,
-    addNoteQuotation,
-    HandleStateUpdate,
-    HandleStateCreateNewVersion,
-    HandleStateRevertPreviousVersion,
-    HandleConvertInvoiceQuotation
-  }
-)(acct_view_quotation);
+export default connect(mapStateToProps, {
+  getSingleQuotation,
+  clearSingleQuotation,
+  deleteSingleQuote,
+  addNoteQuotation,
+  HandleStateUpdate,
+  HandleStateCreateNewVersion,
+  HandleStateRevertPreviousVersion,
+  HandleConvertInvoiceQuotation
+})(acct_view_quotation);

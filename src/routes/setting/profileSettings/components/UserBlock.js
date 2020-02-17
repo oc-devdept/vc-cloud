@@ -17,16 +17,6 @@ const UserBlock = ({ user }) => {
           </div>
         </div>
       </div>
-      <div className="d-flex py-20 px-40">
-        {/* <div>
-          <span className="mb-0 text-muted fs-12">Company</span>
-          <p>companyName</p>
-        </div> */}
-        {/* <div>
-          <span className="mb-0 text-muted fs-12">Contact</span>
-          <p>1234 5678</p>
-        </div> */}
-      </div>
     </BgCard>
   );
 };

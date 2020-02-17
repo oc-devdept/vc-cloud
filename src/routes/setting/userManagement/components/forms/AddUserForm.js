@@ -37,9 +37,9 @@ class AddUserForm extends Component {
       email: "",
       baseContact: {
         firstName: "",
-        lastName: "",
-        mobile: ""
+        lastName: ""
       },
+      mobile: "",
       password: "",
       confirmPassword: "",
       roles: []
@@ -47,6 +47,11 @@ class AddUserForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeContact = this.handleChangeContact.bind(this);
     this.handleSubmitForm = this.handleSubmitForm.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.toEdit && this.setState({ ...this.props.toEdit });
+    console.log(this.props.toEdit);
   }
 
   handleChange(field, value) {
@@ -101,7 +106,14 @@ class AddUserForm extends Component {
 
   render() {
     const { classes, accessGroups } = this.props;
-    const { email, baseContact, password, confirmPassword, roles } = this.state;
+    const {
+      email,
+      mobile,
+      baseContact,
+      password,
+      confirmPassword,
+      roles
+    } = this.state;
     return (
       <form autoComplete="off">
         <h3 style={{ marginLeft: 35 }}>User Contact Details</h3>
@@ -116,9 +128,9 @@ class AddUserForm extends Component {
             />
             <FormInput
               label="Mobile"
-              value={baseContact.mobile}
+              value={mobile}
               target="mobile"
-              handleChange={this.handleChangeContact}
+              handleChange={this.handleChange}
             />
           </div>
           <div className="col-5 offset-md-1">
@@ -225,7 +237,6 @@ const mapStateToProps = ({ usersState }) => {
   return { userAdd, accessGroups };
 };
 
-export default connect(
-  mapStateToProps,
-  { addUser, onChangeAddUser }
-)(withStyles(styles)(AddUserForm));
+export default connect(mapStateToProps, { addUser, onChangeAddUser })(
+  withStyles(styles)(AddUserForm)
+);

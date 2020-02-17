@@ -4,9 +4,6 @@ import DialogRoot from "Components/Dialog/DialogRoot";
 import UserControlForm from "../forms/UserControlForm";
 
 const UserControlDialog = ({ handleClose, show, userToEdit }) => {
-  function closeDialog() {
-    handleClose("");
-  }
   return (
     <DialogRoot
       show={show}
