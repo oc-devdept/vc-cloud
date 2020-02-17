@@ -180,12 +180,12 @@ export function convertDay(d) {
 
 export const listOptions = {
   filterType: "multiselect",
-  responsive: "scrollMaxHeight",
+  responsive: "scrollFullHeight",
   download: false,
   print: false,
   selectableRows: "none",
   elevation: 0,
-  rowsPerPage: 15,
-  rowsPerPageOptions: [15, 30, 60, 100],
+  rowsPerPage: 20,
+  rowsPerPageOptions: [20, 30, 60, 100],
   textLabels: { body: { noMatch: "No data to display" } }
 };

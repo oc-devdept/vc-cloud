@@ -18,6 +18,7 @@ import Booking from "./tabs/Booking";
 import DetailsTab from "./tabs/Details";
 import DealsTab from "./tabs/Deals";
 import EventsTab from "../../components/EventsTab";
+import FollowUpTab from "../../components/FollowUp/Tab";
 
 import api from "Api";
 
@@ -46,21 +47,11 @@ class crm_view_customer extends Component {
     this.trasnfer = this.transfer.bind(this);
     this.refresh = this.refresh.bind(this);
     this.newCust = this.newCust.bind(this);
-
-    this.state = {
-      customer: null,
-      loading: true
-    };
   }
 
   async componentDidMount() {
-    try {
-      var id = this.props.match.params.id;
-      const item = await api.get(`/customers/getOneCustomer/${id}`);
-      this.setState({ customer: item.data.fields, loading: false });
-    } catch (e) {
-      console.log(e);
-    }
+    var id = this.props.match.params.id;
+    this.props.getSingleCustomer(id);
   }
 
   componentWillUnmount() {
@@ -137,9 +128,7 @@ class crm_view_customer extends Component {
   };
 
   render() {
-    const { sectionLoading } = this.props.customerToView;
-
-    const { customer, loading } = this.state;
+    const { sectionLoading, customer, loading } = this.props.customerToView;
 
     return (
       <React.Fragment>
@@ -181,11 +170,30 @@ class crm_view_customer extends Component {
               <div className="col-lg-9">
                 <ProfileTabs loading={sectionLoading}>
                   <div label="Overview">
-                    <Overview />
+                    <Overview cust={customer} />
                   </div>
-
                   <div label="All Bookings">
                     <Booking customerID={customer.id} />
+                  </div>
+                  <div label="Follow Ups">
+                    <FollowUpTab
+                      allFollowup={customer.followUps}
+                      followupableType="Customer"
+                      followupableId={customer.id}
+                    />
+                  </div>
+                  <div label="Related Deals">
+                    <DealsTab deals={customer.deals} />
+                  </div>
+                  <div label="Events">
+                    <EventsTab
+                      events={customer.events}
+                      eventableType="Customer"
+                      eventableId={customer.id}
+                    />
+                  </div>
+                  <div label="Details">
+                    <DetailsTab cust={customer} />
                   </div>
                 </ProfileTabs>
               </div>

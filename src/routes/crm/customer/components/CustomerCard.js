@@ -1,23 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  Wrapper,
-  Contact,
-  KeyDetails
-} from "Components/Layout/ProfileCard";
+import { Wrapper, Contact, KeyDetails } from "Components/Layout/ProfileCard";
 import { EventOutlined } from "@material-ui/icons";
-import { singleAccount } from "Helpers/crmURL";
-
 import ShowUpcoming from "../../components/ShowUpcomingEvents";
 
-function CustomerCard({cust, _handleDeployAgent}) {
-
-  const {firstName, lastName, email, phone, address} = cust.customer.baseContact
+function CustomerCard({ cust, _handleDeployAgent }) {
+  const { name } = cust;
+  const { email, phone, address } = cust.baseContact;
 
   return (
     <Wrapper>
       <Contact
-        name={`${firstName} ${lastName}`}
+        name={name}
         call={phone}
         email={email}
         address={address}
@@ -28,29 +21,26 @@ function CustomerCard({cust, _handleDeployAgent}) {
         }
       />
       <div className="profile-card-section">
-        {/* <div className="profile-heading">
+        <div className="profile-heading">
           <EventOutlined />
           Upcoming Events
-        </div> */}
-        {/* <ShowUpcoming events={cust.events} /> */}
-        {/* {showEvents(cust.events)} */}
+        </div>
+        <ShowUpcoming events={cust.events} />
       </div>
       <KeyDetails
         keyDetails={[
           {
             label: "Owner",
-            // value: cust.userInfo && cust.userInfo.name
-            value: cust.userInfo? cust.userInfo.name : 'Waiting For Agent'
+            value: cust.userInfo ? cust.userInfo.name : "Waiting For Agent"
           }
         ]}
       />
 
-      {!cust.userInfo && 
+      {!cust.userInfo && (
         <button onClick={() => _handleDeployAgent(cust.id)}>
           Pick up the Orphan
         </button>
-      }
-  
+      )}
     </Wrapper>
   );
 }

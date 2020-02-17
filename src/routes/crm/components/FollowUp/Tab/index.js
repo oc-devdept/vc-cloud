@@ -2,165 +2,85 @@
  * Follow up component
  *
  * @param allFollowup
- * @param followupType(Lead, Invoice)
- * @param followupTypeId(Lead, Invoice)
+ * @param followupableType(Lead, Invoice)
+ * @param followupableId(Lead, Invoice)
  */
 
 import React from "react";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import { List, ListSubheader, Button } from "@material-ui/core";
-import FollowUpBlock from "./FollowUpBlock";
 
 // New Follow up
 import { show } from "redux-modal";
-import NewFollowup from "../Forms/NewFollowup";
+import FollowupForm from "../Forms/FollowupForm";
+import FollowUpTable from "./FollowUpTable";
 
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-    position: "relative",
-    overflow: "auto",
-    maxHeight: 650,
-    padding: 20
-  },
-  listSection: {
-    backgroundColor: "inherit"
-  },
-  ul: {
-    backgroundColor: "inherit",
-    padding: 0
-  }
-});
+// Actions
+import { deleteFollowUp } from "Ducks/followUp";
 
-const months = [
-  {
-    month: "Upcoming",
-    followUps: [
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        createdAt: "2019-09-06T02:23:50.416Z",
-        result: { name: "Busy" },
-        type: { name: "call" },
-        userInfo: { name: "Admin Admin" }
-      }
-    ]
-  },
-  {
-    month: "Oct 2019",
-    followUps: [
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        createdAt: "2019-09-06T02:23:50.416Z",
-        result: { name: "Busy" },
-        type: { name: "call" },
-        userInfo: { name: "Admin Admin" }
-      },
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        type: { name: "email" },
-        createdAt: "2019-09-06T02:23:50.416Z",
-        userInfo: { name: "Admin admin" }
-      },
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        createdAt: "2019-09-06T02:23:50.416Z",
-        userInfo: { name: "Admin admin" },
-        type: { name: "call" },
-        result: { name: "Busy" }
-      }
-    ]
-  },
-  {
-    month: "Sept 2019",
-    followUps: [
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        createdAt: "2019-09-06T02:23:50.416Z",
-        result: { name: "Busy" },
-        type: { name: "call" },
-        userInfo: { name: "Admin Admin" }
-      },
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        type: { name: "email" },
-        createdAt: "2019-09-06T02:23:50.416Z",
-        userInfo: { name: "Admin admin" }
-      },
-      {
-        date: "2019-09-06T02:23:50.416Z",
-        title: "Called this this that that",
-        createdAt: "2019-09-06T02:23:50.416Z",
-        userInfo: { name: "Admin admin" },
-        type: { name: "call" },
-        result: { name: "Answered" }
-      }
-    ]
-  }
-];
-
-/**
- * Converting data to month view
- *
- * count(Upcoming Follow ups)
- * count(Total follow up logged)
- */
+function seperateFollowup(allFollowup) {
+  const completed = [];
+  const upcoming = [];
+  const now = Date.now();
+  allFollowup.forEach(followup => {
+    new Date(followup.date).getTime() > now
+      ? upcoming.push(followup)
+      : completed.push(followup);
+  });
+  return { completed, upcoming };
+}
 
 function crm_followup_tab(props) {
-  const { allFollowup, followupType, followupTypeId } = props;
-  const classes = useStyles();
+  const { allFollowup, followupableType, followupableId } = props;
 
   const newFollowup = () =>
-    props.show("new_followup", { type: followupType, typeId: followupTypeId });
+    props.show("followup_form", {
+      followupableType: followupableType,
+      followupableId: followupableId
+    });
 
+  const editFollowup = id => {
+    const toEdit = allFollowup.find(followup => followup.id == id);
+    props.show("followup_form", {
+      edit: toEdit
+    });
+  };
+
+  const deleteEntry = id => {
+    const toDelete = allFollowup.find(followup => followup.id == id);
+    props.show("alert_delete", {
+      action: () => props.deleteFollowUp(toDelete)
+    });
+  };
+
+  const { completed, upcoming } = seperateFollowup(allFollowup);
   return (
     <React.Fragment>
-      <div className="row">
+      <div className="row mb-20">
         <div className="col-12">
-          <div className="d-flex justify-content-between align-items-center mb-10">
-            <div>2 Upcoming | 5 Follow Ups Logged</div>
-            <div>
-              <Button
-                onClick={newFollowup}
-                variant="contained"
-                color="secondary"
-              >
-                Log a follow up
-              </Button>
-            </div>
-          </div>
+          <FollowUpTable
+            title="Upcoming Follow Ups"
+            upcoming
+            data={upcoming}
+            newFollowup={newFollowup}
+            editFollowup={editFollowup}
+            deleteFollowup={deleteEntry}
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-12">
-          <List className={classes.root} subheader={<li />}>
-            {months.map((obj, index) => (
-              <li key={`section-${index}`} className={classes.listSection}>
-                <ul>
-                  <ListSubheader disableSticky={true}>
-                    <h3>{obj.month}</h3>
-                  </ListSubheader>
-                  {obj.followUps.map((followup, key) => (
-                    <FollowUpBlock key={key} data={followup} />
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </List>
+          <FollowUpTable
+            title="Logged Follow Ups"
+            data={completed}
+            newFollowup={newFollowup}
+            editFollowup={editFollowup}
+            deleteFollowup={deleteEntry}
+          />
         </div>
       </div>
-      <NewFollowup />
+      <FollowupForm />
     </React.Fragment>
   );
 }
 
-export default connect(
-  null,
-  { show }
-)(crm_followup_tab);
+export default connect(null, { show, deleteFollowUp })(crm_followup_tab);
