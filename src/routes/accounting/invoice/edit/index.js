@@ -29,7 +29,7 @@ import {
 } from "Ducks/accounting/invoice";
 
 class acct_edit_quotation extends Component {
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     var id = this.props.match.params.id;
     this.props.getSingleInvoice(id);
   }
