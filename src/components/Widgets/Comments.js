@@ -7,7 +7,6 @@ import ListItem from "@material-ui/core/ListItem";
 import BgCard from "Components/BgCard";
 import BgCardFooter from "Components/BgCard/BgCardFooter";
 import BaseInput from "Components/Form/BaseInput";
-import Avatar from "Components/Avatar";
 
 // card component
 import { Fab } from "@material-ui/core";
@@ -64,14 +63,6 @@ export default class Comments extends PureComponent {
                   className="post-item align-items-center justify-content-between py-25 px-30"
                 >
                   <div className="post-content d-flex align-items-center">
-                    <div className="post-img mr-10">
-                      <Avatar
-                        name={
-                          comment.creatorInfo ? comment.creatorInfo.name : "U"
-                        }
-                        size={40}
-                      />
-                    </div>
                     <div className="post-info">
                       <h4 className="mb-5">{comment.name}</h4>
                       <p className="mb-5">{comment.content}</p>

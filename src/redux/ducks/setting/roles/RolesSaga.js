@@ -26,7 +26,6 @@ import api from "Api";
 
 const getAllRolesRequest = async () => {
   const result = await api.post(`/accessroles/viewall`);
-  // console.log(result.data.data);
   return result.data.data;
   // return bestCase;
 };

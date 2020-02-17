@@ -3,11 +3,10 @@ import * as types from "./CustomerTypes";
 
 const INIT_STATE = {
   customerList: {
-    nowShowing: "All Customers",
-    options: ["All Customers", "Active Customers", "Inactive Customers"],
     action: false,
     loading: false,
-    tableData: []
+    tableData: [],
+    totalCount: 0
   },
   customerToView: {
     loading: false,
@@ -26,29 +25,6 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case types.CHANGE_CUSTOMER_LIST_VIEW:
-      if (action.payload == "My Customers") {
-        return {
-          ...state,
-          customerList: {
-            ...state.customerList,
-            nowShowing: action.payload,
-            action: true,
-            loading: true
-          }
-        };
-      } else {
-        return {
-          ...state,
-          customerList: {
-            ...state.customerList,
-            nowShowing: action.payload,
-            action: false,
-            loading: true
-          }
-        };
-      }
-
     /**
      * Get Customers
      */
@@ -60,23 +36,19 @@ export default (state = INIT_STATE, action) => {
         customerList: INIT_STATE.customerList
       };
     case types.GET_ALL_CUSTOMER:
-    case types.GET_MY_CUSTOMER:
-    case types.GET_OPEN_CUSTOMER:
       return {
         ...state,
         customerList: { ...state.customerList, loading: true }
       };
     case types.GET_CUSTOMER_SUCCESS:
-      // sort by createdAt
-      var defaultSort = action.payload.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
+      const { data, totalCount } = action.payload;
       return {
         ...state,
         customerList: {
           ...state.customerList,
           loading: false,
-          tableData: defaultSort
+          tableData: data,
+          totalCount: totalCount
         }
       };
 
