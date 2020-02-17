@@ -35,3 +35,11 @@ export const roles = Loadable({
   loader: () => import("./roles"),
   loading: () => <RctPageLoader />
 });
+
+/**
+ * Call To Action
+ */
+export const announcements = Loadable({
+  loader: () => import("./CallToAction/announcements"),
+  loading: () => <RctPageLoader />
+});

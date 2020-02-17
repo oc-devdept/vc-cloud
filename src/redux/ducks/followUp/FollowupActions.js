@@ -63,7 +63,7 @@ export const editFollowUpFailure = error => ({
 });
 
 /**
- * Edit follow up
+ * Delete follow up
  */
 export const deleteFollowUp = id => ({
   type: types.DELETE_FOLLOWUP,
