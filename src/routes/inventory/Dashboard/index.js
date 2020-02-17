@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import api from "Api";
+import React from "react";
+// import api from "Api";
 
 import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 import ProfileTabs from "Components/Layout/ProfileTabs";
 
-import MegaMenu from "./components/MegaMenu";
-import ModelDetail from "./components/ModelDetail";
-import Exterior from "./components/Exterior";
-import Interior from "./components/Interior";
-import ProductOptions from "./components/ProductOptions";
-import Booking from "./components/Booking";
+// import MegaMenu from "./components/MegaMenu";
+// import ModelDetail from "./components/ModelDetail";
+// import Exterior from "./components/Exterior";
+// import Interior from "./components/Interior";
+// import ProductOptions from "./components/ProductOptions";
+// import Booking from "./components/Booking";
 
 import DashboardCard from "./components/DashboardCard";
 
