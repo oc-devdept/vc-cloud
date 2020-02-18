@@ -9,7 +9,6 @@ import { addNoteCustomer } from "Ducks/crm/customer";
 
 function CustomerOverviewTab(props) {
   const { cust } = props;
-  console.log(cust.followUps);
   function addNote(note) {
     props.addNoteCustomer(cust.id, note);
   }
@@ -19,11 +18,7 @@ function CustomerOverviewTab(props) {
         className="todo-dashboard"
         style={{
           border: "1px solid black",
-          borderStyle: "dashed",
-          marginTop: 50,
-          display: "flex",
-          flexDirection: "column",
-          flex: 1
+          borderStyle: "dashed"
         }}
       >
         <div>last check for maintenance: date</div>

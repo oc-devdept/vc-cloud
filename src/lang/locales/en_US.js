@@ -24,6 +24,9 @@ module.exports = {
   "sidebar.newTeam": "New Team",
   "sidebar.editTeam": "Edit Team",
   "sidebar.marketing": "Marketing",
+  "sidebar.mailingList": "Mailing List",
+  "sidebar.campaign": "Campaign",
+  "sidebar.template": "Template",
 
   "sidebar.proj": "Project Management",
 

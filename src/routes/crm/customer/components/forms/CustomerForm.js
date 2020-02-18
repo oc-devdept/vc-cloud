@@ -54,27 +54,12 @@ class CustomerForm extends Component {
   componentDidMount() {
     this.props.getCustomerFormFields();
     if (this.props.edit) {
-      const {
-        id,
-        sourceId,
-        baseContact,
-        projEnquiry,
-        dncStatus,
-        dncExpiry,
-        nationality,
-        contactAgentInfo,
-        userId
-      } = this.props.edit;
+      const { id, sourceId, baseContact, userId } = this.props.edit;
       this.setState({
         customer: {
           id,
           sourceId,
           baseContact,
-          projEnquiry,
-          dncStatus,
-          dncExpiry,
-          nationality,
-          contactAgentInfo,
           userId
         }
       });
@@ -169,14 +154,6 @@ class CustomerForm extends Component {
           required={!customer.baseContact.lastName}
           target="lastName"
           handleChange={this.handleContact}
-        />
-      ),
-      projEnquiry: (
-        <FormInput
-          label="Project Enquiry"
-          value={customer.projEnquiry}
-          target="projEnquiry"
-          handleChange={this.handleCust}
         />
       ),
       owner: !edit && (

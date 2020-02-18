@@ -1,43 +1,41 @@
-import React, { Component } from "react";
-
-
+import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+
+// routes
+import * as url from "Helpers/marketingUrl";
 // async components
 import * as async from "./AsyncRoutes";
-import * as url from "Helpers/marketingURL";
 
-function acctSwitcher() {
-
+function marketingSwitcher() {
   return (
     <div className="saas-dashboard">
-        <Switch>
-          <Route exact path={url.marketingPage} component={async.Marketing} />
-          <Route path={url.mailPage} component={async.Mail} />
-          <Route path={url.analyticsPage} component={async.Analytics} />
-          <Redirect to="/404" />
-        </Switch>
+      <Switch>
+        <Route
+          exact
+          path={url.marketingListPage}
+          component={async.marketing_list}
+        />
+        <Route
+          exact
+          path={url.campaignPage}
+          component={async.marketing_campaign}
+        />
+        <Route
+          exact
+          path={url.newCampaignPage}
+          component={async.marketing_campaign_new}
+        />
+        <Route
+          exact
+          path={url.marketingTemplatePage}
+          component={async.marketing_template}
+        />
+
+        {/* ------- /404 ------- */}
+        <Redirect to="/404" />
+      </Switch>
     </div>
   );
 }
 
-export default acctSwitcher;
-
-
-// <div className="saas-dashboard">
-//   <Tabs>
-//       <div>
-//         <Tab><button>Dashboard</button></Tab>
-//         <Tab><button>Products</button></Tab>
-//         <Tab><button>Configure</button></Tab>
-//       </div>
-//       <Panel>
-//         <Dashboard/>
-//       </Panel>
-//       <Panel>
-//         <Products/>
-//       </Panel>
-//       <Panel>
-//         <Configure/>
-//       </Panel>
-//   </Tabs>
-// </div>
+export default marketingSwitcher;

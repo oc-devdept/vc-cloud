@@ -5,10 +5,11 @@ import RctSectionLoader from "Components/RctSectionLoader";
 
 // Form Layout
 import FormWrapper from "Components/Form/Layout/FormWrapper";
-import { KeyInformation, DealInformation } from "./Layout";
+import DealFormLayout from "../Layout/DealFormLayout";
 
 // Input Components
 import FormInput from "Components/Form/FormInput";
+import CustomerPicker from "Routes/crm/components/CustomerPicker";
 import AmountInput from "Components/Form/Inputs/AmountInput";
 import DatePickerInput from "Components/Form/Pickers/DatePicker";
 
@@ -56,8 +57,8 @@ class DealForm extends Component {
   }
 
   checkDisabled() {
-    const { name, userId, amount, stageId, accountId } = this.state.deal;
-    const disabled = name && userId && amount && stageId && accountId;
+    const { name, userId, stageId } = this.state.deal;
+    const disabled = name && userId && stageId;
     return disabled;
   }
 
@@ -73,6 +74,105 @@ class DealForm extends Component {
       dealType
     } = fields;
     const { edit, title } = this.props;
+    const formFields = {
+      name: (
+        <FormInput
+          label="Name"
+          value={deal.name}
+          target="name"
+          handleChange={this.handleChange}
+        />
+      ),
+      amount: (
+        <AmountInput
+          label="Amount"
+          value={deal.amount}
+          target="amount"
+          handleChange={this.handleChange}
+        />
+      ),
+      closingDate: (
+        <DatePickerInput
+          label="Closing Date"
+          value={deal.closingDate ? deal.closingDate : null}
+          target="closingDate"
+          handleChange={this.handleChange}
+        />
+      ),
+      owner: !edit && (
+        <FormInput
+          label="Owner"
+          value={deal.userId}
+          required={!deal.userId}
+          selectValues={users}
+          target="userId"
+          handleChange={this.handleChange}
+        />
+      ),
+      stage: (
+        <FormInput
+          label="Stage"
+          value={deal.stageId}
+          selectValues={dealStage}
+          required={!deal.stageId}
+          target="stageId"
+          handleChange={this.handleChange}
+        />
+      ),
+      source: (
+        <FormInput
+          label="Source"
+          value={deal.sourceId}
+          selectValues={leadSource}
+          target="sourceId"
+          handleChange={this.handleChange}
+        />
+      ),
+      customer: (
+        <CustomerPicker
+          value={deal.customerId}
+          target="customerId"
+          handleChange={this.handleChange}
+        />
+      ),
+      // customer: (
+      //   <FormInput
+      //     label="Customer"
+      //     value={deal.customerId}
+      //     selectValues={customers}
+      //     target="customerId"
+      //     handleChange={this.handleChange}
+      //   />
+      // ),
+      type: (
+        <FormInput
+          label="Type"
+          value={deal.typeId}
+          selectValues={dealType}
+          target="typeId"
+          handleChange={this.handleChange}
+        />
+      ),
+      account: (
+        <FormInput
+          label="Account"
+          value={deal.accountId}
+          selectValues={accounts}
+          target="accountId"
+          handleChange={this.handleChange}
+        />
+      ),
+      description: (
+        <FormInput
+          multiline
+          rows={4}
+          label="Description"
+          value={deal.info}
+          target="info"
+          handleChange={this.handleChange}
+        />
+      )
+    };
     return (
       <FormWrapper
         onSave={this.onSubmit}
@@ -84,105 +184,7 @@ class DealForm extends Component {
         {loading && <RctSectionLoader />}
         <hr />
         <form autoComplete="off">
-          <KeyInformation
-            name={
-              <FormInput
-                label="Name"
-                value={deal.name}
-                target="name"
-                handleChange={this.handleChange}
-              />
-            }
-            amount={
-              <AmountInput
-                label="Amount"
-                value={deal.amount}
-                required={!deal.amount}
-                target="amount"
-                handleChange={this.handleChange}
-              />
-            }
-            closingDate={
-              <DatePickerInput
-                label="Closing Date"
-                value={deal.closingDate ? deal.closingDate : null}
-                target="closingDate"
-                handleChange={this.handleChange}
-              />
-            }
-            owner={
-              !edit && (
-                <FormInput
-                  label="Owner"
-                  value={deal.userId}
-                  required={!deal.userId}
-                  selectValues={users}
-                  target="userId"
-                  handleChange={this.handleChange}
-                />
-              )
-            }
-            account={
-              <FormInput
-                label="Account"
-                value={deal.accountId}
-                selectValues={accounts}
-                required={!deal.accountId}
-                target="accountId"
-                handleChange={this.handleChange}
-              />
-            }
-            stage={
-              <FormInput
-                label="Stage"
-                value={deal.stageId}
-                selectValues={dealStage}
-                required={!deal.stageId}
-                target="stageId"
-                handleChange={this.handleChange}
-              />
-            }
-          />
-          <hr />
-          <DealInformation
-            source={
-              <FormInput
-                label="Source"
-                value={deal.sourceId}
-                selectValues={leadSource}
-                target="sourceId"
-                handleChange={this.handleChange}
-              />
-            }
-            customer={
-              <FormInput
-                label="Customer"
-                value={deal.customerId}
-                selectValues={customers}
-                target="customerId"
-                handleChange={this.handleChange}
-              />
-            }
-            type={
-              <FormInput
-                label="Type"
-                value={deal.typeId}
-                selectValues={dealType}
-                target="typeId"
-                handleChange={this.handleChange}
-              />
-            }
-            description={
-              <FormInput
-                multiline
-                rows={4}
-                label="Description"
-                value={deal.info}
-                target="info"
-                handleChange={this.handleChange}
-              />
-            }
-          />
+          <DealFormLayout {...formFields} />
         </form>
         <hr />
       </FormWrapper>
@@ -196,10 +198,7 @@ const mapStateToProps = ({ crmState }) => {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    {
-      getDealFormFields
-    }
-  )(DealForm)
+  connect(mapStateToProps, {
+    getDealFormFields
+  })(DealForm)
 );

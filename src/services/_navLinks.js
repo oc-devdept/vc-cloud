@@ -1,19 +1,17 @@
 // crm routes
 import {
-  leadListPage,
   customerListPage,
   accountListPage,
-  dealListPage,
-  marketingListPage
+  dealListPage
 } from "Helpers/crmURL";
 
-// acct routes
-import {
-  quoteListPage,
-  invoiceListPage,
-  crednoteListPage,
-  paymentPage
-} from "Helpers/accountingURL";
+// // acct routes
+// import {
+//   quoteListPage,
+//   invoiceListPage,
+//   crednoteListPage,
+//   paymentPage
+// } from "Helpers/accountingURL";
 
 import {
   inventoryPage,
@@ -22,7 +20,11 @@ import {
   bookingSystemPage
 } from "Helpers/inventoryURL";
 
-import { marketingPage, mailPage, analyticsPage } from "Helpers/marketingURL";
+import {
+  marketingListPage,
+  campaignPage,
+  marketingTemplatePage
+} from "Helpers/marketingURL";
 
 export default [
   {
@@ -42,10 +44,6 @@ export default [
     baseUrl: "/app/crm",
     name: "CRM",
     child_routes: [
-      // {
-      //   title: "sidebar.leads",
-      //   path: leadListPage
-      // },
       {
         title: "sidebar.customers",
         path: customerListPage
@@ -83,12 +81,6 @@ export default [
   //     }
   //   ]
   // },
-  {
-    url: "/app/reports",
-    baseUrl: "/app/reports",
-    name: "Reports",
-    child_routes: []
-  },
 
   {
     url: "/app/inventory/dashboard",
@@ -111,22 +103,28 @@ export default [
   },
 
   {
-    url: "/app/marketing/dashboard",
+    url: "/app/marketing/campaign",
     baseUrl: "/app/marketing",
     name: "Marketing",
     child_routes: [
       {
-        title: "sidebar.dashboard",
-        path: marketingPage
+        title: "sidebar.campaign",
+        path: campaignPage
       },
       {
-        title: "sidebar.sendmail",
-        path: mailPage
+        title: "sidebar.mailingList",
+        path: marketingListPage
       },
       {
-        title: "sidebar.analytics",
-        path: analyticsPage
+        title: "sidebar.template",
+        path: marketingTemplatePage
       }
     ]
+  },
+  {
+    url: "/app/reports",
+    baseUrl: "/app/reports",
+    name: "Reports",
+    child_routes: []
   }
 ];

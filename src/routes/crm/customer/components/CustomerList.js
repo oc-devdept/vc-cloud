@@ -320,9 +320,18 @@ class CustomerList extends Component {
         }
       }
     ];
+
+    const { title, optionProps, tableProps, tableStyles } = this.props;
+
     return (
-      <div className="rct-block">
-        <RecordsList columns={columns} data={tableData} options={options} />
+      <div className="rct-block" {...tableStyles}>
+        <RecordsList
+          title={title}
+          columns={columns}
+          data={tableData}
+          options={{ ...options, ...optionProps }}
+          {...tableProps}
+        />
         {loading && <RctSectionLoader />}
       </div>
     );
