@@ -62,11 +62,8 @@ class FormInput extends PureComponent {
             {...others}
           />
         )}
-        {required && (
-          <FormHelperText error>
-            {helperText ? helperText : "* Required Field"}
-          </FormHelperText>
-        )}
+        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+        {required && <FormHelperText error>* Required Field</FormHelperText>}
       </FormControl>
     );
   }
