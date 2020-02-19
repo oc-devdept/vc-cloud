@@ -8,7 +8,6 @@ export const marketing_list = Loadable({
   loader: () => import("./list"),
   loading: () => <RctPageLoader />
 });
-
 export const marketing_campaign = Loadable({
   loader: () => import("./campaign"),
   loading: () => <RctPageLoader />
