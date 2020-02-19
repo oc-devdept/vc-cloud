@@ -249,14 +249,6 @@ class CustomerList extends Component {
               : "none"
         }
       },
-      {
-        label: "Company",
-        name: "company",
-        sortDirection:
-          this.state.sorted.name == "company"
-            ? this.state.sorted.direction
-            : "none"
-      },
       { label: "Contact Type", name: "typeInfo" },
       { label: "Source", name: "source" },
       {
@@ -285,27 +277,47 @@ class CustomerList extends Component {
           customBodyRender: value => {
             return value ? value.name : "";
           }
+          // filterOptions: {
+          //   logic: (location, filters) => {
+          //     if (filters.length) return !filters.includes(location);
+          //     return false;
+          //   },
+          //   display: (filterList, onChange, index, column) => {
+
+          //     const optionValues = ["Minneapolis", "New York", "Seattle"];
+          //     return (
+          //       <FormControl>
+          //         <InputLabel htmlFor="select-multiple-chip">
+          //           Location
+          //         </InputLabel>
+          //         <Select
+          //           multiple
+          //           value={filterList[index]}
+          //           renderValue={selected => selected.join(", ")}
+          //           onChange={event => {
+          //             filterList[index] = event.target.value;
+          //             onChange(filterList[index], index, column);
+          //           }}
+          //         >
+          //           {optionValues.map(item => (
+          //             <MenuItem key={item} value={item}>
+          //               <Checkbox
+          //                 color="primary"
+          //                 checked={filterList[index].indexOf(item) > -1}
+          //               />
+          //               <ListItemText primary={item} />
+          //             </MenuItem>
+          //           ))}
+          //         </Select>
+          //       </FormControl>
+          //     );
+          //   }
+          // }
         }
       },
       {
         label: "Office",
         name: "phone",
-        options: {
-          display: false,
-          filter: false
-        }
-      },
-      {
-        label: "DNC Expiry",
-        name: "dnc_expiry",
-        options: {
-          display: false,
-          filter: false
-        }
-      },
-      {
-        label: "DNC Status",
-        name: "dnc_status",
         options: {
           display: false,
           filter: false
@@ -320,9 +332,18 @@ class CustomerList extends Component {
         }
       }
     ];
+
+    const { title, optionProps, tableProps, tableStyles } = this.props;
+
     return (
-      <div className="rct-block">
-        <RecordsList columns={columns} data={tableData} options={options} />
+      <div className="rct-block" {...tableStyles}>
+        <RecordsList
+          title={title}
+          columns={columns}
+          data={tableData}
+          options={{ ...options, ...optionProps }}
+          {...tableProps}
+        />
         {loading && <RctSectionLoader />}
       </div>
     );

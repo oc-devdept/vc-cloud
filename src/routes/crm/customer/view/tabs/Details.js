@@ -15,10 +15,18 @@ function CustomerDetailsTab(props) {
         value={cust.lastContact && getDateTime(cust.lastContact)}
       />
     ),
-    projEnquiry: (
-      <EditableInput label="Project Enquiry" value={cust.projEnquiry} />
+    owner: (
+      <EditableInput
+        label="Owner"
+        value={cust.userInfo && cust.userInfo.name}
+      />
     ),
-    owner: <EditableInput label="Owner" value={cust.userInfo.name} />,
+    member: (
+      <EditableInput
+        label="Member Since"
+        value={cust.customer && getDate(cust.customer.createdAt)}
+      />
+    ),
     account: (
       <EditableInput
         label="Account"

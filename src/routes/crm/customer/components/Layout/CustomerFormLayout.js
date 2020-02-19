@@ -5,7 +5,7 @@ function CustomerFormLayout(props) {
   const {
     firstName,
     lastName,
-    projEnquiry,
+    member,
     owner,
     account,
     email,
@@ -23,7 +23,7 @@ function CustomerFormLayout(props) {
     {
       title: "Key Information",
       desc: "The key fields to get you started with a new Customer record.",
-      leftCol: [firstName, lastName, projEnquiry],
+      leftCol: [firstName, lastName, member],
       rightCol: [owner, account]
     },
     {
