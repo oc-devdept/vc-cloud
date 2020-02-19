@@ -140,6 +140,7 @@ const Index = ({AddNewVariant, _EditVariantValues, ProductVariantValues, _Delete
                         value={form.price}
                         element={'price'}
                         _HandleProduct={_HandleProductDetailValue}
+                        type="number"
                     />  
 
                     <div className="d-flex flex-row" style={{width: '100%'}}>                        

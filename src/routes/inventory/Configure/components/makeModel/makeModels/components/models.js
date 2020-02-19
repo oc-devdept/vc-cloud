@@ -282,9 +282,6 @@ class index extends PureComponent {
          }));
     }
 
-
-
-
     _RenderBody = () => {
         let Body = null
 
@@ -701,12 +698,8 @@ class index extends PureComponent {
         )
     }
 
-
-
     render() {
           
-
-
         return (
             <div>
                 {!this.state.loading && 

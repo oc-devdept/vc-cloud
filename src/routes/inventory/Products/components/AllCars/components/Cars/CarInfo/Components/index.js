@@ -96,8 +96,9 @@ class Grade extends PureComponent {
                   value={Product.cost_Price ? Product.cost_Price : ''}
                   element={'cost_Price'}
                   _HandleProduct={_HandleProduct}
+                  type="number"
                 />
-              
+            
                 <Input
                   divStyle={{width: '30%'}}
                   title="SELLING PRICE"
@@ -105,6 +106,7 @@ class Grade extends PureComponent {
                   value={Product.selling_Price ? Product.selling_Price : ''}
                   element={'selling_Price'}
                   _HandleProduct={_HandleProduct}
+                  type="number"
                 />
 
                 {/* <div className="d-flex" style={{flexDirection:'column', width: '100%'}}>

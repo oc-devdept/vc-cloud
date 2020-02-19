@@ -58,7 +58,7 @@ module.exports = function(env) {
     },
     devServer: {
       contentBase: "./src/index.js",
-      host: "0.0.0.0",
+      host: "localhost",
       compress: true,
       port: 3002, // port number
       historyApiFallback: true,

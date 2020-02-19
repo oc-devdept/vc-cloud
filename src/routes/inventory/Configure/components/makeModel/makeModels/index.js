@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from "react";
+import { NotificationManager } from "react-notifications";
 import api from "Api";
 
 import MakeList from './components/List/MakeList'
@@ -45,14 +46,6 @@ class index extends PureComponent {
     
             const Tags = await api.get(`tags`);
 
-            // const ProductOption = await api.post(`products/productOption`, {
-            //     data: {
-            //         productId: '5de9c7c7bce4b703a335c209',
-            //         productOptionId: '5de4b932afdb524dca60c7d8'
-            //     }
-            // });
-            // console.log(ProductOption.data)
-
             if(this._isMounted) {
                 this.setState({
                     MakeId: MakeFilter.data.id, 
@@ -94,14 +87,15 @@ class index extends PureComponent {
         
         try {
             const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
-            const MakeSource = await MakeGroup.data.map((source) => {             
+            const MakeSource = await MakeGroup.data.map((source) => {    
                 return { 
                     id: source.id, 
                     name: source.name, 
                     description: source.description,
                     files: source.files? source.files : [],
                     image: source.image,
-                    checklist: true
+                    checklist: true,
+                    category: source.category
                 }
 
             });
@@ -146,16 +140,10 @@ class index extends PureComponent {
     }
 
     _SaveModelDone = async() => {
-      
         this._isMounted = true;
-        this.loadInitial()
-        
-        return
+        this.loadInitial()   
     }
 
-
-
-    
     _RenderDialog = () => {
         if(this.state.toggle){
             switch(this.state.element) {
@@ -288,9 +276,17 @@ class index extends PureComponent {
         this.setState({element: element, toggle: !this.state.toggle, data: data, Id: Id})
     }
 
-
-
-
+    _DeleteModel = async(id, element) =>{
+        // console.log(id, element)
+        if(element > 0){
+            NotificationManager.warning('You cannot delete if you have items in your category, please delete them all before proceeding.')
+        } else {
+            await api.post(`categories/deleteModel`, {data:id});
+            this._isMounted = true;
+            await this.loadInitial()
+            NotificationManager.success('You have successfully deleted the item')
+        }
+    }
 
     render() {
 
@@ -307,6 +303,7 @@ class index extends PureComponent {
                         title={'Car Make'}
                         tableData={this.state.MakeSource}
                         ToggleDialog={this.ToggleDialog}
+                        _DeleteModel={this._DeleteModel}
                     />
                   
                     {this._RenderDialog()}

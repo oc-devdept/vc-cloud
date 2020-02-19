@@ -101,6 +101,7 @@ const Index = ({_AddVariantValues}) => {
                         value={form.price}
                         element={'price'}
                         _HandleProduct={_HandleProductDetailValue}
+                        type="number"
                     />  
 
                     <div className="d-flex flex-row" style={{width: '100%'}}>                        

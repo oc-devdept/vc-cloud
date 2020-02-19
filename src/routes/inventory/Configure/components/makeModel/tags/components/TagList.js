@@ -36,13 +36,9 @@ export default class Index extends PureComponent {
     
   // }
 
- 
-
-
-
   render () {
   
-    const { loading, title, tableData, ToggleDialog } = this.props
+    const { loading, title, tableData, ToggleDialog, _DeleteTags } = this.props
 
     const columns = [
       {
@@ -59,6 +55,10 @@ export default class Index extends PureComponent {
         }
       },
       {
+        name: "tags",
+        options: { display: "excluded", filter: false, sort: false }
+      },
+      {
         name: "EDIT",
         options: {
             filter: true,
@@ -73,21 +73,21 @@ export default class Index extends PureComponent {
             }
         }
       },
-      // {
-      //   name: "DELETE",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //             <Delete
-      //               onClick={() => ToggleDialog('Delete_Tags', rowState.rowData)}
-      //             />
-      //           );
-      //       }
-      //   }
-      // },
+      {
+        name: "DELETE",
+        options: {
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+              return (
+                  <Delete
+                    onClick={() => _DeleteTags(rowState.rowData[0], rowState.rowData[2]? rowState.rowData[2].length : 0)}
+                  />
+            );
+          }
+        }
+      },
     
     ]
 

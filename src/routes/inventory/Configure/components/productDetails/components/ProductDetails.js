@@ -26,8 +26,6 @@ class index extends PureComponent {
             unit: '',
         }
 
-        console.log(this.props.Data)
-
         switch(this.props.Action){
             case "Create":
                 Title = "CREATE NEW PRODUCT DETAIL"

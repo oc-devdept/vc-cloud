@@ -13,7 +13,7 @@ The Venture Care API is organised around REST. Our API has predictable resource-
 
     fields : {
         All: [...],
-        BMW: [...],
+        BMW: [...],s
         HONDA: [...]
     }
 

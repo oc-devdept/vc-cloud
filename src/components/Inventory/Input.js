@@ -1,4 +1,6 @@
 import React, {PureComponent, Component} from 'react'
+import { InputGroup, FormControl, Button } from "react-bootstrap";
+
 
 class Input extends Component {
 
@@ -11,7 +13,7 @@ class Input extends Component {
 
     render() {
 
-        const {title, placeholder, value, _HandleProduct, element, style, divStyle, textarea} = this.props
+        const {title, placeholder, value, _HandleProduct, element, style, divStyle, textarea, type} = this.props
 
         let styles = {...style}
         let divStyles = {...divStyle}
@@ -30,19 +32,35 @@ class Input extends Component {
                     />
                 </div>
             )
-        } else {
+        } else if(type == "number") {
 
             styles.padding = 5
             
             return (
                 <div className="d-flex" style={divStyles}>
                     <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>{title}</span>
-                    <input 
+                    <FormControl
+                        type="number"
+                        placeholder={placeholder} 
+                        aria-label={placeholder}
+                        style={styles}
+                        value={value} 
+                        onChange={(e) => _HandleProduct(e.target.value, element)}
+                    />
+                </div>
+            )
+        } else {
+
+            styles.padding = 5
+
+            return (
+                <div className="d-flex" style={divStyles}>
+                    <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>{title}</span>
+                    <FormControl 
                         type={element} 
                         placeholder={placeholder} 
                         value={value} 
                         onChange={(e) => _HandleProduct(e.target.value, element)}
-                        // onChange={_HandleProduct}
                         style={styles}
                     />
                 </div>
