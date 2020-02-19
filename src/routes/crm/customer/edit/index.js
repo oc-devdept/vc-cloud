@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Sub components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 // Page Components
 import RctPageLoader from "Components/RctPageLoader";
@@ -20,9 +20,7 @@ class crm_edit_customer extends Component {
     const { loading, customer } = this.props.customerToView;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Edit Customer</title>
-        </Helmet>
+        <Helmet title="Edit Customer" />
         {loading ? (
           <RctPageLoader />
         ) : (
@@ -42,7 +40,6 @@ const mapStateToProps = ({ crmState }) => {
   return { customerToView };
 };
 
-export default connect(
-  mapStateToProps,
-  { editCustomer, getSingleCustomer }
-)(crm_edit_customer);
+export default connect(mapStateToProps, { editCustomer, getSingleCustomer })(
+  crm_edit_customer
+);

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Sub components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 // Page Components
 import DealForm from "../components/form/DealForm";
@@ -21,10 +21,7 @@ class crm_edit_deal extends Component {
     const { loading, deal } = this.props.dealToView;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | New Deal</title>
-          <meta name="description" content="Everyday Deals Creation" />
-        </Helmet>
+        <Helmet title="New Deal" />
         {loading ? (
           <RctPageLoader />
         ) : (
@@ -44,7 +41,6 @@ const mapStateToProps = ({ crmState }) => {
   return { dealToView };
 };
 
-export default connect(
-  mapStateToProps,
-  { editDeal, getSingleDeal }
-)(crm_edit_deal);
+export default connect(mapStateToProps, { editDeal, getSingleDeal })(
+  crm_edit_deal
+);

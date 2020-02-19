@@ -5,7 +5,7 @@ import RctSectionLoader from "Components/RctSectionLoader";
 
 // Form Layout
 import FormWrapper from "Components/Form/Layout/FormWrapper";
-import { KeyInformation, PersonalInformation } from "./Layout";
+import CustomerFormLayout from "../Layout/CustomerFormLayout";
 
 // Input Components
 import FormInput from "Components/Form/FormInput";
@@ -15,6 +15,11 @@ import AddressFormInput from "Components/Form/Inputs/AddressFormInput";
 // Actions
 import { getCustomerFormFields } from "Ducks/crm/customer";
 
+const nationalitySelect = [
+  { name: "Singaporean", value: "Singaporean" },
+  { name: "PR", value: "PR" },
+  { name: "Foreigner", value: "Foreigner" }
+];
 const initialState = {
   customer: {
     userId: localStorage.getItem("user_id"),
@@ -41,13 +46,24 @@ class CustomerForm extends Component {
     this.handleContact = this.handleContact.bind(this);
     this.handleCust = this.handleCust.bind(this);
     this.handleAddress = this.handleAddress.bind(this);
+    this.handleAgent = this.handleAgent.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSaveNew = this.onSaveNew.bind(this);
   }
   componentDidMount() {
     this.props.getCustomerFormFields();
-    if (this.props.edit) this.setState({ customer: this.props.edit });
+    if (this.props.edit) {
+      const { id, sourceId, baseContact, userId } = this.props.edit;
+      this.setState({
+        customer: {
+          id,
+          sourceId,
+          baseContact,
+          userId
+        }
+      });
+    }
   }
 
   handleContact(field, value) {
@@ -89,6 +105,19 @@ class CustomerForm extends Component {
     }));
   }
 
+  handleAgent(field, value) {
+    this.setState({
+      ...this.state,
+      customer: {
+        ...this.state.customer,
+        contactAgentInfo: {
+          ...this.state.customer.contactAgentInfo,
+          [field]: value
+        }
+      }
+    });
+  }
+
   onSubmit() {
     this.props.handleSubmit(this.state.customer, true, this.props.history);
   }
@@ -108,6 +137,155 @@ class CustomerForm extends Component {
     const { customer } = this.state;
     const { loading, fields } = this.props.customerForm;
     const { edit, title } = this.props;
+
+    const formFields = {
+      firstName: (
+        <FormInput
+          label="First Name"
+          value={customer.baseContact.firstName}
+          target="firstName"
+          handleChange={this.handleContact}
+        />
+      ),
+      lastName: (
+        <FormInput
+          label="Last Name"
+          value={customer.baseContact.lastName}
+          required={!customer.baseContact.lastName}
+          target="lastName"
+          handleChange={this.handleContact}
+        />
+      ),
+      owner: !edit && (
+        <FormInput
+          label="Owner"
+          value={customer.userId ? customer.userId : ""}
+          required={!customer.userId}
+          selectValues={fields.users}
+          target="userId"
+          handleChange={this.handleCust}
+        />
+      ),
+      account: (
+        <FormInput
+          label="Related Account"
+          selectValues={fields.accounts}
+          value={customer.accountId ? customer.accountId : ""}
+          target="accountId"
+          handleChange={this.handleCust}
+        />
+      ),
+      email: (
+        <FormInput
+          label="Email"
+          value={customer.baseContact.email}
+          target="email"
+          handleChange={this.handleContact}
+        />
+      ),
+      mobile: (
+        <FormInput
+          label="Mobile"
+          value={customer.baseContact.mobile}
+          target="mobile"
+          handleChange={this.handleContact}
+        />
+      ),
+      title: (
+        <FormInput
+          label="Job Title"
+          value={customer.baseContact.title}
+          target="title"
+          handleChange={this.handleContact}
+        />
+      ),
+
+      birthday: (
+        <DatePickerInput
+          label="Birthday"
+          value={
+            customer.baseContact.birthday ? customer.baseContact.birthday : null
+          }
+          target="birthday"
+          handleChange={this.handleContact}
+        />
+      ),
+      source: (
+        <FormInput
+          label="Source"
+          value={customer.sourceId ? customer.sourceId : ""}
+          selectValues={fields.leadSource}
+          target="sourceId"
+          handleChange={this.handleCust}
+        />
+      ),
+      office: (
+        <FormInput
+          label="Office"
+          value={customer.baseContact.phone}
+          target="phone"
+          handleChange={this.handleContact}
+        />
+      ),
+      fax: (
+        <FormInput
+          label="Fax"
+          value={customer.baseContact.fax}
+          target="fax"
+          handleChange={this.handleContact}
+        />
+      ),
+      nationality: (
+        <FormInput
+          label="Nationality"
+          value={customer.nationality}
+          target="nationality"
+          selectValues={nationalitySelect}
+          handleChange={this.handleCust}
+        />
+      ),
+      address: (
+        <AddressFormInput
+          handleChange={this.handleAddress}
+          address_1={
+            customer.baseContact._address
+              ? customer.baseContact._address.address_1
+              : ""
+          }
+          address_2={
+            customer.baseContact._address
+              ? customer.baseContact._address.address_2
+              : ""
+          }
+          city={
+            customer.baseContact._address
+              ? customer.baseContact._address.city
+              : ""
+          }
+          state={
+            customer.baseContact._address
+              ? customer.baseContact._address.state
+              : ""
+          }
+          zip={
+            customer.baseContact._address
+              ? customer.baseContact._address.zip
+              : ""
+          }
+        />
+      ),
+      description: (
+        <FormInput
+          multiline
+          rows={4}
+          label="Description"
+          target="info"
+          value={customer.baseContact.info}
+          handleChange={this.handleContact}
+        />
+      )
+    };
+
     return (
       <FormWrapper
         onSave={this.onSubmit}
@@ -119,131 +297,7 @@ class CustomerForm extends Component {
         {loading && <RctSectionLoader />}
         <hr />
         <form autoComplete="off">
-          <KeyInformation
-            firstName={
-              <FormInput
-                label="First Name"
-                value={customer.baseContact.firstName}
-                target="firstName"
-                handleChange={this.handleContact}
-              />
-            }
-            lastName={
-              <FormInput
-                label="Last Name"
-                value={customer.baseContact.lastName}
-                required={!customer.baseContact.lastName}
-                target="lastName"
-                handleChange={this.handleContact}
-              />
-            }
-            owner={
-              !edit && (
-                <FormInput
-                  label="Owner"
-                  value={customer.userId ? customer.userId : ""}
-                  required={!customer.userId}
-                  selectValues={fields.users}
-                  target="userId"
-                  handleChange={this.handleCust}
-                />
-              )
-            }
-            account={
-              <FormInput
-                label="Related Account"
-                selectValues={fields.accounts}
-                value={customer.accountId ? customer.accountId : ""}
-                target="accountId"
-                handleChange={this.handleCust}
-              />
-            }
-          />
-          <hr />
-          <PersonalInformation
-            email={
-              <FormInput
-                label="Email"
-                value={customer.baseContact.email}
-                target="email"
-                handleChange={this.handleContact}
-              />
-            }
-            mobile={
-              <FormInput
-                label="Mobile"
-                value={customer.baseContact.mobile}
-                target="mobile"
-                handleChange={this.handleContact}
-              />
-            }
-            title={
-              <FormInput
-                label="Job Title"
-                value={customer.baseContact.title}
-                target="title"
-                handleChange={this.handleContact}
-              />
-            }
-            source={
-              <FormInput
-                label="Source"
-                value={customer.sourceId ? customer.sourceId : ""}
-                selectValues={fields.leadSource}
-                target="sourceId"
-                handleChange={this.handleCust}
-              />
-            }
-            office={
-              <FormInput
-                label="Office"
-                value={customer.baseContact.phone}
-                target="phone"
-                handleChange={this.handleContact}
-              />
-            }
-            fax={
-              <FormInput
-                label="Fax"
-                value={customer.baseContact.fax}
-                target="fax"
-                handleChange={this.handleContact}
-              />
-            }
-            birthday={
-              <DatePickerInput
-                label="Birthday"
-                value={
-                  customer.baseContact.birthday
-                    ? customer.baseContact.birthday
-                    : null
-                }
-                target="birthday"
-                handleChange={this.handleContact}
-              />
-            }
-            address={
-              <AddressFormInput
-                handleChange={this.handleAddress}
-                address_1={customer.baseContact._address.address_1}
-                address_2={customer.baseContact._address.address_2}
-                city={customer.baseContact._address.city}
-                state={customer.baseContact._address.state}
-                zip={customer.baseContact._address.zip}
-              />
-            }
-            description={
-              <FormInput
-                multiline
-                rows={4}
-                label="Description"
-                target="info"
-                value={customer.baseContact.info}
-                handleChange={this.handleContact}
-              />
-            }
-          />
-          <hr />
+          <CustomerFormLayout {...formFields} />
         </form>
       </FormWrapper>
     );
@@ -257,10 +311,7 @@ const mapStateToProps = ({ crmState }) => {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    {
-      getCustomerFormFields
-    }
-  )(CustomerForm)
+  connect(mapStateToProps, {
+    getCustomerFormFields
+  })(CustomerForm)
 );

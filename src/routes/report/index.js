@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 //Page Req
@@ -48,112 +48,89 @@ class ReportsComponent extends Component {
   }
 
   render() {
+    const renderList = [
+      {
+        title: "Deals",
+        stateName: "deals",
+        nestedList: [
+          { title: "Deals By Owner", stateName: "dealsByOwner" },
+          { title: "Deals By Type", stateName: "dealsByType" },
+          { title: "Deals Pipeline", stateName: "dealsPipeline" }
+        ]
+      },
+      {
+        title: "Closed Deals",
+        stateName: "closedDeals",
+        nestedList: [{ title: "Won Deals By Owner", stateName: "wonByOwner" }]
+      },
+      // {
+      //   title: "Leads",
+      //   stateName: "leads",
+      //   nestedList: [
+      //     { title: "Leads By Status", stateName: "leadsByStatus" },
+      //     { title: "Leads By Owner", stateName: "leadsByOwner" },
+      //     { title: "Leads By Source", stateName: "leadsBySource" }
+      //   ]
+      // },
+      {
+        title: "Top Spenders",
+        stateName: "acctcust",
+        nestedList: [
+          {
+            title: "Top Spender Report (Accounts)",
+            stateName: "z"
+          },
+          {
+            title: "Top Spender Report (Customers)",
+            stateName: "topSpenderCustomer"
+          }
+        ]
+      },
+      {
+        title: "Individual Report",
+        stateName: "individual",
+        nestedList: []
+      }
+    ];
     const { nestedView, activeView } = this.state;
+
     return (
       <div className="todo-dashboard">
-        <Helmet>
-          <title>Everyday | Reports</title>
-          <meta name="description" content="Everyday Informational Reports" />
-        </Helmet>
+        <Helmet title="Reports" metaDesc="Everyday Informational Reports" />
         <PageTitleBar title="Reports" />
         <div className="row">
           <div className="col-lg-2">
             <SideDrawer listHeader="Reports List">
-              <DrawerListCollapsible
-                title="Deals"
-                state={nestedView.deals}
-                openNested={() => this.handleNestedView("deals")}
-              >
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("dealsByOwner")}
-                  title="Deals by Owner"
-                  secondary
-                  selected={activeView == "dealsByOwner"}
-                />
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("dealsByType")}
-                  title="Deals by Type"
-                  secondary
-                  selected={activeView == "dealsByType"}
-                />
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("dealsPipeline")}
-                  title="Deals Pipeline"
-                  secondary
-                  selected={activeView == "dealsPipeline"}
-                />
-              </DrawerListCollapsible>
-              <DrawerListCollapsible
-                title="Closed Deals"
-                state={nestedView.closedDeals}
-                openNested={() => this.handleNestedView("closedDeals")}
-              >
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("wonByOwner")}
-                  title="Won Deals By Owner"
-                  secondary
-                  selected={activeView == "wonByOwner"}
-                />
-                {/* <DrawerListItem
-                    onClickListItem={() => this.onSelectView("lostDealsReason")}
-                    title="Lost Deals by Reason"
-                    secondary
-                    selected={activeView == "lostDealsReason"}
-                  /> */}
-              </DrawerListCollapsible>
-              <DrawerListCollapsible
-                title="Leads"
-                state={nestedView.leads}
-                openNested={() => this.handleNestedView("leads")}
-              >
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("leadsByStatus")}
-                  title="Leads by Status"
-                  secondary
-                  selected={activeView == "leadsByStatus"}
-                />
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("leadsByOwner")}
-                  title="Leads by Owner"
-                  secondary
-                  selected={activeView == "leadsByOwner"}
-                />
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("leadsBySource")}
-                  title="Leads by Source"
-                  secondary
-                  selected={activeView == "leadsBySource"}
-                />
-              </DrawerListCollapsible>
-              <DrawerListCollapsible
-                title={"Accounts & Customers"}
-                state={nestedView.acctcust}
-                openNested={() => this.handleNestedView("acctcust")}
-              >
-                <DrawerListItem
-                  onClickListItem={() => this.onSelectView("topSpenderAccount")}
-                  title="Top Spender Report (Accounts)"
-                  secondary
-                  selected={activeView == "topSpenderAccount"}
-                />
-                <DrawerListItem
-                  onClickListItem={() =>
-                    this.onSelectView("topSpenderCustomer")
-                  }
-                  title="Top Spender Report (Customers)"
-                  secondary
-                  selected={activeView == "topSpenderCustomer"}
-                />
-              </DrawerListCollapsible>
-
-              <DrawerListItem
-                onClickListItem={() => this.onSelectView("individual")}
-                title="Individual"
-                selected={activeView == "individual"}
-              />
+              {renderList.map((list, key) =>
+                list.nestedList.length > 0 ? (
+                  <DrawerListCollapsible
+                    key={key}
+                    title={list.title}
+                    state={nestedView[list.stateName]}
+                    openNested={() => this.handleNestedView(list.stateName)}
+                  >
+                    {list.nestedList.map((nest, index) => (
+                      <DrawerListItem
+                        key={index}
+                        onClickListItem={() =>
+                          this.onSelectView(nest.stateName)
+                        }
+                        title={nest.title}
+                        secondary
+                        selected={activeView == nest.stateName}
+                      />
+                    ))}
+                  </DrawerListCollapsible>
+                ) : (
+                  <DrawerListItem
+                    key={key}
+                    onClickListItem={() => this.onSelectView(list.stateName)}
+                    title={list.title}
+                    selected={activeView == list.stateName}
+                  />
+                )
+              )}
             </SideDrawer>
-            {/* </List>
-            </Drawer> */}
           </div>
           <div className="col-lg-10">
             <ReportViews componentToRender={activeView} />

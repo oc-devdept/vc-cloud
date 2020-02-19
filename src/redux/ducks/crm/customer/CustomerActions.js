@@ -1,14 +1,6 @@
 import * as types from "./CustomerTypes";
 
 /**
- * Change List View
- */
-export const changeCustomerView = newValue => ({
-  type: types.CHANGE_CUSTOMER_LIST_VIEW,
-  payload: newValue
-});
-
-/**
  * Get CUSTOMER Failure
  */
 export const getCustomerFailure = error => ({
@@ -27,22 +19,9 @@ export const getCustomerSuccess = data => ({
 /**
  * Get All CUSTOMERs
  */
-export const getAllCustomer = () => ({
-  type: types.GET_ALL_CUSTOMER
-});
-
-/**
- * Get My CUSTOMERs
- */
-export const getMyCustomer = () => ({
-  type: types.GET_MY_CUSTOMER
-});
-
-/**
- * Get Open CUSTOMERs
- */
-export const getOpenCustomer = () => ({
-  type: types.GET_OPEN_CUSTOMER
+export const getAllCustomer = (limit, skip, filter, searchText, orderBy) => ({
+  type: types.GET_ALL_CUSTOMER,
+  payload: { limit, skip, filter, searchText, orderBy }
 });
 
 /**

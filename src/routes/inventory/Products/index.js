@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import ProfileTabs from "Components/Layout/ProfileTabs";
 
@@ -10,9 +10,7 @@ import ProductCard from "./components/ProductCard"
 
 
 class AllProducts extends Component {
-
   render() {
-
     return (
       
         <React.Fragment>
@@ -44,8 +42,7 @@ class AllProducts extends Component {
                 </ProfileTabs>
               </div>
             </div>
-
-        </React.Fragment>
+      </React.Fragment>
     );
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { show } from "redux-modal";
 // Global Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 //Page Components
 import RctPageLoader from "Components/RctPageLoader";
@@ -12,16 +12,13 @@ import CustomerCard from "../components/CustomerCard";
 import ProfileTabs from "Components/Layout/ProfileTabs";
 
 // Tabs
-import Overview from "./tabs/Overview"
-import Booking from "./tabs/Booking"
-
-
+import Overview from "./tabs/Overview";
+import Booking from "./tabs/Booking";
 
 import DetailsTab from "./tabs/Details";
 import DealsTab from "./tabs/Deals";
 import EventsTab from "../../components/EventsTab";
-
-
+import FollowUpTab from "../../components/FollowUp/Tab";
 
 import api from "Api";
 
@@ -50,22 +47,11 @@ class crm_view_customer extends Component {
     this.trasnfer = this.transfer.bind(this);
     this.refresh = this.refresh.bind(this);
     this.newCust = this.newCust.bind(this);
-
-
-    this.state = ({
-      customer: null,
-      loading: true
-    })
   }
 
   async componentDidMount() {
-    try {
-      var id = this.props.match.params.id;
-      const item = await api.get(`/customers/getOneCustomer/${id}`);  
-      this.setState({customer: item.data.fields, loading: false})
-    } catch (e) {
-      console.log(e)
-    }
+    var id = this.props.match.params.id;
+    this.props.getSingleCustomer(id);
   }
 
   componentWillUnmount() {
@@ -136,27 +122,20 @@ class crm_view_customer extends Component {
     this.props.addNoteCustomer(this.props.match.params.id, note);
   }
 
-  _handleDeployAgent = async(id) => {
-    const item = await api.post(`/customers/deployAgent`, {data: {id}});
-    this.setState({customer: item.data.fields})
-  }
-
-
+  _handleDeployAgent = async id => {
+    const item = await api.post(`/customers/deployAgent`, { data: { id } });
+    this.setState({ customer: item.data.fields });
+  };
 
   render() {
-    const {sectionLoading } = this.props.customerToView;
-
-    const {customer, loading} = this.state
-
+    const { sectionLoading, customer, loading } = this.props.customerToView;
     return (
       <React.Fragment>
         {loading ? (
           <RctPageLoader />
         ) : customer ? (
           <React.Fragment>
-            <Helmet>
-              <title>Everyday | View Customer</title>
-            </Helmet>
+            <Helmet title="View Customer" />
             <PageTitleBar
               title="View Customer"
               actionGroup={{
@@ -180,36 +159,44 @@ class crm_view_customer extends Component {
               }}
             />
 
-
             <div className="row">
               <div className="col-lg-3">
-                <CustomerCard 
-                  cust={customer} 
+                <CustomerCard
+                  cust={customer}
                   _handleDeployAgent={this._handleDeployAgent}
                 />
               </div>
               <div className="col-lg-9">
                 <ProfileTabs loading={sectionLoading}>
                   <div label="Overview">
-                    <Overview
-                    
-                    />
+                    <Overview cust={customer} />
                   </div>
-
                   <div label="All Bookings">
-                    <Booking 
-                      customerID={customer.id}
+                    <Booking customerID={customer.id} />
+                  </div>
+                  <div label="Follow Ups">
+                    <FollowUpTab
+                      allFollowup={customer.followUps}
+                      followupableType="Customer"
+                      followupableId={customer.id}
                     />
                   </div>
-
+                  <div label="Related Deals">
+                    <DealsTab deals={customer.deals} />
+                  </div>
+                  <div label="Events">
+                    <EventsTab
+                      events={customer.events}
+                      eventableType="Customer"
+                      eventableId={customer.id}
+                    />
+                  </div>
+                  <div label="Details">
+                    <DetailsTab cust={customer} />
+                  </div>
                 </ProfileTabs>
               </div>
             </div>
-
-
-
-
-
           </React.Fragment>
         ) : (
           <RecordNotFound />
@@ -225,15 +212,12 @@ const mapStateToProps = ({ crmState }) => {
   return { customerToView };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    show,
-    getSingleCustomer,
-    clearSingleCustomer,
-    deleteCustomer,
-    addNoteCustomer,
-    setCustomerActive,
-    transferCustomer
-  }
-)(crm_view_customer);
+export default connect(mapStateToProps, {
+  show,
+  getSingleCustomer,
+  clearSingleCustomer,
+  deleteCustomer,
+  addNoteCustomer,
+  setCustomerActive,
+  transferCustomer
+})(crm_view_customer);

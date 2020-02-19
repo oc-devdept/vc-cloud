@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // Page Components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import RctPageLoader from "Components/RctPageLoader";
 import LeadForm from "../components/forms/LeadForm";
 
@@ -18,9 +18,7 @@ class crm_edit_lead extends Component {
     const { lead, loading } = this.props.leadToView;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Edit Lead</title>
-        </Helmet>
+        <Helmet title="Edit Lead" />
         {loading ? (
           <RctPageLoader />
         ) : (
@@ -40,7 +38,6 @@ const mapStateToProps = ({ crmState }) => {
   return { leadToView };
 };
 
-export default connect(
-  mapStateToProps,
-  { editLead, getSingleLead }
-)(crm_edit_lead);
+export default connect(mapStateToProps, { editLead, getSingleLead })(
+  crm_edit_lead
+);

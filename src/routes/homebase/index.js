@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // sub components
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
@@ -16,10 +16,7 @@ class Homebase extends Component {
     const { name } = this.props;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Homebase</title>
-          <meta name="description" content="Everyday System" />
-        </Helmet>
+        <Helmet title="Homebase" />
         <PageTitleBar title={`Hello ${name},`} noBack />
         <CrmSummary />
         <div className="row">

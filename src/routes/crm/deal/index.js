@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import DealList from "./components/DealList";
 
 // page req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 // import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
 
@@ -59,10 +59,7 @@ class crm_deal extends Component {
     // const { summary } = this.props.dealState.dealSummary;
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | Deals</title>
-          <meta name="description" content="Everyday Deals Management" />
-        </Helmet>
+        <Helmet title="Deals" />
         <PageTitleBar
           title={nowShowing}
           actionGroup={{
@@ -89,11 +86,8 @@ const mapStateToProps = ({ crmState }) => {
   return { dealState };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    changeDealView,
-    getAllDeal,
-    getDealSummary
-  }
-)(crm_deal);
+export default connect(mapStateToProps, {
+  changeDealView,
+  getAllDeal,
+  getDealSummary
+})(crm_deal);

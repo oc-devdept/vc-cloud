@@ -1,6 +1,5 @@
 import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
 import {
-  CHANGE_CUSTOMER_LIST_VIEW,
   GET_ALL_CUSTOMER,
   GET_SINGLE_CUSTOMER,
   NEW_CUSTOMER,
@@ -20,16 +19,20 @@ import api from "Api";
 //=========================
 // REQUESTS
 //=========================
-const getAllCustomerRequest = async () => {
-  const result = await api.get("/customers/getall");
-  return result.data.data;
-};
-const getActiveCustomerRequest = async () => {
-  const result = await api.get("/customers");
-  return result.data;
-};
-const getInactiveCustomerRequest = async () => {
-  const result = await api.get("/customers");
+const getAllCustomerRequest = async ({
+  limit,
+  skip,
+  filter,
+  searchText,
+  orderBy
+}) => {
+  const result = await api.post("/customers/getall", {
+    limit,
+    skip,
+    filter,
+    searchText,
+    orderBy
+  });
   return result.data;
 };
 const getCustomerRequest = async custID => {
@@ -71,32 +74,9 @@ const getCustomerFormFieldsRequest = async () => {
 //=========================
 // CALL(GENERATOR) ACTIONS
 //=========================
-function* changeCustomerList({ payload }) {
-  let data;
+function* getAllCustomerFromDB({ payload }) {
   try {
-    if (payload == "All Customers") {
-      // All Customers
-      data = yield call(getAllCustomerRequest);
-      yield put(actions.getCustomerSuccess(data));
-    } else if (payload == "Active Customers") {
-      // My Customers
-      data = yield call(getActiveCustomerRequest);
-      yield put(actions.getCustomerSuccess(data));
-    } else if (payload == "Inactive Customers") {
-      // Open Customers
-      data = yield call(getInactiveCustomerRequest);
-      yield put(actions.getCustomerSuccess(data));
-    } else {
-      data = yield call(getAllCustomerRequest);
-      yield put(actions.getCustomerSuccess(data));
-    }
-  } catch (error) {
-    yield put(actions.getCustomerFailure(error));
-  }
-}
-function* getAllCustomerFromDB() {
-  try {
-    const data = yield call(getAllCustomerRequest);
+    const data = yield call(getAllCustomerRequest, payload);
     yield put(actions.getCustomerSuccess(data));
   } catch (error) {
     yield put(actions.getCustomerFailure(error));
@@ -181,9 +161,6 @@ function* getCustomerFormFieldsFromDB() {
 //=======================
 // WATCHER FUNCTIONS
 //=======================
-export function* changeViewWatcher() {
-  yield takeEvery(CHANGE_CUSTOMER_LIST_VIEW, changeCustomerList);
-}
 export function* getAllCustomerWatcher() {
   yield takeEvery(GET_ALL_CUSTOMER, getAllCustomerFromDB);
 }
@@ -217,7 +194,6 @@ export function* getCustomerFormFieldWatcher() {
 //=======================
 export default function* rootSaga() {
   yield all([
-    fork(changeViewWatcher),
     fork(getAllCustomerWatcher),
     fork(getSingleCustomerWatcher),
     fork(postCustomerWatcher),

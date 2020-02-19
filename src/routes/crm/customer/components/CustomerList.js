@@ -1,136 +1,357 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import RecordsList from "Components/RecordsList";
-import { listOptions } from "Helpers/helpers";
+import { listOptions, getDateTime } from "Helpers/helpers";
 import { singleCustomer, singleAccount } from "Helpers/crmURL";
 import RctSectionLoader from "Components/RctSectionLoader";
-// import IconButton from "@material-ui/core/IconButton";
-// import Tooltip from "@material-ui/core/Tooltip";
-
 import ActiveStatusBadge from "Components/StatusBadge/ActiveStatusBadge";
+import Button from "@material-ui/core/Button";
 
-const CustomerList = ({ tableData, loading, title, action }) => {
+// Actions
+import { getAllCustomer } from "Ducks/crm/customer";
 
-  const columns = [
-    {
-      name: "id",
-      options: { display: "excluded", filter: false, sort: false }
-    },
-    {
-      label: "Name",
-      name: "customer",
-      options: {
-        customBodyRender: (value, tableMeta) => {
-          return (
-            <NavLink to={singleCustomer(tableMeta.rowData[0])}>{`${value.firstName} ${value.lastName}`}</NavLink>
-          );
-        }
-      }
-    },
-    // {
-    //   label: "Account",
-    //   name: "accountInfo",
-    //   options: {
-    //     customBodyRender: value => {
-    //       return value ? (
-    //         <NavLink to={singleAccount(value.id)}>{value.name}</NavLink>
-    //       ) : (
-    //         ""
-    //       );
-    //     }
-    //   }
-    // },
-    { label: "Email", name: "email" },
-    // { label: "Mobile", name: "contact" },
-    // { label: "Source", name: "source" },
-    {
-      label: "Status",
-      name: "isActive",
-      options: {
-        customBodyRender: value => {
-          return <ActiveStatusBadge isActive={value} />;
-        }
-      }
-    },
-    {
-      label: "Booking(s)",
-      name: "bookings",
-      options: {
-        customBodyRender: value => {
-          return value
-        }
-      },
-    },
-    {
-      label: "Owner",
-      name: "userInfo",
-      options: {
-        customBodyRender: value => {
-          return value ? value.name : "Waiting For Agent";
-        }
-      }
-    },
-    {
-      label: "Office",
-      name: "phone",
-      options: {
-        display: false
-      }
-    },
-    {
-      label: "Fax",
-      name: "fax",
-      options: {
-        display: false
+function getFilters(filterList, columns) {
+  let filter = [];
+  for (let i = 0; i < filterList.length; i++) {
+    let list = filterList[i];
+    if (list.length > 0) {
+      let property = columns[i].name;
+      for (let a = 0; a < list.length; a++) {
+        let value = list[a];
+        filter.push({ [property]: value });
       }
     }
-  ];
-  // if (action == true) {
-  //   columns.push({
-  //     name: "Actions",
-  //     options: {
-  //       filter: false,
-  //       sort: false,
-  //       customBodyRender: value => {
-  //         return (
-  //           <Tooltip id="tooltip-icon" title="Edit">
-  //             <IconButton
-  //               className="text-primary mr-2"
-  //               aria-label="Edit Customer"
-  //               onClick={() => {
-  //                 this.toggleEditModal(value);
-  //               }}
-  //             >
-  //               <i className="zmdi zmdi-edit" />
-  //             </IconButton>
-  //           </Tooltip>
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
+  }
+  return filter;
+}
 
-  // listOptions.onRowClick = rowData => onRowClick(rowData[0]);
-  listOptions.customToolbarSelect = (
-    selectedRows,
-    displayData,
-    setSelectRows
-  ) =>
-    // delete multiple function
-    null;
+const options = Object.assign({}, listOptions);
+options.customToolbarSelect = (selectedRows, displayData, setSelectRows) =>
+  null;
 
-  return (
-    <div className="rct-block">
-      <RecordsList
-        title={title}
-        columns={columns}
-        data={tableData}
-        options={listOptions}
-      />
-      {loading && <RctSectionLoader />}
-    </div>
-  );
+class CustomerList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      limit: 0,
+      skip: 0,
+      filters: [],
+      searchText: "",
+      orderBy: [],
+      serverSideFilterList: [],
+      columns: [],
+      sorted: {
+        name: "",
+        direction: ""
+      }
+    };
+    this.triggerSearch = this.triggerSearch.bind(this);
+  }
+
+  handleFilterSubmit(filterList) {
+    const filter = getFilters(filterList, this.state.columns);
+    this.props.getAllCustomer(this.state.limit, this.state.skip, filter);
+    this.setState({ filters: filterList, serverSideFilterList: filterList });
+  }
+
+  triggerSearch(searchText) {
+    this.setState({ searchText: searchText, skip: 0 });
+    clearInterval(this.searchInterval);
+    this.props.getAllCustomer(
+      this.state.limit,
+      this.state.skip,
+      this.state.filter,
+      this.state.searchText,
+      this.state.orderBy
+    );
+  }
+
+  render() {
+    const { tableData, loading, totalCount } = this.props.customerList;
+    //server side options
+    options.serverSide = true;
+    options.count = totalCount;
+    options.onTableInit = (action, tableState) => {
+      const limit = tableState.rowsPerPage;
+      const skip = tableState.page * tableState.rowsPerPage;
+      if (action == "tableInitialized") {
+        this.setState({
+          limit,
+          skip,
+          filters: tableState.filterList,
+          columns: tableState.columns
+        });
+        // Component did mount
+        this.props.getAllCustomer(limit, skip);
+      }
+    };
+    options.onTableChange = (action, tableState) => {
+      const limit = tableState.rowsPerPage;
+      const skip = tableState.page * tableState.rowsPerPage;
+      let filter;
+      switch (action) {
+        case "propsUpdate":
+          tableState.filterList = this.state.filters;
+          break;
+        case "changePage":
+        case "changeRowsPerPage":
+          filter = getFilters(tableState.filterList, tableState.columns);
+          this.setState({ limit, skip });
+          this.props.getAllCustomer(
+            limit,
+            skip,
+            filter,
+            this.state.searchText,
+            this.state.orderBy
+          );
+          break;
+      }
+    };
+
+    options.onFilterChange = (column, filterList, type) => {
+      if (type == "chip") {
+        var filter = getFilters(filterList, this.state.columns);
+        this.props.getAllCustomer(
+          this.state.limit,
+          this.state.skip,
+          filter,
+          this.state.searchText,
+          this.state.orderBy
+        );
+      }
+    };
+
+    options.onSearchChange = searchText => {
+      if (searchText == null) {
+        this.setState({ searchText: "" });
+        this.triggerSearch("");
+      } else if (searchText.length > 1) {
+        clearInterval(this.searchInterval);
+        this.searchInterval = setInterval(this.triggerSearch, 1000, searchText);
+      }
+    };
+
+    options.onSearchClose = () => {
+      this.setState({ searchText: "" });
+      this.triggerSearch("");
+    };
+
+    options.onColumnSortChange = (column, direction) => {
+      var orderString = column;
+      var sorted = { name: column };
+      if (direction == "descending") {
+        orderString += " DESC";
+        sorted.direction = "desc";
+      } else {
+        orderString += " ASC";
+        sorted.direction = "asc";
+      }
+      this.setState({
+        orderBy: [orderString],
+        sorted: sorted
+      });
+      this.props.getAllCustomer(
+        this.state.limit,
+        this.state.skip,
+        this.state.filter,
+        this.state.searchText,
+        [orderString]
+      );
+    };
+
+    options.sort = true;
+    options.search = true;
+    options.searchText = this.state.searchText;
+    options.filterType = "dropdown";
+    options.serverSideFilterList = this.state.serverSideFilterList;
+    options.customFilterDialogFooter = filterList => {
+      return (
+        <div style={{ marginTop: "40px" }}>
+          <Button
+            className="btn-success text-white"
+            variant="contained"
+            onClick={() => this.handleFilterSubmit(filterList)}
+          >
+            Search
+          </Button>
+        </div>
+      );
+    };
+
+    // Columns
+    const columns = [
+      {
+        name: "id",
+        options: { display: "excluded", filter: false, sort: false }
+      },
+      {
+        label: "Name",
+        name: "name",
+        options: {
+          customBodyRender: (value, tableMeta) => {
+            return (
+              <NavLink to={singleCustomer(tableMeta.rowData[0])}>
+                {value}
+              </NavLink>
+            );
+          },
+          filter: false,
+          sortDirection:
+            this.state.sorted.name == "name"
+              ? this.state.sorted.direction
+              : "none"
+        }
+      },
+      {
+        label: "Account",
+        name: "accountInfo",
+        options: {
+          customBodyRender: value => {
+            return value ? (
+              <NavLink to={singleAccount(value.id)}>{value.name}</NavLink>
+            ) : (
+              ""
+            );
+          }
+        }
+      },
+      {
+        label: "Last Contact",
+        name: "lastContact",
+        options: {
+          filter: false,
+          customBodyRender: value => {
+            return value ? getDateTime(value) : "";
+          }
+        }
+      },
+      {
+        label: "Email",
+        name: "email",
+        options: {
+          filter: false,
+          sortDirection:
+            this.state.sorted.name == "email"
+              ? this.state.sorted.direction
+              : "none"
+        }
+      },
+      {
+        label: "Mobile",
+        name: "mobile",
+        options: {
+          filter: false,
+          sortDirection:
+            this.state.sorted.name == "mobile"
+              ? this.state.sorted.direction
+              : "none"
+        }
+      },
+      { label: "Contact Type", name: "typeInfo" },
+      { label: "Source", name: "source" },
+      {
+        label: "Status",
+        name: "isActive",
+        options: {
+          customFilterListOptions: {
+            render: v => {
+              if (v) {
+                return "Active";
+              } else {
+                return "Not Active";
+              }
+            }
+          },
+          display: false,
+          customBodyRender: value => {
+            return <ActiveStatusBadge value={value} isActive={value} />;
+          }
+        }
+      },
+      {
+        label: "Owner",
+        name: "userInfo",
+        options: {
+          customBodyRender: value => {
+            return value ? value.name : "";
+          }
+          // filterOptions: {
+          //   logic: (location, filters) => {
+          //     if (filters.length) return !filters.includes(location);
+          //     return false;
+          //   },
+          //   display: (filterList, onChange, index, column) => {
+
+          //     const optionValues = ["Minneapolis", "New York", "Seattle"];
+          //     return (
+          //       <FormControl>
+          //         <InputLabel htmlFor="select-multiple-chip">
+          //           Location
+          //         </InputLabel>
+          //         <Select
+          //           multiple
+          //           value={filterList[index]}
+          //           renderValue={selected => selected.join(", ")}
+          //           onChange={event => {
+          //             filterList[index] = event.target.value;
+          //             onChange(filterList[index], index, column);
+          //           }}
+          //         >
+          //           {optionValues.map(item => (
+          //             <MenuItem key={item} value={item}>
+          //               <Checkbox
+          //                 color="primary"
+          //                 checked={filterList[index].indexOf(item) > -1}
+          //               />
+          //               <ListItemText primary={item} />
+          //             </MenuItem>
+          //           ))}
+          //         </Select>
+          //       </FormControl>
+          //     );
+          //   }
+          // }
+        }
+      },
+      {
+        label: "Office",
+        name: "phone",
+        options: {
+          display: false,
+          filter: false
+        }
+      },
+      {
+        label: "Nationality",
+        name: "nationality",
+        options: {
+          display: false,
+          filter: false
+        }
+      }
+    ];
+
+    const { title, optionProps, tableProps, tableStyles } = this.props;
+
+    return (
+      <div className="rct-block" {...tableStyles}>
+        <RecordsList
+          title={title}
+          columns={columns}
+          data={tableData}
+          options={{ ...options, ...optionProps }}
+          {...tableProps}
+        />
+        {loading && <RctSectionLoader />}
+      </div>
+    );
+  }
+}
+const mapStateToProps = ({ crmState }) => {
+  const { customerState } = crmState;
+  const { customerList } = customerState;
+  return { customerList };
 };
-
-export default CustomerList;
+export default connect(mapStateToProps, { getAllCustomer })(CustomerList);

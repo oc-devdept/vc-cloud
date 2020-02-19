@@ -12,9 +12,9 @@ import DealsPipelineReport from "./DealReports/DealsPipelineReport";
 import WonByOwnerReport from "./ClosedDealReports/WonByOwnerReport";
 
 // Lead Reports
-import LeadsByStatusReport from "./LeadReports/LeadsByStatusReport";
-import LeadsByOwnerReport from "./LeadReports/LeadsByOwnerReport";
-import LeadsBySourceReport from "./LeadReports/LeadsBySourceReport";
+// import LeadsByStatusReport from "./LeadReports/LeadsByStatusReport";
+// import LeadsByOwnerReport from "./LeadReports/LeadsByOwnerReport";
+// import LeadsBySourceReport from "./LeadReports/LeadsBySourceReport";
 
 // Acct Cust Reports
 import TopSpenderAccountReport from "./AcctCustReports/TopSpenderAccountReport";
@@ -46,12 +46,12 @@ const ReportRender = ({ componentToRender }) => {
     //===================
     // Lead Reports
     //===================
-    case "leadsByStatus":
-      return <LeadsByStatusReport />;
-    case "leadsByOwner":
-      return <LeadsByOwnerReport />;
-    case "leadsBySource":
-      return <LeadsBySourceReport />;
+    // case "leadsByStatus":
+    //   return <LeadsByStatusReport />;
+    // case "leadsByOwner":
+    //   return <LeadsByOwnerReport />;
+    // case "leadsBySource":
+    //   return <LeadsBySourceReport />;
 
     //===================
     // Acct Cust Reports

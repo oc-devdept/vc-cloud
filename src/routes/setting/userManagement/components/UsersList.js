@@ -6,9 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { PersonAdd, Edit } from "@material-ui/icons";
 
-import RctSectionLoader from "Components/RctSectionLoader";
-
-const UsersList = ({ tableData, loading, action }) => {
+const UsersList = ({ tableData, newUser, editUser }) => {
   const columns = [
     {
       label: "Name",
@@ -17,33 +15,33 @@ const UsersList = ({ tableData, loading, action }) => {
     { label: "Email", name: "email" },
     {
       label: "Mobile",
-      name: "baseContact",
-      options: { customBodyRender: value => (value ? value.mobile : "") }
+      name: "mobile"
+    },
+
+    {
+      label: "Actions",
+      name: "id",
+      options: {
+        filter: false,
+        customBodyRender: value => {
+          return (
+            <React.Fragment>
+              <Tooltip id="tooltip-icon" title="Edit User">
+                <IconButton
+                  aria-label="More Options"
+                  style={{ padding: 6 }}
+                  onClick={() => {
+                    editUser(value);
+                  }}
+                >
+                  <Edit style={{ fontSize: 16 }} />
+                </IconButton>
+              </Tooltip>
+            </React.Fragment>
+          );
+        }
+      }
     }
-    // {
-    //   label: "Actions",
-    //   name: "id",
-    //   options: {
-    //     filter: false,
-    //     customBodyRender: value => {
-    //       return (
-    //         <React.Fragment>
-    //           <Tooltip id="tooltip-icon" title="Edit Role">
-    //             <IconButton
-    //               aria-label="More Options"
-    //               style={{ padding: 6 }}
-    //               onClick={() => {
-    //                 action.openUserControlDialog(value);
-    //               }}
-    //             >
-    //               <Edit style={{ fontSize: 16 }} />
-    //             </IconButton>
-    //           </Tooltip>
-    //         </React.Fragment>
-    //       );
-    //     }
-    //   }
-    // }
   ];
 
   const options = {
@@ -59,11 +57,7 @@ const UsersList = ({ tableData, loading, action }) => {
     textLabels: { body: { noMatch: "No data to display" } },
     customToolbar: () => (
       <Tooltip id="tooltip-icon" title="Add User">
-        <IconButton
-          className="mr-2"
-          aria-label="Add User"
-          onClick={action.openAddUserDialog}
-        >
+        <IconButton className="mr-2" aria-label="Add User" onClick={newUser}>
           <PersonAdd />
         </IconButton>
       </Tooltip>
@@ -78,7 +72,6 @@ const UsersList = ({ tableData, loading, action }) => {
         data={tableData}
         options={options}
       />
-      {loading && <RctSectionLoader />}
     </BgCard>
   );
 };

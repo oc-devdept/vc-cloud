@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { show } from "redux-modal";
 // Global Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 //Page Components
 import RctPageLoader from "Components/RctPageLoader";
@@ -103,9 +103,7 @@ class crm_view_deal extends Component {
           <RctPageLoader />
         ) : deal ? (
           <React.Fragment>
-            <Helmet>
-              <title>Everyday | View Deal</title>
-            </Helmet>
+            <Helmet title="View Deal" />
             <PageTitleBar
               title="View Deal"
               actionGroup={{
@@ -160,14 +158,11 @@ const mapStateToProps = ({ crmState }) => {
   return { dealToView };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getSingleDeal,
-    clearSingleDeal,
-    show,
-    addNoteDeal,
-    deleteDeal,
-    transferDeal
-  }
-)(crm_view_deal);
+export default connect(mapStateToProps, {
+  getSingleDeal,
+  clearSingleDeal,
+  show,
+  addNoteDeal,
+  deleteDeal,
+  transferDeal
+})(crm_view_deal);

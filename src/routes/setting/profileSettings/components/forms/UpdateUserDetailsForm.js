@@ -30,7 +30,7 @@ class UpdateUserDetailsForm extends Component {
   }
 
   render() {
-    const { baseContact, email } = this.state;
+    const { baseContact, mobile, email } = this.state;
     return (
       <React.Fragment>
         {this.props.loading ? (
@@ -48,9 +48,9 @@ class UpdateUserDetailsForm extends Component {
 
                 <FormInput
                   label="Mobile"
-                  defaultValue={baseContact && baseContact.mobile}
+                  defaultValue={mobile}
                   target="mobile"
-                  handleChange={this.handleChangeBaseContact}
+                  handleChange={this.handleChange}
                 />
               </div>
               <div className="col-5 offset-md-1">
@@ -78,7 +78,4 @@ class UpdateUserDetailsForm extends Component {
   }
 }
 
-export default connect(
-  null,
-  { updateCurrentUser }
-)(UpdateUserDetailsForm);
+export default connect(null, { updateCurrentUser })(UpdateUserDetailsForm);

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { show } from "redux-modal";
 // Global Req
-import { Helmet } from "react-helmet";
+import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 //Page Components
 import RctPageLoader from "Components/RctPageLoader";
@@ -124,9 +124,7 @@ class crm_view_account extends Component {
       <RctPageLoader />
     ) : account ? (
       <React.Fragment>
-        <Helmet>
-          <title>Everyday | View Account</title>
-        </Helmet>
+        <Helmet title="View Account" />
         <PageTitleBar
           title="View Account"
           actionGroup={{
@@ -186,15 +184,12 @@ const mapStateToProps = ({ crmState }) => {
   return { accountToView };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    show,
-    getSingleAccount,
-    clearSingleAccount,
-    addNoteAccount,
-    setAccountActive,
-    deleteAccount,
-    transferAccount
-  }
-)(crm_view_account);
+export default connect(mapStateToProps, {
+  show,
+  getSingleAccount,
+  clearSingleAccount,
+  addNoteAccount,
+  setAccountActive,
+  deleteAccount,
+  transferAccount
+})(crm_view_account);
