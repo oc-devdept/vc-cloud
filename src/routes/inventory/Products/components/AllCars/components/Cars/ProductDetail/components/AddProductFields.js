@@ -14,7 +14,26 @@ export default class Index extends PureComponent {
             addItemInformation : {...this.props.Fields, value: ''}
         }
     }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        // Are we adding new items to the list?
+        // Capture the scroll position so we can adjust scroll later.
+        if (prevState.addItemInformation.id != this.props.Fields.id) {
+          return this.props.Fields
+        }
+        return null;
+      }
     
+      componentDidUpdate(prevProps, prevState, snapshot) {
+        // If we have a snapshot value, we've just added new items.
+        // Adjust scroll so these new items don't push the old ones out of view.
+        // (snapshot here is the value returned from getSnapshotBeforeUpdate)
+        if (snapshot !== null) {
+          this.setState({addItemInformation : {...this.props.Fields, value: ''}})
+        }
+      }
+    
+
     _HandleAddProductDetailValue =(e)=> {
         let addItemInformation = {...this.state.addItemInformation}
         addItemInformation.value = e
@@ -48,6 +67,7 @@ export default class Index extends PureComponent {
                         value={this.state.addItemInformation.value}
                         element={'value'}
                         _HandleProduct={this._HandleAddProductDetailValue}
+                        type="number"
                     />  
 
                     {/* <div style={{display:'flex', flexDirection:"column"}}>

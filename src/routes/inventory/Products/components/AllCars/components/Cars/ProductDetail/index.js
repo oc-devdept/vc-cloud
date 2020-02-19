@@ -113,9 +113,6 @@ export default class Index extends Component {
                         <div style={{minWidth: 90,}}>
                         <span style={{color:"white"}}>UNIT</span>
                         </div>
-                        {/* <div style={{minWidth: 90,}}>
-                        <span style={{color:"white",}}>EDIT</span>
-                        </div> */}
                         <div style={{minWidth: 90,}}>
                         <span style={{color:"white"}}>DELETE</span>
                         </div>
@@ -258,13 +255,11 @@ export default class Index extends Component {
                     </div>
 
                     {this.state.addItem && 
-                        <div style={{}}>
-                            <AddProductFields
-                                Fields={this.state.addItemInformation}
-                                _HandleSaveProductDetail = {this._HandleSaveProductDetail}
-                                _HandleCancelProductDetail = {this._HandleCancelProductDetail}
-                            />
-                        </div>
+                        <AddProductFields
+                            Fields={this.state.addItemInformation}
+                            _HandleSaveProductDetail = {this._HandleSaveProductDetail}
+                            _HandleCancelProductDetail = {this._HandleCancelProductDetail}
+                        />
                     }
                     
                 </div>
