@@ -5,13 +5,6 @@ import api from "Api";
 //Page req
 import RecordsList from "Components/RecordsList";
 
-import BgCard from "Components/BgCard";
-import RctSectionLoader from "Components/RctSectionLoader";
-import {Edit, Delete, ExpandMore} from '@material-ui/icons'
-
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-
 export default class Index extends PureComponent {
 
   state=({
@@ -39,7 +32,6 @@ export default class Index extends PureComponent {
   
     const { loading, title, tableData, ToggleDialog } = this.props
 
-    console.log(tableData)
     let columns
     if(tableData.length > 1){
      columns = [

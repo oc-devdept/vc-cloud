@@ -1,16 +1,14 @@
 import React, { Component, PureComponent } from "react";
+import { NotificationManager } from "react-notifications";
 import api from "Api";
-
 
 import TagList from './components/TagList'
 import Tags from './components/tags'
 
 import DialogRoot from "Components/Dialog/DialogRoot";
 
-
 class index extends PureComponent {
 
- 
     state=({
         Tags: [],
         Value: '',
@@ -21,7 +19,6 @@ class index extends PureComponent {
         data: null,
     })
 
-
     async componentDidMount() {
         try {
             const Tags =  await api.get(`/tags`)
@@ -31,12 +28,11 @@ class index extends PureComponent {
         }    
     }
 
-    _SaveTagsDone = async(Value) => {
+    _SaveTagsDone = async() => {
         await this.setState({loading: true})
         const Tags =  await api.get(`/tags`)
         await this.setState({Value: '', Tags: Tags.data, loading: false})
     }
-
 
     _HandleDeleteTags = async(e) => {
 
@@ -65,11 +61,6 @@ class index extends PureComponent {
             })
         )
     }
-
-
-
-
-
 
     _RenderDialog = () => {
         if(this.state.toggle){
@@ -135,6 +126,16 @@ class index extends PureComponent {
         this.setState({element: element, toggle: !this.state.toggle, data: data, makeId: makeId})
     }
 
+    _DeleteTags = async(id, element) => {
+        if(element > 0){
+            NotificationManager.warning('You cannot delete if you have models in your category, please delete them all before proceeding.')
+        } else {
+            await api.delete(`tags/${id}`);
+            await this._SaveTagsDone()
+            NotificationManager.success('You have successfully deleted the item')
+        }
+    }
+   
 
     render() {
         
@@ -154,6 +155,7 @@ class index extends PureComponent {
                                     title={'Car Tags'}
                                     tableData={this.state.Tags}
                                     ToggleDialog={this.ToggleDialog}
+                                    _DeleteTags={this._DeleteTags}
                                 />
                             </div>
                         }
@@ -164,6 +166,7 @@ class index extends PureComponent {
                                     title={'Car Tags'}
                                     tableData={this.state.Tags}
                                     ToggleDialog={this.ToggleDialog}
+                                    _DeleteTags={this._DeleteTags}
                                 />
                             </div> 
                         }

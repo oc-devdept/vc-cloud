@@ -319,7 +319,7 @@ class index extends PureComponent {
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
                                 title="CAR PRODUCT OPTION ITEM"
-                                placeholder="Enter a new Car Product Option Item (e.g Bose Speaker Model Xl)"
+                                placeholder="(e.g Bose Speaker Model Xl)"
                                 value={this.state.Item.name}
                                 element={'name'}
                                 _HandleProduct={this._HandleProduct}
@@ -332,6 +332,7 @@ class index extends PureComponent {
                                 placeholder="Enter the price here"
                                 value={this.state.Item.price}
                                 element={'price'}
+                                type="number"
                                 _HandleProduct={this._HandleProduct}
                             />  
 
@@ -488,6 +489,7 @@ class index extends PureComponent {
                                 value={this.state.Item.price}
                                 element={'price'}
                                 _HandleProduct={this._HandleProduct}
+                                type="number"
                             />  
 
                         </div>

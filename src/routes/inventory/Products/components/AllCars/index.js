@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import { NotificationManager } from "react-notifications";
 import api from "Api";
 
 import CarList from "./components/CarList";
@@ -15,7 +16,6 @@ class index extends PureComponent {
         this.state=({
             Products: [],
             loading: true,
-
             toggle: false,
             element : null,
             groupName: null,
@@ -26,6 +26,7 @@ class index extends PureComponent {
 
     async componentDidMount() {
         try {
+            this.setState({loading: true})
             await this._FetchProductsAPI()       
         } catch (e) {
             this.setState({Products: [], loading: false})
@@ -37,10 +38,16 @@ class index extends PureComponent {
             const ModelGrade = await api.get(`categories/ModelGrade`);  
             return this.setState({Products: ModelGrade.data.fields, loading: false})
         } catch (e) {
-            console.log('error')
-            console.log(e)
+            console.log('error', e)
+            this.setState({loading:false})
         }
        
+    }
+
+    _DeleteCar = async(id) =>{
+        await api.post(`products/deleteSpecificProductGrade`, {data: id});  
+        await this._FetchProductsAPI()  
+        NotificationManager.success('You have successfully deleted a grade')
     }
 
 
@@ -112,6 +119,7 @@ class index extends PureComponent {
                   borderRadius={"0px"}
                   boxShadow={"none"}
                   ToggleDialog={this.ToggleDialog}
+                  DeleteCar={this._DeleteCar}
                 />
 
                 {this._RenderDialog()}

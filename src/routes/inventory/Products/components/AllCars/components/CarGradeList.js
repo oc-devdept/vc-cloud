@@ -4,16 +4,9 @@ import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
-
-import BgCard from "Components/BgCard";
-import RctSectionLoader from "Components/RctSectionLoader";
-
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-
-// import Car from './Car'
-
 import Image from 'Components/Image'
+import {Edit, Delete, ExpandMore} from '@material-ui/icons'
+
 
 export default class Index extends PureComponent {
 
@@ -96,9 +89,38 @@ export default class Index extends PureComponent {
             return value
           }
         }
-      }
-  
-    ]
+      },
+      {
+        name: "EDIT",
+        options: {
+            filter: true,
+            sort: false,
+            empty: true,
+            customBodyRender: (rowData, rowState) => {
+                return (
+                    <Edit
+                      onClick={() => this.props.ToggleDialog('Selected_Grade', rowState.rowData[0])}
+                    />
+                );
+            }
+        }
+      },
+      {
+        name: "DELETE",
+        options: {
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+              return (
+                  <Delete
+                    onClick={() => this.props.DeleteCar(rowState.rowData[0])}
+                  />
+            );
+          }
+        }
+      },
+  ]
 
     const listOptions = {
       filterType: "dropdown",
@@ -110,7 +132,7 @@ export default class Index extends PureComponent {
       viewColumns: false,
       search: false,
       filter: false,
-      onRowClick: (rowData, rowState) => this.props.ToggleDialog('Selected_Grade', rowData[0])
+      // onRowClick: (rowData, rowState) => this.props.ToggleDialog('Selected_Grade', rowData[0])
     };
 
     return (

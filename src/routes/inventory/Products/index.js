@@ -1,15 +1,11 @@
 import React, { Component } from "react";
-import { Tabs, Tab, Panel } from '@bumaga/tabs' 
-import api from "Api";
 
 import { Helmet } from "react-helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
+import ProfileTabs from "Components/Layout/ProfileTabs";
 
 
 import AllCars from './components/AllCars'
-// import AddNewCar from './components/AddNewCar'
-
-import ProfileTabs from "Components/Layout/ProfileTabs";
 import ProductCard from "./components/ProductCard"
 
 
@@ -42,7 +38,7 @@ class AllProducts extends Component {
                     <AllCars/>
                   </div>
 
-                  <div label="Test">
+                  <div label="Dashboard">
                     
                   </div>
                 </ProfileTabs>

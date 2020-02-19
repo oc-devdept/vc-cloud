@@ -32,7 +32,7 @@ export default class Index extends PureComponent {
  
   render () {
   
-    const {title, ToggleDialog } = this.props
+    const {title, ToggleDialog, _DeleteModel } = this.props
 
     const columns = [
       {
@@ -98,6 +98,21 @@ export default class Index extends PureComponent {
         }
       },
       {
+        name: "DELETE",
+        options: {
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+              return (
+                  <Delete
+                    onClick={() => _DeleteModel(rowState.rowData[0], rowState.rowData[9]? rowState.rowData[9].length: 0)}
+                  />
+            );
+          }
+        }
+      },
+      {
         name: "header",
         options: { display: "excluded", filter: false, sort: false }
       },
@@ -105,22 +120,10 @@ export default class Index extends PureComponent {
         name: "images",
         options: { display: "excluded", filter: false, sort: false }
       },
-      // {
-      //   name: "DELETE",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //             <Delete
-      //               onClick={() => ToggleDialog('Delete_Model', rowState.rowData)}
-      //             />
-      //           );
-      //       }
-      //   }
-      // },
-    
+      {
+        name: "product",
+        options: { display: "excluded", filter: false, sort: false }
+      },    
     ]
 
     const listOptions = {

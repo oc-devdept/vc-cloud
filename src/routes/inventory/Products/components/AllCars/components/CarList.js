@@ -4,16 +4,13 @@ import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
-
-import BgCard from "Components/BgCard";
-import RctSectionLoader from "Components/RctSectionLoader";
-
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
 // import Car from './Car'
 import CarGradeList from './CarGradeList'
 import Image from 'Components/Image'
+
 
 
 export default class Index extends PureComponent {
@@ -142,6 +139,7 @@ export default class Index extends PureComponent {
                   borderRadius={"0px"}
                   boxShadow={"none"}
                   ToggleDialog={this.props.ToggleDialog}
+                  DeleteCar={this.props.DeleteCar}
                 />
 
             </TableCell>

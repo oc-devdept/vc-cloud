@@ -76,10 +76,7 @@ class index extends PureComponent {
         await this.props._RestartToggle()
     }
 
-    _DeleteTags = async() => {
-        console.log(this.state.Tags)
-    }
-   
+ 
     _OnChange = (e, element) => { 
         let Tags = {...this.state.Tags}
         Tags[element] = e
@@ -101,14 +98,6 @@ class index extends PureComponent {
                 break
             default:
                 Body = (
-                    // <div style={{display:'flex', flexDirection:"column", paddingTop: 10, paddingBottom: 10}}>
-                    //     <span>CAR TAG VALUE FOR MODEL</span>
-                    //     <input type="text" placeholder={"Enter a new Car Tag Value for Model here (e.g SUV)"} value={this.state.Tags.value} onChange={(e) =>{
-                    //         let Tags = {...this.state.Tags}
-                    //         Tags.value = e.target.value
-                    //         this.setState({Tags: Tags})
-                    //     }}/>
-                    // </div>
                     <Input
                         divStyle={{width: '100%', paddingTop: 10, paddingBottom:10}}
                         title="CAR TAG VALUE FOR MODEL"
@@ -126,9 +115,6 @@ class index extends PureComponent {
         switch(this.props.Action){
             case "Create":
                 SaveButton = (
-                    // <div style={{display:'flex', justifyContent:'flex-end'}}>
-                    //     <button onClick={this._SaveTags}>{this.state.Button}</button>
-                    // </div>
                     <Button
                       divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
                       _Function={this._SaveTags}
@@ -141,9 +127,6 @@ class index extends PureComponent {
 
             case "Edit" :
                 SaveButton = (
-                    // <div style={{display:'flex', justifyContent:'flex-end'}}>
-                    //     <button onClick={this._EditTags}>{this.state.Button}</button>
-                    // </div>
                     <Button
                         divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
                         _Function={this._EditTags}
@@ -155,9 +138,6 @@ class index extends PureComponent {
                 break
             default:
                 SaveButton = (
-                    // <div style={{display:'flex', justifyContent:'flex-end'}}>
-                    //     <button onClick={this._EditTags}>{this.state.Button}</button>
-                    // </div>
                     <Button
                         divStyle={{display:'flex', justifyContent:'flex-end', marginTop: 10, marginBottom: 10}}
                         _Function={this._EditTags}
