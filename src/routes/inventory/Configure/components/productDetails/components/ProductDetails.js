@@ -154,15 +154,6 @@ class index extends PureComponent {
    
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
-                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT DETAIL ITEM</span>
-                                <input type="text" placeholder={"Enter Product Detail (e.g Air Bags)"} value={this.state.ProductDetail.name} onChange={(e) =>{
-                                    let ProductDetail = {...this.state.ProductDetail}
-                                    ProductDetail.name = e.target.value
-                                    this.setState({ProductDetail: ProductDetail})
-                                }}/>
-                            </div> */}
-
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
                                 title="CAR PRODUCT DETAIL ITEM"
