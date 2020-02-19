@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 // routes
-import * as url from "Helpers/marketingUrl";
+import * as url from "Helpers/marketingURL";
 // async components
 import * as async from "./AsyncRoutes";
 
@@ -39,3 +39,4 @@ function marketingSwitcher() {
 }
 
 export default marketingSwitcher;
+

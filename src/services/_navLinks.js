@@ -17,7 +17,6 @@ import {
   inventoryPage,
   allCarsPage,
   configurePage,
-  bookingSystemPage
 } from "Helpers/inventoryURL";
 
 import {
