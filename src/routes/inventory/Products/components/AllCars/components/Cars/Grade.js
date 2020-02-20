@@ -5,9 +5,7 @@ import { Add, Remove } from "@material-ui/icons";
 
 
 import api from "Api";
-
 import BgCard from "Components/BgCard";
-
 import ProductVariant from './ProductVariant/index'
 import ProductDetail from './ProductDetail/index'
 import ProductOption from './ProductOption/index'

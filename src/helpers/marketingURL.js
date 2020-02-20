@@ -10,3 +10,4 @@ export const marketingListPage = "/app/marketing/list";
 export const campaignPage = "/app/marketing/campaign";
 export const newCampaignPage = "/app/marketing/campaign/new";
 export const marketingTemplatePage = "/app/marketing/template";
+ 

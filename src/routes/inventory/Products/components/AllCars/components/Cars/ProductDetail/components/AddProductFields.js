@@ -6,6 +6,13 @@ import Button from 'Components/Inventory/Button'
 import StaticName from 'Components/Inventory/StaticName'
 
 
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+
+const BooleanOption = ['Yes', "No"]
+
 export default class Index extends PureComponent {
 
     constructor(props) {
@@ -40,6 +47,80 @@ export default class Index extends PureComponent {
         this.setState({addItemInformation: addItemInformation})
     }
 
+
+    _HandleAddProductDetailValueBoolean =(e)=> {
+        let addItemInformation = {...this.state.addItemInformation}
+        addItemInformation.value = e.target.value
+        this.setState({addItemInformation: addItemInformation})
+    }
+
+    _RenderTypeInput = (type) => {
+        let component = null
+
+        switch(type){
+            case "String":
+                component =(
+                    <Input
+                        divStyle={{width: '100%', marginRight: 30}}
+                        title="INPUT VALUE"
+                        placeholder="e.g 890"
+                        value={this.state.addItemInformation.value}
+                        element={'value'}
+                        _HandleProduct={this._HandleAddProductDetailValue}
+                    /> 
+                )
+                break
+            case "Number":
+                component =(
+                    <Input
+                        divStyle={{width: '100%', marginRight: 30}}
+                        title="INPUT VALUE"
+                        placeholder="e.g 890"
+                        value={this.state.addItemInformation.value}
+                        element={'value'}
+                        _HandleProduct={this._HandleAddProductDetailValue}
+                        type="number"
+                    /> 
+                )
+                break
+            case "Boolean":
+                component =(
+                    <FormControl style={{width: '50%'}}>
+                        <StaticName title={"INPUT VALUE"}/>
+                        <Select 
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            value={this.state.addItemInformation.value}
+                            onChange={this._HandleAddProductDetailValueBoolean}
+                            style={{minWidth: 100, marginLeft: 5}}
+                        >
+                        
+                            {BooleanOption.map((e, index) => {
+                                return <MenuItem key={index} value={e}>{e}</MenuItem>
+                            })}
+                        
+                        </Select>
+                    </FormControl>
+                )
+                break
+
+            default:break
+        }
+
+        return component
+    }
+
+    // <Input
+    //     divStyle={{width: '100%', marginRight: 30}}
+    //     title="INPUT VALUE"
+    //     placeholder="e.g 890"
+    //     value={this.state.addItemInformation.value}
+    //     element={'value'}
+    //     _HandleProduct={this._HandleAddProductDetailValue}
+    //     type="number"
+    // /> 
+
+
     render () {
 
         // const e = this.props.Fields
@@ -60,26 +141,17 @@ export default class Index extends PureComponent {
                         value={this.state.addItemInformation.value} onChange={this._HandleAddProductDetailValue} />
                     </div> */}
 
-                    <Input
-                        divStyle={{width: '100%', marginRight: 30}}
-                        title="INPUT VALUE"
-                        placeholder="e.g 890"
-                        value={this.state.addItemInformation.value}
-                        element={'value'}
-                        _HandleProduct={this._HandleAddProductDetailValue}
-                        type="number"
-                    />  
+                    {this._RenderTypeInput(this.state.addItemInformation.type)}
+                    
 
-                    {/* <div style={{display:'flex', flexDirection:"column"}}>
-                        <span>UNIT OF MEASUREMENT</span>
-                        <span>{e.value2}</span>  
-                    </div> */}
-                   
                     <Text
                         divStyle={{width: '30%'}}
                         title="UNIT OF MEASUREMENT"
                         value={this.state.addItemInformation.unit}
                     />
+
+
+                    
 
                 </div>
 
