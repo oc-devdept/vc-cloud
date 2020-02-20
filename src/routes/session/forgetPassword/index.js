@@ -51,7 +51,7 @@ class forgetpassword extends Component {
                   style={{ marginBottom: 25, textAlign: "left" }}
                 >
                   <img
-                    src={require("Assets/img/appLogo_orig_light.png")}
+                    src={require("Assets/img/logo-dark.png")}
                     alt="site logo"
                     width="150"
                   />

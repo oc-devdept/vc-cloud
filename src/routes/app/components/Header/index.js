@@ -55,7 +55,7 @@ function Header(props) {
             <div className="site-logo">
               <Link to="/" className="logo-mini">
                 <img
-                  src={require("Assets/img/appLogo_orig_light.png")}
+                  src={require("Assets/img/logo-dark.png")}
                   alt="site logo"
                   width="90"
                 />
