@@ -32,12 +32,12 @@ export default [
     name: "HomeBase",
     child_routes: []
   },
-  {
-    url: "/app/calendar",
-    baseUrl: "/app/calendar",
-    name: "Calendar",
-    child_routes: []
-  },
+  // {
+  //   url: "/app/calendar",
+  //   baseUrl: "/app/calendar",
+  //   name: "Calendar",
+  //   child_routes: []
+  // },
   {
     url: "/app/crm/customers",
     baseUrl: "/app/crm",
