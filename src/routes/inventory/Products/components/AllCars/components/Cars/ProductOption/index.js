@@ -206,17 +206,17 @@ export default class Index extends Component {
                     
                     </div>
 
-                    <div style={{padding: 20}}>
+                    <div style={{padding: 20, }}>
                         <div style={{paddingBottom: 20, paddingTop: 20}}>
                             <span>ADD A NEW CAR PRODUCT ITEM BELOW</span>
                         </div>
 
                         {this.state.ProductOptionCategories.length> 0 && 
-                            <div style={{display:'flex', flexDirection:"column"}}>
+                            <div style={{display:'flex', flexDirection:"column", }}>
                 
                                 <span>Please select the Car Product Item below</span>                               
 
-                                <div className="d-flex" style={{flexDirection:"row", marginTop: 10}}>
+                                <div className="d-flex flex-wrap" style={{flexDirection:"column", marginTop: 10, overflow:'auto'}}>
                                     {this.state.ProductOptionCategories[this.state.productOptionStage].objects.map((each, indexes) =>{
 
                                     let contain = false
@@ -225,7 +225,7 @@ export default class Index extends Component {
                                         if(Car.length > 0){
                                             Car.map(e => {
                                                 if(each){
-                                                    if(e.productOption.name == each.name){
+                                                    if(e.productOption.id == each.id){
                                                         contain = true
                                                     }
                                                 }
@@ -237,29 +237,31 @@ export default class Index extends Component {
 
                                     if(each){
                                         if(contain) {
-                                            style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, opacity: 0.3}
+                                            style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, opacity: 0.3, marginBottom: 2.5, marginTop: 2.5}
                                             return (
                                                 <div key={indexes} style={style}>
-                                                    {each.name}
+                                                    {each.name} {each.price}SGD
                                                 </div>
                                             )
+
                                         } else {
 
-                                            
                                             if(this.state.addItemInformation){
-                                                if(this.state.addItemInformation.name == each.name){
-                                                    style = {backgroundColor: 'rgba(74,74,74,1.0)', color:'white', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5}
+
+                                                if(this.state.addItemInformation.id == each.id){
+                                                    style = {backgroundColor: 'rgba(74,74,74,1.0)', color:'white', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, marginBottom: 2.5, marginTop: 2.5}
                                                 } else {
-                                                    style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5}
-                                                }            
+                                                    style = { border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, marginBottom: 2.5, marginTop: 2.5}
+                                                }   
+
                                             } else {
-                                                style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5}
+                                                style = {border:'1px solid black', borderRadius: 5, marginRight: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 2.5, paddingBottom: 2.5, marginBottom: 2.5, marginTop: 2.5}
                                             }
                                         
 
                                             return (
                                                 <div onClick={() => this._HandleAddNewItem(each)} key={indexes} style={style}>
-                                                    {each.name}
+                                                    {each.name} {each.price}SGD
                                                 </div>
                                             )
                                         }
