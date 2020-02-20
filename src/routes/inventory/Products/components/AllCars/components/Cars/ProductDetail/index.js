@@ -71,7 +71,7 @@ export default class Index extends Component {
                         </div>
                         <div style={{display:'flex', justifyContent:'space-evenly', flexDirection:'row', flex: 1}}>
                             <div style={{minWidth: 90,}}>
-                            <span style={{color:"white"}}>AMOUNT</span>
+                            <span style={{color:"white"}}>VALUE</span>
                             </div>
                             <div style={{minWidth: 90,}}>
                             <span style={{color:"white"}}>UNIT</span>
@@ -108,7 +108,7 @@ export default class Index extends Component {
                     </div>
                     <div style={{display:'flex', justifyContent:'space-evenly', flexDirection:'row', flex: 1}}>
                         <div style={{minWidth: 90,}}>
-                        <span style={{color:"white"}}>AMOUNT</span>
+                        <span style={{color:"white"}}>VALUE</span>
                         </div>
                         <div style={{minWidth: 90,}}>
                         <span style={{color:"white"}}>UNIT</span>

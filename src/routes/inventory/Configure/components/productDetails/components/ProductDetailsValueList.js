@@ -50,7 +50,15 @@ export default class Index extends PureComponent {
           }
         }
       },
-
+      {
+        label: "Type",
+        name: "type",
+        options: {
+          customBodyRender: value => {
+            return value;
+          }
+        }
+      },
       {
         name: "EDIT",
         options: {
@@ -61,7 +69,8 @@ export default class Index extends PureComponent {
                 const data = {
                   id: rowState.rowData[0],
                   name: rowState.rowData[2],
-                  unit:  rowState.rowData[3]
+                  unit:  rowState.rowData[3],
+                  type:  rowState.rowData[4]
                 }
                 return (
                     <Edit
@@ -81,7 +90,8 @@ export default class Index extends PureComponent {
                 const data = {
                   id: rowState.rowData[0],
                   name: rowState.rowData[2],
-                  unit:  rowState.rowData[3]
+                  unit:  rowState.rowData[3],
+                  type:  rowState.rowData[4]
                 }
                 return (
                   <Delete

@@ -6,8 +6,14 @@ import { Cancel } from "@material-ui/icons";
 import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
+import StaticName from 'Components/Inventory/StaticName'
+
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
+const TypeOption = ['String', "Number", "Boolean"]
 
 class index extends PureComponent {
 
@@ -19,11 +25,13 @@ class index extends PureComponent {
         let Button = ""
         let Category = {
             id: '',
-            name: ''
+            name: '',
+            type: '',
         }
         let ProductDetail = {
             name:'',
             unit: '',
+            type: '',
         }
 
         switch(this.props.Action){
@@ -40,7 +48,8 @@ class index extends PureComponent {
                 ProductDetail = {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
-                    unit: this.props.Data.unit
+                    unit: this.props.Data.unit,
+                    type: this.props.Data.type
                 }
                 Button = "SAVE CHANGES"
                 break
@@ -49,7 +58,8 @@ class index extends PureComponent {
                 ProductDetail = {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
-                    unit: this.props.Data.unit
+                    unit: this.props.Data.unit,
+                    type: this.props.Data.type
                 }
                 Button = "CONFIRM DELETE"
                 break
@@ -75,6 +85,7 @@ class index extends PureComponent {
             {
                 name: ProductDetail.name,
                 unit: ProductDetail.unit,
+                type: ProductDetail.type,
                 productDetailCategoryId: productDetailCategoryId
             }
         ); 
@@ -108,6 +119,11 @@ class index extends PureComponent {
     }
 
 
+    _changeType = (e) => {
+        let ProductDetail = {...this.state.ProductDetail}
+        ProductDetail.type = e.target.value
+        this.setState({ProductDetail: ProductDetail})
+    }
 
     render() {
 
@@ -120,27 +136,24 @@ class index extends PureComponent {
                         <span>{`ARE YOU SURE YOU LIKE TO DELETE THE FOLLOWING?`}<br/><span style={{fontWeight: '600'}}>YOU CANNOT UNDO THIS ACTION</span> </span>
                         
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
-                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT DETAIL NAME</span>
-                                <span>{this.state.ProductDetail.name}</span>
-                            </div> */}
-
+                          
                             <Text
                                 divStyle={{width: '100%'}}
                                 title="CAR PRODUCT DETAIL NAME"
                                 value={this.state.ProductDetail.name}
                             />
 
-                            {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>UNITS OF MEASUREMENT</span>
-                                <span>{this.state.ProductDetail.value2}</span>
-                            </div> */}
                             <Text
                                 divStyle={{width: '100%'}}
                                 title="UNITS OF MEASUREMENT"
                                 value={this.state.ProductDetail.unit}
                             />
 
+                            <Text
+                                divStyle={{width: '100%'}}
+                                title="UNIT TYPE"
+                                value={this.state.ProductDetail.type}
+                            />
 
                         </div>
 
@@ -163,17 +176,8 @@ class index extends PureComponent {
                                 _HandleProduct={this._HandleProduct}
                             />  
 
-                            {/* 
-                            <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>UNITS OF MEASUREMENT</span>
-                                <input type="text" placeholder={"Enter Product Measurement (e.g units / km/h)"} value={this.state.ProductDetail.value2} onChange={(e) =>{
-                                    let ProductDetail = {...this.state.ProductDetail}
-                                    ProductDetail.value2 = e.target.value
-                                    this.setState({ProductDetail: ProductDetail})
-                                }}/>
-                            </div> */}
                             <Input
-                                divStyle={{width: '100%'}}
+                                divStyle={{width: '100%', marginRight: 30}}
                                 title="UNITS OF MEASUREMENT"
                                 placeholder="Enter Product Measurement (e.g units / km/h)"
                                 value={this.state.ProductDetail.unit}
@@ -181,6 +185,22 @@ class index extends PureComponent {
                                 _HandleProduct={this._HandleProduct}
                             />  
                               
+                            <FormControl style={{width: '100%'}}>
+                                <StaticName title={"UNIT TYPES"}/>
+                                <Select 
+                                    labelId="demo-simple-select-helper-label"
+                                    id="demo-simple-select-helper"
+                                    value={this.state.ProductDetail.type ? this.state.ProductDetail.type : ''}
+                                    onChange={this._changeType}
+                                    style={{minWidth: 100, marginLeft: 5}}
+                                >
+                                
+                                    {TypeOption.map((e, index) => {
+                                        return <MenuItem key={index} value={e}>{e}</MenuItem>
+                                    })}
+                                
+                                </Select>
+                            </FormControl>
 
                         </div>
 
@@ -212,7 +232,7 @@ class index extends PureComponent {
                                 <Input
                                     divStyle={{width: '100%', marginRight: 30}}
                                     title="CAR PRODUCT DETAIL ITEM"
-                                    placeholder="Enter Product Detail (e.g Air Bags)"
+                                    placeholder="e.g Air Bags"
                                     value={this.state.ProductDetail.name}
                                     element={'name'}
                                     _HandleProduct={this._HandleProduct}
@@ -220,13 +240,40 @@ class index extends PureComponent {
                               
 
                                 <Input
-                                    divStyle={{width: '100%'}}
+                                    divStyle={{width: '100%', marginRight: 30}}
                                     title="UNITS OF MEASUREMENT"
-                                    placeholder="Enter Product Measurement (e.g units / km/h)"
+                                    placeholder="e.g Units"
                                     value={this.state.ProductDetail.unit}
                                     element={'unit'}
                                     _HandleProduct={this._HandleProduct}
                                 />  
+
+                                {/* <Input
+                                    divStyle={{width: '100%'}}
+                                    title="UNIT TYPES"
+                                    placeholder=""
+                                    value={this.state.ProductDetail.type}
+                                    element={'unit'}
+                                    _HandleProduct={this._HandleProduct}
+                                />  */}
+
+                                <FormControl style={{width: '100%'}}>
+                                    <StaticName title={"UNIT TYPES"}/>
+                                    <Select 
+                                        labelId="demo-simple-select-helper-label"
+                                        id="demo-simple-select-helper"
+                                        value={this.state.ProductDetail.type ? this.state.ProductDetail.type : ''}
+                                        onChange={this._changeType}
+                                        style={{minWidth: 100, marginLeft: 5}}
+                                    >
+                                    
+                                        {TypeOption.map((e, index) => {
+                                            return <MenuItem key={index} value={e}>{e}</MenuItem>
+                                        })}
+                                    
+                                    </Select>
+                                </FormControl>
+
                             </div>
 
            

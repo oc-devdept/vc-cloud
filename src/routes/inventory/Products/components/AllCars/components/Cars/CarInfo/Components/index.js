@@ -102,7 +102,7 @@ class Grade extends PureComponent {
                 <Input
                   divStyle={{width: '30%'}}
                   title="SELLING PRICE"
-                  placeholder="e.g Selling Price"
+                  placeholder="e.g 33310"
                   value={Product.selling_Price ? Product.selling_Price : ''}
                   element={'selling_Price'}
                   _HandleProduct={_HandleProduct}
