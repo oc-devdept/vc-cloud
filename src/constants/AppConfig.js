@@ -2,7 +2,7 @@
  * App Config File
  */
 const AppConfig = {
-  appLogo: require("Assets/img/appLogo_orig_light.png"), // App Logo
+  appLogo: require("Assets/img/logo-dark.png"), // App Logo
   tagLine: "",
   brandName: "Venture Cars Admin Panel", // Brand Name
   locale: {

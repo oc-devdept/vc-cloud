@@ -31,14 +31,14 @@ export default class Index extends PureComponent {
         return null;
       }
     
-      componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         // If we have a snapshot value, we've just added new items.
         // Adjust scroll so these new items don't push the old ones out of view.
         // (snapshot here is the value returned from getSnapshotBeforeUpdate)
         if (snapshot !== null) {
-          this.setState({addItemInformation : {...this.props.Fields, value: ''}})
+            this.setState({addItemInformation : {...this.props.Fields, value: ''}})
         }
-      }
+    }
     
 
     _HandleAddProductDetailValue =(e)=> {
