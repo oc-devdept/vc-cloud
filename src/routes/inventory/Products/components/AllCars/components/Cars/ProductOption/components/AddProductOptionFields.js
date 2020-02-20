@@ -11,15 +11,37 @@ import StaticName from 'Components/Inventory/StaticName'
 
 
 export default class Index extends PureComponent {
-
+    
     constructor(props) {
         super(props);
         this.state = {
-            addItemInformation : this.props.Fields
+            addItemInformation : {...this.props.Fields}
         }
     }
-    
 
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        // Are we adding new items to the list?
+        // Capture the scroll position so we can adjust scroll later.
+        if (prevState.addItemInformation.id != this.props.Fields.id) {
+          return this.props.Fields
+        }
+        return null;
+    }
+    
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // If we have a snapshot value, we've just added new items.
+        // Adjust scroll so these new items don't push the old ones out of view.
+        // (snapshot here is the value returned from getSnapshotBeforeUpdate)
+        if (snapshot !== null) {
+            this.setState({addItemInformation : {...this.props.Fields}})
+        }
+    }
+
+    _HandleAddProductDetailValue =(e)=> {
+        let addItemInformation = {...this.state.addItemInformation}
+        addItemInformation.price = e
+        this.setState({addItemInformation: addItemInformation})
+    }
 
     render () {
 
@@ -28,6 +50,8 @@ export default class Index extends PureComponent {
         if(!e){
             return null
         }
+
+        // console.log(e)
 
         return (
             <div className="d-flex" style={{flexDirection:"column", paddingLeft: 20, paddingRight: 20, paddingBottom: 20}}>
@@ -51,8 +75,21 @@ export default class Index extends PureComponent {
                         title="PRICE"
                         value={`${e.price} SGD`}
                     />
-
+                    {/* <Input
+                        divStyle={{width: '100%', marginRight: 30}}
+                        title="PRICE"
+                        placeholder="e.g 890"
+                        value={e.price}
+                        element={'value'}
+                        _HandleProduct={this._HandleAddProductDetailValue}
+                        type="number"
+                    />  */}
                     <Text
+                        divStyle={{width: '100%'}}
+                        title="DESCRIPTION"
+                        value={`${e.description}`}
+                    />
+                    {/* <Text
                         divStyle={{width: '30%'}}
                         title="IsDefault"
                         value={`${e.isDefault}`}
@@ -62,7 +99,7 @@ export default class Index extends PureComponent {
                         divStyle={{width: '30%'}}
                         title="Editable"
                         value={`${e.editable}`}
-                    />
+                    /> */}
 
 
                     {/* <div style={{display:'flex', flexDirection:"column", marginRight: 20}}>
