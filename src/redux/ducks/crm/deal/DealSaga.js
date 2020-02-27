@@ -163,6 +163,7 @@ function* patchDealToDB({ payload }) {
 }
 function* deleteDealFromDB({ payload }) {
   try {
+    yield call(deleteDealRequest, payload);
     yield delay(500);
     yield put(actions.deleteDealSuccess(payload));
   } catch (error) {

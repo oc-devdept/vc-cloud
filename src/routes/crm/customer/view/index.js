@@ -14,10 +14,9 @@ import ProfileTabs from "Components/Layout/ProfileTabs";
 // Tabs
 import Overview from "./tabs/Overview";
 import Booking from "./tabs/Booking";
-
+import PastTransaction from "./tabs/PastTransaction";
 import DetailsTab from "./tabs/Details";
 import DealsTab from "./tabs/Deals";
-import EventsTab from "../../components/EventsTab";
 import FollowUpTab from "../../components/FollowUp/Tab";
 
 import api from "Api";
@@ -174,6 +173,9 @@ class crm_view_customer extends Component {
                   <div label="All Bookings">
                     <Booking customerID={customer.id} />
                   </div>
+                  <div label="All Transaction">
+                    <PastTransaction transaction={customer.transaction} />
+                  </div>
                   <div label="Follow Ups">
                     <FollowUpTab
                       allFollowup={customer.followUps}
@@ -184,13 +186,7 @@ class crm_view_customer extends Component {
                   <div label="Related Deals">
                     <DealsTab deals={customer.deals} />
                   </div>
-                  <div label="Events">
-                    <EventsTab
-                      events={customer.events}
-                      eventableType="Customer"
-                      eventableId={customer.id}
-                    />
-                  </div>
+
                   <div label="Details">
                     <DetailsTab cust={customer} />
                   </div>

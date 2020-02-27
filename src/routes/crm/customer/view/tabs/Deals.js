@@ -3,7 +3,6 @@ import DealList from "../../../deal/components/DealList";
 
 function CustomerDealsTab(props) {
   const { deals } = props;
-
   return (
     <div className="row">
       <div className="col">

@@ -10,7 +10,6 @@ import DealFormLayout from "../Layout/DealFormLayout";
 // Input Components
 import FormInput from "Components/Form/FormInput";
 import CustomerPicker from "Routes/crm/components/CustomerPicker";
-import AmountInput from "Components/Form/Inputs/AmountInput";
 import DatePickerInput from "Components/Form/Pickers/DatePicker";
 
 // Actions
@@ -26,7 +25,8 @@ const initialState = {
     stageId: "",
     sourceId: "",
     typeId: "",
-    info: ""
+    info: "",
+    products: {}
   }
 };
 
@@ -65,14 +65,7 @@ class DealForm extends Component {
   render() {
     const { deal } = this.state;
     const { loading, fields } = this.props.dealForm;
-    const {
-      users,
-      accounts,
-      customers,
-      leadSource,
-      dealStage,
-      dealType
-    } = fields;
+    const { users, accounts, leadSource, dealStage, dealType } = fields;
     const { edit, title } = this.props;
     const formFields = {
       name: (
@@ -83,15 +76,8 @@ class DealForm extends Component {
           handleChange={this.handleChange}
         />
       ),
-      amount: (
-        <AmountInput
-          label="Amount"
-          value={deal.amount}
-          target="amount"
-          handleChange={this.handleChange}
-        />
-      ),
-      closingDate: (
+
+      closingDate: edit && (
         <DatePickerInput
           label="Closing Date"
           value={deal.closingDate ? deal.closingDate : null}
@@ -135,15 +121,6 @@ class DealForm extends Component {
           handleChange={this.handleChange}
         />
       ),
-      // customer: (
-      //   <FormInput
-      //     label="Customer"
-      //     value={deal.customerId}
-      //     selectValues={customers}
-      //     target="customerId"
-      //     handleChange={this.handleChange}
-      //   />
-      // ),
       type: (
         <FormInput
           label="Type"

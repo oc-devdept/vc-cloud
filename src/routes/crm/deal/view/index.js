@@ -15,6 +15,7 @@ import { dealEditPage, dealListPage, dealNewPage } from "Helpers/crmURL";
 // Tabs
 import OverviewTab from "./tabs/Overview";
 import DetailsTab from "./tabs/Details";
+import DealHistoryTab from "./tabs/History";
 import EventsTab from "../../components/EventsTab";
 // Actions
 import {
@@ -135,6 +136,9 @@ class crm_view_deal extends Component {
                       eventableType="Deal"
                       eventableId={deal.id}
                     />
+                  </div>
+                  <div label="History">
+                    <DealHistoryTab history={deal.history} />
                   </div>
                   <div label="Details">
                     <DetailsTab deal={deal} />

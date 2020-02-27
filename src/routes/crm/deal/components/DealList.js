@@ -1,9 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-//Component Req
-// import IconButton from "@material-ui/core/IconButton";
-// import Tooltip from "@material-ui/core/Tooltip";
+// Component Req
 import RecordsList from "Components/RecordsList";
 import { listOptions } from "Helpers/helpers";
 import { singleDeal } from "Helpers/crmURL";
@@ -91,7 +89,7 @@ const DealList = ({ tableData, loading, title, action, noRelated }) => {
       label: "Account",
       name: "accountInfo",
       options: {
-        display: noRelated ? "excluded" : true,
+        display: noRelated ? "excluded" : false,
         customBodyRender: value => {
           return value ? (
             <NavLink to={`accounts/${value.id}`}>{value.name}</NavLink>
