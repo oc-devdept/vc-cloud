@@ -13,7 +13,7 @@ function DetailsTab(props) {
     amount: <EditableInput label="Amount" amount value={deal.amount} />,
     closingDate: (
       <EditableInput
-        label="Closing Date"
+        label="Closed On"
         value={deal.closingDate && getTheDate(deal.closingDate)}
       />
     ),

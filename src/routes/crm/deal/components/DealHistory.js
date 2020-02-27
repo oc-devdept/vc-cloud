@@ -18,7 +18,7 @@ const DealHistory = ({ history }) => {
             <TableCell>Stage</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell>Probability</TableCell>
-            <TableCell>Closing Date</TableCell>
+            <TableCell>Closed On</TableCell>
             <TableCell>Duration</TableCell>
             <TableCell>Modified Time</TableCell>
             <TableCell>Modified By</TableCell>

@@ -32,7 +32,7 @@ function DealsByTypeChart(props) {
               <tr>
                 <th>Type</th>
                 <th>Deal Name</th>
-                <th>Closing Date</th>
+                <th>Closed On</th>
                 <th>Owner</th>
                 <th>Stage</th>
                 <th>Chance</th>

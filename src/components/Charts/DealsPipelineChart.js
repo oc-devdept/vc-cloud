@@ -34,7 +34,7 @@ function DealsPipelineChart(props) {
               <tr>
                 <th>Stage</th>
                 <th>Deal Name</th>
-                <th>Closing Date</th>
+                <th>Closed On</th>
                 <th>Owner</th>
                 <th>Type</th>
                 <th>Source</th>

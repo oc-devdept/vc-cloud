@@ -79,7 +79,7 @@ class DealForm extends Component {
 
       closingDate: edit && (
         <DatePickerInput
-          label="Closing Date"
+          label="Closed On"
           value={deal.closingDate ? deal.closingDate : null}
           target="closingDate"
           handleChange={this.handleChange}
