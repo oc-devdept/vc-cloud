@@ -24,7 +24,6 @@ class index extends Component {
     async componentDidMount() {
         try {
             const ProductOptionCategories = await this._FetchProductOptionCategories()
-            console.log(ProductOptionCategories)
             this.setState({ProductOptionCategory: ProductOptionCategories, loading: false})
         } catch (e) {
             this.setState({ProductOptionCategory: [], loading: false})
@@ -182,11 +181,11 @@ class index extends Component {
             <div style={{flex:1, display:'flex', flexDirection:'column'}}>
            
                     <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                        <button onClick={()=> this.ToggleDialog('Create_ProductOption')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE PRODUCT OPTION</button>
+                        <button onClick={()=> this.ToggleDialog('Create_ProductOption')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE EQUIPMENT</button>
                     </div>
 
                     <ProductOptionList
-                        title={'CAR PRODUCT OPTION GROUP NAME'}
+                        title={'CAR EQUIPMENT'}
                         tableData={this.state.ProductOptionCategory}
                         ToggleDialog={this.ToggleDialog}
                     />

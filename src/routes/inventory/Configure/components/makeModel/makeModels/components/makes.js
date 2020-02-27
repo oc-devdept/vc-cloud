@@ -6,13 +6,14 @@ import Dropzone from "Components/Dropzone";
 
 import Images from 'Components/Image'
 import Input from 'Components/Inventory/Input'
-import Text from 'Components/Inventory/Text'
+import StaticName from 'Components/Inventory/StaticName'
 
 import Button from 'Components/Inventory/Button'
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
 
 
 class index extends PureComponent {
-
 
     constructor(props) {
         super(props);
@@ -22,6 +23,7 @@ class index extends PureComponent {
         let Make = {
             name: '',
             description: '',
+            commission: 0
         }
         
         switch(this.props.Action){
@@ -35,6 +37,7 @@ class index extends PureComponent {
                     id: this.props.Data[0],
                     name: this.props.Data[1],
                     description: this.props.Data[2],
+                    commission: this.props.Data[4]? this.props.Data[4]: 0,
                 }
                 Button = "SAVE CHANGES"
                 break
@@ -44,7 +47,7 @@ class index extends PureComponent {
                     id: this.props.Data[0],
                     name: this.props.Data[1],
                     description: this.props.Data[2],
-                    
+                    commission: this.props.Data[4]? this.props.Data[4]: 0,
                 }
                 Button = "CONFIRM DELETE"
                 break
@@ -61,7 +64,6 @@ class index extends PureComponent {
         })
     }
    
-
     removeFile = (file) => {
         this.setState(state => {
         const index = state.files.indexOf(file);
@@ -79,36 +81,48 @@ class index extends PureComponent {
 
     _SaveMake = async() => {
 
-        const {name, description} = this.state.Make
+        const {name, description, commission} = this.state.Make
         const files = this.state.files
+        const result = validateForm(this.state.Make, files)
 
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        data.append("name", name);
-        data.append("description", description);
-        data.append("categoryGroupId", this.state.MakeId);
-
-        await api.post(`/categories/new`, data)
-    
-        await this.props._SaveMakeDone()
-        await this.props._RestartToggle()
-
+        if(result){
+            var data = new FormData();
+            files.map(file => data.append(`upload`, file));
+            data.append("name", name);
+            data.append("description", description);
+            data.append("commission", commission);
+            data.append("categoryGroupId", this.state.MakeId);
+            await api.post(`/categories/new`, data)
+            await this.props._SaveMakeDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Make saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+       
     }
 
     _EditMake = async() => {
         const files = this.state.files
-        const Make = this.state.Make
+        const {id, name, description, commission} = this.state.Make
+        const images = this.state.images
 
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        data.append("id", Make.id);
-        data.append("name", Make.name);
-        data.append("description", Make.description);
-
-        await api.post(`/categories/editMakeDetail`, data)
-
-        await this.props._SaveMakeDone()
-        await this.props._RestartToggle()
+        const result = validateForm(this.state.Make, images)
+        if(result){
+            var data = new FormData();
+            files.map(file => data.append(`upload`, file));
+            data.append("id", id);
+            data.append("name", name);
+            data.append("description", description);
+            data.append("commission", commission);
+            await api.post(`/categories/editMakeDetail`, data)
+            await this.props._SaveMakeDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Make saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+        
     }
 
     _OnChange = (e, element) => { 
@@ -134,39 +148,49 @@ class index extends PureComponent {
                 Body = (
                     <div className="d-flex" style={{flexDirection:'row', flex: 1}}>
 
-                        <div style={{display:'flex', flexDirection:"column", flex: 1, marginRight: 30}}>
-                                
-                                <Input
-                                    divStyle={{width: '100%'}}
-                                    title="CAR MAKE NAME"
-                                    placeholder="Enter a new car make here (e.g BMW)"
-                                    value={this.state.Make.name}
-                                    element={'name'}
-                                    _HandleProduct={this._OnChange}
-                                />
-                                
-
-                                <div style={{display:'flex', flexDirection:"column", marginTop: 10, marginBottom: 10}}>
-                                    <span>CAR MAKE IMAGE</span>
-                                    {this.state.images.length > 0 && 
-                                        <Images
-                                            imageSource ={this.state.images}
-                                            single={true}
-                                        />
-                                    }
-                                </div>
-                            
-
-                                <div style={{display:'flex', flexDirection:"column",}}>
-                                    <span>IMAGE UPLOAD</span>
-                                    <Dropzone
-                                        onDrop={this.handleUpload}
-                                        onRemove={this.removeFile}
-                                        uploadedFiles={this.state.files}
-                                        additionalText="Files can't be edited once uploaded."
+                        <div className="d-flex flex-column justify-content-between" style={{flex: 1, marginRight: 30}}>
+                                <div className="d-flex flex-row">
+                                    <Input
+                                        divStyle={{width: '100%', marginRight: 30}}
+                                        title="CAR MAKE NAME"
+                                        placeholder="e.g BMW"
+                                        value={this.state.Make.name}
+                                        element={'name'}
+                                        _HandleProduct={this._OnChange}
+                                    />
+                                    
+                                    <Input
+                                        divStyle={{width: '100%'}}
+                                        title="CAR COMMISSION (SGD)"
+                                        placeholder="eg 230"
+                                        value={this.state.Make.commission}
+                                        element={'commission'}
+                                        _HandleProduct={this._OnChange}
+                                        type='number'
                                     />
                                 </div>
-                            
+
+                                <div className="d-flex flex-row">
+                                    <div style={{display:'flex', flexDirection:"column", marginRight:30}}>
+                                        <StaticName title={'CAR MAKE IMAGE'}/>
+                                        {this.state.images.length > 0 && 
+                                            <Images
+                                                imageSource ={this.state.images}
+                                                single={true}
+                                            />
+                                        }
+                                    </div>
+                                
+                                    <div style={{display:'flex', flexDirection:"column",}}>
+                                        <StaticName title={'IMAGE UPLOAD'}/>
+                                        <Dropzone
+                                            onDrop={this.handleUpload}
+                                            onRemove={this.removeFile}
+                                            uploadedFiles={this.state.files}
+                                            additionalText="Files can't be edited once uploaded."
+                                        />
+                                    </div>
+                                </div>
                         </div>
                 
                         <Input
@@ -232,7 +256,6 @@ class index extends PureComponent {
 
                 {Body}
 
-                   
                 {SaveButton}
 
             </div>
@@ -245,4 +268,17 @@ class index extends PureComponent {
 export default index;
 
 
+const validateForm = (make, files) => {
+    let Reject = true  
+    Object.values(make).map(e => {
+        if(e == "" || e == 0){
+            Reject = false
+        }
+    })
 
+    if(files.length == 0){
+        Reject = false
+    }
+
+    return Reject
+}

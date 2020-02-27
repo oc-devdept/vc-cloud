@@ -53,8 +53,6 @@ const Index = ({AddNewVariant, _EditVariantValues, ProductVariantValues, _Delete
         }));
     }, [ProductVariantValues])
    
-
-
     const _HandleProductDetailValue = (e, element) => {
         setState(form => ({ ...form, [element]: e}));
     };
@@ -238,8 +236,11 @@ const Index = ({AddNewVariant, _EditVariantValues, ProductVariantValues, _Delete
                     }
                 </div>
 
-                <div style={{display:'flex', flex:0.5,  flexDirection:"row"}}>
-                    <div style={{width: '100%'}}>
+                <div style={{display:'flex', flex:0.5}}>
+                    <div className="d-flex flex-column" style={{width: '100%'}}>
+                        <StaticName
+                            title="UPLOAD NEW GALLERY PHOTOS"
+                        />  
                         <Dropzone
                             onDrop={handleNewImagesUpload}
                             uploadedFiles={[]}

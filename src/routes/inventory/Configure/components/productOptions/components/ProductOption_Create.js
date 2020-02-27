@@ -10,6 +10,16 @@ import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
 import StaticName from 'Components/Inventory/StaticName'
 
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
+const validateForm = (selectOne, name) => {
+    let Reject = true
+    if(selectOne == null || selectOne == false){Reject = false}
+    if(name == ""){Reject = false}
+    return Reject
+}
+
 class index extends PureComponent {
 
 
@@ -26,11 +36,11 @@ class index extends PureComponent {
         
         switch(this.props.Action){
             case "Create":
-                Title = "CREATE NEW PRODUCT OPTION"
+                Title = "CREATE NEW  EQUIPMENT"
                 Button = "CREATE"
                 break
             case "Edit":
-                Title = "EDIT PRODUCT OPTION"
+                Title = "EDIT  EQUIPMENT"
                 Category = {
                     id: this.props.Data.id,
                     selectOne: this.props.Data.selectOne,
@@ -39,7 +49,7 @@ class index extends PureComponent {
                 Button = "SAVE CHANGES"
                 break
             case "Delete":
-                Title = "DELETE PRODUCT OPTION"
+                Title = "DELETE  EQUIPMENT"
                 Category = {
                     id: this.props.Data.id,
                     selectOne: this.props.Data.selectOne,
@@ -61,24 +71,38 @@ class index extends PureComponent {
 
 
     _SaveProductOption = async() => {
-
         const {selectOne, name} = this.state.Category
-        await api.post(`/productoptioncategories`, 
-            {
-                name: name,
-                selectOne: selectOne
-            }
-        )
+        const result = validateForm(selectOne, name)
+        if(result) {
+            const {selectOne, name} = this.state.Category
+            await api.post(`/productoptioncategories`, 
+                {
+                    name: name,
+                    selectOne: selectOne
+                }
+            )
+            await this.props._CreateProductCategoryDone()
+            await this.props._RestartToggle()
 
-        await this.props._CreateProductCategoryDone()
-        await this.props._RestartToggle()
-        
+            NotificationManager.success('Product specification item saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
     }
 
     _EditProductOption = async() => {
-        await api.post(`/productoptioncategories/editProductOption`, {data: this.state.Category})
-        await this.props._CreateProductCategoryDone()
-        await this.props._RestartToggle()
+        const {selectOne, name} = this.state.Category
+        const result = validateForm(selectOne, name)
+        if(result) {
+
+            await api.post(`/productoptioncategories/editProductOption`, {data: this.state.Category})
+            await this.props._CreateProductCategoryDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Product specification item saved successfully');
+
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
     }
 
     _DeleteProductOption = async() => {
@@ -120,20 +144,20 @@ class index extends PureComponent {
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
                             {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT OPTION</span>
+                                <span>CAR EQUIPMENT</span>
                                 <span>{this.state.Category.name}</span>
                             </div> */}
 
                             <Text
                                 divStyle={{width: '100%'}}
-                                title="CAR PRODUCT OPTION"
+                                title="CAR EQUIPMENT"
                                 value={this.state.Category.name}
                             />
 
                             <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
-                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span> */}
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR EQUIPMENT HAS MORE THAN ONE ITEM TYPE</span> */}
                                 <StaticName
-                                    title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
+                                    title={"CAR EQUIPMENT HAS MORE THAN ONE ITEM TYPE"}
                                 />
                                 <div style={{display:'flex', flexDirection:'row'}}>
                                     {Option.map((e, item) => {
@@ -177,7 +201,7 @@ class index extends PureComponent {
                         <div style={{display:'flex', flexDirection:"row", flex:1}}>
 
                             {/* <div style={{display:'flex', flexDirection:"column", flex: 1}}>
-                                <span>CAR PRODUCT OPTION</span>
+                                <span>CAR EQUIPMENT</span>
                                 <input type="text" placeholder={"Enter a new product option category"} value={this.state.Category.name} onChange={(e) =>{
                                     let Category = {...this.state.Category}
                                     Category.name = e.target.value
@@ -187,7 +211,7 @@ class index extends PureComponent {
 
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
-                                title="CAR PRODUCT OPTION"
+                                title="CAR EQUIPMENT"
                                 placeholder="Enter a new product option category"
                                 value={this.state.Category.name}
                                 element={'name'}
@@ -195,9 +219,9 @@ class index extends PureComponent {
                             />  
 
                             <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
-                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span> */}
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR EQUIPMENT HAS MORE THAN ONE ITEM TYPE</span> */}
                                 <StaticName
-                                    title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
+                                    title={"CAR EQUIPMENT HAS MORE THAN ONE ITEM TYPE"}
                                 />
                                 
                                 <div style={{display:'flex', flexDirection:'row'}}>
@@ -244,17 +268,17 @@ class index extends PureComponent {
                         
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
-                                title="CAR PRODUCT OPTION"
-                                placeholder="Enter a new product option category"
+                                title="CAR EQUIPMENT"
+                                placeholder="Enter a equipment category"
                                 value={this.state.Category.name}
                                 element={'name'}
                                 _HandleProduct={this._HandleProduct}
                             />  
 
                             <div style={{display:'flex', flexDirection:"column", width: '100%'}}>
-                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE</span> */}
+                                {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>CAR EQUIPMENT HAS MORE THAN ONE ITEM TYPE</span> */}
                                 <StaticName
-                                    title={"CAR PRODUCT OPTION HAS MORE THAN ONE ITEM TYPE"}
+                                    title={"CAR EQUIPMENT HAS MORE THAN ONE ITEM TYPE"}
                                 />
 
                                 <div style={{display:'flex', flexDirection:'row'}}>

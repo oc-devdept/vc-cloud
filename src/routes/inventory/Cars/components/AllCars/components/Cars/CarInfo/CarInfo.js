@@ -4,6 +4,9 @@ import api from "Api";
 import CarInfo from './Components/index'
 import Button from 'Components/Inventory/Button'
 
+
+
+
 export default class Index extends PureComponent {
     
     constructor(props) {

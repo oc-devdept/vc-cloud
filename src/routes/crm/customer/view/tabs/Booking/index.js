@@ -7,9 +7,14 @@ import BookingList from './components/BookingList'
 import DialogRoot from "Components/Dialog/DialogRoot";
 import SingleBookingForm from './components/SingleBookingForm'
 
-const index = ({customerID}) => {
+
+import BookingForm from './components/BookingForm'
+import Moment from 'moment'
+
+
+const index = ({customer}) => {
  
-    if(!customerID){return null}
+    if(!customer.id){return null}
 
     const [Bookings, setBookings] = useState([]);
     const [ShowDialog, setShowDialog] = useState(false);
@@ -17,14 +22,18 @@ const index = ({customerID}) => {
     const [SingleBooking, setSingleBooking] = useState(null);
     const [Loading, setLoading] = useState(true);
 
+
+    // BOOKING
+    const [Booking, setBooking] = useState(false);
+ 
     useEffect(() => {
         async function fetchData() {
-            const item = await api.get(`/customers/${customerID}/bookings`);
+            const item = await api.get(`/customers/${customer.id}/bookings`);
             setBookings(Bookings => [...Bookings, ...item.data])
             setLoading(() => false)
         }
         fetchData();
-    }, [customerID]);
+    }, [customer.id]);
 
     useEffect(() => {
         async function fetchData() {
@@ -48,6 +57,10 @@ const index = ({customerID}) => {
         setSingleBookingId(() => null)
     }
    
+    const RestartBooking = () => {
+        setBooking(() => !Booking)
+    }
+
     const ChangeStatus = async(id, status) =>{
         const item = await api.post(`/bookings/changeBookingStatus`, {data: {id, status}});
         const modifiedItem = item.data.fields
@@ -68,7 +81,6 @@ const index = ({customerID}) => {
 
     }
 
-
     const MakeNotes = async(id, notes) =>{
         const item = await api.post(`/bookings/${id}/notes`, {content: notes});
 
@@ -79,13 +91,26 @@ const index = ({customerID}) => {
         NotificationManager.success('New note has been added');
     }
     
+    const CompleteBooking = async() =>{
+        const item = await api.get(`/customers/${customer.id}/bookings`);
+        setBookings(() => [...item.data])
+        setBooking(() => !Booking)
+    }
 
 
+   
 
     return (
         <div className="todo-dashboard">
             
-            {Bookings.length > 0 && 
+
+            <div className="d-flex justify-content-end" style={{marginBottom: 10}}>
+                <button className="btn btn-primary" style={{color:'white'}} onClick={RestartBooking}>
+                    Make A Booking
+                </button>
+            </div>
+
+            {Bookings.length > 0 ?  
                 <div className="d-flex flex-fill" style={{width:'100%'}}>
                     <BookingList
                         tableData={Bookings}
@@ -93,9 +118,7 @@ const index = ({customerID}) => {
                         SetSingleBooking={SetSingleBooking}
                     />
                 </div>
-            }
-
-            {Bookings.length == 0 && 
+            :
                 <div>
                     No Bookings 
                 </div>
@@ -112,6 +135,20 @@ const index = ({customerID}) => {
                         SingleBooking={SingleBooking}
                         ChangeStatus={ChangeStatus}
                         MakeNotes={MakeNotes}
+                    />
+                </DialogRoot> 
+            }
+
+            {Booking && 
+                <DialogRoot
+                    // title={title}
+                    show={Booking}
+                    handleHide={RestartBooking}
+                    size={"md"}
+                >
+                    <BookingForm
+                        customer={customer}
+                        _handleComplete={CompleteBooking}
                     />
                 </DialogRoot> 
             }

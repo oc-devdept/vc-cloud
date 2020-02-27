@@ -30,15 +30,15 @@ class CreateProduct extends Component {
                 <MakeModel />
               </div>
 
-              <div label="PRODUCT VARIANT">
+              <div label="CAR VARIANT">
                 <ProductVariant />
               </div>
 
-              <div label="PRODUCT DETAILS">
+              <div label="CAR SPECIFICATION">
                 <ProductDetails />
               </div>
 
-              <div label="PRODUCT OPTION">
+              <div label="CAR EQUIPMENT">
                 <ProductOptions />
               </div>
             </ProfileTabs>

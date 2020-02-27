@@ -8,6 +8,9 @@ import Text from 'Components/Inventory/Text'
 
 import Button from 'Components/Inventory/Button'
 
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
 
 class index extends PureComponent {
 
@@ -58,22 +61,36 @@ class index extends PureComponent {
 
     _SaveTags = async() => {
 
-        await api.post(`/tags`, {
-            name: this.state.Tags
-        })
+        const result = validateForm(this.state.Tags)
+        if(result){
+            await api.post(`/tags`, {
+                name: this.state.Tags
+            })
 
-       await this.props._SaveTagsDone()
-       await this.props._RestartToggle()
+            await this.props._SaveTagsDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Tag saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary information');
+        }
+    
     }
 
     _EditTags = async() => {
 
-        await api.post(`/tags/editTagDetail`, {
-            data: this.state.Tags
-        })
+        const result = validateForm(this.state.Tags)
+        if(result){
+            await api.post(`/tags/editTagDetail`, {
+                data: this.state.Tags
+            })
 
-        await this.props._SaveTagsDone()
-        await this.props._RestartToggle()
+            await this.props._SaveTagsDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Tag saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary information');
+        }
+        
     }
 
  
@@ -172,3 +189,11 @@ class index extends PureComponent {
 
 export default index;
 
+
+
+const validateForm = (Tag) => {
+    let Reject = true
+    if(Tag.value == ""){Reject = false}
+    console.log(Tag)
+    return Reject
+}

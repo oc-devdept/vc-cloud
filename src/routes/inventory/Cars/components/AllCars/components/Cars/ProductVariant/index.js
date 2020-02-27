@@ -7,6 +7,28 @@ import ProductVariantValues  from './components/ProductVariantValues'
 import DisplayProductVariantValues from './components/DisplayProductVariantValues'
 import EditProductVariantValues from './components/EditProductVariantValues'
 
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
+const validateForm = (keys, files, images) => {
+    const {name, price} = keys
+    let Reject = true
+    if(name == ""){Reject = false}
+    if(price == "" || price == 0){Reject = false}
+    if(files.length == 0){Reject = false}
+    if(images.length == 0){Reject = false}
+    return Reject
+}
+
+const validateEditForm = (keys) => {
+    const {newThumbNail, newSecondaryPhotos, name, price} = keys
+    let Reject = true
+    if(name == ""){Reject = false}
+    if(price == "" || price == 0){Reject = false}
+    if(newThumbNail.length == 0){Reject = false}
+    if(newSecondaryPhotos.length == 0){Reject = false}
+    return Reject
+}
 
 export default class Index extends Component {
 
@@ -164,45 +186,55 @@ export default class Index extends Component {
 
     _AddVariantValues = async (item, files, images) => {
 
-        const productVariantId = this.state.productVariantCategories[this.state.currentCategory][this.state.productVariantStage].value
-        const Id = this.state.Id
+        const result = validateForm(item, files, images)
 
-        await this.setState({ProductVariantLoading: true})
-    
-        var data = new FormData();
-        files.map(file => data.append(`newThumbNail`, file));
-        images.map(file => data.append(`newSecondaryPhotos`, file))
+        if(result){
+            const productVariantId = this.state.productVariantCategories[this.state.currentCategory][this.state.productVariantStage].value
+            const Id = this.state.Id
 
-        data.append("name", item.name);
-        data.append("isDefault", item.isDefault);
-        data.append("price", item.price);
-        data.append("productId", Id);
-        data.append("productVariantId", productVariantId);
-    
-        await api.post("/productvariantvalues/newVariant", data)
+            await this.setState({ProductVariantLoading: true})
+        
+            var data = new FormData();
+            files.map(file => data.append(`newThumbNail`, file));
+            images.map(file => data.append(`newSecondaryPhotos`, file))
 
-        await this._ReloadCar(true)
+            data.append("name", item.name);
+            data.append("isDefault", item.isDefault);
+            data.append("price", item.price);
+            data.append("productId", Id);
+            data.append("productVariantId", productVariantId);
+        
+            await api.post("/productvariantvalues/newVariant", data)
+            await this._ReloadCar(true)
+
+            NotificationManager.success('Car variant saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes and upload your images.');
+        }
+        
     }
     
     _EditVariantValues = async (item) => {
 
-        await this.setState({ProductVariantLoading: true})
+        const result = validateEditForm(item)
+        console.log(result)
+        // await this.setState({ProductVariantLoading: true})
+        // var data = new FormData();
 
-        var data = new FormData();
-
-        item.newThumbNail.map(file => data.append(`newThumbNail`, file));
-        item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
+        // item.newThumbNail.map(file => data.append(`newThumbNail`, file));
+        // item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
         
-        data.append("name", item.name);
-        data.append("price", item.price);
-        data.append("isDefault", item.isDefault);
-        data.append("id", item.id);
-        data.append("productId", item.productId);
-        data.append("productVariantId", item.productVariantId);
+        // data.append("name", item.name);
+        // data.append("price", item.price);
+        // data.append("isDefault", item.isDefault);
+        // data.append("id", item.id);
+        // data.append("productId", item.productId);
+        // data.append("productVariantId", item.productVariantId);
 
-        await api.post("/Productvariantvalues/editProductVariantValues", data)
+        // await api.post("/Productvariantvalues/editProductVariantValues", data)
+        // await this._ReloadCar(false)
 
-        await this._ReloadCar(false)
+
         // await this._ReloadItemInformation()
     }
 

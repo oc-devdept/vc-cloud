@@ -11,7 +11,7 @@ export const Inventory = Loadable({
 });
 
 export const Products = Loadable({
-  loader: () => import("./Products/index"),
+  loader: () => import("./Cars/index"),
   loading: () => <RctPageLoader />
 });
 

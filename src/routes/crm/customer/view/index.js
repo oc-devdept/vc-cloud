@@ -171,8 +171,8 @@ class crm_view_customer extends Component {
                   <div label="Overview">
                     <Overview cust={customer} />
                   </div>
-                  <div label="All Bookings">
-                    <Booking customerID={customer.id} />
+                  <div label="Bookings">
+                    <Booking customer={customer} />
                   </div>
                   <div label="Follow Ups">
                     <FollowUpTab

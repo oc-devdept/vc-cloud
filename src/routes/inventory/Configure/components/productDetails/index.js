@@ -200,25 +200,12 @@ class index extends Component {
         return (
             <div style={{flex:1, display:'flex', flexDirection:'column'}}>
             
-                {/* <ProductCategories
-                    _CreateProductCategory = {this._CreateProductCategory}
-                    _HandleDeleteProductCateogry = {this._HandleDeleteProductCateogry}
-                    ProductCategory={this.state.ProductCategory}
-                    loading={this.state.loading}
-                /> */}
-                {/* <div style={{margin: 15}}>
-                    <ProductDetails
-                        ProductCategory={this.state.ProductCategory}
-                    />
-                </div> */}
-
-
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                    <button onClick={()=> this.ToggleDialog('Create_Detail')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ CREATE PRODUCT DETAIL</button>
+                    <button onClick={()=> this.ToggleDialog('Create_Detail')} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginRight: 20}}>+ ADD SPECIFICATION</button>
                 </div>
 
                 <ProductDetailsList
-                    title={'CREATE CAR PRODUCT DETAIL & ITEM'}
+                    title={'SPECIFICATION'}
                     tableData={this.state.ProductCategory}
                     ToggleDialog={this.ToggleDialog}
                 />

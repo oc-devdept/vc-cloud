@@ -47,7 +47,7 @@ module.exports = {
   "sidebar.reminders": "Reminders",
 
   "sidebar.dashboard": "Dashboard",
-  "sidebar.allCars": "New Cars",
+  "sidebar.allCars": "Cars",
   "sidebar.settings": "Settings",
   "sidebar.booking": "Bookings",
 
