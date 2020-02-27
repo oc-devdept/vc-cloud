@@ -16,6 +16,7 @@ import Button from 'Components/Inventory/Button'
 import Dropzone from "Components/Dropzone";
 import BlobImage from 'Components/Inventory/BlobImage'
 
+import { NotificationManager } from "react-notifications";
 
 class index extends PureComponent {
 
@@ -135,45 +136,36 @@ class index extends PureComponent {
         });
     };
 
-    _SaveMake = async() => {
-
-        const {name, description} = this.state.Model
-        const files = this.state.files
-
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        data.append("name", name);
-        data.append("description", description);
-        data.append("categoryGroupId", this.state.MakeId);
-
-        await api.post(`/categories/new`, data)
-    
-        await this.props._SaveMakeDone()
-        await this.props._RestartToggle()
-
-    }
-
     _SaveModel = async() => {
 
         const {TagId, MakeId, Model, files, header, gallery} = this.state
 
         const ModelId = await api.get(`categorygroups/findOne?filter[where][name]=Model&`);
 
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        header.map(file => data.append(`headerThumbNail`, file));
-        gallery.map(file => data.append(`newSecondaryPhotos`, file));
+        const result = validateForm(TagId, MakeId, Model, files, header, gallery)
+        console.log(result)
+        if(result){
+            var data = new FormData();
+            files.map(file => data.append(`upload`, file));
+            header.map(file => data.append(`headerThumbNail`, file));
+            gallery.map(file => data.append(`newSecondaryPhotos`, file));
 
-        data.append("name", Model.name);
-        data.append("description", Model.description);
-        data.append("tagId", TagId);
-        data.append("categoryId", MakeId);
-        data.append("categoryGroupId", ModelId.data.id);
+            data.append("name", Model.name);
+            data.append("description", Model.description);
+            data.append("tagId", TagId);
+            data.append("categoryId", MakeId);
+            data.append("categoryGroupId", ModelId.data.id);
 
-        await api.post(`/categories/newModel`, data)
+            await api.post(`/categories/newModel`, data)
 
-        await this.props._SaveModelDone()
-        await this.props._RestartToggle()
+            await this.props._SaveModelDone()
+            await this.props._RestartToggle()
+
+            NotificationManager.success('Model saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+       
 
         return
     }
@@ -186,18 +178,27 @@ class index extends PureComponent {
 
         const Model = this.state.Model
 
-        var data = new FormData();
-        files.map(file => data.append(`upload`, file));
-        header.map(file => data.append(`headerThumbNail`, file));
-        gallery.map(file => data.append(`newSecondaryPhotos`, file));
+        const result = validateEditForm(Model)
 
+        if(result){
 
-        data.append("id", Model.id);
-        data.append("name", Model.name);
-        data.append("description", Model.description);
-        await api.post(`/categories/editModelDetail`, data)
-        await this.props._SaveModelDone()
-        await this.props._RestartToggle()
+            var data = new FormData();
+            files.map(file => data.append(`upload`, file));
+            header.map(file => data.append(`headerThumbNail`, file));
+            gallery.map(file => data.append(`newSecondaryPhotos`, file));
+
+            data.append("id", Model.id);
+            data.append("name", Model.name);
+            data.append("description", Model.description);
+            await api.post(`/categories/editModelDetail`, data)
+            await this.props._SaveModelDone()
+            await this.props._RestartToggle()
+
+            NotificationManager.success('Model saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+      
 
     }
 
@@ -232,7 +233,6 @@ class index extends PureComponent {
        }));
     }
 
-    // Need API Call
     removeActualGallery = async(index) => {
 
         this.setState({loading: true})
@@ -720,3 +720,24 @@ class index extends PureComponent {
 
 export default index;
 
+
+const validateForm = (TagId, MakeId, Model, files, header, gallery) => {
+    let Reject = true
+    if(TagId == ""){Reject == false}
+    if(MakeId == ""){Reject == false}
+    Object.values(Model).map(e => {if(e == "" || e == 0){Reject = false}})
+    if(files.length == 0){Reject = false}
+    if(header.length == 0){Reject = false}
+    if(gallery.length == 0){Reject = false}
+    return Reject
+}
+
+const validateEditForm = (Model) => {
+    let Reject = true
+    Object.values(Model).map(e => {
+        if(e == "" || e == 0){
+            Reject = false
+        }
+    })
+    return Reject
+}

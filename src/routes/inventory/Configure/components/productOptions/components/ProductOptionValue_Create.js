@@ -12,6 +12,17 @@ import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
 import StaticName from 'Components/Inventory/StaticName'
 
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
+const validateForm = (key, files) => {
+    let Reject = true
+    const {name, description} = key
+    if(name == ""){Reject = false}
+    if(description == ""){Reject = false}
+    if(files.length == 0){Reject = false}
+    return Reject
+}
 
 class index extends PureComponent {
 
@@ -34,13 +45,13 @@ class index extends PureComponent {
             editable: false,
             isDefault: false,
             image: [],
-            price: '',
+            price: 0,
         }
      
         switch(this.props.Action){
             case "Create":
-                Title = "CREATE NEW CAR PRODUCT OPTION ITEM"
-                Button = "CREATE"
+                Title = "ADD NEW EQUIPMENT"
+                Button = "ADD"
                 Category = {
                     id: this.props.Data.id,
                     selectOne: this.props.Data.selectOne,
@@ -48,7 +59,7 @@ class index extends PureComponent {
                 }
                 break
             case "Edit":
-                Title = "EDIT CAR PRODUCT OPTION ITEM"
+                Title = "EDIT EQUIPMENT"
                 Button = "SAVE CHANGES"
                 Item = {
                     id: this.props.Data.id,
@@ -61,7 +72,7 @@ class index extends PureComponent {
                 }
                 break
             case "Delete":
-                Title = "DELETE CAR PRODUCT OPTION"
+                Title = "DELETE EQUIPMENT"
                 Button = "CONFIRM DELETE"
                 Item = {
                     id: this.props.Data.id,
@@ -90,45 +101,60 @@ class index extends PureComponent {
 
     _SaveProductOption = async() => {
 
-        const ProductOption = this.state.Item
-        const productOptionCategoryId = this.state.Category.id
+        const result = validateForm(this.state.Item, this.state.files)
+        if(result){
+            const ProductOption = this.state.Item
+            const productOptionCategoryId = this.state.Category.id
 
-        var data = new FormData();
-        const files = this.state.files
+            var data = new FormData();
+            const files = this.state.files
 
-        files.map(file => data.append(`upload`, file));
-        data.append("name", ProductOption.name);
-        data.append("description", ProductOption.description);
-        data.append("editable", ProductOption.editable);
-        data.append("isDefault", ProductOption.isDefault);
-        data.append("price", ProductOption.price);
-        data.append("productOptionCategoryId", productOptionCategoryId);
+            files.map(file => data.append(`upload`, file));
+            data.append("name", ProductOption.name);
+            data.append("description", ProductOption.description);
+            data.append("editable", ProductOption.editable);
+            data.append("isDefault", ProductOption.isDefault);
+            data.append("price", ProductOption.price);
+            data.append("productOptionCategoryId", productOptionCategoryId);
 
-        await api.post("/productoptions/new", data)
+            await api.post("/productoptions/new", data)
+            
+            await this.props._CreateProductCategoryDone()
+            await this.props._RestartToggle()
+
+            NotificationManager.success('Product specification item saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
         
-        await this.props._CreateProductCategoryDone()
-        await this.props._RestartToggle()
     }
 
     _EditProductOptionValue = async() => {
       
-        const ProductOption = this.state.Item
+        const result = validateForm(this.state.Item, this.state.files)
+        if(result){
+            const ProductOption = this.state.Item
+            var data = new FormData();
+            const files = this.state.files
 
-        var data = new FormData();
-        const files = this.state.files
+            files.map(file => data.append(`upload`, file));
+            data.append("name", ProductOption.name);
+            data.append("editable", ProductOption.editable);
+            data.append("description", ProductOption.description);
+            data.append("isDefault", ProductOption.isDefault);
+            data.append("price", ProductOption.price);
+            data.append("id", ProductOption.id);
 
-        files.map(file => data.append(`upload`, file));
-        data.append("name", ProductOption.name);
-        data.append("editable", ProductOption.editable);
-        data.append("description", ProductOption.description);
-        data.append("isDefault", ProductOption.isDefault);
-        data.append("price", ProductOption.price);
-        data.append("id", ProductOption.id);
+            await api.post("/productoptions/editProductOptionValue", data)
 
-        await api.post("/productoptions/editProductOptionValue", data)
+            await this.props._CreateProductCategoryDone()
+            await this.props._RestartToggle()
 
-        await this.props._CreateProductCategoryDone()
-        await this.props._RestartToggle()
+            NotificationManager.success('Product specification item saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+        
     }
 
     _DeleteProductOptionValue = async() => {
@@ -177,8 +203,6 @@ class index extends PureComponent {
 
         let Body = null
 
-        console.log(this.state.Item)
-
         switch(this.props.Action){
             case "Delete":
 
@@ -194,7 +218,7 @@ class index extends PureComponent {
 
                             <Text
                                 divStyle={{width: '100%', marginRight: 30}}
-                                title="CAR PRODUCT OPTION ITEM"
+                                title="CAR EQUIPMENT ITEM"
                                 value={this.state.Item.name}
                             />
 
@@ -318,7 +342,7 @@ class index extends PureComponent {
 
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
-                                title="CAR PRODUCT OPTION ITEM"
+                                title="CAR EQUIPMENT ITEM"
                                 placeholder="(e.g Bose Speaker Model Xl)"
                                 value={this.state.Item.name}
                                 element={'name'}
@@ -342,7 +366,7 @@ class index extends PureComponent {
 
                             <Input
                                 divStyle={{width: '100%'}}
-                                title="CAR PRODUCT OPTION ITEM DESCRIPTION"
+                                title="CAR EQUIPMENT ITEM DESCRIPTION"
                                 placeholder="Enter a new Car Product Option Item description"
                                 value={this.state.Item.description}
                                 element={'description'}
@@ -467,7 +491,7 @@ class index extends PureComponent {
 
                         <Text
                             divStyle={{width: '100%'}}
-                            title="CREATE NEW ITEM INTO PRODUCT OPTION"
+                            title="ADD NEW EQUIPMENT"
                             value={this.state.Category.name}
                         />
 
@@ -475,8 +499,8 @@ class index extends PureComponent {
 
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
-                                title="CAR PRODUCT OPTION ITEM"
-                                placeholder="Enter a new Car Product Option Item (e.g Bose Speaker Model Xl)"
+                                title="EQUIPMENT ITEM"
+                                placeholder="Enter a new equipment name (e.g Bose Speaker Model Xl)"
                                 value={this.state.Item.name}
                                 element={'name'}
                                 _HandleProduct={this._HandleProduct}
@@ -498,8 +522,8 @@ class index extends PureComponent {
 
                             <Input
                                 divStyle={{width: '100%'}}
-                                title="CAR PRODUCT OPTION ITEM DESCRIPTION"
-                                placeholder="Enter a new Car Product Option Item description"
+                                title="EQUIPMENT DESCRIPTION"
+                                placeholder="Enter a equipment description"
                                 value={this.state.Item.description}
                                 element={'description'}
                                 _HandleProduct={this._HandleProduct}

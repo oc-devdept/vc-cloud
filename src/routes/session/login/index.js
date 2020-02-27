@@ -156,7 +156,7 @@ class Signin extends Component {
                         <span className="px-10">Sign in</span>
                       </Fab>
 
-                      <div className="row d-flex justify-content-center align-items-center">
+                      {/* <div className="row d-flex justify-content-center align-items-center">
                         <p
                           className="fs-12 fw-light"
                           style={{ color: "rgba(0,0,0,0.4)" }}
@@ -169,7 +169,7 @@ class Signin extends Component {
                             Sign up now
                           </a>
                         </p>
-                      </div>
+                      </div> */}
                     </FormGroup>
                   </div>
                 </Form>

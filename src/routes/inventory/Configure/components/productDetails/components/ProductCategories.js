@@ -7,6 +7,15 @@ import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
 
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
+const validateForm = (value) => {
+    let Reject = true
+    if(value == ""){Reject = false}
+    return Reject
+}
+
 
 class index extends PureComponent {
 
@@ -23,11 +32,11 @@ class index extends PureComponent {
         
         switch(this.props.Action){
             case "Create":
-                Title = "CREATE NEW PRODUCT DETAIL"
-                Button = "CREATE"
+                Title = "ADD NEW SPECIFICATION"
+                Button = "ADD"
                 break
             case "Edit":
-                Title = "EDIT PRODUCT DETAIL"
+                Title = "EDIT SPECIFICATION"
                 Category = {
                     id: this.props.Data.id,
                     name: this.props.Data.name
@@ -35,7 +44,7 @@ class index extends PureComponent {
                 Button = "SAVE CHANGES"
                 break
             case "Delete":
-                Title = "DELETE PRODUCT DETAIL"
+                Title = "DELETE SPECIFICATION"
                 Category = {
                     id: this.props.Data.id,
                     name: this.props.Data.name
@@ -55,15 +64,27 @@ class index extends PureComponent {
 
 
     _SaveProductDetail = async() => {
-       await api.post(`/productdetailcategories`, {name: this.state.Category.name})
-       await this.props._SaveProductDetailDone()
-       await this.props._RestartToggle()
+        const result = validateForm(this.state.Category.name)
+        if(result){
+            await api.post(`/productdetailcategories`, {name: this.state.Category.name})
+            await this.props._SaveProductDetailDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Product specification saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
     }
 
     _EditProductDetail = async() => {
-        await api.post(`/productdetailcategories/editProductDetail`, {data: this.state.Category})
-        await this.props._SaveProductDetailDone()
-        await this.props._RestartToggle()
+        const result = validateForm(this.state.Category.name)
+        if(result){
+            await api.post(`/productdetailcategories/editProductDetail`, {data: this.state.Category})
+            await this.props._SaveProductDetailDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Product specification saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
     }
 
     _DeleteProductDetail = async() => {
@@ -99,7 +120,7 @@ class index extends PureComponent {
 
                         <Text
                             divStyle={{width: '100%'}}
-                            title="CAR PRODUCT DETAIL NAME"
+                            title="CAR SPECIFICATION"
                             value={this.state.Category.name}
                         />
 
@@ -121,8 +142,8 @@ class index extends PureComponent {
                         </div> */}
                         <Input
                             divStyle={{width: '100%'}}
-                            title="CAR PRODUCT DETAIL"
-                            placeholder="Enter A New Car Product Detail here (e.g SAFETY FEATURES)"
+                            title="CAR SPECIFICATION"
+                            placeholder="Enter a specification name (e.g safety feature)"
                             value={this.state.Category.name}
                             element={'name'}
                             _HandleProduct={this._HandleProduct}
@@ -150,8 +171,8 @@ class index extends PureComponent {
                             </div> */}
                             <Input
                                 divStyle={{width: '100%'}}
-                                title="CAR PRODUCT DETAIL"
-                                placeholder="Enter A New Car Product Detail here (e.g SAFETY FEATURES)"
+                                title="CAR SPECIFICATION"
+                                placeholder="Enter a new specificatoin (e.g safety features)"
                                 value={this.state.Category.name}
                                 element={'name'}
                                 _HandleProduct={this._HandleProduct}

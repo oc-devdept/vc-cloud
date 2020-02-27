@@ -4,7 +4,11 @@ import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+
 import Image from 'Components/Image'
+import Stock from './Cars/Stock'
 import {Edit, Delete, ExpandMore} from '@material-ui/icons'
 
 
@@ -122,17 +126,40 @@ export default class Index extends PureComponent {
       },
   ]
 
+    // const listOptions = {
+    //   filterType: "dropdown",
+    //   responsive: "stacked",
+    //   selectableRows: 'none',
+    //   expandableRows: false, // Try Adding This
+    //   print: false,
+    //   download: false,
+    //   viewColumns: false,
+    //   search: false,
+    //   filter: false,
+    // };
+
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
       selectableRows: 'none',
-      expandableRows: false, // Try Adding This
+      expandableRows: true, // Try Adding This
       print: false,
       download: false,
       viewColumns: false,
       search: false,
       filter: false,
-      // onRowClick: (rowData, rowState) => this.props.ToggleDialog('Selected_Grade', rowData[0])
+      // onCellClick: (rowData, rowState) => this._HandleVariant(rowState),
+      renderExpandableRow: (rowData, rowMeta) => {
+        return (
+          <TableRow>
+            <TableCell colSpan={rowData.length} style={{padding: 0}}>
+              <Stock
+                ProductID = {rowData[0]}
+              />
+            </TableCell>
+          </TableRow>
+        );
+      }
     };
 
     return (

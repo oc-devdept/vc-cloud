@@ -75,6 +75,10 @@ export default class Index extends PureComponent {
         }
       },
       {
+        name: "commission",
+        options: { display: "excluded", filter: false, sort: false }
+      },
+      {
         name: "EDIT",
         options: {
             filter: true,

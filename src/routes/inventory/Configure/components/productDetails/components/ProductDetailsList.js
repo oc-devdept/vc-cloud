@@ -109,7 +109,7 @@ export default class Index extends PureComponent {
             <TableCell colSpan={rowData.length} style={{padding: 0}}>
 
                 <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                  <button onClick={()=> ToggleDialog('Create_Detail_Value', [rowData[0], rowData[2]])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ CREATE ITEM TO ${rowData[2].toUpperCase()} GROUP`}</button>
+                  <button onClick={()=> ToggleDialog('Create_Detail_Value', [rowData[0], rowData[2]])} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ ADD TO ${rowData[2].toUpperCase()} GROUP`}</button>
                 </div>
 
                 <ProductDetailsValueList

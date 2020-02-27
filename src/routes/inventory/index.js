@@ -1,12 +1,4 @@
-import React, { Component } from "react";
-
-import Helmet from "Components/Helmet";
-import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
-import { Tabs, Tab, Panel } from "@bumaga/tabs";
-
-import Products from "./Products/index";
-import Configure from "./Configure/index";
-import Dashboard from "./Dashboard/index";
+import React from "react";
 
 import { Route, Switch, Redirect } from "react-router-dom";
 // async components
@@ -28,21 +20,3 @@ function acctSwitcher() {
 
 export default acctSwitcher;
 
-// <div className="saas-dashboard">
-//   <Tabs>
-//       <div>
-//         <Tab><button>Dashboard</button></Tab>
-//         <Tab><button>Products</button></Tab>
-//         <Tab><button>Configure</button></Tab>
-//       </div>
-//       <Panel>
-//         <Dashboard/>
-//       </Panel>
-//       <Panel>
-//         <Products/>
-//       </Panel>
-//       <Panel>
-//         <Configure/>
-//       </Panel>
-//   </Tabs>
-// </div>

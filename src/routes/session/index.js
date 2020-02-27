@@ -23,7 +23,7 @@ export const ForgetPasswordComponent = Loadable({
 /**
  * Register Component
  */
-export const RegisterComponent = Loadable({
-  loader: () => import("./register"),
-  loading: () => <RctPageLoader />
-});
+// export const RegisterComponent = Loadable({
+//   loader: () => import("./register"),
+//   loading: () => <RctPageLoader />
+// });

@@ -12,8 +12,21 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-
 const TypeOption = ['String', "Number", "Boolean"]
+
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
+const validateForm = (keys) => {
+    let Reject = true
+    Object.values(keys).map(e =>{
+        console.log(e)
+        if(e == "" || e == 0){
+            Reject = false
+        }
+    })
+    return Reject
+}
 
 class index extends PureComponent {
 
@@ -36,15 +49,15 @@ class index extends PureComponent {
 
         switch(this.props.Action){
             case "Create":
-                Title = "CREATE NEW PRODUCT DETAIL"
-                Button = "CREATE"
+                Title = "ADD NEW SPECIFICATION"
+                Button = "ADD"
                 Category = {
                     id: this.props.Data[0],
                     name: this.props.Data[1],
                 }
                 break
             case "Edit":
-                Title = "EDIT PRODUCT DETAIL"
+                Title = "EDIT SPECIFICATION"
                 ProductDetail = {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
@@ -54,7 +67,7 @@ class index extends PureComponent {
                 Button = "SAVE CHANGES"
                 break
             case "Delete":
-                Title = "DELETE PRODUCT DETAIL"
+                Title = "DELETE SPECIFICATION"
                 ProductDetail = {
                     id: this.props.Data.id,
                     name: this.props.Data.name,
@@ -79,27 +92,42 @@ class index extends PureComponent {
 
     _SaveProductDetail = async() => {
 
-        const ProductDetail = this.state.ProductDetail
-        const productDetailCategoryId = this.state.Category.id
-        await api.post("/productDetails", 
-            {
-                name: ProductDetail.name,
-                unit: ProductDetail.unit,
-                type: ProductDetail.type,
-                productDetailCategoryId: productDetailCategoryId
-            }
-        ); 
+        const result = validateForm(this.state.ProductDetail)
+        if(result){
+            const ProductDetail = this.state.ProductDetail
+            const productDetailCategoryId = this.state.Category.id
+            await api.post("/productDetails", 
+                {
+                    name: ProductDetail.name,
+                    unit: ProductDetail.unit,
+                    type: ProductDetail.type,
+                    productDetailCategoryId: productDetailCategoryId
+                }
+            ); 
 
-       await this.props._SaveProductDetailDone()
-       await this.props._RestartToggle()
+            await this.props._SaveProductDetailDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Product specification item saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+
+
+    
     }
 
     _EditProductDetail = async() => {
                 
-        await api.post("/productDetails/editProductDetailValues", {data: this.state.ProductDetail}); 
-        await this.props._SaveProductDetailDone()
-        await this.props._RestartToggle()
-
+        const result = validateForm(this.state.ProductDetail)
+        if(result){
+            await api.post("/productDetails/editProductDetailValues", {data: this.state.ProductDetail}); 
+            await this.props._SaveProductDetailDone()
+            await this.props._RestartToggle()
+            NotificationManager.success('Product specification item saved successfully');
+        } else {
+            NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+        }
+       
     }
 
     _DeleteProductDetail = async() => {
@@ -139,7 +167,7 @@ class index extends PureComponent {
                           
                             <Text
                                 divStyle={{width: '100%'}}
-                                title="CAR PRODUCT DETAIL NAME"
+                                title="CAR SPECIFICATION NAME"
                                 value={this.state.ProductDetail.name}
                             />
 
@@ -169,8 +197,8 @@ class index extends PureComponent {
 
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
-                                title="CAR PRODUCT DETAIL ITEM"
-                                placeholder="Enter Product Detail (e.g Air Bags)"
+                                title="CAR SPECIFICATION ITEM"
+                                placeholder="Enter specification (e.g Air Bags)"
                                 value={this.state.ProductDetail.name}
                                 element={'name'}
                                 _HandleProduct={this._HandleProduct}
@@ -179,7 +207,7 @@ class index extends PureComponent {
                             <Input
                                 divStyle={{width: '100%', marginRight: 30}}
                                 title="UNITS OF MEASUREMENT"
-                                placeholder="Enter Product Measurement (e.g units / km/h)"
+                                placeholder="Enter specification measurement (e.g units / km/h)"
                                 value={this.state.ProductDetail.unit}
                                 element={'unit'}
                                 _HandleProduct={this._HandleProduct}
@@ -222,7 +250,7 @@ class index extends PureComponent {
                             </div> */}
                             <Text
                                 divStyle={{width: '100%'}}
-                                title="CAR PRODUCT DETAIL CATEGORY"
+                                title="CAR SPECIFICATION CATEGORY"
                                 value={this.state.Category.name}
                             />
 
@@ -231,7 +259,7 @@ class index extends PureComponent {
                                
                                 <Input
                                     divStyle={{width: '100%', marginRight: 30}}
-                                    title="CAR PRODUCT DETAIL ITEM"
+                                    title="CAR SPECIFICATION"
                                     placeholder="e.g Air Bags"
                                     value={this.state.ProductDetail.name}
                                     element={'name'}

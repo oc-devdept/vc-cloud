@@ -13,6 +13,30 @@ import ProductOption from './ProductOption/index'
 import CarInfo from './CarInfo/CarInfo'
 
 
+import { NotificationManager } from "react-notifications";
+// NotificationManager.error('Unable to make booking request');
+
+const validateForm = (Product, Files) => {
+    let Reject = true
+    const {name, sku, description, product_code, cost_Price, selling_Price} = Product
+    if(name == ""){Reject = false}
+    if(description == ""){Reject = false}
+    if(cost_Price == ""){Reject = false}
+    if(selling_Price == ""){Reject = false}
+    if(Files.length == 0){Reject = false}
+    return Reject
+}
+
+const validateEditForm = (Product) => {
+  let Reject = true
+  const {name, description, cost_Price, selling_Price} = Product
+  if(name == ""){Reject = false}
+  if(description == ""){Reject = false}
+  if(cost_Price == ""){Reject = false}
+  if(selling_Price.length == 0){Reject = false}
+  return Reject
+} 
+
 export default class Index extends Component {
 
   constructor(props) {
@@ -48,31 +72,40 @@ export default class Index extends Component {
  
   _CreateProduct = async (Product, Files) => {
 
-      const MakeId = this.props.MakeId
-      const ModelId = this.props.ModelId
-      const files = Files
+      const result = validateForm(Product, Files)
 
-      var data = new FormData();
-      files.map(file => data.append(`upload`, file));
-      data.append("name", Product.name);
-      data.append("description", Product.description);
-      data.append("cost_Price", Product.cost_Price);
-      data.append("selling_Price", Product.selling_Price);
-      data.append("isActive", Product.isActive);
-      data.append("categoryId", ModelId);
-      data.append("categoryGroupId", MakeId);
+      if(result){
 
-      const result = await api.post("/products/new", data)
+        const MakeId = this.props.MakeId
+        const ModelId = this.props.ModelId
+        var data = new FormData();
 
-      await this.props._FetchProductsAPI()
-      await this.setState({Car: result.data.data})
+        Files.map(file => data.append(`upload`, file));
+        data.append("name", Product.name);
+        data.append("description", Product.description);
+        data.append("cost_Price", Product.cost_Price);
+        data.append("selling_Price", Product.selling_Price);
+        data.append("isActive", Product.isActive);
+        data.append("categoryId", ModelId);
+        data.append("categoryGroupId", MakeId);
 
+        const result = await api.post("/products/new", data)
+        await this.props._FetchProductsAPI()
+        await this.setState({Car: result.data.data})
+
+        NotificationManager.success('Car product saved successfully');
+      } else {
+        NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+      }
+      
   }
 
   _EditProduct = async(Product, Files) =>{
   
+    const result = validateEditForm(Product)
+    
+    if(result){
       await this.setState({loading: true})
-
       const ModelId = this.props.ModelId
       const MakeId = this.props.MakeId
 
@@ -90,14 +123,16 @@ export default class Index extends Component {
 
       await api.post(`/products/editProductDetail/`, data)
 
-
       await this.props._FetchProductsAPI()
       const Car = await this._FetchGrade(this.props.GradeId)
       await this.setState({loading: false, Car: Car})
 
+      NotificationManager.success('Car product saved successfully');
+    } else {
+      NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+    }
+    
   }
-
-
 
 
   // Product Variants
@@ -116,7 +151,6 @@ export default class Index extends Component {
 
   _AddVariantValues = async (item, productVariantId, files) => {
 
-   
     const Car = {...this.state.Car}
     await this.setState({ProductVariantLoading: true})
 
@@ -128,12 +162,9 @@ export default class Index extends Component {
     data.append("productId", Car.id);
     data.append("productVariantId", productVariantId);
 
-    
     // await this.setState({ProductVariantLoading: true})
     await api.post("/productvariantvalues/newVariant", data)
-    
     const latestProduct = await api.get(`/products/${Car.id}`)
-
     await this.setState({Car: latestProduct.data, ProductVariantLoading: false})
 
   }
@@ -308,7 +339,6 @@ export default class Index extends Component {
     }
 
   }
-
   
   _RenderStage = (stage) => {
     if(this.state.stage != stage){

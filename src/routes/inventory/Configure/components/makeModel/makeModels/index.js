@@ -8,6 +8,8 @@ import DialogRoot from "Components/Dialog/DialogRoot";
 import Makes from './components/makes'
 import Models from './components/models'
 
+
+
 class index extends PureComponent {
 
     state=({
@@ -41,7 +43,6 @@ class index extends PureComponent {
             const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
 
             const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id)
-        
             const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource)
     
             const Tags = await api.get(`tags`);
@@ -73,10 +74,8 @@ class index extends PureComponent {
                 })
             }
 
-        }
-
-        
-           
+        }        
+          
     }
 
     componentWillUnmount() {
@@ -87,7 +86,7 @@ class index extends PureComponent {
         
         try {
             const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
-            const MakeSource = await MakeGroup.data.map((source) => {    
+            const MakeSource = await MakeGroup.data.map((source) => {  
                 return { 
                     id: source.id, 
                     name: source.name, 
@@ -95,7 +94,8 @@ class index extends PureComponent {
                     files: source.files? source.files : [],
                     image: source.image,
                     checklist: true,
-                    category: source.category
+                    category: source.category,
+                    commission: source.commission? source.commission.commission : 0
                 }
 
             });

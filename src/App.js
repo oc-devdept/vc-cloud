@@ -21,6 +21,9 @@ import "react-notifications/lib/notifications.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 // Custom Style File
 import "Assets/scss/_style.scss";
+// date time picker
+import "react-day-picker/lib/style.css";
+
 
 // app component
 import App from "Routes/app";

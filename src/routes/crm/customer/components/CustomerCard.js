@@ -37,8 +37,8 @@ function CustomerCard({ cust, _handleDeployAgent }) {
       />
 
       {!cust.userInfo && (
-        <button onClick={() => _handleDeployAgent(cust.id)}>
-          Pick up the Orphan
+        <button className="btn btn-primary" style={{color:'white'}} onClick={() => _handleDeployAgent(cust.id)}>
+          Make yourself the agent for this customer
         </button>
       )}
     </Wrapper>

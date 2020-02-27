@@ -74,6 +74,7 @@
     "react-content-loader": "^4.2.1",
     "react-countup": "^4.1.1",
     "react-custom-scrollbars": "^4.2.1",
+    "react-day-picker": "^7.4.0",
     "react-dropzone": "^10.2.1",
     "react-email-editor": "^1.0.0",
     "react-helmet": "^5.2.0",
