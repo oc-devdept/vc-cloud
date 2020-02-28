@@ -47,7 +47,7 @@ function DealsByOwnerChart(props) {
               <tr>
                 <th>Owner</th>
                 <th>Deal Name</th>
-                <th>Closing Date</th>
+                <th>Closed On</th>
                 <th>Stage</th>
                 <th>Chance</th>
                 <th>Amount</th>

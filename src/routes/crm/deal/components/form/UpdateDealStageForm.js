@@ -60,7 +60,7 @@ class UpdateDealStageForm extends Component {
           <FormControl fullWidth>
             <TextField
               id="date"
-              label="Closing Date"
+              label="Closed On"
               disabled={!edit}
               type="date"
               onMouseEnter={this.handleMouseOver}

@@ -1,16 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-// import BgCard from "Components/BgCard";
-
 // Deal Stage Widget
 import SelectDealStage from "../../components/SelectDealStage";
 
+// Deal Products Widget
+import DealProducts from "../../components/DealProducts";
+
 // Comment Widget
 import Comments from "Components/Widgets/Comments";
-
-// Deal history widget
-import DealHistory from "../../components/DealHistory";
-
 import { addNoteDeal } from "Ducks/crm/deal";
 
 function OverviewTab(props) {
@@ -26,6 +23,11 @@ function OverviewTab(props) {
         </div>
       </div>
       <div className="row">
+        <div className="col-lg-12">
+          <DealProducts products={deal.productInfo} />
+        </div>
+      </div>
+      <div className="row">
         <div className="col-lg-6">
           <Comments comments={deal.notes} addComment={addNote} />
         </div>
@@ -33,16 +35,8 @@ function OverviewTab(props) {
           <BgCard>upcoming</BgCard>
         </div> */}
       </div>
-      <div className="row">
-        <div className="col-lg-12">
-          <DealHistory history={deal.history} />
-        </div>
-      </div>
     </React.Fragment>
   );
 }
 
-export default connect(
-  null,
-  { addNoteDeal }
-)(OverviewTab);
+export default connect(null, { addNoteDeal })(OverviewTab);

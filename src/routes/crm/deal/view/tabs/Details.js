@@ -13,11 +13,16 @@ function DetailsTab(props) {
     amount: <EditableInput label="Amount" amount value={deal.amount} />,
     closingDate: (
       <EditableInput
-        label="Closing Date"
+        label="Closed On"
         value={deal.closingDate && getTheDate(deal.closingDate)}
       />
     ),
-    owner: <EditableInput label="Owner" value={deal.userInfo.name} />,
+    owner: (
+      <EditableInput
+        label="Owner"
+        value={deal.userInfo && deal.userInfo.name}
+      />
+    ),
     stage: <EditableInput label="Stage" value={deal.stageInfo.name} />,
     source: <EditableInput label="Source" value={deal.sourceInfo} />,
     type: <EditableInput label="Type" value={deal.typeInfo} />,
