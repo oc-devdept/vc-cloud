@@ -6,8 +6,6 @@ import TransactionList from "./TransactionList";
 function PastTransaction(props) {
   const { transaction } = props;
 
-  console.log(transaction);
-
   return (
     <div className="row">
       <div className="col-md-12">
