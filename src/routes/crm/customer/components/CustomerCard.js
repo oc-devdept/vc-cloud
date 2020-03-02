@@ -1,7 +1,7 @@
 import React from "react";
 import { Wrapper, Contact, KeyDetails } from "Components/Layout/ProfileCard";
-import { EventOutlined } from "@material-ui/icons";
-import ShowUpcoming from "../../components/ShowUpcomingEvents";
+import { RecentActors } from "@material-ui/icons";
+import ShowLatestFollowUps from "./ShowLatestFollowups";
 
 function CustomerCard({ cust, _handleDeployAgent }) {
   const { name } = cust;
@@ -22,10 +22,10 @@ function CustomerCard({ cust, _handleDeployAgent }) {
       />
       <div className="profile-card-section">
         <div className="profile-heading">
-          <EventOutlined />
-          Upcoming Events
+          <RecentActors />
+          Latest Follow Ups
         </div>
-        <ShowUpcoming events={cust.events} />
+        <ShowLatestFollowUps followUps={cust.followUps} />
       </div>
       <KeyDetails
         keyDetails={[
@@ -37,7 +37,11 @@ function CustomerCard({ cust, _handleDeployAgent }) {
       />
 
       {!cust.userInfo && (
-        <button className="btn btn-primary" style={{color:'white'}} onClick={() => _handleDeployAgent(cust.id)}>
+        <button
+          className="btn btn-primary"
+          style={{ color: "white" }}
+          onClick={() => _handleDeployAgent(cust.id)}
+        >
           Make yourself the agent for this customer
         </button>
       )}
