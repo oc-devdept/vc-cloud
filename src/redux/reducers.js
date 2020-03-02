@@ -44,8 +44,12 @@ import { UserManagementReducer, RolesReducer } from "Ducks/setting";
 import { ReportReducer } from "Ducks/report";
 import { CalendarReducer } from "Ducks/calendar";
 import { WidgetReducer } from "Ducks/widget";
+
 // Call To Action
 import { AnnouncementReducer } from "Ducks/CallToAction";
+
+// Bookings
+import { BookingReducer } from "Ducks/booking";
 
 const reducers = combineReducers({
   sessionState: combineReducers({
@@ -79,6 +83,7 @@ const reducers = combineReducers({
   calendarState: CalendarReducer,
   usersState: UserManagementReducer,
   rolesState: RolesReducer,
+  bookingState: BookingReducer,
   modal
 });
 
