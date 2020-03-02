@@ -45,6 +45,9 @@ import { ReportSaga } from "Ducks/report";
 // widgets
 import { WidgetSaga } from "Ducks/widget";
 
+// Booking
+import { BookingSaga } from "Ducks/booking";
+
 export default function* rootSaga() {
   yield all([
     // Accounting
@@ -83,6 +86,9 @@ export default function* rootSaga() {
     // Settings
     RolesSaga(),
     UserManagementSaga(),
-    AnnouncementSaga()
+    AnnouncementSaga(),
+
+    // Booking
+    BookingSaga()
   ]);
 }
