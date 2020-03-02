@@ -40,7 +40,6 @@ class RecentBookings extends Component {
 const mapStateToProps = ({ bookingState }) => {
   const { recentBookings } = bookingState;
   const { loading, listData, chartData } = recentBookings;
-  console.log(recentBookings);
   return { loading, listData, chartData };
 };
 
