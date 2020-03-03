@@ -38,7 +38,11 @@ import { TemplateReducer } from "Ducks/marketing/template";
 import { FollowupReducer } from "Ducks/followUp";
 
 //settings
-import { UserManagementReducer, RolesReducer } from "Ducks/setting";
+import {
+  UserManagementReducer,
+  RolesReducer,
+  WebsiteSettingsReducer
+} from "Ducks/setting";
 
 // system
 import { ReportReducer } from "Ducks/report";
@@ -84,7 +88,8 @@ const reducers = combineReducers({
   usersState: UserManagementReducer,
   rolesState: RolesReducer,
   bookingState: BookingReducer,
-  modal
+  modal,
+  webSettingsState: WebsiteSettingsReducer
 });
 
 export default reducers;

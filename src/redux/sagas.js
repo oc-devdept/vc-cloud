@@ -30,7 +30,11 @@ import { AnnouncementSaga } from "Ducks/CallToAction";
 import { FollowupSaga } from "Ducks/followUp";
 
 // settings
-import { UserManagementSaga, RolesSaga } from "Ducks/setting";
+import {
+  UserManagementSaga,
+  RolesSaga,
+  WebsiteSettingsSaga
+} from "Ducks/setting";
 
 // calendar
 import { CalendarSaga } from "Ducks/calendar";
@@ -87,6 +91,7 @@ export default function* rootSaga() {
     RolesSaga(),
     UserManagementSaga(),
     AnnouncementSaga(),
+    WebsiteSettingsSaga(),
 
     // Booking
     BookingSaga()

@@ -43,3 +43,11 @@ export const announcements = Loadable({
   loader: () => import("./CallToAction/announcements"),
   loading: () => <RctPageLoader />
 });
+
+/**
+ * Website Setting
+ */
+export const websiteSettings = Loadable({
+  loader: () => import("./WebsiteSettings"),
+  loading: () => <RctPageLoader />
+});
