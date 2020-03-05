@@ -38,14 +38,22 @@ import { TemplateReducer } from "Ducks/marketing/template";
 import { FollowupReducer } from "Ducks/followUp";
 
 //settings
-import { UserManagementReducer, RolesReducer } from "Ducks/setting";
+import {
+  UserManagementReducer,
+  RolesReducer,
+  WebsiteSettingsReducer
+} from "Ducks/setting";
 
 // system
 import { ReportReducer } from "Ducks/report";
 import { CalendarReducer } from "Ducks/calendar";
 import { WidgetReducer } from "Ducks/widget";
+
 // Call To Action
 import { AnnouncementReducer } from "Ducks/CallToAction";
+
+// Bookings
+import { BookingReducer } from "Ducks/booking";
 
 const reducers = combineReducers({
   sessionState: combineReducers({
@@ -79,7 +87,9 @@ const reducers = combineReducers({
   calendarState: CalendarReducer,
   usersState: UserManagementReducer,
   rolesState: RolesReducer,
-  modal
+  bookingState: BookingReducer,
+  modal,
+  webSettingsState: WebsiteSettingsReducer
 });
 
 export default reducers;

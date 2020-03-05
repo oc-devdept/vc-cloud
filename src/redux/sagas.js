@@ -30,7 +30,11 @@ import { AnnouncementSaga } from "Ducks/CallToAction";
 import { FollowupSaga } from "Ducks/followUp";
 
 // settings
-import { UserManagementSaga, RolesSaga } from "Ducks/setting";
+import {
+  UserManagementSaga,
+  RolesSaga,
+  WebsiteSettingsSaga
+} from "Ducks/setting";
 
 // calendar
 import { CalendarSaga } from "Ducks/calendar";
@@ -44,6 +48,9 @@ import { ReportSaga } from "Ducks/report";
 
 // widgets
 import { WidgetSaga } from "Ducks/widget";
+
+// Booking
+import { BookingSaga } from "Ducks/booking";
 
 export default function* rootSaga() {
   yield all([
@@ -83,6 +90,10 @@ export default function* rootSaga() {
     // Settings
     RolesSaga(),
     UserManagementSaga(),
-    AnnouncementSaga()
+    AnnouncementSaga(),
+    WebsiteSettingsSaga(),
+
+    // Booking
+    BookingSaga()
   ]);
 }

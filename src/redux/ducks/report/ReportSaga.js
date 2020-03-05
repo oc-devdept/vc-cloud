@@ -9,7 +9,8 @@ import {
   GET_TOP_SPENDER_ACCOUNT,
   GET_TOP_SPENDER_CUSTOMER,
   GET_INDIVIDUAL_REPORT,
-  GET_CLOSED_BY_OWNER
+  GET_CLOSED_BY_OWNER,
+  GET_COMMISSION_REPORT
 } from "./ReportTypes";
 
 import {
@@ -23,7 +24,8 @@ import {
   getTopSpenderAccountSuccess,
   getTopSpenderCustomerSuccess,
   getIndividualReportSuccess,
-  getWonByOwnerSuccess
+  getWonByOwnerSuccess,
+  getCommissionReportSuccess
 } from "./ReportActions";
 
 import api from "Api";
@@ -100,6 +102,11 @@ const getWonByOwnerRequest = async (startDate, endDate) => {
     startDate,
     endDate
   });
+  return result.data.data;
+};
+const getCommissionRequest = async (startDate, endDate) => {
+  const result = await api.post("/reports/commsreport", { startDate, endDate });
+  console.log(result);
   return result.data.data;
 };
 
@@ -206,6 +213,16 @@ function* getWonByOwner({ payload }) {
     yield put(getReportFailure(error));
   }
 }
+function* getCommission({ payload }) {
+  const { start, end } = payload;
+  try {
+    const data = yield call(getCommissionRequest, start, end);
+    yield delay(500);
+    yield put(getCommissionReportSuccess(data));
+  } catch (error) {
+    yield put(getReportFailure(error));
+  }
+}
 
 //=======================
 // WATCHER FUNCTIONS
@@ -240,6 +257,9 @@ export function* getIndividualReportWatcher() {
 export function* getWonByOwnerWatcher() {
   yield takeEvery(GET_CLOSED_BY_OWNER, getWonByOwner);
 }
+export function* getCommissionWatcher() {
+  yield takeEvery(GET_COMMISSION_REPORT, getCommission);
+}
 
 //=======================
 // FORK SAGAS TO STORE
@@ -255,6 +275,7 @@ export default function* rootSaga() {
     fork(getTopSpenderAccountWatcher),
     fork(getTopSpenderCustomerWatcher),
     fork(getIndividualReportWatcher),
-    fork(getWonByOwnerWatcher)
+    fork(getWonByOwnerWatcher),
+    fork(getCommissionWatcher)
   ]);
 }

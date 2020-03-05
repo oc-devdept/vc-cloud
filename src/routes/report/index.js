@@ -18,11 +18,12 @@ class ReportsComponent extends Component {
     this.state = {
       activeView: "",
       nestedView: {
-        sales: false,
-        leads: false,
+        // leads: false,
         deals: false,
         acctcust: false,
-        closedDeals: false
+        closedDeals: false,
+        sales: false,
+        custAnalysis: false
       },
       dateRange: { startDate: null, endDate: null, focusedInput: null }
     };
@@ -63,22 +64,13 @@ class ReportsComponent extends Component {
         stateName: "closedDeals",
         nestedList: [{ title: "Won Deals By Owner", stateName: "wonByOwner" }]
       },
-      // {
-      //   title: "Leads",
-      //   stateName: "leads",
-      //   nestedList: [
-      //     { title: "Leads By Status", stateName: "leadsByStatus" },
-      //     { title: "Leads By Owner", stateName: "leadsByOwner" },
-      //     { title: "Leads By Source", stateName: "leadsBySource" }
-      //   ]
-      // },
       {
         title: "Top Spenders",
         stateName: "acctcust",
         nestedList: [
           {
             title: "Top Spender Report (Accounts)",
-            stateName: "z"
+            stateName: "topSpenderAccount"
           },
           {
             title: "Top Spender Report (Customers)",
@@ -87,9 +79,32 @@ class ReportsComponent extends Component {
         ]
       },
       {
-        title: "Individual Report",
-        stateName: "individual",
-        nestedList: []
+        title: "Customer Analysis",
+        stateName: "custAnalysis",
+        nestedList: [
+          {
+            title: "Demographic",
+            stateName: "custDemographic"
+          }
+        ]
+      },
+      {
+        title: "Sales Report",
+        stateName: "sales",
+        nestedList: [
+          {
+            title: "Individual Report",
+            stateName: "individualReport"
+          },
+          {
+            title: "Top Selling Product",
+            stateName: "topSeller"
+          },
+          {
+            title: "Commission Report",
+            stateName: "commission"
+          }
+        ]
       }
     ];
     const { nestedView, activeView } = this.state;

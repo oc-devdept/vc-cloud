@@ -125,3 +125,17 @@ export const getWonByOwnerSuccess = data => ({
   type: types.GET_CLOSED_BY_OWNER_SUCCESS,
   payload: data
 });
+
+//=====================
+// Sales Reports
+//=====================
+
+// Commission Report
+export const getCommissionReport = (start, end) => ({
+  type: types.GET_COMMISSION_REPORT,
+  payload: { start, end }
+});
+export const getCommissionReportSuccess = data => ({
+  type: types.GET_COMMISSION_REPORT_SUCCESS,
+  payload: data
+});

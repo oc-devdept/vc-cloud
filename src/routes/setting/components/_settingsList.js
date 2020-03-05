@@ -2,7 +2,8 @@ import {
   profileSettings,
   userManagement,
   roles,
-  announcements
+  announcements,
+  websiteSettings
 } from "../AsyncRoutes";
 
 export default [
@@ -41,6 +42,17 @@ export default [
         title: "Announcements",
         asyncComponent: announcements,
         path: "/cta/announcements"
+      }
+    ]
+  },
+  {
+    title: "Website Settings",
+    stateName: "website",
+    links: [
+      {
+        title: "Interest Rate",
+        asyncComponent: websiteSettings,
+        path: "/website-settings/interest-rate"
       }
     ]
   }

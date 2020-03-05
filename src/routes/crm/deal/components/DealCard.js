@@ -32,12 +32,16 @@ function DealCard(props) {
           <PeopleOutline />
           Related Contacts
         </div>
-        <Info
-          title={deal.accountInfo.name}
-          subtitle="Account"
-          onClick={() => props.history.push(singleAccount(deal.accountInfo.id))}
-          button
-        />
+        {deal.accountInfo && (
+          <Info
+            title={deal.accountInfo.name}
+            subtitle="Account"
+            onClick={() =>
+              props.history.push(singleAccount(deal.accountInfo.id))
+            }
+            button
+          />
+        )}
         {deal.customerInfo && (
           <Info
             title={deal.customerInfo.name}

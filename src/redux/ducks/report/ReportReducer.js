@@ -19,6 +19,9 @@ const INIT_STATE = {
   individualReport: { loading: false, data: null },
   closedDealsReport: {
     wonByOwner: { loading: false, data: null }
+  },
+  salesReport: {
+    commsReport: { loading: false, data: null }
   }
 };
 
@@ -252,6 +255,35 @@ export default (state = INIT_STATE, action) => {
           ...state.closedDealsReport,
           wonByOwner: {
             ...state.closedDealsReport.wonByOwner,
+            loading: false,
+            data: action.payload
+          }
+        }
+      };
+
+    //=====================
+    // Sales Reports
+    //=====================
+
+    // Commission Report
+    case types.GET_COMMISSION_REPORT:
+      return {
+        ...state,
+        salesReport: {
+          ...state.salesReport,
+          commsReport: {
+            ...state.salesReport.commsReport,
+            loading: true
+          }
+        }
+      };
+    case types.GET_COMMISSION_REPORT_SUCCESS:
+      return {
+        ...state,
+        salesReport: {
+          ...state.salesReport,
+          commsReport: {
+            ...state.salesReport.commsReport,
             loading: false,
             data: action.payload
           }

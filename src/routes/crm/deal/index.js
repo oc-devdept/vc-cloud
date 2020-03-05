@@ -7,11 +7,6 @@ import DealList from "./components/DealList";
 // page req
 import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
-// import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
-
-// // List Summary
-// import ListSummary from "Components/ListSummary";
-// import ShowListSummaryButton from "Components/ShowListSummaryButton";
 
 // Actions
 import { changeDealView, getAllDeal, getDealSummary } from "Ducks/crm/deal";
@@ -49,14 +44,7 @@ class crm_deal extends Component {
   }
 
   render() {
-    const {
-      // options,
-      nowShowing,
-      action,
-      tableData,
-      loading
-    } = this.props.dealState.dealList;
-    // const { summary } = this.props.dealState.dealSummary;
+    const { nowShowing, tableData, loading } = this.props.dealState.dealList;
     return (
       <React.Fragment>
         <Helmet title="Deals" />
@@ -64,19 +52,10 @@ class crm_deal extends Component {
           title={nowShowing}
           actionGroup={{
             add: { onClick: this.newDeal },
-            // mid: { label: "Import", onClick: this.importDeal },
             more: [{ label: "Refresh List", onClick: this.refresh }]
           }}
         />
-        {/* <div className="d-flex">
-               <ListViewSelector
-                options={options}
-                nowShowing={nowShowing}
-                onChangeValue={this.props.changeDealView}
-              />  <ShowListSummaryButton action={() => this.toggleSummary()} /> 
-              </div> */}
-        {/* {this.state.showSummary && <ListSummary summary={summary} />} */}
-        <DealList action={action} tableData={tableData} loading={loading} />
+        <DealList tableData={tableData} loading={loading} />
       </React.Fragment>
     );
   }

@@ -26,7 +26,7 @@ const ConvertLeadForm = ({ dealStage, dealDetails, handleChange }) => {
           onChange={e => handleChange("amount", e.target.value)}
         />
         <FormInput
-          label="Closing Date"
+          label="Closed On"
           value={dealDetails.closingDate}
           target="closingDate"
           handleChange={handleChange}
