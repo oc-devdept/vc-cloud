@@ -12,22 +12,20 @@ import { NotificationManager } from "react-notifications";
 
 const validateForm = (keys, files, images) => {
     const {name, price} = keys
+    let errorForm = ''
     let Reject = true
-    if(name == ""){Reject = false}
-    if(price == "" || price == 0){Reject = false}
-    if(files.length == 0){Reject = false}
-    if(images.length == 0){Reject = false}
-    return Reject
+    if(name == ""){Reject = false;errorForm="Please fill up name"}
+    if(files.length == 0){Reject = false;errorForm="Please upload a display photo"}
+    if(images.length == 0){Reject = false;errorForm="Please upload gallary photos"}
+    return [Reject,errorForm]
 }
 
 const validateEditForm = (keys) => {
-    const {newThumbNail, newSecondaryPhotos, name, price} = keys
+    const {name} = keys
+    let errorForm = ''
     let Reject = true
-    if(name == ""){Reject = false}
-    if(price == "" || price == 0){Reject = false}
-    if(newThumbNail.length == 0){Reject = false}
-    if(newSecondaryPhotos.length == 0){Reject = false}
-    return Reject
+    if(name == ""){Reject = false; errorForm="Please fill up name"}
+    return [Reject,errorForm]
 }
 
 export default class Index extends Component {
@@ -188,7 +186,7 @@ export default class Index extends Component {
 
         const result = validateForm(item, files, images)
 
-        if(result){
+        if(result[0]){
             const productVariantId = this.state.productVariantCategories[this.state.currentCategory][this.state.productVariantStage].value
             const Id = this.state.Id
 
@@ -209,7 +207,7 @@ export default class Index extends Component {
 
             NotificationManager.success('Car variant saved successfully');
         } else {
-            NotificationManager.error('Missing input in your form, please fill up the necessary boxes and upload your images.');
+            NotificationManager.error(result[1]);
         }
         
     }
@@ -217,30 +215,38 @@ export default class Index extends Component {
     _EditVariantValues = async (item) => {
 
         const result = validateEditForm(item)
-        console.log(result)
-        // await this.setState({ProductVariantLoading: true})
-        // var data = new FormData();
 
-        // item.newThumbNail.map(file => data.append(`newThumbNail`, file));
-        // item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
+        if(result[0]){
+
+            await this.setState({ProductVariantLoading: true})
+            var data = new FormData();
+
+            item.newThumbNail.map(file => data.append(`newThumbNail`, file));
+            item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
+            
+            data.append("name", item.name);
+            data.append("price", item.price);
+            data.append("isDefault", item.isDefault);
+            data.append("id", item.id);
+            data.append("productId", item.productId);
+            data.append("productVariantId", item.productVariantId);
+
+            await api.post("/Productvariantvalues/editProductVariantValues", data)
+            await this._ReloadCar(false)
+
+            NotificationManager.success('Car variant saved successfully');
+
+        } else {
+            NotificationManager.error(result[1]);
+        }
+
         
-        // data.append("name", item.name);
-        // data.append("price", item.price);
-        // data.append("isDefault", item.isDefault);
-        // data.append("id", item.id);
-        // data.append("productId", item.productId);
-        // data.append("productVariantId", item.productVariantId);
-
-        // await api.post("/Productvariantvalues/editProductVariantValues", data)
-        // await this._ReloadCar(false)
-
-
         // await this._ReloadItemInformation()
     }
 
     _DeleteSingleImage = async (item) => {    
         await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
-        await this._ReloadCar(false)
+        await this._ReloadCar(true)
         // await this._ReloadItemInformation()
     }
     

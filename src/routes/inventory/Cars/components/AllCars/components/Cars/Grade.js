@@ -37,6 +37,9 @@ const validateEditForm = (Product) => {
   return Reject
 } 
 
+
+
+
 export default class Index extends Component {
 
   constructor(props) {
@@ -58,18 +61,16 @@ export default class Index extends Component {
   async componentDidMount(){
     if(this.props.GradeId){
       await this.setState({loading: true})
-      const Car = await this._FetchGrade(this.props.GradeId)
+      const Car = await this._FetchGrade()
       await this.setState({loading: false, Car: Car})
     }
   }
 
-  _FetchGrade = async(Id) => {
-    // const result = await api.get(`/products/${Id}`)
-    const test = await api.get(`/products/specificOneGrade/${Id}`)
+  _FetchGrade = async() => {
+    const test = await api.get(`/products/specificOneGrade/${this.props.GradeId}`)
     return test.data.fields
   }
 
- 
   _CreateProduct = async (Product, Files) => {
 
       const result = validateForm(Product, Files)
@@ -124,7 +125,7 @@ export default class Index extends Component {
       await api.post(`/products/editProductDetail/`, data)
 
       await this.props._FetchProductsAPI()
-      const Car = await this._FetchGrade(this.props.GradeId)
+      const Car = await this._FetchGrade()
       await this.setState({loading: false, Car: Car})
 
       NotificationManager.success('Car product saved successfully');
@@ -133,97 +134,6 @@ export default class Index extends Component {
     }
     
   }
-
-
-  // Product Variants
-  _SaveProductVariant = async(Variant, id) => { 
-    await api.post(`/productvariants`, 
-        {
-            name: Variant.name,
-            groupName: Variant.groupName,
-            // productId: id
-        }
-    )
-
-    const latestProduct = await api.get(`/products/${Car.id}`)
-    this.setState({Car: latestProduct.data})
-  }
-
-  _AddVariantValues = async (item, productVariantId, files) => {
-
-    const Car = {...this.state.Car}
-    await this.setState({ProductVariantLoading: true})
-
-    var data = new FormData();
-    files.map(file => data.append(`upload`, file));
-    data.append("name", item.name);
-    data.append("isDefault", item.isDefault);
-    data.append("price", item.price);
-    data.append("productId", Car.id);
-    data.append("productVariantId", productVariantId);
-
-    // await this.setState({ProductVariantLoading: true})
-    await api.post("/productvariantvalues/newVariant", data)
-    const latestProduct = await api.get(`/products/${Car.id}`)
-    await this.setState({Car: latestProduct.data, ProductVariantLoading: false})
-
-  }
-
-  _EditVariantValues = async (item) => {
-
-    const Car = {...this.state.Car}
-    await this.setState({ProductVariantLoading: true})
-
-    var data = new FormData();
-
-    item.newThumbNail.map(file => data.append(`newThumbNail`, file));
-    item.newSecondaryPhotos.map(file => data.append(`newSecondaryPhotos`, file));
-  
-    
-    data.append("name", item.name);
-    data.append("price", item.price);
-    data.append("isDefault", item.isDefault);
-    data.append("id", item.id);
-    data.append("productId", item.productId);
-    data.append("productVariantId", item.productVariantId);
-
-    await api.post("/Productvariantvalues/editProductVariantValues", data)
-
-    const latestProduct = await api.get(`/products/${Car.id}`)
-    await this.setState({Car: latestProduct.data, ProductVariantLoading: false})
-
-  }
-
-  _DeleteProductVariant = async(index) => {
-
-    await this.setState({ProductVariantLoading: true})
-
-    let Car = {...this.state.Car}
-
-    const productId = Car.productVariant[index].id
-
-    const result = await api.delete(`/productvariantvalues/${productId}`); 
-    
-    if(result.data.count == 1){
-        const latestProduct = await api.get(`/products/${Car.id}`)
-        await this.setState({Car : latestProduct.data, ProductVariantLoading: false})
-    } else {
-        await this.setState({ ProductVariantLoading: false})
-    }
-
-  }
-
-  _DeleteSingleImage = async (item) => {
-    const Car = {...this.state.Car}
-
-    await api.delete(`/Productvariantvalues/deleteImages/${item.id}`); 
-
-    const latestProduct = await api.get(`/products/${Car.id}`)
-    await this.setState({Car: latestProduct.data})
-  }
-
-
-
 
   // Product Detail
   _AddCarDetail = (productDetail) => {
@@ -234,39 +144,29 @@ export default class Index extends Component {
 
   _SaveCarDetail = async(e) => {
 
-    await this.setState({ProductDetailLoading: true})
+    if(e.value != "" || e.value != 0){
 
-    let Car = {...this.state.Car}
+        let Car = {...this.state.Car}
    
+        await this.setState({ProductDetailLoading: true})
 
-    await api.post(`/productDetailValues`, {
-      value: e.value,
-      detailCategoryId: e.id,
-      productDetailCategoryId: e.productDetailCategoryId,
-      productId: Car.id
-    }); 
-    
-    const latestProduct = await api.get(`/products/${Car.id}`)
-    this.setState({Car: latestProduct.data})
+        await api.post(`/productDetailValues`, {
+          value: e.value,
+          detailCategoryId: e.id,
+          productDetailCategoryId: e.productDetailCategoryId,
+          productId: Car.id
+        }); 
+        
+        const latestProduct = await api.get(`/products/${Car.id}`)
+        this.setState({Car: latestProduct.data})
+        await this.setState({ProductDetailLoading: false})
 
-    await this.setState({ProductDetailLoading: false})
-
-
-
-
-    // await api.post(`/products/${Car.id}/productDetail`, {
-    //   name: e.name,
-    //   type: e.type,
-    //   value: e.value,
-    //   value2: e.value2,
-    //   productDetailCategoryId: e.productDetailCategoryId
-    // }); 
-    
-    // const latestProduct = await api.get(`/products/${Car.id}`)
-    // this.setState({Car: latestProduct.data})
-
-    // await this.setState({ProductDetailLoading: false})
-
+        NotificationManager.success('Car product saved successfully');
+    } else {
+        NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+    }
+   
+ 
   }
 
   _HandleProductDetailValue = (targetValue, element, index) => {
@@ -282,8 +182,6 @@ export default class Index extends Component {
     let Car = {...this.state.Car}
 
     const result = await api.delete(`/productDetailValues/${index}`); 
-    // DELETE /productDetailValues/{id}
-
 
     if(result.data.count == 1){
         const latestProduct = await api.get(`/products/${Car.id}`)
@@ -399,10 +297,6 @@ export default class Index extends Component {
                         <ProductVariant
                           Car={Car.productVariant}
                           Id={Car.id}
-                          // _AddVariantValues={this._AddVariantValues}
-                          // _EditVariantValues={this._EditVariantValues}
-                          // _DeleteProductVariant = {this._DeleteProductVariant}
-                          // _DeleteSingleImage={this._DeleteSingleImage}
                           ProductVariantLoading={this.state.ProductVariantLoading}
                         />
                       }

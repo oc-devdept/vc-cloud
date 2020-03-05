@@ -21,7 +21,7 @@ class index extends PureComponent {
                 );
             } else {
                 return (
-                    <div className="d-flex" style={{width: 100, height: 100, justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: 20}}>
+                    <div className="d-flex" style={{width: 135, height: 135, justifyContent:'center', boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', borderRadius: 20}}>
                         <img
                             src={imageSource[0].path}
                             style={{objectFit:'cover', borderRadius: 20, maxWidth:'100%', padding: 5}}

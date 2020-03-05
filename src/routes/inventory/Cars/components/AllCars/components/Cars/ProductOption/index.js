@@ -152,16 +152,13 @@ export default class Index extends Component {
     }
     
     render () {
-
-        console.log('ProductOption Rendered')
-
+    
 
         const Car = this.props.Car
         
         if(!Car){
             return null
         }
-
 
         return (
         
