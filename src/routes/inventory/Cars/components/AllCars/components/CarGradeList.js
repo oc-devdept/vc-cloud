@@ -11,6 +11,26 @@ import Image from 'Components/Image'
 import Stock from './Cars/Stock'
 import {Edit, Delete, ExpandMore} from '@material-ui/icons'
 
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { withStyles } from '@material-ui/core/styles';
+import { orange } from '@material-ui/core/colors';
+
+
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: orange[300],
+    '&$checked': {
+      color: orange[500],
+    },
+    '&$checked + $track': {
+      backgroundColor: orange[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
 
 export default class Index extends PureComponent {
 
@@ -46,15 +66,28 @@ export default class Index extends PureComponent {
           }
         }
       },
-       {
-        label: "DISPLAY STATUS",
-        name: "isActive",
-        options: {
-          customBodyRender: (value, tableMeta) => {
-            return `${value}`
-          }
-        }
-      },
+      //  {
+      //   label: "DISPLAY STATUS",
+      //   name: "isActive",
+      //   options: {
+      //     customBodyRender: (value, tableMeta) => {
+      //       return (
+      //         <FormGroup row>
+      //           <FormControlLabel
+      //             control={
+      //               <PurpleSwitch
+      //                 checked={value}
+      //                 onChange={(e) => console.log(e.target)}
+      //                 value="checkedA"
+      //               />
+      //             }
+      //           />
+      //         </FormGroup>
+      //     )
+            
+      //     }
+      //   }
+      // },
       {
         label: "IMAGE",
         name: "files",

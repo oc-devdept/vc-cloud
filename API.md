@@ -192,6 +192,10 @@ Retrieve a specific grade
                     productVariantId: String,
                     files : Array <-- thumbnail,
                     images: Array <-- secondary images
+                    stockupdate	: {
+                        title: String,
+                        description: String
+                    }
                 }
             ]
         },

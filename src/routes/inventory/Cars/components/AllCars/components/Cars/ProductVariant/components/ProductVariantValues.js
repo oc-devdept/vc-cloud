@@ -4,25 +4,20 @@ import { PropTypes, object } from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dropzone from "Components/Dropzone";
 
-
 import Input from 'Components/Inventory/Input'
 import Text from 'Components/Inventory/Text'
 import Button from 'Components/Inventory/Button'
 import StaticName from 'Components/Inventory/StaticName'
 import BlobImage from 'Components/Inventory/BlobImage'
 
-
-
 const Index = ({_AddVariantValues}) => {
 
     const [form, setState] = useState({
         name : '',
-        price: '',
+        price: 0,
         isDefault: false,
-     
         // Display ThumbNail
         files: [],
-
         // Secondary Photos
         images :[],
         imagesString :[],

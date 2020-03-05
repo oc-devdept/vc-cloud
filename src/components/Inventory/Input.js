@@ -13,7 +13,7 @@ class Input extends Component {
 
     render() {
 
-        const {title, placeholder, value, _HandleProduct, element, style, divStyle, textarea, type} = this.props
+        const {title, placeholder, value, _HandleProduct, element, style, divStyle, textarea, type, read} = this.props
 
         let styles = {...style}
         let divStyles = {...divStyle}
@@ -29,6 +29,7 @@ class Input extends Component {
                         value={value} 
                         onChange={(e) => _HandleProduct(e.target.value, element)}
                         style={styles}
+                        readOnly={read}
                     />
                 </div>
             )
@@ -46,6 +47,7 @@ class Input extends Component {
                         style={styles}
                         value={value} 
                         onChange={(e) => _HandleProduct(e.target.value, element)}
+                        readOnly={read}
                     />
                 </div>
             )
@@ -62,6 +64,7 @@ class Input extends Component {
                         value={value} 
                         onChange={(e) => _HandleProduct(e.target.value, element)}
                         style={styles}
+                        readOnly={read}
                     />
                 </div>
             )
