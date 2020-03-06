@@ -1,6 +1,5 @@
 import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
 import {
-  CHANGE_DEAL_LIST_VIEW,
   GET_ALL_DEAL,
   GET_SINGLE_DEAL,
   GET_DEAL_SUMMARY,
@@ -10,7 +9,9 @@ import {
   DELETE_DEAL,
   ADD_NOTE_DEAL,
   TRANSFER_DEAL,
-  GET_DEAL_FORM_FIELDS
+  GET_DEAL_FORM_FIELDS,
+  ADD_DEAL_PRODUCT,
+  DELETE_DEAL_PRODUCT
 } from "./DealTypes";
 import * as actions from "./DealActions";
 
@@ -24,18 +25,6 @@ import api from "Api";
 const getAllDealRequest = async () => {
   const result = await api.get("/deals/getall");
   return result.data.data;
-};
-const getOpenDealRequest = async () => {
-  const result = await api.get("/deals");
-  return result.data;
-};
-const getClosedDealRequest = async () => {
-  const result = await api.get("/deals");
-  return result.data;
-};
-const getWonDealRequest = async () => {
-  const result = await api.get("/deals");
-  return result.data;
 };
 const getDealRequest = async dealID => {
   const result = await api.get(`/deals/${dealID}`);
@@ -76,37 +65,20 @@ const getDealFormFieldsRequest = async () => {
   const result = await api.get("/deals/formFields");
   return result.data;
 };
+const addDealProductRequest = async ({ dealId, data }) => {
+  const result = await api.post(`/deals/${dealId}/products`, data);
+  return result;
+};
+const deleteDealProductRequest = async ({ dealId, productId }) => {
+  const result = await api.delete(`/deals/${dealId}/products/${productId}`);
+  return result;
+  // const result = await api.delete(`/deals/${id}`)
+  // console.log(result);
+};
 
 //=========================
 // CALL(GENERATOR) ACTIONS
 //=========================
-function* changeDealList({ payload }) {
-  let data;
-  try {
-    if (payload == "All Deals") {
-      // All Deals
-      data = yield call(getAllDealRequest);
-      yield put(actions.getDealSuccess(data));
-    } else if (payload == "Open Deals") {
-      // Open Deals
-      data = yield call(getOpenDealRequest);
-      yield put(actions.getDealSuccess(data));
-    } else if (payload == "Closed Deals") {
-      // Open Deals
-      data = yield call(getClosedDealRequest);
-      yield put(actions.getDealSuccess(data));
-    } else if (payload == "Won Deals") {
-      // Open Deals
-      data = yield call(getWonDealRequest);
-      yield put(actions.getDealSuccess(data));
-    } else {
-      data = yield call(getAllDealRequest);
-      yield put(actions.getDealSuccess(data));
-    }
-  } catch (error) {
-    yield put(actions.getDealFailure(error));
-  }
-}
 function* getAllDealFromDB() {
   try {
     const data = yield call(getAllDealRequest);
@@ -198,13 +170,26 @@ function* getDealFormFieldsFromDB() {
     yield put(actions.getDealFormFailure(error));
   }
 }
+function* addDealProduct({ payload }) {
+  try {
+    const data = yield call(addDealProductRequest, payload);
+    yield put(actions.addDealProductSuccess(data));
+  } catch (error) {
+    yield put(actions.addDealProductFailure(error));
+  }
+}
+function* deleteDealProduct({ payload }) {
+  try {
+    yield call(deleteDealProductRequest, payload);
+    yield put(actions.deleteDealProductSuccess(payload.productId));
+  } catch (error) {
+    yield put(actions.deleteDealProductFailure(error));
+  }
+}
 
 //=======================
 // WATCHER FUNCTIONS
 //=======================
-export function* changeViewWatcher() {
-  yield takeEvery(CHANGE_DEAL_LIST_VIEW, changeDealList);
-}
 export function* getAllDealWatcher() {
   yield takeEvery(GET_ALL_DEAL, getAllDealFromDB);
 }
@@ -235,13 +220,18 @@ export function* transferDealWatcher() {
 export function* getDealFormFieldsWatcher() {
   yield takeEvery(GET_DEAL_FORM_FIELDS, getDealFormFieldsFromDB);
 }
+export function* addDealProductWatcher() {
+  yield takeEvery(ADD_DEAL_PRODUCT, addDealProduct);
+}
+export function* deleteDealProductWatcher() {
+  yield takeEvery(DELETE_DEAL_PRODUCT, deleteDealProduct);
+}
 
 //=======================
 // FORK SAGAS TO STORE
 //=======================
 export default function* rootSaga() {
   yield all([
-    fork(changeViewWatcher),
     fork(getAllDealWatcher),
     fork(getSingleDealWatcher),
     fork(getDealSummaryWatcher),
@@ -251,6 +241,8 @@ export default function* rootSaga() {
     fork(deleteDealWatcher),
     fork(addNoteDealWatcher),
     fork(transferDealWatcher),
-    fork(getDealFormFieldsWatcher)
+    fork(getDealFormFieldsWatcher),
+    fork(addDealProductWatcher),
+    fork(deleteDealProductWatcher)
   ]);
 }

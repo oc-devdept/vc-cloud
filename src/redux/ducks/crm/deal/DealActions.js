@@ -1,11 +1,4 @@
 import * as types from "./DealTypes";
-/**
- * Change List View
- */
-export const changeDealView = newValue => ({
-  type: types.CHANGE_DEAL_LIST_VIEW,
-  payload: newValue
-});
 
 /**
  * Get DEAL Failure
@@ -28,34 +21,6 @@ export const getDealSuccess = data => ({
  */
 export const getAllDeal = () => ({
   type: types.GET_ALL_DEAL
-});
-
-/**
- * Get My DEALs
- */
-export const getMyDeal = () => ({
-  type: types.GET_MY_DEAL
-});
-
-/**
- * Get Open DEALs
- */
-export const getOpenDeal = () => ({
-  type: types.GET_OPEN_DEAL
-});
-
-/**
- * Get Closed DEALs
- */
-export const getClosedDeal = () => ({
-  type: types.GET_CLOSED_DEAL
-});
-
-/**
- * Get Won DEALs
- */
-export const getWonDeal = () => ({
-  type: types.GET_WON_DEAL
 });
 
 /**
@@ -218,4 +183,36 @@ export const transferDealFailure = error => ({
 export const addDealEvent = data => ({
   type: types.ADD_DEAL_EVENT,
   payload: data
+});
+
+// =======================
+// Integration
+// =======================
+
+/**
+ * Deal Product
+ */
+export const addDealProduct = (data, dealId) => ({
+  type: types.ADD_DEAL_PRODUCT,
+  payload: { dealId, data }
+});
+export const addDealProductSuccess = data => ({
+  type: types.ADD_DEAL_PRODUCT_SUCCESS,
+  payload: data
+});
+export const addDealProductFailure = error => ({
+  type: types.ADD_DEAL_PRODUCT_FAILURE,
+  payload: error
+});
+export const deleteDealProduct = (dealId, productId) => ({
+  type: types.DELETE_DEAL_PRODUCT,
+  payload: { dealId, productId }
+});
+export const deleteDealProductSuccess = id => ({
+  type: types.DELETE_DEAL_PRODUCT_SUCCESS,
+  payload: id
+});
+export const deleteDealProductFailure = error => ({
+  type: types.DELETE_DEAL_PRODUCT_FAILURE,
+  payload: error
 });

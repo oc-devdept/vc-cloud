@@ -51,6 +51,9 @@ import { AnnouncementReducer } from "Ducks/CallToAction";
 // Bookings
 import { BookingReducer } from "Ducks/booking";
 
+// Configurator
+import { ConfiguratorReducer } from "Ducks/configurator";
+
 const reducers = combineReducers({
   sessionState: combineReducers({
     authState: AuthReducer,
@@ -76,6 +79,7 @@ const reducers = combineReducers({
     campaignState: CampaignReducer,
     templateState: TemplateReducer
   }),
+  configuratorState: ConfiguratorReducer,
   followupState: FollowupReducer,
   announcementState: AnnouncementReducer,
   widgetState: WidgetReducer,
