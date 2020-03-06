@@ -3,14 +3,9 @@
  */
 
 // List
-export const CHANGE_DEAL_LIST_VIEW = "CHANGE_DEAL_LIST_VIEW";
 export const GET_DEAL_FAILURE = "GET_DEAL_FAILURE";
 export const GET_DEAL_SUCCESS = "GET_DEAL_SUCCESS";
 export const GET_ALL_DEAL = "GET_ALL_DEAL";
-export const GET_MY_DEAL = "GET_MY_DEAL";
-export const GET_OPEN_DEAL = "GET_OPEN_DEAL";
-export const GET_CLOSED_DEAL = "GET_CLOSED_DEAL";
-export const GET_WON_DEAL = "GET_WON_DEAL";
 
 // List Summary
 export const GET_DEAL_SUMMARY = "GET_DEAL_SUMMARY";
@@ -62,3 +57,16 @@ export const TRANSFER_DEAL_FAILURE = "TRANSFER_DEAL_FAILURE";
 
 // Events
 export const ADD_DEAL_EVENT = "ADD_DEAL_EVENT";
+
+// =======================
+// Integration
+// =======================
+
+// Deal Products
+export const ADD_DEAL_PRODUCT = "ADD_DEAL_PRODUCT";
+export const ADD_DEAL_PRODUCT_SUCCESS = "ADD_DEAL_PRODUCT_SUCCESS";
+export const ADD_DEAL_PRODUCT_FAILURE = "ADD_DEAL_PRODUCT_FAILURE";
+
+export const DELETE_DEAL_PRODUCT = "DELETE_DEAL_PRODUCT";
+export const DELETE_DEAL_PRODUCT_SUCCESS = "DELETE_DEAL_PRODUCT_SUCCESS";
+export const DELETE_DEAL_PRODUCT_FAILURE = "DELETE_DEAL_PRODUCT_FAILURE";

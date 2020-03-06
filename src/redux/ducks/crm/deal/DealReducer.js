@@ -38,29 +38,6 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case types.CHANGE_DEAL_LIST_VIEW:
-      if (action.payload == "My Deals") {
-        return {
-          ...state,
-          dealList: {
-            ...state.dealList,
-            nowShowing: action.payload,
-            action: true,
-            loading: true
-          }
-        };
-      } else {
-        return {
-          ...state,
-          dealList: {
-            ...state.dealList,
-            nowShowing: action.payload,
-            action: false,
-            loading: true
-          }
-        };
-      }
-
     /**
      * Deal Summary
      */
@@ -96,10 +73,6 @@ export default (state = INIT_STATE, action) => {
         dealList: INIT_STATE.dealList
       };
     case types.GET_ALL_DEAL:
-    case types.GET_MY_DEAL:
-    case types.GET_OPEN_DEAL:
-    case types.GET_CLOSED_DEAL:
-    case types.GET_WON_DEAL:
       return {
         ...state,
         dealList: { ...state.dealList, loading: true }
@@ -361,6 +334,62 @@ export default (state = INIT_STATE, action) => {
           ...state.dealToView,
           deal: { ...state.dealToView.deal, events: newEvent }
         }
+      };
+
+    // =======================
+    // Integration
+    // =======================
+
+    /**
+     * Deal Product
+     */
+    case types.ADD_DEAL_PRODUCT:
+      return {
+        ...state,
+        dealToView: { ...state.dealToView, sectionLoading: true }
+      };
+    case types.ADD_DEAL_PRODUCT_SUCCESS:
+      console.log(action.payload);
+      // const addDealProduct = Object.assign([], state.dealToView.deal.products);
+      // addDealProduct.push(action.payload);
+      return {
+        ...state,
+        dealToView: {
+          ...state.dealToView,
+          sectionLoading: false
+          // deal: { ...state.dealToView.deal, products: action.payload }
+        }
+      };
+    case types.ADD_DEAL_PRODUCT_FAILURE:
+      NotificationManager.error("Error in adding products");
+      return {
+        ...state,
+        dealToView: { ...state.dealToView, sectionLoading: false }
+      };
+    case types.DELETE_DEAL_PRODUCT:
+      return {
+        ...state,
+        dealToView: { ...state.dealToView, sectionLoading: true }
+      };
+    case types.DELETE_DEAL_PRODUCT_SUCCESS:
+      NotificationManager.success("Product Deleted");
+      var deleteProduct = Object.assign(
+        [],
+        state.dealToView.deal.products
+      ).filter(cust => cust.id != action.payload);
+      return {
+        ...state,
+        dealToView: {
+          ...state.dealToView,
+          sectionLoading: false,
+          deal: { ...state.dealToView.deal, products: deleteProduct }
+        }
+      };
+    case types.DELETE_DEAL_PRODUCT_FAILURE:
+      NotificationManager.error("Error in deleting products");
+      return {
+        ...state,
+        dealToView: { ...state.dealToView, sectionLoading: false }
       };
 
     default:

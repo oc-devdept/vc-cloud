@@ -24,16 +24,17 @@ function OverviewTab(props) {
       </div>
       <div className="row">
         <div className="col-lg-12">
-          <DealProducts products={deal.productInfo} />
+          <DealProducts
+            dealClosed={deal.stageInfo.chance == 100}
+            products={deal.products}
+            dealId={deal.id}
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-lg-6">
           <Comments comments={deal.notes} addComment={addNote} />
         </div>
-        {/* <div className="col">
-          <BgCard>upcoming</BgCard>
-        </div> */}
       </div>
     </React.Fragment>
   );

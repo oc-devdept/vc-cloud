@@ -5,24 +5,39 @@ import { show } from "redux-modal";
 //Page req
 import RecordsList from "Components/RecordsList";
 import { listOptions } from "Helpers/helpers";
+import { Delete } from "@material-ui/icons";
+import { Button, TableRow, TableCell, IconButton } from "@material-ui/core";
 
-import { Button, TableRow, TableCell } from "@material-ui/core";
+// Actions
+import { addDealProduct, deleteDealProduct } from "Ducks/crm/deal";
 
 class ProductList extends Component {
   constructor(props) {
     super(props);
     this.newProduct = this.newProduct.bind(this);
-    this.editProduct = this.editProduct.bind(this);
+    // this.editProduct = this.editProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
-  newProduct() {
-    this.props.show("deal_product");
+  newProduct(dealId) {
+    this.props.show("deal_product", {
+      action: this.props.addDealProduct,
+      dealId
+    });
   }
-  editProduct(id) {
-    const edit = this.props.tableData.find(tabledat => tabledat.id == id);
-    this.props.show("deal_product", { edit });
+  // editProduct(id) {
+  //   const edit = this.props.tableData.find(tabledat => tabledat.id == id);
+  //   console.log(edit);
+  //   this.props.show("deal_product", { edit });
+  // }
+  deleteProduct(id) {
+    this.props.show("alert_delete", {
+      action: () => {
+        this.props.deleteDealProduct(this.props.dealId, id);
+      }
+    });
   }
   render() {
-    const { tableData, title } = this.props;
+    const { tableData, title, dealClosed, dealId } = this.props;
     const columns = [
       {
         name: "id",
@@ -45,14 +60,34 @@ class ProductList extends Component {
       },
       {
         label: "Tax",
-        name: "gst"
+        name: "tax"
       },
       {
         name: "Action",
         options: {
-          customBodyRender: (value, tableMeta, updateValue) => {
-            console.log(tableMeta.rowData[0]);
-          }
+          filter: false,
+          sort: false,
+          setCellProps: () => ({ className: "text-center" }),
+          setCellHeaderProps: () => ({ className: "text-center" }),
+          customBodyRender: (value, tableMeta, updateValue) => (
+            <React.Fragment>
+              {/* <IconButton
+                disabled={dealClosed}
+                onClick={() => this.editProduct(tableMeta.rowData[0])}
+                size="small"
+              >
+                <Edit fontSize="inherit" />
+              </IconButton> */}
+              <IconButton
+                disabled={dealClosed}
+                onClick={() => this.deleteProduct(tableMeta.rowData[0])}
+                size="small"
+                className="ml-20"
+              >
+                <Delete className="text-danger" fontSize="inherit" />
+              </IconButton>
+            </React.Fragment>
+          )
         }
       },
       {
@@ -79,22 +114,27 @@ class ProductList extends Component {
     options.search = false;
     options.filter = false;
     options.viewColumns = false;
+    options.rowsPerPage = 5;
+    options.rowsPerPageOptions = [5, 10, 15];
     options.setTableProps = () => {
       return { size: "small" };
     };
     options.customToolbar = () => {
       return (
-        <Button /* onClick={newFollowup} */ variant="outlined" size="small">
+        <Button
+          onClick={() => this.newProduct(dealId)}
+          disabled={dealClosed}
+          variant="outlined"
+          size="small"
+        >
           Add Product
         </Button>
       );
     };
     options.expandableRows = true;
     options.renderExpandableRow = (rowData, rowMeta) => {
-      const colSpan = rowData.length + 1;
-      const variant = rowData[4];
-      const accessories = rowData[5];
-
+      const variant = rowData[5];
+      const accessories = rowData[6];
       return (
         <React.Fragment>
           <TableRow>
@@ -158,4 +198,6 @@ class ProductList extends Component {
   }
 }
 
-export default connect(null, { show })(ProductList);
+export default connect(null, { show, addDealProduct, deleteDealProduct })(
+  ProductList
+);
