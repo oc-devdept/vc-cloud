@@ -5,6 +5,7 @@ const INIT_STATE = {
   dealsReport: {
     dealsByOwner: { loading: false, data: null },
     dealsByType: { loading: false, data: null },
+    dealsBySource: { loading: false, data: null },
     dealsPipeline: { loading: false, data: null }
   },
   leadsReport: {
@@ -21,7 +22,8 @@ const INIT_STATE = {
     wonByOwner: { loading: false, data: null }
   },
   salesReport: {
-    commsReport: { loading: false, data: null }
+    commsReport: { loading: false, data: null },
+    topSeller: { loading: false, data: null }
   }
 };
 
@@ -76,6 +78,28 @@ export default (state = INIT_STATE, action) => {
           ...state.dealsReport,
           dealsByType: {
             ...state.dealsReport.dealsByType,
+            loading: false,
+            data: action.payload
+          }
+        }
+      };
+
+    // Deal By Source
+    case types.GET_DEALS_BY_SOURCE:
+      return {
+        ...state,
+        dealsReport: {
+          ...state.dealsReport,
+          dealsBySource: { ...state.dealsReport.dealsBySource, loading: true }
+        }
+      };
+    case types.GET_DEALS_BY_SOURCE_SUCCESS:
+      return {
+        ...state,
+        dealsReport: {
+          ...state.dealsReport,
+          dealsBySource: {
+            ...state.dealsReport.dealsBySource,
             loading: false,
             data: action.payload
           }
@@ -284,6 +308,31 @@ export default (state = INIT_STATE, action) => {
           ...state.salesReport,
           commsReport: {
             ...state.salesReport.commsReport,
+            loading: false,
+            data: action.payload
+          }
+        }
+      };
+
+    // Top Selling Products Report
+    case types.GET_TOP_SELLING_REPORT:
+      return {
+        ...state,
+        salesReport: {
+          ...state.salesReport,
+          topSeller: {
+            ...state.salesReport.topSeller,
+            loading: true
+          }
+        }
+      };
+    case types.GET_TOP_SELLING_REPORT_SUCCESS:
+      return {
+        ...state,
+        salesReport: {
+          ...state.salesReport,
+          topSeller: {
+            ...state.salesReport.topSeller,
             loading: false,
             data: action.payload
           }

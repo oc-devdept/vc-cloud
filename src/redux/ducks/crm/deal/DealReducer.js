@@ -349,7 +349,8 @@ export default (state = INIT_STATE, action) => {
         dealToView: { ...state.dealToView, sectionLoading: true }
       };
     case types.ADD_DEAL_PRODUCT_SUCCESS:
-      console.log(action.payload);
+      NotificationManager.success("Successfully added product!");
+      // console.log(action.payload);
       // const addDealProduct = Object.assign([], state.dealToView.deal.products);
       // addDealProduct.push(action.payload);
       return {

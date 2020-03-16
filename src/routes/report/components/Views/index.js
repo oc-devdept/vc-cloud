@@ -5,6 +5,7 @@ import { ReportDefaultMessage } from "../DefaultMessages";
 import DealsByOwnerReport from "./DealReports/DealsByOwnerReport";
 import DealsByTypeReport from "./DealReports/DealsByTypeReport";
 import DealsPipelineReport from "./DealReports/DealsPipelineReport";
+import DealsBySourceReport from "./DealReports/DealsBySourceReport";
 
 // Closed Deal Reports
 import WonByOwnerReport from "./ClosedDealReports/WonByOwnerReport";
@@ -18,54 +19,34 @@ import IndividualReport from "./IndividualReport";
 
 // Sales Report
 import CommissionReport from "./SalesReports/CommissionReport";
+import TopSellingProductReport from "./SalesReports/TopSellingProductReport";
 
-const ReportRender = ({ componentToRender }) => {
-  switch (componentToRender) {
-    //===================
-    // Open Deal Reports
-    //===================
-    case "dealsByOwner":
-      return <DealsByOwnerReport />;
-    case "dealsByType":
-      return <DealsByTypeReport />;
-    case "dealsPipeline":
-      return <DealsPipelineReport />;
+const Reports = {
+  // Deals Report
+  dealsByOwner: DealsByOwnerReport,
+  dealsByType: DealsByTypeReport,
+  dealsPipeline: DealsPipelineReport,
+  dealsBySource: DealsBySourceReport,
 
-    //===================
-    // Closed Deal Reports
-    //===================
-    case "wonByOwner":
-      return <WonByOwnerReport />;
-    case "lostDealsReason":
-      return <ReportDefaultMessage />;
+  // Closed Deals
+  wonByOwner: WonByOwnerReport,
+  lostDealsReason: ReportDefaultMessage,
 
-    //===================
-    // Acct Cust Reports
-    //===================
-    case "topSpenderAccount":
-      return <TopSpenderAccountReport />;
-    case "topSpenderCustomer":
-      return <TopSpenderCustomerReport />;
+  // Acct Cust Report
+  topSpenderAccount: TopSpenderAccountReport,
+  topSpenderCustomer: TopSpenderCustomerReport,
 
-    //===================
-    // Customer Analysis
-    //===================
-    case "custDemographic":
-      return <ReportDefaultMessage />;
+  // Customer Analysis
+  custDemographic: ReportDefaultMessage,
 
-    //===================
-    // Individual Reports
-    //===================
-    case "topSeller":
-      return <ReportDefaultMessage />;
-    case "commission":
-      return <CommissionReport />;
-    case "individualReport":
-      return <IndividualReport />;
-
-    default:
-      return <ReportDefaultMessage />;
-  }
+  // Sales
+  topSeller: TopSellingProductReport,
+  commission: CommissionReport,
+  individualReport: IndividualReport
 };
 
+const ReportRender = ({ componentToRender }) => {
+  const Handler = Reports[componentToRender] || ReportDefaultMessage;
+  return <Handler />;
+};
 export default ReportRender;

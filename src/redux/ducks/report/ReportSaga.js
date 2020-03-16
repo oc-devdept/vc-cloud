@@ -2,6 +2,7 @@ import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
 import {
   GET_DEALS_BY_OWNER,
   GET_DEALS_BY_TYPE,
+  GET_DEALS_BY_SOURCE,
   GET_DEALS_PIPELINE,
   GET_LEADS_BY_STATUS,
   GET_LEADS_BY_OWNER,
@@ -10,13 +11,15 @@ import {
   GET_TOP_SPENDER_CUSTOMER,
   GET_INDIVIDUAL_REPORT,
   GET_CLOSED_BY_OWNER,
-  GET_COMMISSION_REPORT
+  GET_COMMISSION_REPORT,
+  GET_TOP_SELLING_REPORT
 } from "./ReportTypes";
 
 import {
   getReportFailure,
   getDealsByOwnerSuccess,
   getDealsByTypeSuccess,
+  getDealsBySourceSuccess,
   getDealsPipelineSuccess,
   getLeadsByStatusSuccess,
   getLeadsByOwnerSuccess,
@@ -25,7 +28,8 @@ import {
   getTopSpenderCustomerSuccess,
   getIndividualReportSuccess,
   getWonByOwnerSuccess,
-  getCommissionReportSuccess
+  getCommissionReportSuccess,
+  getTopSellerSuccess
 } from "./ReportActions";
 
 import api from "Api";
@@ -42,6 +46,13 @@ const getDealsByOwnerRequest = async (startDate, endDate) => {
 };
 const getDealsByTypeRequest = async (startDate, endDate) => {
   const result = await api.post("/reports/dealsbytype", {
+    startDate,
+    endDate
+  });
+  return result.data.data;
+};
+const getDealsBySourceRequest = async (startDate, endDate) => {
+  const result = await api.post("/reports/dealsbysource", {
     startDate,
     endDate
   });
@@ -109,6 +120,10 @@ const getCommissionRequest = async (startDate, endDate) => {
   console.log(result);
   return result.data.data;
 };
+const getTopSellerRequest = async (startDate, endDate) => {
+  const result = await api.post("/reports/topseller", { startDate, endDate });
+  return result.data.data;
+};
 
 //=========================
 // CALL(GENERATOR) ACTIONS
@@ -129,6 +144,16 @@ function* getDealsByType({ payload }) {
     const data = yield call(getDealsByTypeRequest, start, end);
     yield delay(500);
     yield put(getDealsByTypeSuccess(data));
+  } catch (error) {
+    yield put(getReportFailure(error));
+  }
+}
+function* getDealsBySource({ payload }) {
+  const { start, end } = payload;
+  try {
+    const data = yield call(getDealsBySourceRequest, start, end);
+    yield delay(500);
+    yield put(getDealsBySourceSuccess(data));
   } catch (error) {
     yield put(getReportFailure(error));
   }
@@ -223,6 +248,16 @@ function* getCommission({ payload }) {
     yield put(getReportFailure(error));
   }
 }
+function* getTopSeller({ payload }) {
+  const { start, end } = payload;
+  try {
+    const data = yield call(getTopSellerRequest, start, end);
+    yield delay(500);
+    yield put(getTopSellerSuccess(data));
+  } catch (error) {
+    yield put(getReportFailure(error));
+  }
+}
 
 //=======================
 // WATCHER FUNCTIONS
@@ -232,6 +267,9 @@ export function* getDealsByOwnerWatcher() {
 }
 export function* getDealsByTypeWatcher() {
   yield takeEvery(GET_DEALS_BY_TYPE, getDealsByType);
+}
+export function* getDealsBySourceWatcher() {
+  yield takeEvery(GET_DEALS_BY_SOURCE, getDealsBySource);
 }
 export function* getDealsPipelineWatcher() {
   yield takeEvery(GET_DEALS_PIPELINE, getDealsPipeline);
@@ -260,6 +298,9 @@ export function* getWonByOwnerWatcher() {
 export function* getCommissionWatcher() {
   yield takeEvery(GET_COMMISSION_REPORT, getCommission);
 }
+export function* getTopSellerWatcher() {
+  yield takeEvery(GET_TOP_SELLING_REPORT, getTopSeller);
+}
 
 //=======================
 // FORK SAGAS TO STORE
@@ -268,6 +309,7 @@ export default function* rootSaga() {
   yield all([
     fork(getDealsByOwnerWatcher),
     fork(getDealsByTypeWatcher),
+    fork(getDealsBySourceWatcher),
     fork(getDealsPipelineWatcher),
     fork(getLeadsByStatusWatcher),
     fork(getLeadsByOwnerWatcher),
@@ -276,6 +318,7 @@ export default function* rootSaga() {
     fork(getTopSpenderCustomerWatcher),
     fork(getIndividualReportWatcher),
     fork(getWonByOwnerWatcher),
-    fork(getCommissionWatcher)
+    fork(getCommissionWatcher),
+    fork(getTopSellerWatcher)
   ]);
 }
