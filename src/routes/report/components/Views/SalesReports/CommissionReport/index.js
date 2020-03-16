@@ -1,23 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-import ReportContainer from "../../ReportContainer";
+import ReportContainer from "../../../ReportContainer";
 import RctSectionLoader from "Components/RctSectionLoader";
 // Charts
-// import LeadsBySourceChart from "Components/Charts/LeadsBySourceChart";
+import CommissionReportChart from "./chart";
 // Action
 import { getCommissionReport } from "Ducks/report";
 
-function LeadsBySourceReport(props) {
+function CommissionReport(props) {
   const { loading, data } = props.commsReport;
   return (
     <React.Fragment>
       {loading && <RctSectionLoader />}
       <ReportContainer handleSubmit={props.getCommissionReport}>
         {data ? (
-          //   <LeadsBySourceChart data={data} />
-          <div>
-            <p>hello</p>
-          </div>
+          <CommissionReportChart data={data} />
         ) : (
           <p className="text-muted text-center">
             <i>No Records</i>
@@ -34,5 +31,5 @@ const mapStateToProps = ({ reportState }) => {
 };
 
 export default connect(mapStateToProps, { getCommissionReport })(
-  LeadsBySourceReport
+  CommissionReport
 );

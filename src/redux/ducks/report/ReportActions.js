@@ -32,6 +32,16 @@ export const getDealsByTypeSuccess = data => ({
   payload: data
 });
 
+// Deal by Source
+export const getDealsBySource = (start, end) => ({
+  type: types.GET_DEALS_BY_SOURCE,
+  payload: { start, end }
+});
+export const getDealsBySourceSuccess = data => ({
+  type: types.GET_DEALS_BY_SOURCE_SUCCESS,
+  payload: data
+});
+
 // Deals Pipeline
 export const getDealsPipeline = (start, end) => ({
   type: types.GET_DEALS_PIPELINE,
@@ -137,5 +147,15 @@ export const getCommissionReport = (start, end) => ({
 });
 export const getCommissionReportSuccess = data => ({
   type: types.GET_COMMISSION_REPORT_SUCCESS,
+  payload: data
+});
+
+// Top Selling Products Report
+export const getTopSeller = (start, end) => ({
+  type: types.GET_TOP_SELLING_REPORT,
+  payload: { start, end }
+});
+export const getTopSellerSuccess = data => ({
+  type: types.GET_TOP_SELLING_REPORT_SUCCESS,
   payload: data
 });

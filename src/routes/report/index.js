@@ -56,7 +56,8 @@ class ReportsComponent extends Component {
         nestedList: [
           { title: "Deals By Owner", stateName: "dealsByOwner" },
           { title: "Deals By Type", stateName: "dealsByType" },
-          { title: "Deals Pipeline", stateName: "dealsPipeline" }
+          { title: "Deals Pipeline", stateName: "dealsPipeline" },
+          { title: "Deals By Source", stateName: "dealsBySource" }
         ]
       },
       {
@@ -97,7 +98,7 @@ class ReportsComponent extends Component {
             stateName: "individualReport"
           },
           {
-            title: "Top Selling Product",
+            title: "Products Sold",
             stateName: "topSeller"
           },
           {
