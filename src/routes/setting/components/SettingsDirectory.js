@@ -15,7 +15,8 @@ class SettingsDirectory extends Component {
     this.state = {
       general: true,
       user: true,
-      cta: true
+      cta: true,
+      website: true
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleClickItem = this.handleClickItem.bind(this);
