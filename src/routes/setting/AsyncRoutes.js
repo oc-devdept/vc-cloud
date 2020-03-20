@@ -48,6 +48,6 @@ export const announcements = Loadable({
  * Website Setting
  */
 export const websiteSettings = Loadable({
-  loader: () => import("./WebsiteSettings"),
+  loader: () => import("./websiteSettings"),
   loading: () => <RctPageLoader />
 });
