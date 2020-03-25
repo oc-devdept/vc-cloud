@@ -95,7 +95,7 @@ export default function DealsBySourceChart(props) {
             <thead>
               <tr>
                 <th>Source</th>
-                <th>Deal Name</th>
+                <th>Customer Name</th>
                 <th>Email</th>
                 <th>Owner</th>
               </tr>

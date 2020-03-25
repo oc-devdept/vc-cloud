@@ -41,7 +41,8 @@ import { FollowupReducer } from "Ducks/followUp";
 import {
   UserManagementReducer,
   RolesReducer,
-  WebsiteSettingsReducer
+  WebsiteSettingsReducer,
+  CommissionReducer
 } from "Ducks/setting";
 
 // system
@@ -93,7 +94,8 @@ const reducers = combineReducers({
   rolesState: RolesReducer,
   bookingState: BookingReducer,
   modal,
-  webSettingsState: WebsiteSettingsReducer
+  webSettingsState: WebsiteSettingsReducer,
+  commissionState: CommissionReducer
 });
 
 export default reducers;

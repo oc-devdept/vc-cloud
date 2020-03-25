@@ -180,7 +180,7 @@ module.exports = function(env) {
       new HtmlWebPackPlugin({
         template: "./public/index.html",
         filename: "./index.html",
-        favicon: "./public/favicon.ico",
+        favicon: "./public/favicon.png",
         chunksSortMode: "none"
       }),
       new MiniCssExtractPlugin({

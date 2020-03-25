@@ -3,15 +3,15 @@ import { ReportDefaultMessage } from "../DefaultMessages";
 
 // Deal Reports
 import DealsByOwnerReport from "./DealReports/DealsByOwnerReport";
-import DealsByTypeReport from "./DealReports/DealsByTypeReport";
+// import DealsByTypeReport from "./DealReports/DealsByTypeReport";
 import DealsPipelineReport from "./DealReports/DealsPipelineReport";
 import DealsBySourceReport from "./DealReports/DealsBySourceReport";
 
 // Closed Deal Reports
-import WonByOwnerReport from "./ClosedDealReports/WonByOwnerReport";
+// import WonByOwnerReport from "./ClosedDealReports/WonByOwnerReport";
 
 // Acct Cust Reports
-import TopSpenderAccountReport from "./AcctCustReports/TopSpenderAccountReport";
+// import TopSpenderAccountReport from "./AcctCustReports/TopSpenderAccountReport";
 import TopSpenderCustomerReport from "./AcctCustReports/TopSpenderCustomerReport";
 
 // Individual Report
@@ -24,16 +24,16 @@ import TopSellingProductReport from "./SalesReports/TopSellingProductReport";
 const Reports = {
   // Deals Report
   dealsByOwner: DealsByOwnerReport,
-  dealsByType: DealsByTypeReport,
+  // dealsByType: DealsByTypeReport,
   dealsPipeline: DealsPipelineReport,
   dealsBySource: DealsBySourceReport,
 
-  // Closed Deals
-  wonByOwner: WonByOwnerReport,
-  lostDealsReason: ReportDefaultMessage,
+  // // Closed Deals
+  // wonByOwner: WonByOwnerReport,
+  // lostDealsReason: ReportDefaultMessage,
 
   // Acct Cust Report
-  topSpenderAccount: TopSpenderAccountReport,
+  // topSpenderAccount: TopSpenderAccountReport,
   topSpenderCustomer: TopSpenderCustomerReport,
 
   // Customer Analysis

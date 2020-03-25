@@ -14,8 +14,8 @@ class ImageComponent extends PureComponent {
               boxShadow:
                 "0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)",
               borderRadius: 8,
-              width: 50,
-              height: 50
+              width: 40,
+              height: 40
             }}
           >
             <img
@@ -34,11 +34,11 @@ class ImageComponent extends PureComponent {
           <div
             className="d-flex"
             style={{
-              width: 100,
-              height: 100,
+              width: 60,
+              height: 60,
               justifyContent: "center",
               boxShadow:
-                "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1)",
               borderRadius: 20
             }}
           >
@@ -62,7 +62,7 @@ class ImageComponent extends PureComponent {
               <div
                 key={index}
                 className="d-flex"
-                style={{ width: 100, height: 100 }}
+                style={{ width: 60, height: 60 }}
               >
                 <img
                   src={e.path}

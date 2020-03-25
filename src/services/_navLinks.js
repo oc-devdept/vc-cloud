@@ -13,11 +13,7 @@ import {
 //   paymentPage
 // } from "Helpers/accountingURL";
 
-import {
-  inventoryPage,
-  allCarsPage,
-  configurePage,
-} from "Helpers/inventoryURL";
+import { allCarsPage, configurePage } from "Helpers/inventoryURL";
 
 import {
   marketingListPage,
@@ -82,14 +78,10 @@ export default [
   // },
 
   {
-    url: "/app/inventory/dashboard",
+    url: allCarsPage,
     baseUrl: "/app/inventory",
     name: "Inventory",
     child_routes: [
-      {
-        title: "sidebar.dashboard",
-        path: inventoryPage
-      },
       {
         title: "sidebar.allCars",
         path: allCarsPage
