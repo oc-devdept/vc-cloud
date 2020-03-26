@@ -3,7 +3,8 @@ import {
   userManagement,
   roles,
   announcements,
-  websiteSettings
+  websiteSettings,
+  commission
 } from "../AsyncRoutes";
 
 export default [
@@ -31,6 +32,11 @@ export default [
         title: "Roles & Permissions",
         asyncComponent: roles,
         path: "/users-control/roles-permissions"
+      },
+      {
+        title: "Commission Rates",
+        asyncComponent: commission,
+        path: "/users-control/commission"
       }
     ]
   },

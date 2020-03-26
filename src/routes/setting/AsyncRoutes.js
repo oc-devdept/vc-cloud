@@ -51,3 +51,11 @@ export const websiteSettings = Loadable({
   loader: () => import("./websiteSettings"),
   loading: () => <RctPageLoader />
 });
+
+/**
+ * Commission Setting
+ */
+export const commission = Loadable({
+  loader: () => import("./commsSetting"),
+  loading: () => <RctPageLoader />
+});

@@ -1,46 +1,21 @@
-import React, {PureComponent, Component} from "react";
-import api from "Api";
+import React, { PureComponent } from "react";
 
 //Page req
-import RecordsList from "Components/RecordsList";
-import {Edit, Delete, ExpandMore} from '@material-ui/icons'
-import Image from 'Components/Image'
+import { Edit, Delete } from "@material-ui/icons";
+import { Button, IconButton } from "@material-ui/core";
 
+import RecordsList from "Components/RecordsList";
+import Image from "Components/Image";
 
 export default class Index extends PureComponent {
-
-  state=({
+  state = {
     currentProduct: null,
-    ProductDetailLoading: false,
-  })
+    ProductDetailLoading: false
+  };
 
-  // _HandleVariant = async (rowState) => {
+  render() {
+    const { title, tableData, ToggleDialog, addOptionValue } = this.props;
 
-  //   if(this.state.currentProduct){
-
-  //     if(this.state.currentProduct.id != this.props.tableData[rowState.rowIndex].id){
-  //       const Item = this.props.tableData[rowState.rowIndex]
-  //       const Car = await api.get(`/products/${Item.id}`)
-  //       this.setState({currentProduct: Car.data})
-  //     }
-
-  //   } else {
-
-  //     const Item = this.props.tableData[rowState.rowIndex]
-  //     const Car = await api.get(`/products/${Item.id}`)
-  //     this.setState({currentProduct: Car.data})
-  //   }
-    
-  // }
-
- 
-
-
-
-  render () {
-  
-    const { loading, title, tableData, ToggleDialog } = this.props
-    
     const columns = [
       {
         name: "id",
@@ -60,16 +35,12 @@ export default class Index extends PureComponent {
         name: "files",
         options: {
           customBodyRender: value => {
-            if(value.length > 0){
+            if (value.length > 0) {
               return (
-                <Image
-                    imageSource={value}
-                    single={true}
-                    thumbNail={true}
-                />
-              )
+                <Image imageSource={value} single={true} thumbNail={true} />
+              );
             } else {
-              return null
+              return null;
             }
           }
         }
@@ -100,96 +71,102 @@ export default class Index extends PureComponent {
             return `${value}`;
           }
         }
-      }, 
+      },
       {
         name: "description",
         options: { display: "excluded", filter: false, sort: false }
-      },  
+      },
       {
         name: "EDIT",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                // [rowState.rowData[0], rowState.rowData[2]]
-                const data = {
-                  id: rowState.rowData[0],
-                  name: rowState.rowData[1],
-                  image: rowState.rowData[2],
-                  price: rowState.rowData[3],
-                  isDefault: rowState.rowData[4],
-                  editable: rowState.rowData[5],
-                  description: rowState.rowData[6],
-                }
-                return (
-                    <Edit
-                      onClick={() => ToggleDialog('Edit_ProductOptionValue', data)}
-                    />
-                );
-            }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            // [rowState.rowData[0], rowState.rowData[2]]
+            const data = {
+              id: rowState.rowData[0],
+              name: rowState.rowData[1],
+              image: rowState.rowData[2],
+              price: rowState.rowData[3],
+              isDefault: rowState.rowData[4],
+              editable: rowState.rowData[5],
+              description: rowState.rowData[6]
+            };
+            return (
+              <IconButton
+                onClick={() => ToggleDialog("Edit_ProductOptionValue", data)}
+                size="small"
+              >
+                <Edit style={{ fontSize: 14 }} />
+              </IconButton>
+            );
+          }
         }
       },
       {
         name: "DELETE",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                const data = {
-                  id: rowState.rowData[0],
-                  name: rowState.rowData[1],
-                  image: rowState.rowData[2],
-                  price: rowState.rowData[3],
-                  isDefault: rowState.rowData[4],
-                  editable: rowState.rowData[5],
-                  description: rowState.rowData[6],
-                }
-                return (
-                  <Delete
-                    onClick={() => ToggleDialog('Delete_ProductOptionValue', data)}
-                  />
-                );
-            }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            const data = {
+              id: rowState.rowData[0],
+              name: rowState.rowData[1],
+              image: rowState.rowData[2],
+              price: rowState.rowData[3],
+              isDefault: rowState.rowData[4],
+              editable: rowState.rowData[5],
+              description: rowState.rowData[6]
+            };
+            return (
+              <IconButton
+                onClick={() => ToggleDialog("Delete_ProductOptionValue", data)}
+                size="small"
+              >
+                <Delete style={{ fontSize: 14 }} />
+              </IconButton>
+            );
+          }
         }
-      },
-    
-    ]
+      }
+    ];
 
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
-      selectableRows: 'none',
+      selectableRows: "none",
       expandableRows: false, // Try Adding This
       print: false,
       download: false,
       viewColumns: false,
       search: false,
       filter: false,
+      setTableProps: () => ({ size: "small" }),
+      customToolbar: () => {
+        return (
+          <Button onClick={addOptionValue} variant="outlined" size="small">
+            + Add Product to Equipment Group
+          </Button>
+        );
+      }
     };
 
     return (
-
       <div>
-
-            <RecordsList
-              title={title}
-              columns={columns}
-              data={tableData}
-              options={listOptions}
-              borderRadius={"0px"}
-              boxShadow={"none"}
-            />
-
+        <RecordsList
+          title={title}
+          columns={columns}
+          data={tableData}
+          options={listOptions}
+          borderRadius={"0px"}
+          boxShadow={"none"}
+        />
       </div>
-
-
     );
   }
-};
-
-
+}
 
 // customRowRender:(data, dataIndex, rowIndex) => {
 //   console.log('data' + data);
@@ -206,7 +183,7 @@ export default class Index extends PureComponent {
 //       <TableCell colSpan={rowData.length}>
 //         <div>
 //           <button onClick={() => this._HandleVariant(rowMeta.rowIndex)}>Add new variant</button>
-          
+
 //         </div>
 //       </TableCell>
 //     </TableRow>

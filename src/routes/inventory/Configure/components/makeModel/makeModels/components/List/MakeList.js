@@ -1,6 +1,4 @@
-import React, {PureComponent, Component} from "react";
-import { NavLink } from "react-router-dom";
-import api from "Api";
+import React, { PureComponent } from "react";
 
 //Page req
 import RecordsList from "Components/RecordsList";
@@ -8,34 +6,33 @@ import RecordsList from "Components/RecordsList";
 import BgCard from "Components/BgCard";
 import RctSectionLoader from "Components/RctSectionLoader";
 
-import {Edit, Delete, ExpandMore} from '@material-ui/icons'
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
+import { Edit, Delete } from "@material-ui/icons";
+import { TableRow, TableCell, IconButton, Button } from "@material-ui/core";
 
-import ModelList from './ModelList'
-import Images from 'Components/Image'
+import ModelList from "./ModelList";
+import Images from "Components/Image";
 
-
-export default class Index extends PureComponent {
-
-  state=({
+export default class MakeList extends PureComponent {
+  state = {
     currentProduct: null,
-    ProductDetailLoading: false,
+    ProductDetailLoading: false
+  };
 
-  })
-
- 
-
-  render () {
-  
-    const { loading, title, tableData, ToggleDialog, _DeleteModel } = this.props
-
+  render() {
+    const {
+      loading,
+      title,
+      tableData,
+      ToggleDialog,
+      _DeleteModel,
+      newMake
+    } = this.props;
     const columns = [
       {
         name: "id",
         options: { display: "excluded", filter: false, sort: false }
       },
-     
+
       {
         label: "CAR MAKE",
         name: "name",
@@ -61,36 +58,34 @@ export default class Index extends PureComponent {
         options: {
           customBodyRender: value => {
             // return value;
-            if(value.length> 0){
-              return (
-                <Images
-                    imageSource ={value}
-                    single={true}
-                />
-              )
+            if (value.length > 0) {
+              return <Images imageSource={value} single={true} />;
             } else {
-              return null
+              return null;
             }
           }
         }
       },
       {
-        name: "commission",
+        name: "commissionId",
         options: { display: "excluded", filter: false, sort: false }
       },
       {
         name: "EDIT",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                return (
-                    <Edit
-                      onClick={() => ToggleDialog('Edit_Make', rowState.rowData)}
-                    />
-                );
-            }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            return (
+              <IconButton
+                size="small"
+                onClick={() => ToggleDialog("Edit_Make", rowState.rowData)}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            );
+          }
         }
       },
       {
@@ -98,13 +93,20 @@ export default class Index extends PureComponent {
         options: {
           filter: true,
           sort: false,
-          empty: true, 
+          empty: true,
           customBodyRender: (rowData, rowState) => {
-              return (
-                  <Delete
-                    // onClick={() => console.log('delete!', rowState.rowData[6]? rowState.rowData[6].length: 0)}
-                    onClick={() => _DeleteModel(rowState.rowData[0], rowState.rowData[6]? rowState.rowData[6].length: 0)}
-                  />
+            return (
+              <IconButton
+                onClick={() =>
+                  _DeleteModel(
+                    rowState.rowData[0],
+                    rowState.rowData[7] ? rowState.rowData[7].length : 0
+                  )
+                }
+                size="small"
+              >
+                <Delete fontSize="small" />
+              </IconButton>
             );
           }
         }
@@ -112,29 +114,13 @@ export default class Index extends PureComponent {
       {
         name: "category",
         options: { display: "excluded", filter: false, sort: false }
-      },    
-      // {
-      //   name: "DELETE",
-      //   options: {
-      //       filter: true,
-      //       sort: false,
-      //       empty: true,
-      //       customBodyRender: (rowData, rowState) => {
-      //           return (
-      //             <Delete
-      //               onClick={() => ToggleDialog('Delete_Make', rowState.rowData)}
-      //             />
-      //           );
-      //       }
-      //   }
-      // }
-
-    ]
+      }
+    ];
 
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
-      selectableRows: 'none',
+      selectableRows: "none",
       expandableRows: true, // Try Adding This
       print: false,
       download: false,
@@ -142,42 +128,42 @@ export default class Index extends PureComponent {
       search: false,
       filter: false,
       renderExpandableRow: (rowData, rowMeta) => {
-
-
         return (
           <TableRow>
-            <TableCell colSpan={rowData.length} style={{padding: 0}}>
-                <ModelList
-                  id={rowData[0]}
-                  Make={rowData[1]}
-                  ToggleDialog={ToggleDialog}
-                  _DeleteModel={_DeleteModel}
-                />
+            <TableCell colSpan={rowData.length} style={{ padding: 20 }}>
+              <ModelList
+                id={rowData[0]}
+                Make={rowData[1]}
+                ToggleDialog={ToggleDialog}
+                _DeleteModel={_DeleteModel}
+              />
+              <hr />
             </TableCell>
           </TableRow>
         );
-      }
+      },
+      customToolbar: () => {
+        return (
+          <Button onClick={newMake} variant="outlined" size="small">
+            + Create Make
+          </Button>
+        );
+      },
+      setTableProps: () => ({ size: "small" })
     };
 
-
-
     return (
-
       <div>
-
         <BgCard fullBlock>
-            <RecordsList
-              title={title}
-              columns={columns}
-              data={tableData}
-              options={listOptions}
-            />
+          <RecordsList
+            title={title}
+            columns={columns}
+            data={tableData}
+            options={listOptions}
+          />
           {loading && <RctSectionLoader />}
         </BgCard>
-
-      
       </div>
-
     );
   }
-};
+}

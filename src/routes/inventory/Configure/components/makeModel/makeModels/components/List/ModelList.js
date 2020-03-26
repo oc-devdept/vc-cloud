@@ -1,45 +1,38 @@
-import React, {PureComponent, Component} from "react";
-import { NavLink } from "react-router-dom";
+import React, { PureComponent } from "react";
 import api from "Api";
 
 //Page req
 import RecordsList from "Components/RecordsList";
+import { Edit, Delete } from "@material-ui/icons";
+import { IconButton, Button } from "@material-ui/core";
+import Images from "Components/Image";
 
-import BgCard from "Components/BgCard";
-import RctSectionLoader from "Components/RctSectionLoader";
-
-import {Edit, Delete, ExpandMore} from '@material-ui/icons'
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import Images from 'Components/Image'
-
-export default class Index extends PureComponent {
-
-  state=({
+export default class ModelList extends PureComponent {
+  state = {
     ModelSource: [],
     ModelLoading: true
-  })
+  };
 
-  async componentDidMount(){
+  async componentDidMount() {
     try {
-      const ModelSource = await api.get(`/categories/${this.props.id}/category`);
-      this.setState({ModelSource: ModelSource.data, ModelLoading: false})
+      const ModelSource = await api.get(
+        `/categories/${this.props.id}/category`
+      );
+      this.setState({ ModelSource: ModelSource.data, ModelLoading: false });
     } catch (e) {
-      this.setState({ModelSource: [], ModelLoading: false})
+      this.setState({ ModelSource: [], ModelLoading: false });
     }
   }
 
- 
-  render () {
-  
-    const {title, ToggleDialog, _DeleteModel } = this.props
+  render() {
+    const { ToggleDialog, _DeleteModel } = this.props;
 
     const columns = [
       {
         name: "id",
         options: { display: "excluded", filter: false, sort: false }
       },
-     
+
       {
         label: "CAR MODEL",
         name: "name",
@@ -64,16 +57,10 @@ export default class Index extends PureComponent {
         name: "files",
         options: {
           customBodyRender: value => {
-            // return value;
-            if(value.length> 0){
-              return (
-                <Images
-                    imageSource ={value}
-                    single={true}
-                />
-              )
+            if (value.length > 0) {
+              return <Images imageSource={value} single={true} />;
             } else {
-              return null
+              return null;
             }
           }
         }
@@ -85,16 +72,19 @@ export default class Index extends PureComponent {
       {
         name: "EDIT",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                return (
-                    <Edit
-                      onClick={() => ToggleDialog('Edit_Model', rowState.rowData)}
-                    />
-                );
-            }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            return (
+              <IconButton
+                size="small"
+                onClick={() => ToggleDialog("Edit_Model", rowState.rowData)}
+              >
+                <Edit fontSize="inherit" />
+              </IconButton>
+            );
+          }
         }
       },
       {
@@ -104,10 +94,13 @@ export default class Index extends PureComponent {
           sort: false,
           empty: true,
           customBodyRender: (rowData, rowState) => {
-              return (
-                  <Delete
-                    onClick={() => _DeleteModel(rowState.rowData[0], rowState.rowData[9]? rowState.rowData[9].length: 0)}
-                  />
+            return (
+              <IconButton
+                size="small"
+                onClick={() => _DeleteModel(rowState.rowData[0])}
+              >
+                <Delete fontSize="inherit" />
+              </IconButton>
             );
           }
         }
@@ -123,41 +116,52 @@ export default class Index extends PureComponent {
       {
         name: "product",
         options: { display: "excluded", filter: false, sort: false }
-      },    
-    ]
+      },
+      {
+        name: "commissionId",
+        options: { display: "excluded", filter: false, sort: false }
+      }
+    ];
 
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
-      selectableRows: 'none',
+      selectableRows: "none",
       expandableRows: false, // Try Adding This
       print: false,
       download: false,
       viewColumns: false,
       search: false,
-      filter: false
+      filter: false,
+      pagination: false,
+      setTableProps: () => ({ size: "small" }),
+      customToolbar: () => {
+        return (
+          <Button
+            onClick={() => ToggleDialog("Create_Model", Data, this.props.id)}
+            variant="outlined"
+            size="small"
+          >
+            Add Model to Make
+          </Button>
+        );
+      }
     };
 
     const Data = {
       id: this.props.id,
-      name: this.props.Make,
-    }
+      name: this.props.Make
+    };
 
     return (
-      <div>
-          <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-            <button onClick={()=> ToggleDialog('Create_Model', Data, this.props.id )} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20,}}>{`+ CREATE MODEL TO ${this.props.Make.toUpperCase()}`}</button>
-          </div>
-
-          <RecordsList
-            title={title}
-            columns={columns}
-            data={this.state.ModelSource}
-            options={listOptions}
-            borderRadius={"0px"}
-            boxShadow={"none"}
-          />
-      </div>
+      <RecordsList
+        title="Model List"
+        columns={columns}
+        data={this.state.ModelSource}
+        options={listOptions}
+        borderRadius={"0px"}
+        boxShadow={"none"}
+      />
     );
   }
-};
+}

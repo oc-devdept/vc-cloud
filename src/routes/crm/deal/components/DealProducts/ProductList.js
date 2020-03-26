@@ -7,6 +7,7 @@ import RecordsList from "Components/RecordsList";
 import { listOptions } from "Helpers/helpers";
 import { Delete } from "@material-ui/icons";
 import { Button, TableRow, TableCell, IconButton } from "@material-ui/core";
+import NumberFormat from "react-number-format";
 
 // Actions
 import { addDealProduct, deleteDealProduct } from "Ducks/crm/deal";
@@ -56,11 +57,31 @@ class ProductList extends Component {
       },
       {
         label: "Price of Product",
-        name: "price"
+        name: "price",
+        options: {
+          customBodyRender: value => (
+            <NumberFormat
+              value={value}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"$"}
+            />
+          )
+        }
       },
       {
         label: "Tax",
-        name: "tax"
+        name: "tax",
+        options: {
+          customBodyRender: value => (
+            <NumberFormat
+              value={value}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"$"}
+            />
+          )
+        }
       },
       {
         name: "Action",
@@ -70,23 +91,14 @@ class ProductList extends Component {
           setCellProps: () => ({ className: "text-center" }),
           setCellHeaderProps: () => ({ className: "text-center" }),
           customBodyRender: (value, tableMeta, updateValue) => (
-            <React.Fragment>
-              {/* <IconButton
-                disabled={dealClosed}
-                onClick={() => this.editProduct(tableMeta.rowData[0])}
-                size="small"
-              >
-                <Edit fontSize="inherit" />
-              </IconButton> */}
-              <IconButton
-                disabled={dealClosed}
-                onClick={() => this.deleteProduct(tableMeta.rowData[0])}
-                size="small"
-                className="ml-20"
-              >
-                <Delete className="text-danger" fontSize="inherit" />
-              </IconButton>
-            </React.Fragment>
+            <IconButton
+              disabled={dealClosed}
+              onClick={() => this.deleteProduct(tableMeta.rowData[0])}
+              size="small"
+              className="ml-20"
+            >
+              <Delete className="text-danger" fontSize="inherit" />
+            </IconButton>
           )
         }
       },
@@ -138,49 +150,54 @@ class ProductList extends Component {
       return (
         <React.Fragment>
           <TableRow>
-            <TableCell className="p-30" colSpan={2}>
-              <h4 className="text-left">Variant Infomation</h4>
-              <div className="row justify-content-start ">
+            <TableCell className="p-30" colSpan={rowData.length}>
+              <div className="row align-content-start">
                 <div className="col-md-6">
-                  <dt>Name</dt>
-                </div>
-                <div className="col-md-6">
-                  <dt>Price</dt>
-                </div>
-              </div>
-              {variant &&
-                variant.map((v, key) => (
-                  <div key={key} className="row justify-content-start">
+                  <h4 className="text-left">Variant Infomation</h4>
+                  <div className="row justify-content-start ">
                     <div className="col-md-6">
-                      <dd>{v.name}</dd>
+                      <dt>Name</dt>
                     </div>
                     <div className="col-md-6">
-                      <dd>{v.price}</dd>
+                      <dt>Price</dt>
                     </div>
                   </div>
-                ))}
-            </TableCell>
-            <TableCell className="p-30" colSpan={2}>
-              <h4 className="text-left">Accessories Infomation</h4>
-              <div className="row justify-content-start">
-                <div className="col-md-6">
-                  <dt>Name</dt>
+                  {variant &&
+                    variant.map((v, key) => (
+                      <div key={key} className="row justify-content-start">
+                        <div className="col-md-6">
+                          <dd>{v.name}</dd>
+                        </div>
+                        <div className="col-md-6">
+                          <dd>{v.price}</dd>
+                        </div>
+                      </div>
+                    ))}
                 </div>
+
                 <div className="col-md-6">
-                  <dt>Price</dt>
-                </div>
-              </div>
-              {accessories &&
-                accessories.map((v, key) => (
-                  <div key={key} className="row justify-content-start">
+                  <h4 className="text-left">Equipment Infomation</h4>
+                  <div className="row justify-content-start">
                     <div className="col-md-6">
-                      <dd>{v.name}</dd>
+                      <dt>Name</dt>
                     </div>
                     <div className="col-md-6">
-                      <dd>{v.price}</dd>
+                      <dt>Price</dt>
                     </div>
                   </div>
-                ))}
+                  {accessories &&
+                    accessories.map((v, key) => (
+                      <div key={key} className="row justify-content-start">
+                        <div className="col-md-6">
+                          <dd>{v.name}</dd>
+                        </div>
+                        <div className="col-md-6">
+                          <dd>{v.price}</dd>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </TableCell>
           </TableRow>
         </React.Fragment>

@@ -9,7 +9,6 @@ import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 import ProfileTabs from "Components/Layout/ProfileTabs";
-import ConfigureCard from "./components/ConfigureCard";
 
 class CreateProduct extends Component {
   render() {
@@ -20,11 +19,7 @@ class CreateProduct extends Component {
         <PageTitleBar title={"Settings"} />
 
         <div className="row">
-          <div className="col-md-3">
-            <ConfigureCard />
-          </div>
-
-          <div className="col-md-9">
+          <div className="col-md-12">
             <ProfileTabs loading={false}>
               <div label="MAKE & MODEL">
                 <MakeModel />

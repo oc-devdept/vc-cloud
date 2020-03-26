@@ -117,7 +117,6 @@ const getWonByOwnerRequest = async (startDate, endDate) => {
 };
 const getCommissionRequest = async (startDate, endDate) => {
   const result = await api.post("/reports/commsreport", { startDate, endDate });
-  console.log(result);
   return result.data.data;
 };
 const getTopSellerRequest = async (startDate, endDate) => {

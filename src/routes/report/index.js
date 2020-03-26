@@ -19,11 +19,11 @@ class ReportsComponent extends Component {
       activeView: "",
       nestedView: {
         // leads: false,
-        deals: false,
-        acctcust: false,
-        closedDeals: false,
-        sales: false,
-        custAnalysis: false
+        deals: true,
+        acctcust: true,
+        closedDeals: true,
+        sales: true,
+        custAnalysis: true
       },
       dateRange: { startDate: null, endDate: null, focusedInput: null }
     };
@@ -55,34 +55,18 @@ class ReportsComponent extends Component {
         stateName: "deals",
         nestedList: [
           { title: "Deals By Owner", stateName: "dealsByOwner" },
-          { title: "Deals By Type", stateName: "dealsByType" },
           { title: "Deals Pipeline", stateName: "dealsPipeline" },
           { title: "Deals By Source", stateName: "dealsBySource" }
-        ]
-      },
-      {
-        title: "Closed Deals",
-        stateName: "closedDeals",
-        nestedList: [{ title: "Won Deals By Owner", stateName: "wonByOwner" }]
-      },
-      {
-        title: "Top Spenders",
-        stateName: "acctcust",
-        nestedList: [
-          {
-            title: "Top Spender Report (Accounts)",
-            stateName: "topSpenderAccount"
-          },
-          {
-            title: "Top Spender Report (Customers)",
-            stateName: "topSpenderCustomer"
-          }
         ]
       },
       {
         title: "Customer Analysis",
         stateName: "custAnalysis",
         nestedList: [
+          {
+            title: "Top Spender Report (Customers)",
+            stateName: "topSpenderCustomer"
+          },
           {
             title: "Demographic",
             stateName: "custDemographic"
