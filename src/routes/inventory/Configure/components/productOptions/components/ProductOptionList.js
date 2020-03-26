@@ -1,33 +1,22 @@
-import React, {PureComponent, Component} from "react";
-import { NavLink } from "react-router-dom";
-import api from "Api";
+import React, { PureComponent } from "react";
 
 //Page req
 import RecordsList from "Components/RecordsList";
-
 import BgCard from "Components/BgCard";
 import RctSectionLoader from "Components/RctSectionLoader";
-import {Edit, Delete, ExpandMore} from '@material-ui/icons'
+import ProductOptionValueList from "./ProductOptionValueList";
 
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-
-import ProductOptionValueList from './ProductOptionValueList'
-
+import { Edit, Delete } from "@material-ui/icons";
+import { TableRow, TableCell, Button, IconButton } from "@material-ui/core";
 
 export default class Index extends PureComponent {
-
-  state=({
+  state = {
     currentProduct: null,
-    ProductDetailLoading: false,
-  })
+    ProductDetailLoading: false
+  };
 
-
-  render () {
-  
-    const { loading, title, tableData, ToggleDialog } = this.props
-
-
+  render() {
+    const { loading, title, tableData, ToggleDialog, addOption } = this.props;
     const columns = [
       {
         name: "id",
@@ -53,89 +42,91 @@ export default class Index extends PureComponent {
       {
         name: "EDIT",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            const data = {
+              id: rowState.rowData[0],
+              name: rowState.rowData[3],
+              selectOne: rowState.rowData[1]
+            };
 
-                // [rowState.rowData[0], rowState.rowData[2]]
-                const data = {
-                  id: rowState.rowData[0],
-                  name: rowState.rowData[3],
-                  selectOne: rowState.rowData[1]
-                }
-
-                return (
-                    <Edit
-                      onClick={() => ToggleDialog('Edit_ProductOption', data)}
-                    />
-                );
-            }
+            return (
+              <IconButton
+                size="small"
+                onClick={() => ToggleDialog("Edit_ProductOption", data)}
+              >
+                <Edit style={{ fontSize: 14 }} />
+              </IconButton>
+            );
+          }
         }
       },
       {
         name: "DELETE",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-              
-                if(rowState.rowData[2].length == 0){
-                  
-                  const data = {
-                    id: rowState.rowData[0],
-                    name: rowState.rowData[3],
-                    selectOne: rowState.rowData[1]
-                  }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            if (rowState.rowData[2].length == 0) {
+              const data = {
+                id: rowState.rowData[0],
+                name: rowState.rowData[3],
+                selectOne: rowState.rowData[1]
+              };
 
-                  return (
-                    <Delete
-                      onClick={() => ToggleDialog('Delete_ProductOption', data)}
-                    />
-                  );
-                } else {
-                  return null
-                }
-                
+              return (
+                <IconButton
+                  size="small"
+                  onClick={() => ToggleDialog("Delete_ProductOption", data)}
+                >
+                  <Delete style={{ fontSize: 14 }} />
+                </IconButton>
+              );
+            } else {
+              return null;
             }
+          }
         }
-      },
-    
-    ]
+      }
+    ];
 
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
-      selectableRows: 'none',
+      selectableRows: "none",
       expandableRows: true, // Try Adding This
       print: false,
       download: false,
       viewColumns: false,
       search: false,
       filter: false,
-      renderExpandableRow: (rowData) => {
-
+      customToolbar: () => {
+        return (
+          <Button onClick={addOption} variant="outlined" size="small">
+            + Create Equipment
+          </Button>
+        );
+      },
+      setTableProps: () => ({ size: "small" }),
+      renderExpandableRow: rowData => {
         const data = {
           id: rowData[0],
           name: rowData[3],
           selectOne: rowData[1]
-        }
-
+        };
         return (
           <TableRow>
-            <TableCell colSpan={rowData.length} style={{padding: 0}}>
-
-                <div style={{flex: 1, display:'flex', justifyContent: 'flex-end'}}>
-                  <button onClick={()=> ToggleDialog('Create_ProductOptionValue', data)} style={{color:'white', borderRadius: 5, padding: 8, backgroundColor:'rgba(24,59,129,1)', marginBottom: 10, marginTop: 20, marginRight: 20}}>{`+ ADD EQUIPMENT TO ${rowData[3].toUpperCase()} GROUP`}</button>
-                </div>
-
-                <ProductOptionValueList
-                  // title={'CAR PRODUCT VARIANT ITEM'}
-                  tableData={rowData[2]}
-                  ToggleDialog={ToggleDialog}
-                />
+            <TableCell colSpan={rowData.length} style={{ padding: 0 }}>
+              <ProductOptionValueList
+                addOptionValue={() =>
+                  ToggleDialog("Create_ProductOptionValue", data)
+                }
+                tableData={rowData[2]}
+                ToggleDialog={ToggleDialog}
+              />
             </TableCell>
           </TableRow>
         );
@@ -143,45 +134,17 @@ export default class Index extends PureComponent {
     };
 
     return (
-
       <div>
-
         <BgCard fullBlock>
-            <RecordsList
-              title={title}
-              columns={columns}
-              data={tableData}
-              options={listOptions}
-            />
+          <RecordsList
+            title={title}
+            columns={columns}
+            data={tableData}
+            options={listOptions}
+          />
           {loading && <RctSectionLoader />}
         </BgCard>
-
       </div>
-
     );
   }
-};
-
-
-
-// customRowRender:(data, dataIndex, rowIndex) => {
-//   console.log('data' + data);
-//   return (
-//     <div>
-//       {data}{' '}{dataIndex}{' '}{rowIndex}
-//     </div>
-//   );
-// }
-// renderExpandableRow: (rowData, rowMeta) => {
-//   console.log(rowData);
-//   return (
-//     <TableRow>
-//       <TableCell colSpan={rowData.length}>
-//         <div>
-//           <button onClick={() => this._HandleVariant(rowMeta.rowIndex)}>Add new variant</button>
-          
-//         </div>
-//       </TableCell>
-//     </TableRow>
-//   );
-// }
+}

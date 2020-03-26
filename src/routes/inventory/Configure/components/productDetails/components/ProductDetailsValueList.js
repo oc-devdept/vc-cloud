@@ -1,27 +1,24 @@
-import React, {PureComponent, Component} from "react";
-import { NavLink } from "react-router-dom";
-import api from "Api";
+import React, { PureComponent } from "react";
 
 //Page req
 import RecordsList from "Components/RecordsList";
+import { Edit, Delete } from "@material-ui/icons";
 
-import BgCard from "Components/BgCard";
-import RctSectionLoader from "Components/RctSectionLoader";
-import {Edit, Delete, ExpandMore} from '@material-ui/icons'
-
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
+import { Button, IconButton } from "@material-ui/core";
 
 export default class Index extends PureComponent {
-
-  state=({
+  state = {
     currentProduct: null,
-    ProductDetailLoading: false,
-  })
- 
-  render () {
-  
-    const {loading, title, tableData, ToggleDialog} = this.props
+    ProductDetailLoading: false
+  };
+
+  render() {
+    const {
+      addDetailsValue,
+      detailGroupName,
+      tableData,
+      ToggleDialog
+    } = this.props;
 
     const columns = [
       {
@@ -62,100 +59,85 @@ export default class Index extends PureComponent {
       {
         name: "EDIT",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                const data = {
-                  id: rowState.rowData[0],
-                  name: rowState.rowData[2],
-                  unit:  rowState.rowData[3],
-                  type:  rowState.rowData[4]
-                }
-                return (
-                    <Edit
-                      onClick={() => ToggleDialog('Edit_Detail_Value', data)}
-                    />
-                );
-            }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            const data = {
+              id: rowState.rowData[0],
+              name: rowState.rowData[2],
+              unit: rowState.rowData[3],
+              type: rowState.rowData[4]
+            };
+            return (
+              <IconButton
+                onClick={() => ToggleDialog("Edit_Detail_Value", data)}
+                size="small"
+              >
+                <Edit style={{ fontSize: 14 }} />
+              </IconButton>
+            );
+          }
         }
       },
       {
         name: "DELETE",
         options: {
-            filter: true,
-            sort: false,
-            empty: true,
-            customBodyRender: (rowData, rowState) => {
-                const data = {
-                  id: rowState.rowData[0],
-                  name: rowState.rowData[2],
-                  unit:  rowState.rowData[3],
-                  type:  rowState.rowData[4]
-                }
-                return (
-                  <Delete
-                  onClick={() => ToggleDialog('Delete_Detail_Value', data)}
-                  />
-                );
-            }
+          filter: true,
+          sort: false,
+          empty: true,
+          customBodyRender: (rowData, rowState) => {
+            const data = {
+              id: rowState.rowData[0],
+              name: rowState.rowData[2],
+              unit: rowState.rowData[3],
+              type: rowState.rowData[4]
+            };
+            return (
+              <IconButton
+                onClick={() => ToggleDialog("Delete_Detail_Value", data)}
+                size="small"
+              >
+                <Delete style={{ fontSize: 14 }} />
+              </IconButton>
+            );
+          }
         }
-      },
-    
-    ]
+      }
+    ];
 
     const listOptions = {
       filterType: "dropdown",
       responsive: "stacked",
-      selectableRows: 'none',
+      selectableRows: "none",
       expandableRows: false, // Try Adding This
       print: false,
       download: false,
       viewColumns: false,
       search: false,
       filter: false,
+      pagination: false,
+      customToolbar: () => {
+        return (
+          <Button onClick={addDetailsValue} variant="outlined" size="small">
+            + Add to {detailGroupName}
+          </Button>
+        );
+      },
+      setTableProps: () => ({ size: "small" })
     };
 
     return (
-
       <div>
-
-            <RecordsList
-              title={title}
-              columns={columns}
-              data={tableData}
-              options={listOptions}
-              borderRadius={"0px"}
-              boxShadow={"none"}
-            />
-
+        <RecordsList
+          title={"Car Specification Units"}
+          columns={columns}
+          data={tableData}
+          options={listOptions}
+          borderRadius={"0px"}
+          boxShadow={"none"}
+        />
       </div>
-
-
     );
   }
-};
-
-
-
-// customRowRender:(data, dataIndex, rowIndex) => {
-//   console.log('data' + data);
-//   return (
-//     <div>
-//       {data}{' '}{dataIndex}{' '}{rowIndex}
-//     </div>
-//   );
-// }
-// renderExpandableRow: (rowData, rowMeta) => {
-//   console.log(rowData);
-//   return (
-//     <TableRow>
-//       <TableCell colSpan={rowData.length}>
-//         <div>
-//           <button onClick={() => this._HandleVariant(rowMeta.rowIndex)}>Add new variant</button>
-          
-//         </div>
-//       </TableCell>
-//     </TableRow>
-//   );
-// }
+}

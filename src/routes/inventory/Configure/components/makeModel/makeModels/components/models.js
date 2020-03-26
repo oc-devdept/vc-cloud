@@ -655,19 +655,6 @@ class ModelsForm extends PureComponent {
               <div
                 style={{ display: "flex", flexDirection: "column", flex: 0.5 }}
               >
-                {/* <div className="d-flex flex-column" style={{flex: 1}}>
-                                        <StaticName
-                                            title="CAR MODEL HEADER IMAGE"
-                                        />
-                                        {this.state.actualGallery.length > 0 && 
-                                            <BlobImage
-                                                imageSource={this.state.actualGallery}
-                                                url={true}
-                                                remove={false}
-                                            />
-                                        }
-                                    </div> */}
-
                 <div className="d-flex flex-column" style={{ flex: 1 }}>
                   <StaticName title="NEW HEADER IMAGE" />
                   {this.state.galleryString.length > 0 && (
@@ -744,14 +731,11 @@ class ModelsForm extends PureComponent {
       <div className="d-flex" style={{ flexDirection: "column" }}>
         <div className="d-flex justify-content-center">
           <div style={{ flex: 1 }} className="d-flex justify-content-center">
-            {/* <span style={{textAlign:'center'}}>{this.state.Title}</span> */}
             <StaticName title={this.state.Title} />
           </div>
           <Cancel fontSize="large" onClick={this.props._RestartToggle} />
         </div>
-
         {Body}
-
         {SaveButton}
       </div>
     );
