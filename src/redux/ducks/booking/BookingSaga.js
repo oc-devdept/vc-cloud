@@ -1,5 +1,9 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
-import { GET_RECENT_BOOKINGS } from "./BookingTypes";
+import {
+  GET_RECENT_BOOKINGS,
+  GET_BOOKINGS,
+  UPDATE_BOOKING_STATUS
+} from "./BookingTypes";
 import * as actions from "./BookingActions";
 
 import api from "Api";
@@ -10,6 +14,16 @@ import api from "Api";
 const getRecentBookingRequest = async ({ type, id }) => {
   const result = await api.get(`/bookings/recentbooking/${type}/${id}`);
   return result.data.data;
+};
+const getBookingsRequest = async type => {
+  const result = await api.get(`/bookings?filter[where][service]=${type}`);
+  return result.data;
+};
+const updateBookingStatusRequest = async ({ id, status }) => {
+  const result = await api.post(`/bookings/changeBookingStatus`, {
+    data: { id, status }
+  });
+  return result.data.fields;
 };
 
 //=========================
@@ -23,6 +37,22 @@ function* getRecentBookings({ payload }) {
     yield put(actions.getRecentBookingsFailure(error));
   }
 }
+function* getBookings({ payload }) {
+  try {
+    const data = yield call(getBookingsRequest, payload);
+    yield put(actions.getBookingsSuccess(data));
+  } catch (error) {
+    yield put(actions.getBookingsFailure(error));
+  }
+}
+function* updateBookingsStatus({ payload }) {
+  try {
+    const data = yield call(updateBookingStatusRequest, payload);
+    yield put(actions.updateBookingStatusSuccess(data));
+  } catch (error) {
+    yield put(actions.updateBookingStatusFailure(error));
+  }
+}
 
 //=======================
 // WATCHER FUNCTIONS
@@ -30,10 +60,20 @@ function* getRecentBookings({ payload }) {
 export function* getRecentBookingWatcher() {
   yield takeEvery(GET_RECENT_BOOKINGS, getRecentBookings);
 }
+export function* getBookingsWatcher() {
+  yield takeEvery(GET_BOOKINGS, getBookings);
+}
+export function* updateBookingStatusWatcher() {
+  yield takeEvery(UPDATE_BOOKING_STATUS, updateBookingsStatus);
+}
 
 //=======================
 // FORK SAGAS TO STORE
 //=======================
 export default function* rootSaga() {
-  yield all([fork(getRecentBookingWatcher)]);
+  yield all([
+    fork(getRecentBookingWatcher),
+    fork(getBookingsWatcher),
+    fork(updateBookingStatusWatcher)
+  ]);
 }

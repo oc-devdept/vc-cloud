@@ -13,6 +13,8 @@ import {
 //   paymentPage
 // } from "Helpers/accountingURL";
 
+import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
+
 import { allCarsPage, configurePage } from "Helpers/inventoryURL";
 
 import {
@@ -50,6 +52,21 @@ export default [
       {
         title: "sidebar.deals",
         path: dealListPage
+      }
+    ]
+  },
+  {
+    url: "/app/rental/list",
+    baseUrl: "/app/rental",
+    name: "Rental",
+    child_routes: [
+      {
+        title: "sidebar.rentalList",
+        path: rentalListPage
+      },
+      {
+        title: "sidebar.rentalCars",
+        path: rentalCarPage
       }
     ]
   },

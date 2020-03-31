@@ -56,6 +56,9 @@ import { BookingSaga } from "Ducks/booking";
 // Configurator
 import { ConfiguratorSaga } from "Ducks/configurator";
 
+// Rental
+import { RentalSaga } from "Ducks/rental";
+
 export default function* rootSaga() {
   yield all([
     // Accounting
@@ -102,6 +105,8 @@ export default function* rootSaga() {
     BookingSaga(),
 
     // Configurator
-    ConfiguratorSaga()
+    ConfiguratorSaga(),
+
+    RentalSaga()
   ]);
 }

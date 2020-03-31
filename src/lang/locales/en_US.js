@@ -52,5 +52,8 @@ module.exports = {
   "sidebar.booking": "Bookings",
 
   "sidebar.sendmail": "Mails",
-  "sidebar.analytics": "Analytics"
+  "sidebar.analytics": "Analytics",
+
+  "sidebar.rentalList": "Enquiries",
+  "sidebar.rentalCars": "Cars"
 };

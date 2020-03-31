@@ -59,6 +59,9 @@ import { BookingReducer } from "Ducks/booking";
 // Configurator
 import { ConfiguratorReducer } from "Ducks/configurator";
 
+// Rental
+import { RentalReducer } from "Ducks/rental";
+
 const reducers = combineReducers({
   sessionState: combineReducers({
     authState: AuthReducer,
@@ -95,7 +98,8 @@ const reducers = combineReducers({
   bookingState: BookingReducer,
   modal,
   webSettingsState: WebsiteSettingsReducer,
-  commissionState: CommissionReducer
+  commissionState: CommissionReducer,
+  rentalState: RentalReducer
 });
 
 export default reducers;

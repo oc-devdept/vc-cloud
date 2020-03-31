@@ -24,8 +24,10 @@ class RecentBookings extends Component {
         {loading && <RctSectionLoader />}
         <div className="row align-content-start ">
           <div className="col-md-7 border-right">
-            <h4>Recent Bookings</h4>
-            <RecentBookingList data={listData} />
+            <div>
+              <h4>Recent Bookings</h4>
+              <RecentBookingList data={listData} />
+            </div>
           </div>
           <div className="col-md-5">
             <h4>Bookings In A Glance</h4>
