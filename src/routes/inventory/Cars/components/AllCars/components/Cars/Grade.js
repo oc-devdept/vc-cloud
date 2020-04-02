@@ -1,114 +1,131 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
+import { AccessAlarm, ThreeDRotation } from "@material-ui/icons";
 import { Add, Remove } from "@material-ui/icons";
-
 
 import api from "Api";
 import BgCard from "Components/BgCard";
-import ProductVariant from './ProductVariant/index'
-import ProductDetail from './ProductDetail/index'
-import ProductOption from './ProductOption/index'
+import ProductVariant from "./ProductVariant/index";
+import ProductDetail from "./ProductDetail/index";
+import ProductOption from "./ProductOption/index";
 
-import CarInfo from './CarInfo/CarInfo'
-
+import CarInfo from "./CarInfo/CarInfo";
 
 import { NotificationManager } from "react-notifications";
 // NotificationManager.error('Unable to make booking request');
 
 const validateForm = (Product, Files) => {
-    let Reject = true
-    const {name, sku, description, product_code, cost_Price, selling_Price} = Product
-    if(name == ""){Reject = false}
-    if(description == ""){Reject = false}
-    if(cost_Price == ""){Reject = false}
-    if(selling_Price == ""){Reject = false}
-    if(Files.length == 0){Reject = false}
-    return Reject
-}
+  let Reject = true;
+  const {
+    name,
+    sku,
+    description,
+    product_code,
+    cost_Price,
+    selling_Price
+  } = Product;
+  if (name == "") {
+    Reject = false;
+  }
+  if (description == "") {
+    Reject = false;
+  }
+  if (cost_Price == "") {
+    Reject = false;
+  }
+  if (selling_Price == "") {
+    Reject = false;
+  }
+  if (Files.length == 0) {
+    Reject = false;
+  }
+  return Reject;
+};
 
-const validateEditForm = (Product) => {
-  let Reject = true
-  const {name, description, cost_Price, selling_Price} = Product
-  if(name == ""){Reject = false}
-  if(description == ""){Reject = false}
-  if(cost_Price == ""){Reject = false}
-  if(selling_Price.length == 0){Reject = false}
-  return Reject
-} 
-
-
-
+const validateEditForm = Product => {
+  let Reject = true;
+  const { name, description, cost_Price, selling_Price } = Product;
+  if (name == "") {
+    Reject = false;
+  }
+  if (description == "") {
+    Reject = false;
+  }
+  if (cost_Price == "") {
+    Reject = false;
+  }
+  if (selling_Price.length == 0) {
+    Reject = false;
+  }
+  return Reject;
+};
 
 export default class Index extends Component {
-
   constructor(props) {
     super(props);
 
-      this.state=({
+    this.state = {
+      Car: null,
 
-        Car : null,
+      ProductDetailLoading: false,
+      ProductOptionLoading: false,
+      ProductVariantLoading: false,
 
-        ProductDetailLoading: false,
-        ProductOptionLoading: false,
-        ProductVariantLoading: false,
-
-        stage: null
-      })
+      stage: null
+    };
   }
 
-
-  async componentDidMount(){
-    if(this.props.GradeId){
-      await this.setState({loading: true})
-      const Car = await this._FetchGrade()
-      await this.setState({loading: false, Car: Car})
+  async componentDidMount() {
+    if (this.props.GradeId) {
+      await this.setState({ loading: true });
+      const Car = await this._FetchGrade();
+      await this.setState({ loading: false, Car: Car });
     }
   }
 
-  _FetchGrade = async() => {
-    const test = await api.get(`/products/specificOneGrade/${this.props.GradeId}`)
-    return test.data.fields
-  }
+  _FetchGrade = async () => {
+    const test = await api.get(
+      `/products/specificOneGrade/${this.props.GradeId}`
+    );
+    return test.data.fields;
+  };
 
   _CreateProduct = async (Product, Files) => {
+    const result = validateForm(Product, Files);
 
-      const result = validateForm(Product, Files)
+    if (result) {
+      const MakeId = this.props.MakeId;
+      const ModelId = this.props.ModelId;
+      var data = new FormData();
 
-      if(result){
+      Files.map(file => data.append(`upload`, file));
+      data.append("name", Product.name);
+      data.append("description", Product.description);
+      data.append("cost_Price", Product.cost_Price);
+      data.append("selling_Price", Product.selling_Price);
+      data.append("isActive", Product.isActive);
+      data.append("categoryId", ModelId);
+      data.append("categoryGroupId", MakeId);
 
-        const MakeId = this.props.MakeId
-        const ModelId = this.props.ModelId
-        var data = new FormData();
+      const result = await api.post("/products/new", data);
+      await this.props._FetchProductsAPI();
+      await this.setState({ Car: result.data.data });
 
-        Files.map(file => data.append(`upload`, file));
-        data.append("name", Product.name);
-        data.append("description", Product.description);
-        data.append("cost_Price", Product.cost_Price);
-        data.append("selling_Price", Product.selling_Price);
-        data.append("isActive", Product.isActive);
-        data.append("categoryId", ModelId);
-        data.append("categoryGroupId", MakeId);
+      NotificationManager.success("Car product saved successfully");
+    } else {
+      NotificationManager.error(
+        "Missing input in your form, please fill up the necessary boxes."
+      );
+    }
+  };
 
-        const result = await api.post("/products/new", data)
-        await this.props._FetchProductsAPI()
-        await this.setState({Car: result.data.data})
+  _EditProduct = async (Product, Files) => {
+    const result = validateEditForm(Product);
 
-        NotificationManager.success('Car product saved successfully');
-      } else {
-        NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
-      }
-      
-  }
-
-  _EditProduct = async(Product, Files) =>{
-  
-    const result = validateEditForm(Product)
-    
-    if(result){
-      await this.setState({loading: true})
-      const ModelId = this.props.ModelId
-      const MakeId = this.props.MakeId
+    if (result) {
+      await this.setState({ loading: true });
+      const ModelId = this.props.ModelId;
+      const MakeId = this.props.MakeId;
 
       var data = new FormData();
       Files.map(file => data.append(`upload`, file));
@@ -122,257 +139,291 @@ export default class Index extends Component {
       data.append("categoryId", ModelId);
       data.append("categoryGroupId", MakeId);
 
-      await api.post(`/products/editProductDetail/`, data)
+      await api.post(`/products/editProductDetail/`, data);
 
-      await this.props._FetchProductsAPI()
-      const Car = await this._FetchGrade()
-      await this.setState({loading: false, Car: Car})
+      await this.props._FetchProductsAPI();
+      const Car = await this._FetchGrade();
+      await this.setState({ loading: false, Car: Car });
 
-      NotificationManager.success('Car product saved successfully');
+      NotificationManager.success("Car product saved successfully");
     } else {
-      NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+      NotificationManager.error(
+        "Missing input in your form, please fill up the necessary boxes."
+      );
     }
-    
-  }
+  };
 
   // Product Detail
-  _AddCarDetail = (productDetail) => {
-    let Car = {...this.state.Car}
-    Car.productDetail.push(productDetail)
-    this.setState({Car: Car})
-  }
+  _AddCarDetail = productDetail => {
+    let Car = { ...this.state.Car };
+    Car.productDetail.push(productDetail);
+    this.setState({ Car: Car });
+  };
 
-  _SaveCarDetail = async(e) => {
+  _SaveCarDetail = async e => {
+    if (e.value != "" || e.value != 0) {
+      let Car = { ...this.state.Car };
 
-    if(e.value != "" || e.value != 0){
+      await this.setState({ ProductDetailLoading: true });
 
-        let Car = {...this.state.Car}
-   
-        await this.setState({ProductDetailLoading: true})
+      await api.post(`/productDetailValues`, {
+        value: e.value,
+        detailCategoryId: e.id,
+        productDetailCategoryId: e.productDetailCategoryId,
+        productId: Car.id
+      });
 
-        await api.post(`/productDetailValues`, {
-          value: e.value,
-          detailCategoryId: e.id,
-          productDetailCategoryId: e.productDetailCategoryId,
-          productId: Car.id
-        }); 
-        
-        const latestProduct = await api.get(`/products/${Car.id}`)
-        this.setState({Car: latestProduct.data})
-        await this.setState({ProductDetailLoading: false})
+      const latestProduct = await api.get(`/products/${Car.id}`);
+      this.setState({ Car: latestProduct.data });
+      await this.setState({ ProductDetailLoading: false });
 
-        NotificationManager.success('Car product saved successfully');
+      NotificationManager.success("Car product saved successfully");
     } else {
-        NotificationManager.error('Missing input in your form, please fill up the necessary boxes.');
+      NotificationManager.error(
+        "Missing input in your form, please fill up the necessary boxes."
+      );
     }
-   
- 
-  }
+  };
 
   _HandleProductDetailValue = (targetValue, element, index) => {
-    let Car = {...this.state.Car}
-    Car.productDetail[index].value = targetValue
-    this.setState({Car: Car})
-  }
+    let Car = { ...this.state.Car };
+    Car.productDetail[index].value = targetValue;
+    this.setState({ Car: Car });
+  };
 
-  _DeleteProductDetailFields = async(index) => {
+  _DeleteProductDetailFields = async index => {
+    await this.setState({ ProductDetailLoading: true });
 
-    await this.setState({ProductDetailLoading: true})
+    let Car = { ...this.state.Car };
 
-    let Car = {...this.state.Car}
+    const result = await api.delete(`/productDetailValues/${index}`);
 
-    const result = await api.delete(`/productDetailValues/${index}`); 
-
-    if(result.data.count == 1){
-        const latestProduct = await api.get(`/products/${Car.id}`)
-        this.setState({Car : latestProduct.data, ProductDetailLoading: false})
+    if (result.data.count == 1) {
+      const latestProduct = await api.get(`/products/${Car.id}`);
+      this.setState({ Car: latestProduct.data, ProductDetailLoading: false });
     } else {
-        this.setState({ ProductDetailLoading: false})
+      this.setState({ ProductDetailLoading: false });
     }
-
-  }
-
-
+  };
 
   // Product Options
-  _HandleSaveProductOption = async(e) =>{
-  
-    await this.setState({ProductOptionLoading: true})
-
-    let Car = {...this.state.Car}
-
+  _HandleSaveProductOption = async (e, isDefault) => {
+    await this.setState({ ProductOptionLoading: true });
+    let Car = { ...this.state.Car };
 
     const data = {
       productId: Car.id,
-      productOptionId: e.id
-    }
+      productOptionId: e.id,
+      isDefault: isDefault
+    };
 
-    await api.post(`/products/productOption`, {data:data})
+    await api.post(`/products/productOption`, { data: data });
     // await api.post(`/products/${Car.id}/productOption`, e)
 
-    const latestProduct = await api.get(`/products/${Car.id}`)
+    const latestProduct = await api.get(`/products/${Car.id}`);
 
-    
-    this.setState({Car: latestProduct.data, ProductOptionLoading: false})
+    this.setState({ Car: latestProduct.data, ProductOptionLoading: false });
+  };
 
-  }
+  _DeleteProductOptionFields = async index => {
+    await this.setState({ ProductOptionLoading: true });
 
-  _DeleteProductOptionFields = async(index) => {
-
-    await this.setState({ProductOptionLoading: true})
-
-    let Car = {...this.state.Car}
+    let Car = { ...this.state.Car };
 
     const data = {
-      id : index
-    }
+      id: index
+    };
 
-    const result = await api.post(`/products/productOptionDeletion`, {data: data}); 
+    const result = await api.post(`/products/productOptionDeletion`, {
+      data: data
+    });
 
-    if(result.data.fields){
-        const latestProduct = await api.get(`/products/${Car.id}`)
-        await this.setState({Car : latestProduct.data, ProductOptionLoading: false})
+    if (result.data.fields) {
+      const latestProduct = await api.get(`/products/${Car.id}`);
+      await this.setState({
+        Car: latestProduct.data,
+        ProductOptionLoading: false
+      });
     } else {
-        await this.setState({ ProductOptionLoading: false})
+      await this.setState({ ProductOptionLoading: false });
     }
+  };
 
-  }
-  
-  _RenderStage = (stage) => {
-    if(this.state.stage != stage){
-      this.setState({stage: stage})
+  _RenderStage = stage => {
+    if (this.state.stage != stage) {
+      this.setState({ stage: stage });
     } else {
-      this.setState({stage: null})
+      this.setState({ stage: null });
     }
-  }
+  };
 
-  render () {
+  render() {
+    const Car = this.state.Car;
 
-
-    const Car = this.state.Car
-   
     return (
+      <div>
+        {this.state.loading && <div>Loading ....</div>}
 
-        <div>
-            {this.state.loading && 
+        {!this.state.loading && (
+          <div>
+            <div style={{ marginBottom: 50 }}>
+              <CarInfo
+                Car={this.state.Car}
+                _CreateProduct={this._CreateProduct}
+                _EditProduct={this._EditProduct}
+              />
+            </div>
+
+            {Car && (
               <div>
-                Loading ....
-              </div>
-            }
+                <BgCard
+                  fullBlock
+                  customStyles={{
+                    paddingTop: 20,
+                    paddingBottom: 20,
+                    marginBottom: 50
+                  }}
+                >
+                  <div
+                    className="d-flex"
+                    style={{ paddingRight: 20 }}
+                    onClick={() => this._RenderStage(0)}
+                  >
+                    <span style={{ flex: 1, textAlign: "center" }}>
+                      CAR VARIANT
+                    </span>
 
-            {!this.state.loading && 
-              <div>
-                <div style={{marginBottom:50}}>
-                  <CarInfo
-                    Car={this.state.Car}
-                    _CreateProduct={this._CreateProduct}
-                    _EditProduct={this._EditProduct}
-                  />
-                </div>
-              
-                {Car && 
-                  <div>
-                    <BgCard fullBlock customStyles={{paddingTop: 20, paddingBottom: 20, marginBottom: 50}} >
-                      
-                      <div className="d-flex" style={{paddingRight: 20}} onClick={() => this._RenderStage(0)}>
-                        <span style={{flex: 1, textAlign:'center'}}>CAR VARIANT</span>
-                        
-                        {this.state.stage != 0 &&
-                          <Add
-                            fontSize="small"
-                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                          />
-                        }
-                        
-                        {this.state.stage == 0 &&
-                          <Remove
-                            fontSize="small"
-                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                          />
-                        }
-                        
-                      </div>
-                      
-                      {this.state.stage == 0 &&
-                        <ProductVariant
-                          Car={Car.productVariant}
-                          Id={Car.id}
-                          ProductVariantLoading={this.state.ProductVariantLoading}
-                        />
-                      }
-                    </BgCard>
+                    {this.state.stage != 0 && (
+                      <Add
+                        fontSize="small"
+                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                      />
+                    )}
 
-                    <BgCard fullBlock customStyles={{paddingTop: 20, paddingBottom: 20,  marginBottom: 50}} >
-                      
-                      <div className="d-flex" style={{paddingRight: 20}} onClick={() => this._RenderStage(1)}>
-                        <span style={{flex: 1, textAlign:'center'}}>CAR DETAILS</span>
-                        {this.state.stage != 1 &&
-                          <Add
-                            fontSize="small"
-                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                          />
-                        }
-                        {this.state.stage == 1 &&
-                          <Remove
-                            fontSize="small"
-                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                          />
-                        }
-                      </div>
-
-                      {this.state.stage == 1 &&
-                        <ProductDetail
-                          Car={Car.productDetailValue}
-                          _AddCarDetail = {this._AddCarDetail}
-                          _SaveCarDetail = {this._SaveCarDetail}
-                          _HandleProductDetailValue={this._HandleProductDetailValue}
-                          _DeleteProductDetailFields = {this._DeleteProductDetailFields}
-
-                          ProductDetailLoading ={this.state.ProductDetailLoading}
-                        />
-                      }
-                    </BgCard>
-
-                    <BgCard fullBlock customStyles={{paddingTop: 20, paddingBottom: 20, marginBottom: 50}} >
-                      <div className="d-flex" style={{paddingRight: 20}} onClick={() => this._RenderStage(2)}>
-                        <span style={{flex: 1, textAlign:'center'}}>CAR PRODUCT</span>
-                        {this.state.stage != 2 &&
-                          <Add
-                            fontSize="small"
-                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                          />
-                        }
-                        {this.state.stage == 2 &&
-                          <Remove
-                            fontSize="small"
-                            style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                          />
-                        }
-                      </div>
-                      {this.state.stage == 2 &&
-                        <ProductOption
-                          Car={Car.productOption}
-                          ProductOptionLoading={this.state.ProductOptionLoading}
-                          _DeleteProductOptionFields = {this._DeleteProductOptionFields}
-                          _HandleSaveProductOption={this._HandleSaveProductOption}
-                        />
-                      }
-                    </BgCard>
+                    {this.state.stage == 0 && (
+                      <Remove
+                        fontSize="small"
+                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                      />
+                    )}
                   </div>
-                }
 
-                {!Car && 
-                  <BgCard fullBlock customStyles={{paddingTop: 20, paddingBottom: 20, marginBottom: 50}}>
-                    <div className="d-flex" style={{justifyContent:'center'}}>
-                      <span style={{}}>
-                        Create your grade before adding Product Detail, Options or Variants
-                      </span>
-                    </div>
-                  </BgCard>
-                }
+                  {this.state.stage == 0 && (
+                    <ProductVariant
+                      Car={Car.productVariant}
+                      Id={Car.id}
+                      ProductVariantLoading={this.state.ProductVariantLoading}
+                    />
+                  )}
+                </BgCard>
+
+                <BgCard
+                  fullBlock
+                  customStyles={{
+                    paddingTop: 20,
+                    paddingBottom: 20,
+                    marginBottom: 50
+                  }}
+                >
+                  <div
+                    className="d-flex"
+                    style={{ paddingRight: 20 }}
+                    onClick={() => this._RenderStage(1)}
+                  >
+                    <span style={{ flex: 1, textAlign: "center" }}>
+                      CAR DETAILS
+                    </span>
+                    {this.state.stage != 1 && (
+                      <Add
+                        fontSize="small"
+                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                      />
+                    )}
+                    {this.state.stage == 1 && (
+                      <Remove
+                        fontSize="small"
+                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                      />
+                    )}
+                  </div>
+
+                  {this.state.stage == 1 && (
+                    <ProductDetail
+                      Car={Car.productDetailValue}
+                      _AddCarDetail={this._AddCarDetail}
+                      _SaveCarDetail={this._SaveCarDetail}
+                      _HandleProductDetailValue={this._HandleProductDetailValue}
+                      _DeleteProductDetailFields={
+                        this._DeleteProductDetailFields
+                      }
+                      ProductDetailLoading={this.state.ProductDetailLoading}
+                    />
+                  )}
+                </BgCard>
+
+                <BgCard
+                  fullBlock
+                  customStyles={{
+                    paddingTop: 20,
+                    paddingBottom: 20,
+                    marginBottom: 50
+                  }}
+                >
+                  <div
+                    className="d-flex"
+                    style={{ paddingRight: 20 }}
+                    onClick={() => this._RenderStage(2)}
+                  >
+                    <span style={{ flex: 1, textAlign: "center" }}>
+                      CAR PRODUCT
+                    </span>
+                    {this.state.stage != 2 && (
+                      <Add
+                        fontSize="small"
+                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                      />
+                    )}
+                    {this.state.stage == 2 && (
+                      <Remove
+                        fontSize="small"
+                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
+                      />
+                    )}
+                  </div>
+                  {this.state.stage == 2 && (
+                    <ProductOption
+                      Car={Car.productOption}
+                      ProductOptionLoading={this.state.ProductOptionLoading}
+                      _DeleteProductOptionFields={
+                        this._DeleteProductOptionFields
+                      }
+                      _HandleSaveProductOption={this._HandleSaveProductOption}
+                    />
+                  )}
+                </BgCard>
               </div>
-            }
-        </div>
+            )}
+
+            {!Car && (
+              <BgCard
+                fullBlock
+                customStyles={{
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                  marginBottom: 50
+                }}
+              >
+                <div className="d-flex" style={{ justifyContent: "center" }}>
+                  <span style={{}}>
+                    Create your grade before adding Product Detail, Options or
+                    Variants
+                  </span>
+                </div>
+              </BgCard>
+            )}
+          </div>
+        )}
+      </div>
     );
   }
-};
+}
