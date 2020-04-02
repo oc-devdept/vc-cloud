@@ -111,7 +111,6 @@ export default class Index extends Component {
             }}
           >
             {BelongsTo.map((e, index) => {
-              console.log("e= ", e);
               return (
                 <div key={index} style={{}}>
                   <ProductDetailsFields
