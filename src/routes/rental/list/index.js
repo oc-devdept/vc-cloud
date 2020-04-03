@@ -13,7 +13,7 @@ import RentalList from "./components/RentalList";
 import { getBookings, updateBookingStatus } from "Ducks/booking";
 
 export default function rental_list(props) {
-  const [state, setState] = React.useState({
+  const [viewState, setViewState] = React.useState({
     viewDialog: false,
     bookingToview: null
   });
@@ -28,7 +28,7 @@ export default function rental_list(props) {
   }, []);
 
   const handleHideDialog = () => {
-    setState(prevState => ({
+    setViewState(prevState => ({
       ...prevState,
       viewDialog: !prevState.viewDialog,
       bookingToview: null
@@ -36,7 +36,7 @@ export default function rental_list(props) {
   };
   const handleOpenDialog = bookingId => {
     const singleBooking = listData.find(list => list.id == bookingId);
-    setState({ viewDialog: true, bookingToview: singleBooking });
+    setViewState({ viewDialog: true, bookingToview: singleBooking });
   };
 
   const ChangeStatus = async (id, status) => {
@@ -54,12 +54,12 @@ export default function rental_list(props) {
         <RentalList tableData={listData} viewBooking={handleOpenDialog} />
       </BgCard>
       <DialogRoot
-        show={state.viewDialog}
+        show={viewState.viewDialog}
         handleHide={handleHideDialog}
         size="md"
       >
         <SingleBookingForm
-          SingleBooking={state.bookingToview}
+          SingleBooking={viewState.bookingToview}
           ChangeStatus={ChangeStatus}
         />
       </DialogRoot>

@@ -106,17 +106,13 @@ const index = ({ customer }) => {
         </button>
       </div>
 
-      {Bookings.length > 0 ? (
-        <div className="d-flex flex-fill" style={{ width: "100%" }}>
-          <BookingList
-            tableData={Bookings}
-            loading={Loading}
-            SetSingleBooking={SetSingleBooking}
-          />
-        </div>
-      ) : (
-        <div>No Bookings</div>
-      )}
+      <div className="d-flex flex-fill" style={{ width: "100%" }}>
+        <BookingList
+          tableData={Bookings}
+          loading={Loading}
+          SetSingleBooking={SetSingleBooking}
+        />
+      </div>
 
       {ShowDialog && (
         <DialogRoot

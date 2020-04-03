@@ -45,10 +45,10 @@ export default [
         title: "sidebar.customers",
         path: customerListPage
       },
-      {
-        title: "sidebar.accounts",
-        path: accountListPage
-      },
+      // {
+      //   title: "sidebar.accounts",
+      //   path: accountListPage
+      // },
       {
         title: "sidebar.deals",
         path: dealListPage

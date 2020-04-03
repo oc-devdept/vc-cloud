@@ -249,7 +249,14 @@ class CustomerList extends Component {
               : "none"
         }
       },
-      { label: "Contact Type", name: "typeInfo" },
+      // 7{ label: "Contact Type", name: "typeInfo" },
+      {
+        label: "Member Since",
+        name: "memberSince",
+        options: {
+          customBodyRender: value => (value ? getDateTime(value) : "")
+        }
+      },
       { label: "Source", name: "source" },
       {
         label: "Status",
@@ -277,42 +284,6 @@ class CustomerList extends Component {
           customBodyRender: value => {
             return value ? value.name : "";
           }
-          // filterOptions: {
-          //   logic: (location, filters) => {
-          //     if (filters.length) return !filters.includes(location);
-          //     return false;
-          //   },
-          //   display: (filterList, onChange, index, column) => {
-
-          //     const optionValues = ["Minneapolis", "New York", "Seattle"];
-          //     return (
-          //       <FormControl>
-          //         <InputLabel htmlFor="select-multiple-chip">
-          //           Location
-          //         </InputLabel>
-          //         <Select
-          //           multiple
-          //           value={filterList[index]}
-          //           renderValue={selected => selected.join(", ")}
-          //           onChange={event => {
-          //             filterList[index] = event.target.value;
-          //             onChange(filterList[index], index, column);
-          //           }}
-          //         >
-          //           {optionValues.map(item => (
-          //             <MenuItem key={item} value={item}>
-          //               <Checkbox
-          //                 color="primary"
-          //                 checked={filterList[index].indexOf(item) > -1}
-          //               />
-          //               <ListItemText primary={item} />
-          //             </MenuItem>
-          //           ))}
-          //         </Select>
-          //       </FormControl>
-          //     );
-          //   }
-          // }
         }
       },
       {
@@ -334,7 +305,6 @@ class CustomerList extends Component {
     ];
 
     const { title, optionProps, tableProps, tableStyles } = this.props;
-
     return (
       <div className="rct-block" {...tableStyles}>
         <RecordsList

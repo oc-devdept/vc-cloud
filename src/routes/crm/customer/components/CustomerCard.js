@@ -3,6 +3,8 @@ import { Wrapper, Contact, KeyDetails } from "Components/Layout/ProfileCard";
 import { RecentActors } from "@material-ui/icons";
 import ShowLatestFollowUps from "./ShowLatestFollowups";
 
+import { Button } from "@material-ui/core";
+
 function CustomerCard({ cust, _handleDeployAgent }) {
   const { name } = cust;
   const { email, phone, address } = cust.baseContact;
@@ -37,13 +39,15 @@ function CustomerCard({ cust, _handleDeployAgent }) {
       />
 
       {!cust.userInfo && (
-        <button
-          className="btn btn-primary"
-          style={{ color: "white" }}
+        <Button
+          size="small"
+          variant="contained"
+          color="primary"
+          className="text-white"
           onClick={() => _handleDeployAgent(cust.id)}
         >
           Make yourself the agent for this customer
-        </button>
+        </Button>
       )}
     </Wrapper>
   );

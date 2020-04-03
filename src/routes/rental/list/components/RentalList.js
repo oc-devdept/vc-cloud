@@ -93,13 +93,6 @@ export default function RentalList(props) {
   ];
 
   const options = Object.assign({}, listOptions, {
-    customToolbar: () => {
-      return (
-        <Button /* onClick={newMake} */ variant="outlined" size="small">
-          + Create Rental Booking
-        </Button>
-      );
-    },
     setTableProps: () => ({ size: "small" })
   });
 

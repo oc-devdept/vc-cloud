@@ -30,6 +30,7 @@ class FormInput extends PureComponent {
       target,
       keys,
       helperText,
+      selectValueKey,
       ...others
     } = this.props;
 
@@ -48,7 +49,10 @@ class FormInput extends PureComponent {
           >
             {selectValues &&
               selectValues.map((select, key) => (
-                <MenuItem key={key} value={select.value}>
+                <MenuItem
+                  key={key}
+                  value={select[selectValueKey ? selectValueKey : "value"]}
+                >
                   {select.name}
                 </MenuItem>
               ))}
