@@ -16,9 +16,13 @@ const initState = {
 };
 
 function RentalCarForm(props) {
-  const { show, handleHide, action, categories } = props;
+  const { show, handleHide, action, categories, edit } = props;
   const [formState, setFormState] = React.useState(initState);
   const [fileState, setFileState] = React.useState([]);
+
+  React.useEffect(() => {
+    edit && setFormState({ ...edit });
+  }, []);
 
   const handleChange = (field, value) => {
     setFormState(state => ({ ...state, [field]: value }));
@@ -31,7 +35,7 @@ function RentalCarForm(props) {
       data.append(key, formState[key]);
     });
     action(data);
-    // handleHide();
+    handleHide();
   };
 
   function removeFile(file) {
@@ -139,6 +143,11 @@ function RentalCarForm(props) {
             onRemove={removeFile}
             uploadedFiles={fileState}
           />
+          {edit && (
+            <p className="text-muted">
+              * Uploading another image will override the current one.
+            </p>
+          )}
         </div>
       </div>
     </DialogRoot>

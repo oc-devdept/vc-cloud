@@ -14,7 +14,8 @@ import {
   getRentalCar,
   getRentalCategory,
   createRentalCar,
-  deleteRentalCar
+  deleteRentalCar,
+  updateRentalCar
 } from "Ducks/rental";
 import RentalCarList from "./components/RentalCarList";
 
@@ -36,7 +37,10 @@ export default function rental_cars() {
   const editRentalCar = id => {
     const edit = list.find(li => li.id == id);
     dispatch(
-      show("rental_car_form", { action: () => console.log("edit car", edit) })
+      show("rental_car_form", {
+        action: data => dispatch(updateRentalCar(id, data)),
+        edit
+      })
     );
   };
   const viewRentalCar = id => {

@@ -28,9 +28,9 @@ export const createRentalCarFailure = error => ({
 });
 
 // UPDATE Rental
-export const updateRentalCar = data => ({
+export const updateRentalCar = (id, data) => ({
   type: types.UPDATE_RENTAL_CAR,
-  payload: data
+  payload: { id, data }
 });
 export const updateRentalCarSuccess = data => ({
   type: types.UPDATE_RENTAL_CAR_SUCCESS,

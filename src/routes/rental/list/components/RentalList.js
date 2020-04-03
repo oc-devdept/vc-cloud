@@ -3,7 +3,7 @@ import React from "react";
 import RecordsList from "Components/RecordsList";
 import { listOptions, getTheDate, getDateTime } from "Helpers/helpers";
 
-import { Button, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { Delete, Visibility } from "@material-ui/icons";
 
 export default function RentalList(props) {

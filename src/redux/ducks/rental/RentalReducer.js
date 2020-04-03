@@ -12,6 +12,7 @@ export default (state = INIT_STATE, action) => {
     // loading
     case types.GET_RENTAL_CAR:
     case types.DELETE_RENTAL_CAR:
+    case types.UPDATE_RENTAL_CAR:
       return { ...state, loading: true };
 
     // get rental
@@ -28,9 +29,20 @@ export default (state = INIT_STATE, action) => {
       NotificationManager.error("Error in getting categories");
       return { ...state };
 
+    // Update rental
+    case types.UPDATE_RENTAL_CAR_SUCCESS:
+      NotificationManager.success("Rental car updated");
+      const updateRental = Object.assign([], state.list).map(rent =>
+        rent.id == action.payload.id ? action.payload : rent
+      );
+      return { ...state, loading: false, list: updateRental };
+    case types.UPDATE_RENTAL_CAR_FAILURE:
+      NotificationManager.error("Error updating rental car");
+      return { ...state, loading: false };
+
     // Delete rental
     case types.DELETE_RENTAL_CAR_SUCCESS:
-      NotificationManager.success("Rental Car Deleted");
+      NotificationManager.success("Rental car deleted");
       const deleteRental = Object.assign([], state.list).filter(
         rent => rent.id != action.payload
       );

@@ -4,10 +4,16 @@ import RecordsList from "Components/RecordsList";
 import { listOptions } from "Helpers/helpers";
 import Image from "Components/Image";
 import { Button, IconButton } from "@material-ui/core";
-import { Visibility, Delete } from "@material-ui/icons";
+import { Edit, Visibility, Delete } from "@material-ui/icons";
 
 export default function RentalCarList(props) {
-  const { tableData, newRentalCar, viewRentalCar, deleteRentalCar } = props;
+  const {
+    tableData,
+    newRentalCar,
+    editRentalCar,
+    viewRentalCar,
+    deleteRentalCar
+  } = props;
   const columns = [
     {
       name: "id",
@@ -64,6 +70,13 @@ export default function RentalCarList(props) {
                 size="small"
               >
                 <Visibility fontSize="small" />
+              </IconButton>
+              <IconButton
+                onClick={() => editRentalCar(rentalCarId)}
+                className="mx-10"
+                size="small"
+              >
+                <Edit fontSize="small" />
               </IconButton>
               <IconButton
                 onClick={() => deleteRentalCar(rentalCarId)}
