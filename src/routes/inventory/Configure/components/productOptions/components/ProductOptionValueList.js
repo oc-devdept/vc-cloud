@@ -54,24 +54,24 @@ export default class Index extends PureComponent {
           }
         }
       },
-      {
-        label: "IsDefault",
-        name: "isDefault",
-        options: {
-          customBodyRender: value => {
-            return `${value}`;
-          }
-        }
-      },
-      {
-        label: "Editable",
-        name: "editable",
-        options: {
-          customBodyRender: value => {
-            return `${value}`;
-          }
-        }
-      },
+      // {
+      //   label: "IsDefault",
+      //   name: "isDefault",
+      //   options: {
+      //     customBodyRender: value => {
+      //       return `${value}`;
+      //     }
+      //   }
+      // },
+      // {
+      //   label: "Editable",
+      //   name: "editable",
+      //   options: {
+      //     customBodyRender: value => {
+      //       return `${value}`;
+      //     }
+      //   }
+      // },
       {
         name: "description",
         options: { display: "excluded", filter: false, sort: false }
@@ -89,9 +89,9 @@ export default class Index extends PureComponent {
               name: rowState.rowData[1],
               image: rowState.rowData[2],
               price: rowState.rowData[3],
-              isDefault: rowState.rowData[4],
-              editable: rowState.rowData[5],
-              description: rowState.rowData[6]
+              // isDefault: rowState.rowData[4],
+              // editable: rowState.rowData[5],
+              description: rowState.rowData[4]
             };
             return (
               <IconButton
@@ -116,9 +116,9 @@ export default class Index extends PureComponent {
               name: rowState.rowData[1],
               image: rowState.rowData[2],
               price: rowState.rowData[3],
-              isDefault: rowState.rowData[4],
-              editable: rowState.rowData[5],
-              description: rowState.rowData[6]
+              // isDefault: rowState.rowData[4],
+              // editable: rowState.rowData[5],
+              description: rowState.rowData[4]
             };
             return (
               <IconButton
