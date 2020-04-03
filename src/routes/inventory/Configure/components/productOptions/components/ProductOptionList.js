@@ -16,6 +16,7 @@ export default class Index extends PureComponent {
   };
 
   render() {
+    // CONTINUE TO TRACE TOGGLE DIALOG!!!!
     const { loading, title, tableData, ToggleDialog, addOption } = this.props;
     const columns = [
       {

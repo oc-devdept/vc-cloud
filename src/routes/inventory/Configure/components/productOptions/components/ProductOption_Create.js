@@ -15,7 +15,9 @@ import { NotificationManager } from "react-notifications";
 
 const validateForm = (selectOne, name) => {
   let Reject = true;
-  // if(selectOne == null || selectOne == false){Reject = false}
+  // if (selectOne == null || selectOne == false) {
+  //   Reject = false;
+  // }
   if (name == "") {
     Reject = false;
   }

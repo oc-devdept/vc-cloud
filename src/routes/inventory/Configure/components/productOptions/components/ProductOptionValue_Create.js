@@ -275,7 +275,7 @@ class index extends PureComponent {
 
               <div
                 style={{
-                  display: "flex",
+                  display: "none",
                   flexDirection: "column",
                   width: "100%"
                 }}
