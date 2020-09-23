@@ -28,6 +28,8 @@ module.exports = {
   "sidebar.campaign": "Campaign",
   "sidebar.template": "Template",
 
+  "sidebar.car": "Car Page",
+
   "sidebar.proj": "Project Management",
 
   "sidebar.acct": "Accounting",

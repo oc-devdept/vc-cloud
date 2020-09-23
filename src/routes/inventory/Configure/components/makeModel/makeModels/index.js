@@ -43,6 +43,7 @@ class index extends PureComponent {
       );
       const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id);
       const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource);
+
       const Tags = await api.get(`tags`);
 
       const commissions = await api.get("commissions");

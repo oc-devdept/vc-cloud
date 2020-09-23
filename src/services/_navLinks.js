@@ -5,6 +5,10 @@ import {
   dealListPage
 } from "Helpers/crmURL";
 
+import {
+  carPage
+} from "Helpers/cmsURL";
+
 // // acct routes
 // import {
 //   quoteListPage,
@@ -53,6 +57,17 @@ export default [
         title: "sidebar.deals",
         path: dealListPage
       }
+    ]
+  },
+  {
+    url: "/app/cms/car",
+    baseUrl: "/app/cms",
+    name: "CMS",
+    child_routes: [
+      {
+        title: "sidebar.car",
+        path: carPage
+      },
     ]
   },
   {

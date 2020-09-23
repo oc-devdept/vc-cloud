@@ -20,6 +20,9 @@ import {
   CrmFieldSaga
 } from "Ducks/crm";
 
+// cms
+import { CarSaga } from "Ducks/cms";
+
 // marketing
 import { MailSaga, CampaignSaga, TemplateSaga } from "Ducks/marketing";
 
@@ -73,6 +76,9 @@ export default function* rootSaga() {
     AccountSaga(),
     DealSaga(),
     CrmFieldSaga(),
+
+    // CMS
+    CarSaga(),
 
     // Marketing
     MailSaga(),

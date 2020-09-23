@@ -29,6 +29,11 @@ import {
   CrmFieldReducer
 } from "Ducks/crm";
 
+//cms
+import {
+  CarReducer
+} from "Ducks/cms";
+
 // Marketing
 import { MailReducer } from "Ducks/marketing/mail";
 import { CampaignReducer } from "Ducks/marketing/campaign";
@@ -74,6 +79,9 @@ const reducers = combineReducers({
     accountState: AccountReducer,
     dealState: DealReducer,
     crmField: CrmFieldReducer
+  }),
+  cmsState: combineReducers({
+    carState: CarReducer
   }),
   accountingState: combineReducers({
     quotationState: QuotationReducer,
