@@ -14,7 +14,7 @@ import CarInfo from "./CarInfo/CarInfo";
 import { NotificationManager } from "react-notifications";
 // NotificationManager.error('Unable to make booking request');
 
-const validateForm = (Product, Files) => {
+const validateForm = (Product, Files, Images) => {
   let Reject = true;
   const {
     name,
@@ -37,6 +37,9 @@ const validateForm = (Product, Files) => {
     Reject = false;
   }
   if (Files.length == 0) {
+    Reject = false;
+  }
+  if(Images.length == 0){
     Reject = false;
   }
   return Reject;
@@ -90,8 +93,8 @@ export default class Index extends Component {
     return test.data.fields;
   };
 
-  _CreateProduct = async (Product, Files) => {
-    const result = validateForm(Product, Files);
+  _CreateProduct = async (Product, Files, Images) => {
+    const result = validateForm(Product, Files, Images);
 
     if (result) {
       const MakeId = this.props.MakeId;
@@ -99,6 +102,7 @@ export default class Index extends Component {
       var data = new FormData();
 
       Files.map(file => data.append(`upload`, file));
+      Images.map(img => data.append('thumb', img));
       data.append("name", Product.name);
       data.append("description", Product.description);
       data.append("cost_Price", Product.cost_Price);
@@ -119,7 +123,7 @@ export default class Index extends Component {
     }
   };
 
-  _EditProduct = async (Product, Files) => {
+  _EditProduct = async (Product, Files, Images) => {
     const result = validateEditForm(Product);
 
     if (result) {
@@ -129,6 +133,7 @@ export default class Index extends Component {
 
       var data = new FormData();
       Files.map(file => data.append(`upload`, file));
+      Images.map(img => data.append('thumb', img));
       data.append("id", Product.id);
       data.append("name", Product.name);
       data.append("description", Product.description);

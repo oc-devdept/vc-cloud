@@ -17,7 +17,9 @@ export default class Index extends PureComponent {
             this.state = {
                 Product: this.props.Car,
                 Images: this.props.Car.files,
+                Thumbs: this.props.Car.images,
                 files: [],
+                imgThumbs: []
             }
             
         } else {
@@ -35,6 +37,8 @@ export default class Index extends PureComponent {
                 },
                 Images:[],
                 files: [],
+                Thumbs:[],
+                imgThumbs: []
             }
             
         }
@@ -69,12 +73,35 @@ export default class Index extends PureComponent {
           return { files };
         });
     }
+
+    removeFile = (file) => {
+        this.setState(state => {
+          const index = state.imgThumbs.indexOf(file);
+          const files = state.imgThumbs.slice(0);
+          files.splice(index, 1);
+          return { imgThumbs: files };
+        });
+    }
   
     handleUpload = file => {
         this.setState({
             files: file
         });
     };
+
+    handleThumbUpload = file => {
+        this.setState({
+            imgThumbs: file
+        });
+    };
+
+    _AddItem = () => {
+        this.props._CreateProduct(this.state.Product, this.state.files, this.state.imgThumbs);
+    }
+
+    _EditItem = () => {
+        this.props._EditProduct(this.state.Product, this.state.files, this.state.imgThumbs);
+    }
     
     
     render () {
@@ -89,17 +116,21 @@ export default class Index extends PureComponent {
                     _HandleProduct={this._HandleProduct}
                     Product = {this.state.Product}
                     Images={this.state.Images}
-                    files={this.state.files}
+                    files={this.state.files}                    
                     handleUpload={this.handleUpload}
                     removeFile={this.removeFile}
+                    Thumbs={this.state.Thumbs}
+                    imgThumbs={this.state.imgThumbs}
+                    handleThumbUpload={this.handleThumbUpload}
+                    removeThumb={this.removeThumb}
                 />
 
                 {!this.props.Car && 
                     <div className="d-flex" style={{marginTop: 20, justifyContent:"flex-end"}}>
                         <Button
-                            _Function={this.props._CreateProduct}
-                            product={this.state.Product}
-                            files={this.state.files}
+                            _Function={this._AddItem}
+                            product={""}
+                            files={""}
                             title={"SAVE CHANGES"}
                         />
                         {/* <button onClick={() => this.props._CreateProduct(this.state.Product, this.state.files)}>SAVE CHANGES</button>      */}
@@ -110,9 +141,9 @@ export default class Index extends PureComponent {
                     <div className="d-flex" style={{marginTop: 20, justifyContent:"flex-end"}}>
                         {/* <button onClick={() => this.props._EditProduct(this.state.Product, this.state.files)}>EDIT CHANGES</button>    */}
                         <Button
-                            _Function={this.props._EditProduct}
-                            product={this.state.Product}
-                            files={this.state.files}
+                            _Function={this._EditItem}
+                            product={""}
+                            files={""}
                             title={"SAVE CHANGES"}
                         />  
                     </div>

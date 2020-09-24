@@ -5,13 +5,10 @@ import {
   dealListPage
 } from "Helpers/crmURL";
 
-// // acct routes
-// import {
-//   quoteListPage,
-//   invoiceListPage,
-//   crednoteListPage,
-//   paymentPage
-// } from "Helpers/accountingURL";
+import {
+  bannerListPage,
+  featuredListPage
+} from "Helpers/cmsURL";
 
 import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
 
@@ -52,6 +49,21 @@ export default [
       {
         title: "sidebar.deals",
         path: dealListPage
+      }
+    ]
+  },
+  {
+    url: "/app/cms/featured",
+    baseUrl: "/app/cms",
+    name: "CMS",
+    child_routes: [
+      {
+        title: "sidebar.banners",
+        path: bannerListPage
+      },
+      {
+        title: "sidebar.featured",
+        path: featuredListPage
       }
     ]
   },

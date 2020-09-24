@@ -76,7 +76,7 @@ function Dropzone(props) {
         </div>
         <p className="mb-5">Drop files here, or click to select files</p>
         <small className="mb-0">
-          Only <i>*.csv</i> files will be accepted
+         
         </small>
         <Button
           variant="contained"

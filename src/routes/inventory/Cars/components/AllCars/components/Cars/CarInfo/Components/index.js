@@ -13,7 +13,7 @@ class Grade extends PureComponent {
 
     
     render() {
-      const {_HandleProduct, Product, Images, files, handleUpload, removeFile} = this.props
+      const {_HandleProduct, Product, Images, files, handleUpload, removeFile, Thumbs, imgThumbs, handleThumbUpload, removeThumb} = this.props
 
       return (
         <div className='d-flex' style={{margin: 5, flexDirection:'column'}}>
@@ -165,6 +165,29 @@ class Grade extends PureComponent {
                   _HandleProduct={_HandleProduct}
                   style={{height:'100%', backgroundColor: 'rgba(244,246,251,1)', borderRadius: 8, border: 'none', padding: 20}}
                 />
+
+                <div className="d-flex" style={{flexDirection:'column',}}>
+                  
+                  <div style={{marginBottom: 10}}>
+                    <span style={{ color:'rgba(150,150,150,1)'}}>THUMBNAIL</span>
+                    <div style={{paddingBottom: 10, paddingTop: 10,}}>
+                      {Thumbs.length > 0 &&
+                          <Image
+                            imageSource={Thumbs}
+                            single={true}
+                          />
+                      }
+                    </div>
+                  </div>
+                  
+                  <Dropzone
+                    onDrop={handleThumbUpload}
+                    onRemove={removeThumb}
+                    uploadedFiles={imgThumbs}
+                    additionalText="Files can't be edited once uploaded."
+                  />
+                
+                </div>
 
               </div>
 

@@ -55,5 +55,9 @@ module.exports = {
   "sidebar.analytics": "Analytics",
 
   "sidebar.rentalList": "Enquiries",
-  "sidebar.rentalCars": "Cars"
+  "sidebar.rentalCars": "Cars",
+  "sidebar.banners": "Banners",
+  "sidebar.newBanner": "New Banner",
+  "sidebar.editBanner": "Edit Banner",
+  "sidebar.featured": "Featured cars"
 };

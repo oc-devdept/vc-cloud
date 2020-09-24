@@ -7,6 +7,7 @@ import CalendarComponent from "Routes/calendar/AsyncRoutes";
 import ReportComponent from "Routes/report/AsyncRoutes";
 
 import crm from "Routes/crm";
+import cms from "Routes/cms";
 // import Accounting from "Routes/accounting";
 import Setting from "Routes/setting";
 import Marketing from "Routes/marketing";
@@ -21,6 +22,10 @@ export default [
   {
     path: "crm",
     component: crm
+  },
+  {
+    path: "cms",
+    component: cms
   },
   // {
   //   path: "acct",
