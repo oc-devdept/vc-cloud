@@ -31,7 +31,8 @@ import {
 
 //cms
 import {
-  CarReducer
+  CarReducer,
+  BlogReducer
 } from "Ducks/cms";
 
 // Marketing
@@ -81,7 +82,8 @@ const reducers = combineReducers({
     crmField: CrmFieldReducer
   }),
   cmsState: combineReducers({
-    carState: CarReducer
+    carState: CarReducer,
+    blogState: BlogReducer
   }),
   accountingState: combineReducers({
     quotationState: QuotationReducer,

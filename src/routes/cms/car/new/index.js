@@ -25,7 +25,6 @@ import { getCategory, getProducts } from "Ducks/cms/car";
 //css
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
-import MakesForm from "../../../inventory/Configure/components/makeModel/makeModels/components/makes";
 import {NotificationManager} from "react-notifications";
 
 class CarNewPage extends Component {

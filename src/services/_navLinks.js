@@ -6,7 +6,8 @@ import {
 } from "Helpers/crmURL";
 
 import {
-  carPage
+  carPage,
+  blogPage
 } from "Helpers/cmsURL";
 
 // // acct routes
@@ -67,6 +68,10 @@ export default [
       {
         title: "sidebar.car",
         path: carPage
+      },
+      {
+        title: "sidebar.blog",
+        path: blogPage
       },
     ]
   },

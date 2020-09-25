@@ -68,21 +68,24 @@ class CarViewPage extends React.Component{
     };
 
     render() {
-        // const settingsThumbs = {
-        //     slidesToShow: 2,
-        //     slidesToScroll: 1,
-        //     asNavFor: '.slider-for',
-        //     dots: false,
-        //     centerMode: true,
-        //     swipeToSlide: true,
-        //     focusOnSelect: true,
-        // };
+        let length = this.state.galleryPhoto.length;
+
         const settingsMain = {
             slidesToShow: 1,
             slidesToScroll: 1,
             arrows: false,
             fade: true,
             asNavFor: '.slider-nav'
+        };
+
+        const settingsThumbs = {
+            slidesToShow: length,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: false,
+            centerMode: true,
+            swipeToSlide: true,
+            focusOnSelect: true,
         };
 
         return (
@@ -100,13 +103,15 @@ class CarViewPage extends React.Component{
                     <h2 className="text-muted text-center text-gray">{this.state.name}</h2>
                     <img
                         src={this.state.coverPhoto}
-                        style={{width: '100%'}}
+                        style={{width: '100%', height: 400}}
                     />
 
+                    <h2 className="text-muted text-center text-gray mt-30">Description</h2>
                     <div className="p-30 mt-30 mb-30" style={{width: '80%', marginLeft: '10%', backgroundColor: 'lightgray'}}>
                         { ReactHtmlParser(this.state.description) }
                     </div>
 
+                    <h2 className="text-muted text-center text-gray mt-30">360 View</h2>
                     {
                         this.state.exterior && (
                             <div style={{width: '70%', marginLeft: '15%'}}>
@@ -124,9 +129,8 @@ class CarViewPage extends React.Component{
                         )
                     }
 
-                    <h2 className="text-muted text-center text-gray">Gallery</h2>
+                    <h2 className="text-muted text-center text-gray mt-30">Gallery</h2>
                     <div className="text-center">
-                        <div className="slider-wrapper">
                             <Slider
                                 {...settingsMain}
                                 asNavFor={this.state.nav2}
@@ -136,28 +140,27 @@ class CarViewPage extends React.Component{
                                 {this.state.galleryPhoto.map((slide) =>
                                     <div className="slick-slide" key={slide.file.id}>
                                         <img className="slick-slide-image" src={slide.file.path} />
-                                        <h5 className="slick-slide-label">{slide.caption}</h5>
+                                        <h3 className="slick-slide-label">{slide.caption}</h3>
                                     </div>
                                 )}
                             </Slider>
 
-                            {/*<div className="thumbnail-slider-wrap">*/}
-                            {/*    <Slider*/}
-                            {/*        {...settingsThumbs}*/}
-                            {/*        asNavFor={this.state.nav1}*/}
-                            {/*        afterChange={slider => this.setState({slider2: slider})}*/}
-                            {/*    >*/}
+                            <div className="thumbnail-slider-wrap">
+                                <Slider
+                                    {...settingsThumbs}
+                                    asNavFor={this.state.nav1}
+                                    afterChange={slider => this.setState({slider2: slider})}
+                                >
 
-                            {/*        {this.state.galleryPhoto.map((slide) =>*/}
+                                    {this.state.galleryPhoto.map((slide) =>
 
-                            {/*            <div className="slick-slide" key={slide.file.id}>*/}
-                            {/*                <img className="slick-slide-image" src={slide.file.path} />*/}
-                            {/*            </div>*/}
+                                        <div className="slick-slide" key={slide.file.id}>
+                                            <img className="slick-slide-image" src={slide.file.path} />
+                                        </div>
 
-                            {/*        )}*/}
-                            {/*    </Slider>*/}
-                            {/*</div>*/}
-                        </div>
+                                    )}
+                                </Slider>
+                            </div>
                     </div>
                 </div>
             </React.Fragment>

@@ -37,14 +37,19 @@ class CarEditPage extends Component {
             category: "",
             product: [],
             coverPhoto: [],
+            coverPhotoString: [],
+            currentCoverPhoto: [],
             Exterior: [],
+            existExterior: [],
             Interior: [],
+            existInterior: [],
             description: "",
             photo: {
                 galleryString: [],
                 gallery: [],
                 captions: []
             },
+            existGallery: [],
             toggle: false,
         };
         this.modules = {
@@ -91,18 +96,26 @@ class CarEditPage extends Component {
         let singleData = await api.get(`/carpages/getSingleCarData/?id=${this.props.match.params.id}`);
         let data = singleData.data.data;
 
-        let coverPhoto; let exteriors=[]; let interiors = [];
+        let coverPhoto = []; let exteriors=[]; let interiors = []; let galleries = [];
         for (let i = 0; i < data.file.length; i++) {
-            if (data.file[i].fileableType === "CarPage-Cover") { coverPhoto = data.file[i].path }
+            if (data.file[i].fileableType === "CarPage-Cover") { coverPhoto.push(data.file[i]) }
             else if (data.file[i].fileableType === "CarPage-Exterior") { exteriors.push(data.file[i]) }
             else if (data.file[i].fileableType === "CarPage-Interior") { interiors.push(data.file[i]) }
+        }
+
+        for (let j = 0; j < data.gallery.length; j++) {
+            galleries.push(data.gallery[j].file)
         }
 
         this.setState({
             name: data.name,
             description: data.description,
             category: data.categoryId,
-            product: data.products.split(',')
+            product: data.products.split(','),
+            currentCoverPhoto: coverPhoto,
+            existExterior: exteriors,
+            existInterior: interiors,
+            existGallery: galleries
         })
     };
 
@@ -111,18 +124,99 @@ class CarEditPage extends Component {
     };
 
     handleUpload = file => {
+        const item = URL.createObjectURL(file[0]);                          //upload cover photo
+        let CloneEditedImages = file;
+        let CloneEditedImagesStrings = [item];
+
         this.setState({
-            coverPhoto: file
+            coverPhoto: CloneEditedImages,
+            coverPhotoString: CloneEditedImagesStrings
         });
     };
 
     removeFile = file => {
         this.setState(state => {
-            const index = state.coverPhoto.indexOf(file);
+            const index = state.coverPhoto.indexOf(file);                   //remove uploaded image
             const files = state.coverPhoto.slice(0);
             files.splice(index, 1);
             return { files };
         });
+    };
+
+    removeExistingCover = async (index) => {
+        const actualGallery = this.state.currentCoverPhoto.slice(0);        //remove existing cover image in db
+        const image = actualGallery[index];
+
+        await api.delete(`carblogs/deleteImages/${image.id}`);
+
+        let singleData = await api.get(`/carpages/getSingleCarData/?id=${this.props.match.params.id}`);
+        let data = singleData.data.data;
+
+        let coverPhoto = [];
+        for (let i = 0; i < data.file.length; i++) {
+            if (data.file[i].fileableType === "CarPage-Cover") { coverPhoto.push(data.file[i]) }
+        }
+
+        this.setState({
+            ...this.state,
+            currentCoverPhoto: coverPhoto
+        });
+    };
+
+    removeExistingExterior = async (index) => {                         //remove existing exterior image in db
+        const actualGallery = this.state.existExterior.slice(0);
+        const image = actualGallery[index];
+
+        await api.delete(`carblogs/deleteImages/${image.id}`);
+
+        let singleData = await api.get(`/carpages/getSingleCarData/?id=${this.props.match.params.id}`);
+        let data = singleData.data.data;
+
+        let exteriors=[];
+        for (let i = 0; i < data.file.length; i++) {
+            if (data.file[i].fileableType === "CarPage-Exterior") { exteriors.push(data.file[i]) }
+        }
+
+        this.setState({
+            ...this.state,
+            existExterior: exteriors,
+        });
+    };
+
+    removeExistingInterior = async (index) => {                         //remove existing exterior image in db
+        const actualGallery = this.state.existInterior.slice(0);
+        const image = actualGallery[index];
+
+        await api.delete(`carblogs/deleteImages/${image.id}`);
+
+        let singleData = await api.get(`/carpages/getSingleCarData/?id=${this.props.match.params.id}`);
+        let data = singleData.data.data;
+
+        let interiors=[];
+        for (let i = 0; i < data.file.length; i++) {
+            if (data.file[i].fileableType === "CarPage-Interior") { interiors.push(data.file[i]) }
+        }
+
+        this.setState({
+            ...this.state,
+            existInterior: interiors,
+        });
+    };
+
+    removeExistGallery = async (index) => {
+        const gallery = this.state.existGallery.slice(0);
+        const image = gallery[index];
+        await api.delete(`carblogs/deleteGallery/${image.id}`);
+
+        let singleData = await api.get(`/carpages/getSingleCarData/?id=${this.props.match.params.id}`);
+        let data = singleData.data.data;
+
+        let galleries = [];
+
+        for (let j = 0; j < data.gallery.length; j++) {
+            galleries.push(data.gallery[j].file)
+        }
+        this.setState({...this.state, existGallery: galleries});
     };
 
     handle360Exterior = file => {
@@ -132,7 +226,7 @@ class CarEditPage extends Component {
     remove360Exterior = file => {
         this.setState(state => {
             const index = state.Exterior.indexOf(file);
-            const files = state.Exterior.slice(0);
+            const files = state.Exterior;
             files.splice(index, 1);
             return { files };
         });
@@ -145,7 +239,7 @@ class CarEditPage extends Component {
     remove360Interior = file => {
         this.setState(state => {
             const index = state.Interior.indexOf(file);
-            const files = state.Interior.slice(0);
+            const files = state.Interior;
             files.splice(index, 1);
             return { files };
         });
@@ -256,9 +350,9 @@ class CarEditPage extends Component {
         const { category, products } = this.props.carState;
         return (
             <React.Fragment>
-                <Helmet title="New Car" />
+                <Helmet title="Edit Car" />
                 <PageTitleBar
-                    title="Car New Page"
+                    title="Car Edit Page"
                 />
 
                 <div className="ml-50 mr-50 bg-white shadow shadow-lg border-rad-md border-dark"
@@ -277,13 +371,54 @@ class CarEditPage extends Component {
                     />
 
                     <div className="text-center mt-30">
-                        <h3 className="text-muted text-center text-gray">Add Cover Photo</h3>
-                        <Dropzone
-                            onDrop={this.handleUpload}
-                            onRemove={this.removeFile}
-                            uploadedFiles={this.state.coverPhoto}
-                            additionalText="Files can't be edited once uploaded."                                   //upload cover image
-                        />
+                        <h3 className="text-muted text-center text-gray">Edit Cover Photo</h3>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                flex: 1,
+                                marginTop: 10,
+                                marginBottom: 10
+                            }}
+                        >
+                            <div
+                                style={{ display: "flex", flexDirection: "column", flex: 0.5 }}
+                            >
+                                <StaticName title="UPLOAD COVER IMAGE" />
+                                <Dropzone
+                                    onDrop={this.handleUpload}
+                                    uploadedFiles={[]}
+                                    additionalText="Files can't be edited once uploaded."
+                                />
+                            </div>
+
+                            <div className="d-flex flex-column" style={{ flex: 0.25 }}>
+                                <StaticName title="CURRENT COVER IMAGE" />
+                                {this.state.currentCoverPhoto.length > 0 && (
+                                    <div className="d-flex flex justify-content-center">
+                                        <BlobImage
+                                            imageSource={this.state.currentCoverPhoto}
+                                            url={true}
+                                            remove={true}
+                                            removeNewImages={this.removeExistingCover}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="d-flex flex-column" style={{ flex: 0.25 }}>
+                                <StaticName title="PREVIEW COVER IMAGE" />
+                                {this.state.coverPhotoString.length > 0 && (
+                                    <div className="d-flex flex justify-content-center">
+                                        <BlobImage
+                                            imageSource={this.state.coverPhotoString}
+                                            url={false}
+                                            remove={true}
+                                            removeNewImages={this.removeFile}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
                     <h3 className="text-muted text-center text-gray mb-10 mt-50">Select Category and Grade</h3>
@@ -322,27 +457,67 @@ class CarEditPage extends Component {
                     <h3 className="text-muted text-center text-gray mb-10 mt-50">360 Gallary</h3>
                     <div className="row">
                         <div className="col-md-6">
+                            <StaticName title="UPLOAD NEW EXTERIOR IMAGES" />
                             <Dropzone
                                 onDrop={this.handle360Exterior}
                                 onRemove={this.remove360Exterior}
                                 uploadedFiles={this.state.Exterior}
-                                additionalText="Files can't be edited once uploaded."                                   //upload cover image
+                                additionalText="Files can't be edited once uploaded."                                   //upload exterior image
                             />
-                            <div className="text-center">Exterior</div>
                         </div>
                         <div className="col-md-6">
+                            <StaticName title="CURRENT EXTERIOR IMAGES" />
+                            {this.state.existExterior.length > 0 && (
+                                <div className="d-flex flex justify-content-center">
+                                    <BlobImage
+                                        imageSource={this.state.existExterior}
+                                        url={true}
+                                        remove={true}
+                                        removeNewImages={this.removeExistingExterior}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="row mt-30">
+                        <div className="col-md-6">
+                            <StaticName title="UPLOAD NEW INTERIOR IMAGES" />
                             <Dropzone
                                 onDrop={this.handle360Interior}
                                 onRemove={this.remove360Interior}
                                 uploadedFiles={this.state.Interior}
-                                additionalText="Files can't be edited once uploaded."                                   //upload cover image
+                                additionalText="Files can't be edited once uploaded."                                   //upload interior image
                             />
-                            <div className="text-center">Interior</div>
+                        </div>
+                        <div className="col-md-6">
+                            <StaticName title="CURRENT INTERIOR IMAGES" />
+                            {this.state.existInterior.length > 0 && (
+                                <div className="d-flex flex justify-content-center">
+                                    <BlobImage
+                                        imageSource={this.state.existInterior}
+                                        url={true}
+                                        remove={true}
+                                        removeNewImages={this.removeExistingInterior}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    <h3 className="text-muted text-center text-gray mb-10 mt-50">Photo Gallary</h3>
-
+                    <h3 className="text-muted text-center text-gray mb-10 mt-50">Photo Gallery</h3>
+                    <div className="d-flex flex-column justify-content-center" style={{ flex: 1 }}>
+                        <Button
+                            divStyle={{
+                                display: "flex",
+                                justifyContent: "flex-center",
+                                marginTop: 10,
+                                marginBottom: 10
+                            }}
+                            _Function={() => this.setState({toggle: true})}
+                            title="Add Photo Gallery"
+                        />
+                    </div>
                     <div
                         style={{
                             display: "flex",
@@ -355,18 +530,17 @@ class CarEditPage extends Component {
                         <div
                             style={{ display: "flex", flexDirection: "column", flex: 0.5 }}
                         >
-                            <div className="d-flex flex-column justify-content-center" style={{ flex: 1 }}>
-                                <Button
-                                    divStyle={{
-                                        display: "flex",
-                                        justifyContent: "flex-center",
-                                        marginTop: 10,
-                                        marginBottom: 10
-                                    }}
-                                    _Function={() => this.setState({toggle: true})}
-                                    title="Add Photo Gallery"
+                            <StaticName title="CURRENT PHOTO GALLERY IMAGES" />
+                            {this.state.existGallery.length > 0 ? (
+                                <BlobImage
+                                    imageSource={this.state.existGallery}
+                                    url={true}
+                                    remove={true}
+                                    removeNewImages={this.removeExistGallery}
                                 />
-                            </div>
+                            ) : (
+                                <div className="text-left text-gray">There is no gallery</div>
+                            )}
                         </div>
 
                         <div
