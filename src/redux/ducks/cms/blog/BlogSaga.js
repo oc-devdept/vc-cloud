@@ -24,6 +24,7 @@ const getSingleBlogFromDBRequest = async (id) => {
 const newBlogToDBRequest = async (params) => {
   let formData = new FormData();
   formData.append('title', params.title);
+  formData.append('intro', params.intro);
   formData.append('publishDate', params.publishDate);
   formData.append('content', params.content);
   formData.append('keywords', params.keywords);

@@ -50,6 +50,7 @@ export default (state = INIT_STATE, action) => {
     case types.NEW_BLOG:
       return { ...state, loading: true };
     case types.NEW_BLOG_SUCCESS:
+      NotificationManager.success('Created Blog Successfully!');
       return {
         ...state, loading: false
       };

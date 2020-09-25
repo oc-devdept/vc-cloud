@@ -14,6 +14,7 @@ import BlobImage from "Components/Inventory/BlobImage";
 import ReactQuill from "react-quill";
 import DatePickerInput from "Components/Form/Pickers/DatePicker";
 import DialogRoot from "Components/Dialog/DialogRoot";
+import * as url from "Helpers/cmsURL";
 
 import PublishModal from "../components/PublishModal";
 
@@ -29,6 +30,7 @@ class BlogNewPage extends Component{
         super(props);
         this.state = {
             title: '',
+            intro: '',
             blogPhoto: [],
             blogPhotoString: [],
             content: '',
@@ -108,6 +110,7 @@ class BlogNewPage extends Component{
         let tags = this.state.tags.split(',');
         let params = {
             title: this.state.title,
+            intro: this.state.intro,
             articleImage: this.state.blogPhoto,
             publishDate: this.state.publishDate,
             content: this.state.content,
@@ -116,6 +119,9 @@ class BlogNewPage extends Component{
             status: pn
         };
         this.props.newBlog(params);
+        setTimeout(() => {
+            this.props.history.push(`${url.blogPage}`);
+        }, 500);
         this.setState({toggle: false})
     };
 
@@ -139,6 +145,16 @@ class BlogNewPage extends Component{
                         value={this.state.title}
                         required={!this.state.title}
                         target="title"                                                                               //input car name
+                        handleChange={this.handleChange}
+                    />
+
+                    <h3 className="text-muted text-center text-gray">Blog Introduction</h3>
+                    <FormInput
+                        multiline
+                        rows={4}
+                        label="Introduction"
+                        target="intro"
+                        value={this.state.intro}
                         handleChange={this.handleChange}
                     />
 

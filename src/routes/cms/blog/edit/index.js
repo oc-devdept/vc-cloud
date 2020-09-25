@@ -28,6 +28,7 @@ class BlogEditPage extends Component{
         super(props);
         this.state = {
             title: '',
+            intro: '',
             content: '',
             publishDate: '',
             keywords: '',
@@ -81,6 +82,7 @@ class BlogEditPage extends Component{
         let singleData = result.data.data;
         this.setState({
             title: singleData.title,
+            intro: singleData.intro,
             content: singleData.content,
             publishDate: singleData.publishDate,
             keywords: singleData.keywords,
@@ -138,6 +140,7 @@ class BlogEditPage extends Component{
         let formData = new FormData();
         formData.append('id', this.props.match.params.id);
         formData.append('title', this.state.title);
+        formData.append('intro', this.state.intro);
         formData.append('publishDate', this.state.publishDate);
         formData.append('content', this.state.content);
         formData.append('keywords', keys);
@@ -171,6 +174,16 @@ class BlogEditPage extends Component{
                         value={this.state.title}
                         required={!this.state.title}
                         target="title"                                                                               //input car name
+                        handleChange={this.handleChange}
+                    />
+
+                    <h3 className="text-muted text-center text-gray">Blog Introduction</h3>
+                    <FormInput
+                        multiline
+                        rows={4}
+                        label="Introduction"
+                        target="intro"
+                        value={this.state.intro}
                         handleChange={this.handleChange}
                     />
 
