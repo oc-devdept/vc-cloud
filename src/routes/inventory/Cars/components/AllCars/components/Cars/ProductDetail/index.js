@@ -205,7 +205,7 @@ export default class Index extends Component {
                                         if(Car){
                                             if(Car.length > 0){
                                                 Car.map(e => {
-                                                    if(each){
+                                                    if(each && e.detailCategory){
                                                         if(e.detailCategory.name == each.name){
                                                             contain = true
                                                         }

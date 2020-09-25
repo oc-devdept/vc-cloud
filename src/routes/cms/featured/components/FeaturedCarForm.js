@@ -48,11 +48,16 @@ class FeaturedCarForm extends Component {
     handleChange(field, value){
         if(field == "grade"){
             let car = this.props.products.tableData.find(element => element.id == value);
-            console.log(car.productDetailValue);
+
             let featured = car.productDetailValue.map( item => {
-              return {
-                name: item.detailCategory.name,
-                id: item.detailCategoryId
+              if(item.detailCategory){
+                return {
+                  name: item.detailCategory.name,
+                  id: item.detailCategoryId
+                }
+              }
+              else {
+                return {};
               }
             });
             this.setState({

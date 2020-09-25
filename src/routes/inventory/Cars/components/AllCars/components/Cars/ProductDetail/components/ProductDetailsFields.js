@@ -10,6 +10,7 @@ export default class Index extends PureComponent {
     const detailCategory = e.detailCategory
 
     return (
+      detailCategory && (
         <div style={{width: '100%', display:'flex', flexDirection:"row", padding: 10, marginTop: 5, alignItems:'center'}}>
       
             <div style={{flex: 1}}>
@@ -32,6 +33,7 @@ export default class Index extends PureComponent {
         
 
         </div>
+      )
     );
   }
 };

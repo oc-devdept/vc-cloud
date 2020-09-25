@@ -770,12 +770,14 @@ const validateForm = (TagId, MakeId, Model, files, header, gallery) => {
   if (files.length == 0) {
     Reject = false;
   }
+  /*
   if (header.length == 0) {
     Reject = false;
   }
   if (gallery.length == 0) {
     Reject = false;
   }
+  */
   return Reject;
 };
 
