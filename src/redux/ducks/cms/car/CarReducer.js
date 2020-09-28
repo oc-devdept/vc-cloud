@@ -10,17 +10,7 @@ const INIT_STATE = {
     options: ["All Cars", "Open Car", "Closed Car", "Won Car"],
     action: false,
     loading: false,
-    tableData: [
-      {
-        id: "abcdefghijklm",
-        name: "name",
-        category: "category",
-        coverPhoto: "coverPhoto",
-        gradeInfo: "grade info",
-        description: "description",
-        360: "Yes"
-      }
-    ]
+    tableData: []
   },
 };
 
@@ -41,6 +31,7 @@ export default (state = INIT_STATE, action) => {
         }
       };
     case types.GET_ALL_CAR_FAILURE:
+      NotificationManager.warning("failed to get data!");
       return { ...state, carList: { ...state.carList, loading: false } };
 
     case types.GET_CATEGORY:

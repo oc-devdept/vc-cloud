@@ -11,6 +11,7 @@ import Button from "Components/Inventory/Button";
 import DialogRoot from "Components/Dialog/DialogRoot";
 
 import api from "Api";
+import * as url from "Helpers/cmsURL";
 
 import ProductCheckBox from "../components/ProductCheckBox";
 
@@ -33,6 +34,7 @@ class CarNewPage extends Component {
         this.state = {
             name: "",
             category: "",
+            categoryName: "",
             product: [],
             coverPhoto: [],
             Exterior: [],
@@ -89,6 +91,18 @@ class CarNewPage extends Component {
 
     handleChange = (field, value) => {
         this.setState({ ...this.state, [field]: value });
+    };
+
+    handleCategory = (field, value) => {
+        const { category } = this.props.carState;
+
+        let catName = '';
+        category.forEach(cat => {
+            if (cat.value === value) {
+                catName = cat.name;
+            }
+        });
+        this.setState({...this.state, [field]: value, categoryName: catName})
     };
 
     handleUpload = file => {
@@ -201,6 +215,7 @@ class CarNewPage extends Component {
       formData.append('name', params.name);
       formData.append('description', params.description);
       formData.append('category', params.category);
+      formData.append('categoryName', params.categoryName);
       formData.append('product', params.product);
       formData.append('galleryPhoto', JSON.stringify(params.galleryPhoto));
       params.coverPhoto.map(file => formData.append('coverPhoto', file));
@@ -211,6 +226,7 @@ class CarNewPage extends Component {
       this.setState({
           name: "",
           category: "",
+          categoryName: "",
           product: [],
           coverPhoto: [],
           Exterior: [],
@@ -224,6 +240,9 @@ class CarNewPage extends Component {
       });
 
       await api.post(`/carpages/new`, formData);
+        setTimeout(() => {
+            this.props.history.push(`${url.carPage}`);
+        }, 500);
       NotificationManager.success("Make saved successfully");
     };
 
@@ -274,7 +293,7 @@ class CarNewPage extends Component {
                                 required={!this.state.category}
                                 selectValues={category}
                                 target="category"
-                                handleChange={this.handleChange}
+                                handleChange={this.handleCategory}
                             />
                         </div>
                         <div className="col-md-6">

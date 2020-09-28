@@ -19,15 +19,14 @@ class CarViewPage extends React.Component{
         super(props);
         this.state = {
             name: '',
+            categoryName: '',
             coverPhoto: '',
             description: '',
             exterior: [],
             interior: [],
             galleryPhoto: [],
           nav1: null,
-          nav2: null,
-          slider1: null,
-          slider2: null
+          nav2: null
         };
     }
 
@@ -44,13 +43,14 @@ class CarViewPage extends React.Component{
 
         this.setState({
             name: data.name,
+            categoryName: data.categoryName,
             coverPhoto: coverPhoto,
             description: data.description,
             exterior: exteriors,
             interior: interiors,
             galleryPhoto: data.gallery,
-            nav1: this.state.slider1,
-            nav2: this.state.slider2
+            nav1: this.slider1,
+            nav2: this.slider2
         })
     };
 
@@ -92,7 +92,7 @@ class CarViewPage extends React.Component{
             <React.Fragment>
                 <Helmet title="View Car" />
                 <PageTitleBar
-                    title="Car View Page"
+                    title={`Car View Page  (${this.state.categoryName})`}
                     actionGroup={{
                         mid: { label: "Edit", onClick: this.edit },
                         more: [{ label: "Delete", onClick: this.delete }]
@@ -107,25 +107,34 @@ class CarViewPage extends React.Component{
                     />
 
                     <h2 className="text-muted text-center text-gray mt-30">Description</h2>
-                    <div className="p-30 mt-30 mb-30" style={{width: '80%', marginLeft: '10%', backgroundColor: 'lightgray'}}>
+                    <div className="p-30 mt-30 mb-30" style={{width: '100%', marginLeft: '0%', backgroundColor: 'lightgray'}}>
                         { ReactHtmlParser(this.state.description) }
                     </div>
 
-                    <h2 className="text-muted text-center text-gray mt-30">360 View</h2>
                     {
                         this.state.exterior && (
-                            <div style={{width: '70%', marginLeft: '15%'}}>
-                                <Rotation
-                                    scroll={false}
-                                    cycle={true}
-                                >
-                                    {
-                                        this.state.exterior.map(ex => (
-                                            <img src={ex.path} />
-                                        ))
-                                    }
-                                </Rotation>
-                            </div>
+                                <section style={{
+                                    backgroundColor: 'black',
+                                    padding: '20px 0px',
+                                    marginTop: 30
+                                }}>
+                                    <div style={{width: '70%', marginLeft: '15%'}}>
+                                        <div style={{backgroundColor: 'transparent', padding: '20px 0px', color: 'white'}} align="center">
+                                            <h2>360&deg; VIEWING</h2>
+                                        </div>
+
+                                        <Rotation
+                                            scroll={false}
+                                            cycle={true}
+                                        >
+                                            {
+                                                this.state.exterior.map(ex => (
+                                                    <img src={ex.path} />
+                                                ))
+                                            }
+                                        </Rotation>
+                                    </div>
+                                </section>
                         )
                     }
 
@@ -134,28 +143,28 @@ class CarViewPage extends React.Component{
                             <Slider
                                 {...settingsMain}
                                 asNavFor={this.state.nav2}
-                                afterChange={slider => this.setState({slider1: slider})}
+                                ref={slider => (this.slider1 = slider)}
                             >
 
                                 {this.state.galleryPhoto.map((slide) =>
                                     <div className="slick-slide" key={slide.file.id}>
-                                        <img className="slick-slide-image" src={slide.file.path} />
+                                        <img className="slick-slide-image" src={slide.file.path} style={{height: 400}} />
                                         <h3 className="slick-slide-label">{slide.caption}</h3>
                                     </div>
                                 )}
                             </Slider>
 
-                            <div className="thumbnail-slider-wrap">
+                            <div className="thumbnail-slider-wrap" style={{marginTop: -15}}>
                                 <Slider
                                     {...settingsThumbs}
                                     asNavFor={this.state.nav1}
-                                    afterChange={slider => this.setState({slider2: slider})}
+                                    ref={slider => (this.slider2 = slider)}
                                 >
 
                                     {this.state.galleryPhoto.map((slide) =>
 
                                         <div className="slick-slide" key={slide.file.id}>
-                                            <img className="slick-slide-image" src={slide.file.path} />
+                                            <img className="slick-slide-image" src={slide.file.path} style={{height: 120}} />
                                         </div>
 
                                     )}

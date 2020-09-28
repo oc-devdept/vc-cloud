@@ -35,6 +35,7 @@ class CarEditPage extends Component {
         this.state = {
             name: "",
             category: "",
+            categoryName: "",
             product: [],
             coverPhoto: [],
             coverPhotoString: [],
@@ -111,6 +112,7 @@ class CarEditPage extends Component {
             name: data.name,
             description: data.description,
             category: data.categoryId,
+            categoryName: data.categoryName,
             product: data.products.split(','),
             currentCoverPhoto: coverPhoto,
             existExterior: exteriors,
@@ -121,6 +123,18 @@ class CarEditPage extends Component {
 
     handleChange = (field, value) => {
         this.setState({ ...this.state, [field]: value });
+    };
+
+    handleCategory = (field, value) => {
+        const { category } = this.props.carState;
+
+        let catName = '';
+        category.forEach(cat => {
+            if (cat.value === value) {
+                catName = cat.name;
+            }
+        });
+        this.setState({...this.state, [field]: value, categoryName: catName})
     };
 
     handleUpload = file => {
@@ -315,6 +329,7 @@ class CarEditPage extends Component {
         formData.append('name', params.name);
         formData.append('description', params.description);
         formData.append('category', params.category);
+        formData.append('categoryName', params.categoryName);
         formData.append('product', params.product);
         formData.append('galleryPhoto', JSON.stringify(params.galleryPhoto));
         params.coverPhoto.map(file => formData.append('coverPhoto', file));
@@ -430,7 +445,7 @@ class CarEditPage extends Component {
                                 required={!this.state.category}
                                 selectValues={category}
                                 target="category"
-                                handleChange={this.handleChange}
+                                handleChange={this.handleCategory}
                             />
                         </div>
                         <div className="col-md-6">

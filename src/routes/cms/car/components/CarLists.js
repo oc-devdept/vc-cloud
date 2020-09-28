@@ -29,63 +29,17 @@ const CarLists = ({ tableData, loading, title, action, noRelated }) => {
                 }
             }
         },
-        // {
-        //     label: "Category",
-        //     name: "category",
-        //     options: {
-        //         customBodyRender: value => {
-        //             return (
-        //                 <div>category</div>
-        //             );
-        //         }
-        //     }
-        // },
-        // {
-        //     label: "Cover Photo",
-        //     name: "coverPhoto",
-        //     options: {
-        //         customBodyRender: value => {
-        //             return value.name ? (
-        //                 <div>cover</div>
-        //             ) : (
-        //                 ""
-        //             );
-        //         }
-        //     }
-        // },
-        // {
-        //     label: "Grade Info",
-        //     name: "gradeInfo",
-        //     options: {
-        //         filter: false,
-        //         customBodyRender: value => {
-        //             return value ? value.chance : "";
-        //         }
-        //     }
-        // },
-        // {
-        //     label: "Description",
-        //     name: "description",
-        //     options: {
-        //         customBodyRender: value => {
-        //             return value ? value : "";
-        //         }
-        //     }
-        // },
-        // {
-        //     label: "360",
-        //     name: "360",
-        //     options: {
-        //         display: noRelated ? "excluded" : false,
-        //         customBodyRender: value => {
-        //             return value ? (
-        //                 <div>Yes</div>
-        //             ) : (
-        //                 <div>No</div>
-        //             );
-        //         }
-        //     }
-        // }
+        {
+            label: "Category",
+            name: "categoryName",
+            options: {
+                customBodyRender: value => {
+                    return (
+                        <div>{value}</div>
+                    );
+                }
+            }
+        }
     ];
     listOptions.customToolbarSelect = (
         selectedRows,
