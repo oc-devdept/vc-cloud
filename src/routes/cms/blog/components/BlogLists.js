@@ -35,9 +35,11 @@ const BlogLists = ({ tableData, loading, title }) => {
             label: "Link",
             name: "title",
             options: {
-                customBodyRender: value => {
+                customBodyRender: (value, tableData) => {
                     return (
-                        <div>Article Link</div>
+                        <div>
+                            <a href={`http://localhost:3000/blog-post/${tableData.rowData[0]}`} target="_blank">Website Link</a>
+                        </div>
                     );
                 }
             }
