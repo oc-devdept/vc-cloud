@@ -783,10 +783,8 @@ const validateForm = (TagId, MakeId, Model, files, header, gallery) => {
 
 const validateEditForm = Model => {
   let Reject = true;
-  Object.values(Model).map(e => {
-    if (e == "" || e == 0) {
-      Reject = false;
-    }
-  });
+  if(Model.name == "" || Model.description == ""){
+    Reject = false;
+  }
   return Reject;
 };

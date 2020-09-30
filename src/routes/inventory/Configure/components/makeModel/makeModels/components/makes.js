@@ -94,7 +94,7 @@ class MakesForm extends PureComponent {
       files.map(file => data.append(`upload`, file));
       data.append("name", name);
       data.append("description", description);
-      data.append("commissionId", commissionId);
+      //data.append("commissionId", commissionId);
       data.append("categoryGroupId", this.state.MakeId);
       await api.post(`/categories/new`, data);
       await this.props._SaveMakeDone();
@@ -119,7 +119,7 @@ class MakesForm extends PureComponent {
       data.append("id", id);
       data.append("name", name);
       data.append("description", description);
-      data.append("commissionId", commissionId);
+      //data.append("commissionId", commissionId);
       await api.post(`/categories/editMakeDetail`, data);
       await this.props._SaveMakeDone();
       await this.props._RestartToggle();
@@ -307,11 +307,9 @@ export default MakesForm;
 
 const validateForm = (make, files) => {
   let Reject = true;
-  Object.values(make).map(e => {
-    if (e == "" || e == 0) {
-      Reject = false;
-    }
-  });
+  if(make.name == "" || make.description == ""){
+    Reject = false;
+  }
 
   if (files.length == 0) {
     Reject = false;
