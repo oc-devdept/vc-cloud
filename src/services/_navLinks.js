@@ -7,8 +7,18 @@ import {
 
 import {
   bannerListPage,
-  featuredListPage
+  featuredListPage,
+  carPage,
+  blogPage
 } from "Helpers/cmsURL";
+
+// // acct routes
+// import {
+//   quoteListPage,
+//   invoiceListPage,
+//   crednoteListPage,
+//   paymentPage
+// } from "Helpers/accountingURL";
 
 import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
 
@@ -64,7 +74,15 @@ export default [
       {
         title: "sidebar.featured",
         path: featuredListPage
-      }
+      },
+      {
+        title: "sidebar.car",
+        path: carPage
+      },
+      {
+        title: "sidebar.blog",
+        path: blogPage
+      },
     ]
   },
   {

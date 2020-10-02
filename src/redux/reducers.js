@@ -32,13 +32,17 @@ import {
 //cms
 import {
   BannerReducer,
-  FeaturedReducer
+  FeaturedReducer,
+  CarReducer,
+  BlogReducer
 } from "Ducks/cms";
 
 //inventory
 import {
   ProductReducer
 } from "Ducks/inventory";
+
+
 
 // Marketing
 import { MailReducer } from "Ducks/marketing/mail";
@@ -88,9 +92,12 @@ const reducers = combineReducers({
   }),
   cmsState: combineReducers({
     bannerState: BannerReducer,
-    featuredState: FeaturedReducer
+    featuredState: FeaturedReducer,
+    carState: CarReducer,
+    blogState: BlogReducer
   }),
   inventoryState: ProductReducer,
+    
   accountingState: combineReducers({
     quotationState: QuotationReducer,
     invoiceState: InvoiceReducer,

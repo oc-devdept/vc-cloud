@@ -28,6 +28,9 @@ module.exports = {
   "sidebar.campaign": "Campaign",
   "sidebar.template": "Template",
 
+  "sidebar.car": "Car Page",
+  "sidebar.blog": "Blog Page",
+
   "sidebar.proj": "Project Management",
 
   "sidebar.acct": "Accounting",
