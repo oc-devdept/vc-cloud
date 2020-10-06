@@ -169,7 +169,7 @@ class BlogNewPage extends Component{
 
                     <h3 className="text-muted text-center text-gray mb-10 mt-50">Article Content</h3>
                     <div className="w-100">
-                        <Editor changeData={(value) => this.setState({content: value})} />
+                        <Editor changeData={(value) => console.log('---------', value)} />
                     </div>
 
                     <h3 className="text-muted text-center text-gray mt-30">Input your SEO Keywords</h3>
