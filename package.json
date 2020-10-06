@@ -60,6 +60,8 @@
     "chartjs-plugin-colorschemes": "^0.4.0",
     "classnames": "2.2.6",
     "globalize": "^0.1.1",
+    "jodit": "^3.4.28",
+    "jodit-react": "^1.0.65",
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
     "mui-datatables": "2.14.0",
