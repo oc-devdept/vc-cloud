@@ -103,7 +103,7 @@ class CarViewPage extends React.Component{
                     <h2 className="text-muted text-center text-gray">{this.state.name}</h2>
                     <img
                         src={this.state.coverPhoto}
-                        style={{width: '100%', height: 400}}
+                        style={{width: '100%'}}
                     />
 
                     <h2 className="text-muted text-center text-gray mt-30">Description</h2>
