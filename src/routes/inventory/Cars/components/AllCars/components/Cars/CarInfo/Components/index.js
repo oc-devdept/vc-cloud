@@ -43,9 +43,9 @@ class Grade extends PureComponent {
 
 
                 <Switch
-                  title={'FEATURED CAR'}
-                  checked = {Product.isFeature}
-                  element={'isFeature'}
+                  title={'SET ACTIVE'}
+                  checked = {Product.isActive}
+                  element={'isActive'}
                   _HandleProduct={_HandleProduct}
                 />
     
