@@ -1,151 +1,173 @@
-import React, { Component } from "react";
-import Helmet from "Components/Helmet";
+import React, { Component } from "react";
+import Helmet from "Components/Helmet";
 
-import { connect } from "react-redux";
-import { show } from "redux-modal";
+import { connect } from "react-redux";
+import { show } from "redux-modal";
 
-import BigCalendar from "react-big-calendar";
-import moment from "moment";
+import BigCalendar from "react-big-calendar";
+import moment from "moment";
 
-// Customised Calendar Components
-import CustomToolbar from "./components/CustomToolbar";
-import CustomEventView from "./components/CustomEventView";
+// Calendar Components
+import CustomToolbar from "./components/CustomToolbar";
+import CustomEvent from "./components/CustomEventView";
+import Filterbar from "./components/FilterSidebar";
 
-// Event Info
-import EventInfo from "./components/EventInfo";
+// Event Info
+import EventInfo from "./components/EventInfo";
 
-// Calendar form
-import NewEventForm from "./components/forms/NewEventForm";
+// Calendar form
+import NewEventForm from "./components/forms/NewEventForm";
 
-import { getAllEvents, addEvent } from "Ducks/calendar";
-import Popover from "@material-ui/core/Popover";
+import { getAllEvents, addEvent } from "Ducks/calendar";
+// import { filterChange } from "Com"
+import Popover from "@material-ui/core/Popover";
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
-class Calendar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      calendarView: "month",
-      showPop: false,
-      component: null,
-      x: 0,
-      y: 0
-    };
-    this.renderEventFormPopover = this.renderEventFormPopover.bind(this);
-    this.renderEventPopover = this.renderEventPopover.bind(this);
-    this.onMouseDownCapture = this.onMouseDownCapture.bind(this);
-    this.newEvent = this.newEvent.bind(this);
-    this.closePopover = this.closePopover.bind(this);
-  }
+class Calendar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      calendarView: "week",
+      showPop: false,
+      component: null,
+      x: 0,
+      y: 0
+    };
+    this.renderEventFormPopover = this.renderEventFormPopover.bind(this);
+    this.renderEventPopover = this.renderEventPopover.bind(this);
+    this.onMouseDownCapture = this.onMouseDownCapture.bind(this);
+    this.newEvent = this.newEvent.bind(this);
+    this.closePopover = this.closePopover.bind(this);
+    this.filterChange = this.filterChange.bind(this);
+  }
 
-  componentDidMount() {
-    this.props.getAllEvents();
-  }
+  componentDidMount() {
+    this.props.getAllEvents();
+  }
 
-  // create new event
-  newEvent(event) {
-    this.setState({ showPop: !this.state.showPop });
-    this.props.addEvent(event);
-  }
+  filterChange(event) {
+    // this.props
+  }
 
-  // Axis for popover
-  onMouseDownCapture(e) {
-    this.setState({ x: e.pageX, y: e.pageY });
-  }
+  // create new event
+  newEvent(event) {
+    this.setState({ showPop: !this.state.showPop });
+    this.props.addEvent(event);
+  }
 
-  closePopover() {
-    this.setState({ showPop: false });
-  }
+  // Axis for popover
+  onMouseDownCapture(e) {
+    this.setState({ x: e.pageX, y: e.pageY });
+  }
 
-  // show popover on calendar tile click
-  renderEventFormPopover(slotSelected) {
-    this.setState({
-      showPop: !this.state.showPop,
-      component: this.renderForm(slotSelected)
-    });
-  }
+  closePopover() {
+    this.setState({ showPop: false });
+  }
 
-  renderEventPopover(slotSelected) {
-    this.setState({ showPop: true, component: this.renderEvent(slotSelected) });
-  }
+  // show popover on calendar tile click
+  renderEventFormPopover(slotSelected) {
+    this.setState({
+      showPop: !this.state.showPop,
+      component: this.renderForm(slotSelected)
+    });
+  }
 
-  renderEvent = slotSelected => <EventInfo eventInfo={slotSelected} />;
+  renderEventPopover(slotSelected) {
+    this.setState({ showPop: true, component: this.renderEvent(slotSelected) });
+  }
 
-  renderForm = slotSelected => (
-    <React.Fragment>
-      <h2>New Event</h2>
-      <NewEventForm dayView={slotSelected} addEvent={this.newEvent} />
-    </React.Fragment>
-  );
+  renderEvent = slotSelected => (
+    <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} />
+  );
 
-  render() {
-    const { showEvents } = this.props;
-    const { showPop, x, y } = this.state;
-    return (
-      <React.Fragment>
-        <div className="calendar-wrapper">
-          <Helmet title="Calendar" />
+  renderForm = slotSelected => (
+    <React.Fragment>
+      <h2>New Event</h2>
+      <NewEventForm dayView={slotSelected} addEvent={this.newEvent} />
+    </React.Fragment>
+  );
 
-          <div className="row">
-            <div
-              className="col-md-12"
-              onMouseDownCapture={this.onMouseDownCapture}
-            >
-              <BigCalendar
-                popup
-                style={{ position: "relative" }}
-                selectable
-                events={showEvents}
-                views={["month"]}
-                onSelectEvent={slotSelected =>
-                  this.renderEventPopover(slotSelected)
-                }
-                defaultDate={new Date()}
-                onSelectSlot={slotSelected =>
-                  this.renderEventFormPopover(slotSelected)
-                }
-                components={{
-                  toolbar: CustomToolbar,
-                  event: CustomEventView
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <Popover
-          id={"calendar-popover"}
-          open={showPop}
-          onClose={this.closePopover}
-          anchorReference="anchorPosition"
-          anchorPosition={{ top: y, left: x }}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "left"
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left"
-          }}
-          elevation={2}
-        >
-          <div className="p-20 w-100" style={{ minWidth: 450 }}>
-            {this.state.component}
-          </div>
-        </Popover>
-      </React.Fragment>
-    );
-  }
+  render() {
+    const { showEvents } = this.props;
+    const { showPop, x, y } = this.state;
+    return (
+      <React.Fragment>
+        <div className="calendar-wrapper">
+          <Helmet title="Calendar" metaDesc="Everyday Calendar" />
+          <div style={{ display: "flex" }}>
+            <div className="col-md-2">
+              <Filterbar />
+            </div>
+
+            <div className="col-md-10">
+              <div className="row">
+                <div
+                  className="col-md-12"
+                  onMouseDownCapture={this.onMouseDownCapture}
+                >
+                  <BigCalendar
+                    popup
+                    style={{ position: "relative" }}
+                    selectable
+                    events={showEvents}
+                    views={["month", "week", "day"]}
+                    onSelectEvent={slotSelected =>
+                      this.renderEventPopover(slotSelected)
+                    }
+                    defaultDate={new Date()}
+                    onSelectSlot={slotSelected =>
+                      this.renderEventFormPopover(slotSelected)
+                    }
+                    components={{
+                      toolbar: CustomToolbar,
+                      event: CustomEvent
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <Popover
+              id={"calendar-popover"}
+              open={showPop}
+              onClose={this.closePopover}
+              anchorReference="anchorPosition"
+              anchorPosition={{ top: y, left: x }}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left"
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left"
+              }}
+              elevation={2}
+            >
+              <div
+                className="p-20 w-100"
+                style={{ minWidth: 450, maxWidth: 500 }}
+              >
+                {this.state.component}
+              </div>
+            </Popover>
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
-// map state to props
-const mapStateToProps = ({ calendarState }) => {
-  const { showEvents } = calendarState;
-  return { showEvents };
+// map state to props
+const mapStateToProps = ({ calendarState }) => {
+  const { showEvents } = calendarState;
+  return { showEvents };
 };
 
-export default connect(mapStateToProps, {
-  getAllEvents,
-  addEvent,
-  show
-})(Calendar);
+export default connect(
+  mapStateToProps,
+  {
+    getAllEvents,
+    addEvent,
+    show
+  }
+)(Calendar);
