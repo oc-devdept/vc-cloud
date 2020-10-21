@@ -58,7 +58,7 @@ class index extends PureComponent {
     const result = validateForm(this.state.Tags);
     if (result) {
       await api.post(`/tags`, {
-        name: this.state.Tags
+        name: this.state.Tags.value
       });
 
       await this.props._SaveTagsDone();
