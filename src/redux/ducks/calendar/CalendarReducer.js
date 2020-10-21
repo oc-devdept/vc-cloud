@@ -21,6 +21,8 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
   let showEvents = [...state.showEvents];
+  //console.log("QQQQQ");
+  //console.log(action.type);
 
   switch (action.type) {
     /**
@@ -32,11 +34,22 @@ export default (state = INIT_STATE, action) => {
         eventsLoading: true
       };
     case Types.GET_ALL_EVENTS_SUCCESS:
+      //NotificationManager.success("Get events success");
+      console.log("Get all events succcess here");
+      var events = action.payload.events.data; //.data
+      var displayEvents = Object.values(events);
+      //console.log(displayEvents);
+      //var result = Object.entries(events); //This is showing an array with [key, value]
+      
+      //var conversion = Object.assign({}, events);
+      //console.log(conversion);
+      //Object.keys(events).map((key) => [Number(key), events[key]])
+      //console.log(result);
       return {
         ...state,
-        allEvents: action.payload.events,
-        myEvents: action.payload.myEvents,
-        showEvents: action.payload.myEvents,
+        allEvents: displayEvents, //action.payload.events
+        myEvents: displayEvents, //action.payload.myEvents
+        showEvents: displayEvents, //action.payload.myEvents
         eventsLoading: false
       };
     case Types.GET_EVENT_FAILURE:

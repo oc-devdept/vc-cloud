@@ -1,14 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { convertMonth, convertDay } from "Helpers/helpers";
-
-import { Button, IconButton, Chip } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
 import { NavigateBefore, NavigateNext } from "@material-ui/icons";
 
 const CalendarToolbar = toolbar => {
-  var today = new Date();
-
   const goToToday = () => {
     toolbar.onNavigate("TODAY");
   };
@@ -18,24 +15,34 @@ const CalendarToolbar = toolbar => {
   const goToNext = () => {
     toolbar.onNavigate("NEXT");
   };
+
+  const viewMonth = () => {
+    toolbar.onViewChange("month");
+  };
+
+  const viewWeek = () => {
+    toolbar.onViewChange("week");
+  };
+
+  const viewDay = () => {
+    toolbar.onViewChange("day");
+  };
+
   return (
     <React.Fragment>
       <div className="toolbar-container mb-10">
-        <div className="row justify-content-between">
-          <div className="col-md-4">
+        <div className="row justify-content-between align-content-center">
+          <div className="col-md-4 text-left">
             <div>
-              <Chip
-                label={
-                  convertDay(today.getDay()) +
-                  " - " +
-                  today.getDate() +
-                  " / " +
-                  convertMonth(today.getMonth()) +
-                  " / " +
-                  today.getFullYear()
-                }
-                className="bg-white border"
-              />
+              <Button variant="outlined" onClick={viewMonth}>
+                Month
+              </Button>
+              <Button variant="outlined" onClick={viewWeek}>
+                Week
+              </Button>
+              <Button variant="outlined" onClick={viewDay}>
+                Day
+              </Button>
             </div>
           </div>
           <div className="col-md-4">

@@ -89,6 +89,7 @@ class Calendar extends Component {
   );
 
   render() {
+    //console.log(this.props);
     const { showEvents } = this.props;
     const { showPop, x, y } = this.state;
     return (
