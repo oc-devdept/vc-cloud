@@ -226,6 +226,7 @@ class mail_list extends Component {
           </div>
         </div>
         <MailingListDialog />
+        {console.log(this.props)}
       </React.Fragment>
     );
   }

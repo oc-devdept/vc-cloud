@@ -25,11 +25,12 @@ function ListViewSelector(props) {
               onClick={() => onChangeValue(opt)}
               key={key}
             >
-              {opt}
+              {opt.name}
             </DropdownItem>
           );
         })}
       </DropdownMenu>
+      {console.log(props)}
     </Dropdown>
   );
 }
