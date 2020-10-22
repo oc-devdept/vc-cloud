@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import EmailEditor from "react-email-editor";
 
-const restoreDesign = design => {
+const restoreDesign = (design) => {
   window.unlayer.loadDesign(design);
 };
 
@@ -10,12 +10,12 @@ export default class ContentEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      json: '',
-      html: ''
+      json: "",
+      html: "",
     };
   }
 
-  exportHtml = callback => {
+  exportHtml = (callback) => {
     this.emailEditor.exportHtml(callback);
   };
 
@@ -29,7 +29,7 @@ export default class ContentEditor extends Component {
         toolbarClassName="toolbarClassName"
         wrapperClassName="wrapperClassName"
         editorClassName="customEditorClass"
-        ref={emailEditor => (this.emailEditor = emailEditor)}
+        ref={(emailEditor) => (this.emailEditor = emailEditor)}
         // id={this.state.id}
       />
     );
