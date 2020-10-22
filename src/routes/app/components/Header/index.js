@@ -21,6 +21,7 @@ function getChildRoute(location) {
   );
   return currentRoute ? currentRoute.child_routes : [];
 }
+
 function getActiveSubMenuKey(currentLocation, childRoutes) {
   for (let i = 0; i < childRoutes.length; i++) {
     if (currentLocation.includes(childRoutes[i].path)) return i;
