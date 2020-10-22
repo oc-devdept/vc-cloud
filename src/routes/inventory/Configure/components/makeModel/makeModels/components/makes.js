@@ -94,7 +94,7 @@ class MakesForm extends PureComponent {
       files.map(file => data.append(`upload`, file));
       data.append("name", name);
       data.append("description", description);
-      //data.append("commissionId", commissionId);
+      data.append("commissionId", commissionId);
       data.append("categoryGroupId", this.state.MakeId);
       await api.post(`/categories/new`, data);
       await this.props._SaveMakeDone();
@@ -119,7 +119,7 @@ class MakesForm extends PureComponent {
       data.append("id", id);
       data.append("name", name);
       data.append("description", description);
-      //data.append("commissionId", commissionId);
+      data.append("commissionId", commissionId);
       await api.post(`/categories/editMakeDetail`, data);
       await this.props._SaveMakeDone();
       await this.props._RestartToggle();

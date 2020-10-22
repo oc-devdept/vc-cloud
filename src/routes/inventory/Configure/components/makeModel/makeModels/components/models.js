@@ -357,7 +357,6 @@ class ModelsForm extends PureComponent {
                     value={this.state.Model.commissionId}
                     onChange={this._ChangeComms}
                   >
-                    <MenuItem value="">Use Parent's Comms</MenuItem>
                     {this.props.CommissionData.map(comm => (
                       <MenuItem dense key={comm.id} value={comm.id}>
                         {`${comm.name} - $${comm.commission}`}

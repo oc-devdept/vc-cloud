@@ -151,7 +151,7 @@ class ProductList extends Component {
         <React.Fragment>
           <TableRow>
             <TableCell className="p-30" colSpan={rowData.length}>
-              <div className="row align-content-start">
+              <div className="row ">
                 <div className="col-md-6">
                   <h4 className="text-left">Variant Infomation</h4>
                   <div className="row justify-content-start ">
