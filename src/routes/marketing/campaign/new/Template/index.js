@@ -143,7 +143,7 @@ import "react-quill/dist/quill.bubble.css";
 import TemplateDetailsForm from "Components/MarketingTemplate/Templateform";
 import TemplateSelector from "./components/TemplateSelector";
 import TemplateFormDialog from "Components/MarketingTemplate/TemplateFormDialog";
-
+import TemplateNewFormDialog from "Components/MarketingTemplate/TemplateNewFormDialog";
 //react-redux Action
 import { addTemplate, getAllTemplate } from "Ducks/marketing/template";
 
@@ -290,6 +290,7 @@ class TemplateForm extends Component {
         />
         <TemplateFormDialog />
         <TemplateDetailsForm />
+        <TemplateNewFormDialog />
       </React.Fragment>
     );
   }

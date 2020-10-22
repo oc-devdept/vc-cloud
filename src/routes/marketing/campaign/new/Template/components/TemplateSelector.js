@@ -235,7 +235,7 @@ class TemplateSelector extends Component {
   };
 
   editTemplateTitle(template) {
-    console.log("IN EDIT TEMPLATE")
+    // console.log("IN EDIT TEMPLATE")
     this.props.show("template_details_form", {
       // onSave: this.props.addTemplate,
       onSub: this.props.updateTemplateTitle,
