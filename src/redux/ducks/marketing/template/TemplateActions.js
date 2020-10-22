@@ -46,3 +46,56 @@ export const updateTemplateFailure = error => ({
   type: types.UPDATE_TEMPLATE_FAILURE,
   payload: error
 });
+
+//FROM HUTTONS 
+export const deleteTemplate = templateId => ({
+  type: types.DELETE_TEMPLATE,
+  payload: templateId
+});
+export const deleteTemplateSuccess = data => ({
+  type: types.DELETE_TEMPLATE_SUCCESS,
+  payload: data
+});
+export const deleteTemplateFailure = error => ({
+  type: types.DELETE_TEMPLATE_FAILURE,
+  payload: error
+});
+
+export const updateEmailContent = (id, html, design) => ({
+  type: types.UPDATE_EMAIL_CONTENT,
+  payload: { id, html, design }
+})
+
+/////////////
+/**
+ * Update Campaign Title 
+ */
+export const updateTemplateTitle = data => ({
+  type: types.UPDATE_TEMPLATE_TITLE,
+  payload: data
+});
+export const updateTemplateTitleSuccess = data => ({
+  type: types.UPDATE_TEMPLATE_TITLE_SUCCESS,
+  payload: data
+});
+export const updateTemplateTitleFailure = error => ({
+  type: types.UPDATE_TEMPLATE_TITLE_FAILURE,
+  payload: error
+});
+
+
+/*
+ * Get All TEMPLATE
+ */
+export const getFilterTemplate = (limit, skip, filter, searchText, orderBy, custId) => ({
+  type: types.GET_FILTER_TEMPLATE,
+  payload: { limit, skip, filter, searchText, orderBy, custId }
+});
+export const getFilterTemplateSuccess = data => ({
+  type: types.GET_FILTER_TEMPLATE_SUCCESS,
+  payload: data
+});
+export const getFilterTemplateFailure = error => ({
+  type: types.GET_FILTER_TEMPLATE_FAILURE,
+  payload: error
+});
