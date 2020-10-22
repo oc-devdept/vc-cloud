@@ -53,7 +53,7 @@ export default (state = INIT_STATE, action) => {
         eventsLoading: false
       };
     case Types.GET_EVENT_FAILURE:
-      NotificationManager.warning("Failed to get events from database.");
+      //NotificationManager.warning("Failed to get events from database.");
       return {
         ...state,
         eventsLoading: false
