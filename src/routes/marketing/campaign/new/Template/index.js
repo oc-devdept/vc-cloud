@@ -163,6 +163,7 @@ class TemplateForm extends Component {
       orderBy: [],
       totalCount: this.props.totalCount,
     };
+    this.handleChange = this.handleChange.bind(this);
     this.openNewTemplate = this.openNewTemplate.bind(this);
     this.modules = {
       toolbar: {
@@ -170,36 +171,17 @@ class TemplateForm extends Component {
           [{ header: "1" }, { header: "2" }, { font: [] }],
           [{ size: [] }],
           ["bold", "italic", "underline", "strike", "blockquote"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" }
-          ],
-          ["link", "image"]
-        ]
+          [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+          ["link", "image"],
+        ],
       },
       clipboard: {
         // toggle to add extra line breaks when pasting HTML:
-        matchVisual: false
-      }
+        matchVisual: false,
+      },
     };
 
-    this.formats = [
-      "header",
-      "font",
-      "size",
-      "bold",
-      "italic",
-      "underline",
-      "strike",
-      "blockquote",
-      "list",
-      "bullet",
-      "indent",
-      "link",
-      "image"
-    ];
+    this.formats = ["header", "font", "size", "bold", "italic", "underline", "strike", "blockquote", "list", "bullet", "indent", "link", "image"];
   }
 
   componentDidMount() {
@@ -214,7 +196,9 @@ class TemplateForm extends Component {
       description: this.state.description,
     });
   }
-
+  handleChange(field, value) {
+    this.setState({ [field]: value });
+  }
   render() {
     const { templateList, data } = this.props;
     const { templateId, htmlContent } = data;
@@ -237,7 +221,7 @@ class TemplateForm extends Component {
             </div>
           </div>
         </div> */}
-          <div className="row mb-30">
+        <div className="row mb-30">
           <div className="col-md-4 offset-md-4 text-center">
             <h3>Template List</h3>
           </div>
@@ -273,7 +257,7 @@ class TemplateForm extends Component {
         </div>
 
         <TemplateSelector
-             onChange={this.props.onChange}
+          onChange={this.props.onChange}
           // onSelectTemplate={this.props.onChange}
           templateList={templateList}
           selectedTemplate={templateId}
@@ -281,13 +265,7 @@ class TemplateForm extends Component {
 
         <h3 className="text-center mt-30">Content</h3>
 
-        <ReactQuill
-          theme="snow"
-          modules={this.modules}
-          formats={this.formats}
-          onChange={html => this.props.onChange("htmlContent", html)}
-          value={htmlContent}
-        />
+        {/* <ReactQuill theme="snow" modules={this.modules} formats={this.formats} onChange={(html) => this.props.onChange("htmlContent", html)} value={htmlContent} /> */}
         <TemplateFormDialog />
         <TemplateDetailsForm />
         <TemplateNewFormDialog />
@@ -305,5 +283,5 @@ const mapStateToProps = ({ marketingState }) => {
 export default connect(mapStateToProps, {
   addTemplate,
   getAllTemplate,
-  show
+  show,
 })(TemplateForm);

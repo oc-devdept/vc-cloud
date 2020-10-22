@@ -9,10 +9,10 @@
 // function TemplateSelector(props) {
 //   const { templateList, onSelectTemplate, selectedTemplate } = props;
 
-//   const showEditTemplate = template => {
+//   const showEditTemplate = (template) => {
 //     props.show("template_form", {
 //       onSave: props.updateTemplate,
-//       toEdit: template
+//       toEdit: template,
 //     });
 //   };
 
@@ -21,14 +21,7 @@
 //       <div className="col-3">
 //         None
 //         <div className="text-center">
-//           <Radio
-//             checked={selectedTemplate == ""}
-//             onClick={() => onSelectTemplate("templateId", "")}
-//             value={""}
-//             color="default"
-//             inputProps={{ "aria-label": "E" }}
-//             size="small"
-//           />
+//           <Radio checked={selectedTemplate == ""} onClick={() => onSelectTemplate("templateId", "")} value={""} color="default" inputProps={{ "aria-label": "E" }} size="small" />
 //         </div>
 //       </div>
 //       {templateList.length > 0 ? (
@@ -39,18 +32,11 @@
 //               frameBorder={0}
 //               style={{
 //                 transform: "scale(0.5, 1) translateX(-55%)",
-//                 width: "auto"
+//                 width: "auto",
 //               }}
-//               src={
-//                 "data:text/html;charset=utf-8," +
-//                 encodeURIComponent(template.html)
-//               }
+//               src={"data:text/html;charset=utf-8," + encodeURIComponent(template.html)}
 //             ></iframe>
-//             <Button
-//               onClick={() => showEditTemplate(template)}
-//               size="small"
-//               color="primary"
-//             >
+//             <Button onClick={() => showEditTemplate(template)} size="small" color="primary">
 //               Edit
 //             </Button>
 //             <div className="text-center">
@@ -67,15 +53,12 @@
 //         ))
 //       ) : (
 //         <div className="col-12">
-//           <SystemAlert
-//             title="No Template Created!"
-//             message="Create a new template from the Add New button above to get started."
-//           />
+//           <SystemAlert title="No Template Created!" message="Create a new template from the Add New button above to get started." />
 //         </div>
 //       )}
 //     </div>
 //   );
-// }
+// // }
 
 // export default connect(null, { show, updateTemplate })(TemplateSelector);
 // import React from "react";
@@ -89,10 +72,10 @@
 // function TemplateSelector(props) {
 //   const { templateList, onSelectTemplate, selectedTemplate } = props;
 
-//   const showEditTemplate = template => {
+//   const showEditTemplate = (template) => {
 //     props.show("template_form", {
 //       onSave: props.updateTemplate,
-//       toEdit: template
+//       toEdit: template,
 //     });
 //   };
 
@@ -101,14 +84,7 @@
 //       <div className="col-3">
 //         None
 //         <div className="text-center">
-//           <Radio
-//             checked={selectedTemplate == ""}
-//             onClick={() => onSelectTemplate("templateId", "")}
-//             value={""}
-//             color="default"
-//             inputProps={{ "aria-label": "E" }}
-//             size="small"
-//           />
+//           <Radio checked={selectedTemplate == ""} onClick={() => onSelectTemplate("templateId", "")} value={""} color="default" inputProps={{ "aria-label": "E" }} size="small" />
 //         </div>
 //       </div>
 //       {templateList.length > 0 ? (
@@ -119,18 +95,11 @@
 //               frameBorder={0}
 //               style={{
 //                 transform: "scale(0.5, 1) translateX(-55%)",
-//                 width: "auto"
+//                 width: "auto",
 //               }}
-//               src={
-//                 "data:text/html;charset=utf-8," +
-//                 encodeURIComponent(template.html)
-//               }
+//               src={"data:text/html;charset=utf-8," + encodeURIComponent(template.html)}
 //             ></iframe>
-//             <Button
-//               onClick={() => showEditTemplate(template)}
-//               size="small"
-//               color="primary"
-//             >
+//             <Button onClick={() => showEditTemplate(template)} size="small" color="primary">
 //               Edit
 //             </Button>
 //             <div className="text-center">
@@ -147,16 +116,14 @@
 //         ))
 //       ) : (
 //         <div className="col-12">
-//           <SystemAlert
-//             title="No Template Created!"
-//             message="Create a new template from the Add New button above to get started."
-//           />
+//           <SystemAlert title="No Template Created!" message="Create a new template from the Add New button above to get started." />
 //         </div>
 //       )}
 //     </div>
 //   );
 // }
 
+///TRY ================================================================================================
 // export default connect(null, { show, updateTemplate })(TemplateSelector);
 import React, { Component } from "react";
 import { show } from "redux-modal";
@@ -189,6 +156,7 @@ class TemplateSelector extends Component {
   //const [setOpen] = React.useState(false);
 
   showSelected = (key, template) => {
+    console.log(template);
     this.setState({
       selected: key,
     });
@@ -540,6 +508,7 @@ class TemplateSelector extends Component {
           ))}
           {console.log("IN TEMPLATE SELECTOR ===========================")}
           {console.log(this.props)}
+          {console.log(this.state)}
           {/* {templateList.length == 0 && adminTemplateList.length == 0 ? (
             <div className="col-12">
               <SystemAlert title="No Template Created!" message="Create a new template from the Add New button above to get started." />

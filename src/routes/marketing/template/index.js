@@ -18,12 +18,12 @@ import { connect } from "react-redux";
 import { show } from "redux-modal";
 import { Icon } from "@iconify/react";
 import { IconButton } from "@material-ui/core";
-// import TemplateDetailsForm from "Components/MarketingTemplate/Templateform";
+import TemplateDetailsForm from "Components/MarketingTemplate/Templateform";
 // import TemplateDetailsForm from "./components/Templateform"
 import TemplateSelector from "./components/TemplateSelector";
 import TemplateFormDialog from "Components/MarketingTemplate/TemplateFormDialog";
 // import TemplateNewFormDialog from "Components/MarketingTemplate/TemplateNewFormDialog";
-// import TemplateNewFormDialog from "Components/MarketingTemplate/TemplateNewFormDialog";
+import TemplateNewFormDialog from "Components/MarketingTemplate/TemplateNewFormDialog";
 import addFilled from "@iconify/icons-carbon/add-filled";
 
 //SEARCH BAR
@@ -103,6 +103,10 @@ class marketing_template extends Component {
   // }
 
   onTemplateChange(template, design, html) {
+    console.log("ON TEMPLATE CHANGE");
+    console.log(template);
+    console.log(design);
+    console.log(html);
     this.setState({
       ...this.state,
       htmlContent: template.html,
@@ -225,17 +229,15 @@ class marketing_template extends Component {
         </div>
         <TemplateSelector
           onChange={this.onTemplateChange}
+          // onChange={this.props.onChange}
           templateList={templateList}
           // adminTemplateList={adminTemplateList}
           selectedTemplate={templateId}
           // totalCount={totalCount}
         />
-        {/* <TemplateDetailsForm
-          updateParent={this.handleChange}
-          openTemplate={this.openNewTemplate}
-        /> */}
+        <TemplateDetailsForm updateParent={this.handleChange} openTemplate={this.openNewTemplate} />
         <TemplateFormDialog />
-        {/* <TemplateNewFormDialog /> */}
+        <TemplateNewFormDialog />
       </React.Fragment>
     );
   }
