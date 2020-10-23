@@ -8,13 +8,7 @@ import SuccessDialog from "./SuccessDialog";
 
 // Stepper
 import { ArrowBack } from "@material-ui/icons";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  IconButton
-} from "@material-ui/core";
+import { Stepper, Step, StepLabel, Button, IconButton } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 // form components
@@ -29,16 +23,14 @@ import { newCampaign } from "Ducks/marketing/campaign";
 const styles = {
   root: {
     background: "none",
-    border: "none"
-  }
+    border: "none",
+  },
 };
 
 function toNearest30min() {
   const start = moment();
   const remainder = 30 - (start.minute() % 30);
-  const dateTime = moment(start)
-    .add(remainder, "minutes")
-    .toDate();
+  const dateTime = moment(start).add(remainder, "minutes").toDate();
   return dateTime;
 }
 
@@ -54,16 +46,16 @@ class marketing_campaign_new extends Component {
           senderName: this.props.loggedInUser.name,
           senderEmail: this.props.loggedInUser.email,
           replyTo: "",
-          toField: ""
+          toField: "",
         },
         template: {
           templateId: "",
-          htmlContent: ""
+          htmlContent: "",
         },
         mailingList: [],
         scheduledAt: toNearest30min(),
-        sendNow: false
-      }
+        sendNow: false,
+      },
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
@@ -84,9 +76,9 @@ class marketing_campaign_new extends Component {
           setup: {
             ...prevState.campaignForm.setup,
             senderEmail: this.props.loggedInUser.email,
-            senderName: this.props.loggedInUser.name
-          }
-        }
+            senderName: this.props.loggedInUser.name,
+          },
+        },
       });
     }
   }
@@ -111,24 +103,38 @@ class marketing_campaign_new extends Component {
     this.setState({
       campaignForm: {
         ...this.state.campaignForm,
-        setup: { ...this.state.campaignForm.setup, [field]: val }
-      }
+        setup: { ...this.state.campaignForm.setup, [field]: val },
+      },
     });
   }
-  onTemplateChange(field, val) {
+  //CHNAGED FROM HUTTONS
+  // onTemplateChange(field, val) {
+  //   this.setState({
+  //     campaignForm: {
+  //       ...this.state.campaignForm,
+  //       template: { ...this.state.campaignForm.template, [field]: val }
+  //     }
+  //   });
+  // }
+  //TEMPLATE = HTML CONTENT
+  onTemplateChange(template, design, html) {
     this.setState({
       campaignForm: {
         ...this.state.campaignForm,
-        template: { ...this.state.campaignForm.template, [field]: val }
-      }
+        template: {
+          ...this.state.campaignForm.template,
+          htmlContent: template.html,
+          templateId: template.id,
+        },
+      },
     });
   }
   onMailingListChange(val) {
     this.setState({
       campaignForm: {
         ...this.state.campaignForm,
-        mailingList: [val]
-      }
+        mailingList: [val],
+      },
     });
   }
   onSummaryChange(field, val) {
@@ -140,8 +146,8 @@ class marketing_campaign_new extends Component {
       campaignForm: {
         ...this.state.campaignForm,
         [field]: val,
-        scheduledAt: changeDateTime
-      }
+        scheduledAt: changeDateTime,
+      },
     });
   }
 
@@ -149,41 +155,20 @@ class marketing_campaign_new extends Component {
     return [
       {
         label: "Setup",
-        component: (
-          <SetupForm
-            onChange={this.onSetupChange}
-            data={this.state.campaignForm.setup}
-          />
-        )
+        component: <SetupForm onChange={this.onSetupChange} data={this.state.campaignForm.setup} />,
       },
       {
         label: "Template",
-        component: (
-          <TemplateForm
-            onChange={this.onTemplateChange}
-            data={this.state.campaignForm.template}
-          />
-        )
+        component: <TemplateForm onChange={this.onTemplateChange} data={this.state.campaignForm.template} />,
       },
       {
         label: "Mailing List",
-        component: (
-          <MailingListForm
-            onChange={this.onMailingListChange}
-            data={this.state.campaignForm.mailingList}
-          />
-        )
+        component: <MailingListForm onChange={this.onMailingListChange} data={this.state.campaignForm.mailingList} />,
       },
       {
         label: "Summary",
-        component: (
-          <SummaryForm
-            onChange={this.onSummaryChange}
-            data={this.state.campaignForm}
-            goToStep={this.goToStep}
-          />
-        )
-      }
+        component: <SummaryForm onChange={this.onSummaryChange} data={this.state.campaignForm} goToStep={this.goToStep} />,
+      },
     ];
   }
 
@@ -195,7 +180,7 @@ class marketing_campaign_new extends Component {
     this.props.newCampaign({
       ...setup,
       ...template,
-      ...others
+      ...others,
     });
   }
 
@@ -209,20 +194,10 @@ class marketing_campaign_new extends Component {
         <div className="row align-items-center">
           <div className="col-md-4 text-left">
             <div className="d-flex align-items-center">
-              <IconButton
-                onClick={() => this.props.history.goBack()}
-                disableRipple
-                aria-label="back"
-                className="back-button"
-              >
-                <ArrowBack
-                  fontSize="small"
-                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
-                />
+              <IconButton onClick={() => this.props.history.goBack()} disableRipple aria-label="back" className="back-button">
+                <ArrowBack fontSize="small" style={{ color: "rgba(0, 0, 0, 0.54)" }} />
               </IconButton>
-              <h3 className="mb-0 ml-10">
-                {this.state.campaignForm.setup.name}
-              </h3>
+              <h3 className="mb-0 ml-10">{this.state.campaignForm.setup.name}</h3>
             </div>
           </div>
           <div className="col-md-4 text-center">
@@ -242,29 +217,15 @@ class marketing_campaign_new extends Component {
           </div>
           <div className="col-md-4 text-right">
             <div>
-              <Button
-                className="mr-10"
-                disabled={activeStep === 0}
-                onClick={this.handleBack}
-              >
+              <Button className="mr-10" disabled={activeStep === 0} onClick={this.handleBack}>
                 Back
               </Button>
               {activeStep === formComponents.length - 1 ? (
-                <Button
-                  variant="contained"
-                  className="text-white"
-                  color="primary"
-                  onClick={this.handleSubmit}
-                >
+                <Button variant="contained" className="text-white" color="primary" onClick={this.handleSubmit}>
                   Finish
                 </Button>
               ) : (
-                <Button
-                  variant="contained"
-                  className="text-white"
-                  color="primary"
-                  onClick={this.handleNext}
-                >
+                <Button variant="contained" className="text-white" color="primary" onClick={this.handleNext}>
                   Next
                 </Button>
               )}
@@ -272,9 +233,7 @@ class marketing_campaign_new extends Component {
           </div>
         </div>
         <div className="row justify-content-center">
-          <div className="col-md-7 mt-30">
-            {formComponents[activeStep].component}
-          </div>
+          <div className="col-md-7 mt-30">{formComponents[activeStep].component}</div>
         </div>
         <SuccessDialog />
       </React.Fragment>
@@ -288,6 +247,4 @@ const mapStateToProps = ({ sessionState }) => {
   return { loggedInUser };
 };
 
-export default withStyles(styles)(
-  connect(mapStateToProps, { newCampaign })(marketing_campaign_new)
-);
+export default withStyles(styles)(connect(mapStateToProps, { newCampaign })(marketing_campaign_new));
