@@ -6,7 +6,7 @@ import { show } from "redux-modal";
 import RecordsList from "Components/RecordsList";
 import { listOptions } from "Helpers/helpers";
 import { Delete } from "@material-ui/icons";
-import { Button, TableRow, TableCell, IconButton } from "@material-ui/core";
+import { Button, TableRow, TableCell, Table, IconButton } from "@material-ui/core";
 import NumberFormat from "react-number-format";
 
 // Actions
@@ -153,49 +153,51 @@ class ProductList extends Component {
             <TableCell className="p-30" colSpan={rowData.length}>
               <div className="row ">
                 <div className="col-md-6">
-                  <h4 className="text-left">Variant Infomation</h4>
-                  <div className="row justify-content-start ">
-                    <div className="col-md-6">
-                      <dt>Name</dt>
-                    </div>
-                    <div className="col-md-6">
-                      <dt>Price</dt>
-                    </div>
-                  </div>
-                  {variant &&
+                  <Table size="small">
+                    <TableRow>
+                      <TableCell colSpan="2"><h4 className="text-left">Variant Infomation</h4></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell><strong>Name</strong></TableCell>
+                      <TableCell><strong>Price</strong></TableCell>
+                    </TableRow>
+                    {variant &&
                     variant.map((v, key) => (
-                      <div key={key} className="row justify-content-start">
-                        <div className="col-md-6">
-                          <dd>{v.name}</dd>
-                        </div>
-                        <div className="col-md-6">
-                          <dd>{v.price}</dd>
-                        </div>
-                      </div>
+                      <TableRow>
+                        <TableCell>
+                          {v.name}
+                          </TableCell>
+                          <TableCell>
+                          {v.price}
+                          </TableCell>
+                      </TableRow>
                     ))}
+                  </Table>
+                  
+                  
                 </div>
 
-                <div className="col-md-6">
-                  <h4 className="text-left">Equipment Infomation</h4>
-                  <div className="row justify-content-start">
-                    <div className="col-md-6">
-                      <dt>Name</dt>
-                    </div>
-                    <div className="col-md-6">
-                      <dt>Price</dt>
-                    </div>
-                  </div>
-                  {accessories &&
+                <div className="col-md-6 align-items-start">
+                <Table size="small">
+                    <TableRow>
+                      <TableCell colSpan="2"><h4 className="text-left">Equipment Infomation</h4></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell><strong>Name</strong></TableCell>
+                      <TableCell><strong>Price</strong></TableCell>
+                    </TableRow>
+                    {accessories &&
                     accessories.map((v, key) => (
-                      <div key={key} className="row justify-content-start">
-                        <div className="col-md-6">
-                          <dd>{v.name}</dd>
-                        </div>
-                        <div className="col-md-6">
-                          <dd>{v.price}</dd>
-                        </div>
-                      </div>
+                      <TableRow>
+                        <TableCell>
+                          {v.name}
+                          </TableCell>
+                          <TableCell>
+                          {v.price}
+                          </TableCell>
+                      </TableRow>
                     ))}
+                  </Table>
                 </div>
               </div>
             </TableCell>
@@ -218,3 +220,45 @@ class ProductList extends Component {
 export default connect(null, { show, addDealProduct, deleteDealProduct })(
   ProductList
 );
+/*
+<div className="row justify-content-start ">
+                    <div className="col-md-6">
+                      <dt>Name</dt>
+                    </div>
+                    <div className="col-md-6">
+                      <dt>Price</dt>
+                    </div>
+                  </div>
+                  {variant &&
+                    variant.map((v, key) => (
+                      <div key={key} className="row justify-content-start">
+                        <div className="col-md-6">
+                          <dd>{v.name}</dd>
+                        </div>
+                        <div className="col-md-6">
+                          <dd>{v.price}</dd>
+                        </div>
+                      </div>
+                    ))}
+
+                    <h4 className="text-left">Equipment Infomation</h4>
+                  <div className="row justify-content-start">
+                    <div className="col-md-6">
+                      <dt>Name</dt>
+                    </div>
+                    <div className="col-md-6">
+                      <dt>Price</dt>
+                    </div>
+                  </div>
+                  {accessories &&
+                    accessories.map((v, key) => (
+                      <div key={key} className="row justify-content-start">
+                        <div className="col-md-6">
+                          <dd>{v.name}</dd>
+                        </div>
+                        <div className="col-md-6">
+                          <dd>{v.price}</dd>
+                        </div>
+                      </div>
+                    ))}
+*/
