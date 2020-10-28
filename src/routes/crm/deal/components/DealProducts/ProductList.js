@@ -155,7 +155,7 @@ class ProductList extends Component {
                 <div className="col-md-6">
                   <Table size="small">
                     <TableRow>
-                      <TableCell colSpan="2"><h4 className="text-left">Variant Infomation</h4></TableCell>
+                      <TableCell colSpan="2"><h4 className="text-left">Variant Information</h4></TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell><strong>Name</strong></TableCell>

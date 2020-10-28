@@ -17,7 +17,8 @@ import {
   CustomerSaga,
   AccountSaga,
   DealSaga,
-  CrmFieldSaga
+  CrmFieldSaga,
+  OnlinePaymentSaga
 } from "Ducks/crm";
 
 //cms
@@ -85,6 +86,7 @@ export default function* rootSaga() {
     AccountSaga(),
     DealSaga(),
     CrmFieldSaga(),
+    OnlinePaymentSaga(),
 
     //cms
     BannerSaga(),

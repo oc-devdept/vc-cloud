@@ -2,7 +2,8 @@
 import {
   customerListPage,
   accountListPage,
-  dealListPage
+  dealListPage,
+  paymentListPage
 } from "Helpers/crmURL";
 
 import {
@@ -59,6 +60,10 @@ export default [
       {
         title: "sidebar.deals",
         path: dealListPage
+      },
+      {
+        title: "sidebar.payment",
+        path: paymentListPage
       }
     ]
   },

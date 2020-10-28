@@ -26,7 +26,8 @@ import {
   CustomerReducer,
   AccountReducer,
   DealReducer,
-  CrmFieldReducer
+  CrmFieldReducer,
+  OnlinePaymentReducer
 } from "Ducks/crm";
 
 //cms
@@ -88,7 +89,8 @@ const reducers = combineReducers({
     customerState: CustomerReducer,
     accountState: AccountReducer,
     dealState: DealReducer,
-    crmField: CrmFieldReducer
+    crmField: CrmFieldReducer,
+    onlinepaymentState: OnlinePaymentReducer
   }),
   cmsState: combineReducers({
     bannerState: BannerReducer,

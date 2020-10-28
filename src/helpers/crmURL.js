@@ -38,6 +38,8 @@ export const dealNewPage = dealListPage + "/new";
 export const dealEditPage = id => `${dealListPage}/${id}/edit`;
 export const dealImportPage = dealListPage + "/import";
 
+export const paymentListPage = "/app/crm/payments";
+
 /**
  * Team Pages
  */

@@ -143,7 +143,7 @@ class ModelsForm extends PureComponent {
       `categorygroups/findOne?filter[where][name]=Model&`
     );
 
-    const result = validateForm(TagId, MakeId, Model, files, header, gallery);
+    const result = validateForm(TagId, MakeId, Model.name, files, header, gallery);
     if (result) {
       var data = new FormData();
       files.map(file => data.append(`upload`, file));
@@ -754,18 +754,16 @@ class ModelsForm extends PureComponent {
 export default ModelsForm;
 
 const validateForm = (TagId, MakeId, Model, files, header, gallery) => {
-  let Reject = true;
+  let Reject = true;  
   if (TagId == "") {
-    Reject == false;
+    Reject = false;
   }
   if (MakeId == "") {
-    Reject == false;
+    Reject = false;
   }
-  Object.values(Model).map(e => {
-    if (e == "" || e == 0) {
-      Reject = false;
-    }
-  });
+  if(Model == ""){
+    Reject = false;
+  }
   if (files.length == 0) {
     Reject = false;
   }
