@@ -3,6 +3,7 @@ import { NotificationManager } from "react-notifications";
 import api from "Api";
 
 import CarList from "./components/CarList";
+import CarGradeList from "./components/CarGradeList";
 import DialogRoot from "Components/Dialog/DialogRoot";
 
 import Grade from "./components/Cars/Grade";
@@ -33,8 +34,21 @@ class index extends PureComponent {
   _FetchProductsAPI = async () => {
     try {
       const ModelGrade = await api.get(`categories/ModelGrade`);
+      //console.log(ModelGrade.data.fields);
+      console.log("=============");
+      let product = [];
+      ModelGrade.data.fields.forEach(element => {
+        var productModel = element.name;
+        element.product.forEach(element => {
+          console.log(element);
+
+          element.model = productModel;
+          product.push(element);
+      });
+      });
+
       return this.setState({
-        Products: ModelGrade.data.fields,
+        Products: product, //ModelGrade.data.fields
         loading: false
       });
     } catch (e) {
@@ -114,7 +128,16 @@ class index extends PureComponent {
   render() {
     return (
       <div style={{ marginTop: 10, marginBottom: 50 }}>
-        <CarList
+        {/* <CarList
+          title={"ALL PREOWNED CARS"}
+          loading={this.state.loading}
+          tableData={this.state.Products}
+          borderRadius={"0px"}
+          boxShadow={"none"}
+          ToggleDialog={this.ToggleDialog}
+          DeleteCar={this._DeleteCar}
+        /> */}
+        <CarGradeList 
           title={"ALL PREOWNED CARS"}
           loading={this.state.loading}
           tableData={this.state.Products}

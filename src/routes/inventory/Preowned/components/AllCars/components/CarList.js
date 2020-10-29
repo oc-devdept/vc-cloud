@@ -93,7 +93,7 @@ export default class Index extends PureComponent {
       filterType: "dropdown",
       responsive: "stacked",
       selectableRows: "none",
-      expandableRows: true, // Try Adding This
+      //expandableRows: true, // This will make it not expandable as the dropdown list
       print: false,
       download: false,
       viewColumns: false,

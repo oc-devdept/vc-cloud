@@ -3,7 +3,8 @@ import React, { PureComponent } from "react";
 //Page req
 import RecordsList from "Components/RecordsList";
 import Image from "Components/Image";
-import Stock from "./Cars/Stock";
+
+//import CarList from "Components/CarList";
 
 import { Edit, Delete } from "@material-ui/icons";
 import {
@@ -46,6 +47,15 @@ export default class Index extends PureComponent {
       },
       {
         label: "NAME",
+        name: "model",
+        options: {
+          customBodyRender: (value, tableMeta) => {
+            return value;
+          }
+        }
+      },
+      {
+        label: "GRADE",
         name: "name",
         options: {
           customBodyRender: (value, tableMeta) => {
@@ -74,6 +84,15 @@ export default class Index extends PureComponent {
             } else {
               return "No image";
             }
+          }
+        }
+      },
+      {
+        label: "MILEAGE",
+        name: "mileage",
+        options: {
+          customBodyRender: (value, tableMeta) => {
+            return value;
           }
         }
       },
@@ -139,7 +158,7 @@ export default class Index extends PureComponent {
       filterType: "dropdown",
       responsive: "stacked",
       selectableRows: "none",
-      expandableRows: true,
+      //expandableRows: true,
       pagination: false,
       print: false,
       download: false,
