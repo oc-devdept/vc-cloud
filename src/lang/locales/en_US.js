@@ -51,6 +51,7 @@ module.exports = {
 
   "sidebar.dashboard": "Dashboard",
   "sidebar.allCars": "Cars",
+  "sidebar.allPreownedCars": "Preowned",
   "sidebar.settings": "Settings",
   "sidebar.booking": "Bookings",
 

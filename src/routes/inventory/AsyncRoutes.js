@@ -15,6 +15,11 @@ export const Products = Loadable({
   loading: () => <RctPageLoader />
 });
 
+export const Preownedproducts = Loadable({
+  loader: () => import("./Preowned/index"),
+  loading: () => <RctPageLoader />
+});
+
 export const Configure = Loadable({
   loader: () => import("./Configure/index"),
   loading: () => <RctPageLoader />

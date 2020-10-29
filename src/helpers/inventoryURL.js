@@ -12,6 +12,9 @@ export const inventoryPage = "/app/inventory/dashboard";
  */
 export const allCarsPage = "/app/inventory/allcars";
 
+
+// To export preowned cars pages
+export const allPreownedCarsPage = "/app/inventory/allpreownedcars";
 /**
  * Credit Note Pages
  */
