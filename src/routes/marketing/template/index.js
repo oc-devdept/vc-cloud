@@ -103,10 +103,6 @@ class marketing_template extends Component {
   // }
 
   onTemplateChange(template, design, html) {
-    console.log("ON TEMPLATE CHANGE");
-    console.log(template);
-    console.log(design);
-    console.log(html);
     this.setState({
       ...this.state,
       htmlContent: template.html,
