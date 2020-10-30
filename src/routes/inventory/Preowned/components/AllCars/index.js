@@ -14,42 +14,66 @@ class index extends PureComponent {
 
     this.state = {
       Products: [],
+      MakeSource: [],
       loading: true,
       toggle: false,
       element: null,
       groupName: null,
-      data: null
+      data: null,
     };
   }
 
   async componentDidMount() {
+    const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
+    const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id);
     try {
-      this.setState({ loading: true });
+      this.setState({
+        loading: true,
+        MakeSource: MakeSource,
+      });
       await this._FetchProductsAPI();
     } catch (e) {
       this.setState({ Products: [], loading: false });
+    }
+  }
+  async _RenderMakeCategory(value) {
+    try {
+      const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
+      const MakeSource = await MakeGroup.data.map((source) => {
+        return {
+          // id: source.id,
+          name: source.name,
+          // description: source.description,
+          // files: source.files ? source.files : [],
+          // image: source.image,
+          // checklist: true,
+          // category: source.category,
+          // commissionId: source.commissionId,
+        };
+        // console.log("In make Model");
+        // console.log(MakeSource);
+      });
+      return MakeSource;
+    } catch (e) {
+      console.log(e);
     }
   }
 
   _FetchProductsAPI = async () => {
     try {
       const ModelGrade = await api.get(`categories/ModelGrade`);
-      //console.log(ModelGrade.data.fields);
-      console.log("=============");
       let product = [];
-      ModelGrade.data.fields.forEach(element => {
+      ModelGrade.data.fields.forEach((element) => {
         var productModel = element.name;
-        element.product.forEach(element => {
-          console.log(element);
-
+        element.product.forEach((element) => {
           element.model = productModel;
           product.push(element);
-      });
+        });
       });
 
       return this.setState({
         Products: product, //ModelGrade.data.fields
-        loading: false
+        loading: false,
       });
     } catch (e) {
       console.log("error", e);
@@ -57,7 +81,7 @@ class index extends PureComponent {
     }
   };
 
-  _DeleteCar = async id => {
+  _DeleteCar = async (id) => {
     await api.post(`products/deleteSpecificProductGrade`, { data: id });
     await this._FetchProductsAPI();
     NotificationManager.success("You have successfully deleted a grade");
@@ -77,11 +101,7 @@ class index extends PureComponent {
               handleHide={this._RestartToggle}
               size={"md"}
             >
-              <Grade
-                MakeId={MakeId}
-                ModelId={ModelId}
-                _FetchProductsAPI={this._FetchProductsAPI}
-              />
+              <Grade MakeId={MakeId} ModelId={ModelId} _FetchProductsAPI={this._FetchProductsAPI} />
             </DialogRoot>
           );
 
@@ -93,12 +113,7 @@ class index extends PureComponent {
               show={this.state.toggle}
               handleHide={this._RestartToggle}
             >
-              <Grade
-                MakeId={MakeId}
-                ModelId={ModelId}
-                GradeId={this.state.groupName}
-                _FetchProductsAPI={this._FetchProductsAPI}
-              />
+              <Grade MakeId={MakeId} ModelId={ModelId} GradeId={this.state.groupName} _FetchProductsAPI={this._FetchProductsAPI} />
             </DialogRoot>
           );
         default:
@@ -112,7 +127,7 @@ class index extends PureComponent {
       toggle: false,
       element: null,
       groupName: null,
-      data: null
+      data: null,
     });
   };
 
@@ -121,7 +136,7 @@ class index extends PureComponent {
       element: element,
       toggle: !this.state.toggle,
       groupName: groupName,
-      data: data
+      data: data,
     });
   };
 
@@ -137,7 +152,7 @@ class index extends PureComponent {
           ToggleDialog={this.ToggleDialog}
           DeleteCar={this._DeleteCar}
         /> */}
-        <CarGradeList 
+        <CarGradeList
           title={"ALL PREOWNED CARS"}
           loading={this.state.loading}
           tableData={this.state.Products}
@@ -148,6 +163,7 @@ class index extends PureComponent {
         />
 
         {this._RenderDialog()}
+        {console.log(this.state)}
       </div>
     );
   }

@@ -28,7 +28,7 @@ class index extends PureComponent {
     // Dialog
     toggle: false,
     element: null,
-    data: null
+    data: null,
   };
 
   componentDidMount() {
@@ -38,9 +38,7 @@ class index extends PureComponent {
 
   loadInitial = async () => {
     try {
-      const MakeFilter = await api.get(
-        `categorygroups/findOne?filter[where][name]=Make&`
-      );
+      const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
       const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id);
       const MakeGroupingSource = await this._RenderMakeGrouping(MakeSource);
 
@@ -57,15 +55,15 @@ class index extends PureComponent {
           MakeGroupingOriginalSource: MakeGroupingSource,
           Tags: Tags.data,
           MakeLoading: false,
-          ModelLoading: false
+          ModelLoading: false,
         });
       }
     } catch (e) {
       if (this._isMounted) {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           ...prevState,
           MakeLoading: false,
-          ModelLoading: false
+          ModelLoading: false,
         }));
       }
     }
@@ -78,7 +76,7 @@ class index extends PureComponent {
   async _RenderMakeCategory(value) {
     try {
       const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
-      const MakeSource = await MakeGroup.data.map(source => {
+      const MakeSource = await MakeGroup.data.map((source) => {
         return {
           id: source.id,
           name: source.name,
@@ -87,9 +85,11 @@ class index extends PureComponent {
           image: source.image,
           checklist: true,
           category: source.category,
-          commissionId: source.commissionId
+          commissionId: source.commissionId,
         };
       });
+      // console.log("In make Model");
+      // console.log(MakeSource);
       return MakeSource;
     } catch (e) {
       console.log(e);
@@ -99,7 +99,7 @@ class index extends PureComponent {
   async _RenderMakeGrouping(MakeSource) {
     let modelArray = [];
 
-    MakeSource.map(make => {
+    MakeSource.map((make) => {
       if (make.checklist) {
         modelArray.push(`${make.name}:${make.id}`);
       }
@@ -108,7 +108,7 @@ class index extends PureComponent {
     return modelArray;
   }
 
-  _LaunchModels = async KeyId => {
+  _LaunchModels = async (KeyId) => {
     try {
       const ModelResult = await api.get(`/categories/${KeyId}/category`);
       this.setState({ ModelSource: ModelResult.data, ModelLoading: false });
@@ -125,7 +125,7 @@ class index extends PureComponent {
     this.setState({
       MakeSource: MakeSource,
       MakeGroupingSource: MakeGroupingSource,
-      MakeGroupingOriginalSource: MakeGroupingSource
+      MakeGroupingOriginalSource: MakeGroupingSource,
     });
 
     return;
@@ -141,11 +141,7 @@ class index extends PureComponent {
       switch (this.state.element) {
         case "Create_Make":
           return (
-            <DialogRoot
-              size="md"
-              show={this.state.toggle}
-              handleHide={this._RestartToggle}
-            >
+            <DialogRoot size="md" show={this.state.toggle} handleHide={this._RestartToggle}>
               <MakesForm
                 Action={"Create"}
                 Data={this.state.data}
@@ -158,42 +154,20 @@ class index extends PureComponent {
           );
         case "Edit_Make":
           return (
-            <DialogRoot
-              size="md"
-              show={this.state.toggle}
-              handleHide={this._RestartToggle}
-            >
-              <MakesForm
-                Action={"Edit"}
-                Data={this.state.data}
-                _RestartToggle={this._RestartToggle}
-                _SaveMakeDone={this._SaveMakeDone}
-                CommissionData={this.state.commissions}
-              />
+            <DialogRoot size="md" show={this.state.toggle} handleHide={this._RestartToggle}>
+              <MakesForm Action={"Edit"} Data={this.state.data} _RestartToggle={this._RestartToggle} _SaveMakeDone={this._SaveMakeDone} CommissionData={this.state.commissions} />
             </DialogRoot>
           );
         case "Delete_Make":
           return (
-            <DialogRoot
-              size="md"
-              show={this.state.toggle}
-              handleHide={this._RestartToggle}
-            >
-              <MakesForm
-                Action={"Delete"}
-                Data={this.state.data}
-                _RestartToggle={this._RestartToggle}
-              />
+            <DialogRoot size="md" show={this.state.toggle} handleHide={this._RestartToggle}>
+              <MakesForm Action={"Delete"} Data={this.state.data} _RestartToggle={this._RestartToggle} />
             </DialogRoot>
           );
 
         case "Create_Model":
           return (
-            <DialogRoot
-              size="md"
-              show={this.state.toggle}
-              handleHide={this._RestartToggle}
-            >
+            <DialogRoot size="md" show={this.state.toggle} handleHide={this._RestartToggle}>
               <ModelsForm
                 Action={"Create"}
                 Data={this.state.data}
@@ -207,11 +181,7 @@ class index extends PureComponent {
           );
         case "Edit_Model":
           return (
-            <DialogRoot
-              size="md"
-              show={this.state.toggle}
-              handleHide={this._RestartToggle}
-            >
+            <DialogRoot size="md" show={this.state.toggle} handleHide={this._RestartToggle}>
               <ModelsForm
                 Action={"Edit"}
                 Data={this.state.data}
@@ -225,18 +195,8 @@ class index extends PureComponent {
           );
         case "Delete_Model":
           return (
-            <DialogRoot
-              size="md"
-              show={this.state.toggle}
-              handleHide={this._RestartToggle}
-            >
-              <ModelsForm
-                Action={"Delete"}
-                Data={this.state.data}
-                Tags={this.state.Tags}
-                MakeId={this.state.Id}
-                _RestartToggle={this._RestartToggle}
-              />
+            <DialogRoot size="md" show={this.state.toggle} handleHide={this._RestartToggle}>
+              <ModelsForm Action={"Delete"} Data={this.state.data} Tags={this.state.Tags} MakeId={this.state.Id} _RestartToggle={this._RestartToggle} />
             </DialogRoot>
           );
         default:
@@ -254,15 +214,13 @@ class index extends PureComponent {
       element: element,
       toggle: !this.state.toggle,
       data: data,
-      Id: Id
+      Id: Id,
     });
   };
 
   _DeleteModel = async (id, element) => {
     if (element > 0) {
-      NotificationManager.warning(
-        "You cannot delete if you have items in your category, please delete them all before proceeding."
-      );
+      NotificationManager.warning("You cannot delete if you have items in your category, please delete them all before proceeding.");
     } else {
       await api.post(`categories/deleteModel/${id}`);
       this._isMounted = true;
@@ -280,9 +238,7 @@ class index extends PureComponent {
             tableData={this.state.MakeSource}
             ToggleDialog={this.ToggleDialog}
             _DeleteModel={this._DeleteModel}
-            newMake={() =>
-              this.ToggleDialog("Create_Make", "", this.state.MakeId)
-            }
+            newMake={() => this.ToggleDialog("Create_Make", "", this.state.MakeId)}
           />
 
           {this._RenderDialog()}
