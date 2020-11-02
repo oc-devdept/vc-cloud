@@ -124,6 +124,7 @@ class index extends PureComponent {
   };
 
   render() {
+    const { makes } = this.state;
     return (
       <div style={{ marginTop: 10, marginBottom: 50 }}>
         {/* <CarList
@@ -143,11 +144,10 @@ class index extends PureComponent {
           boxShadow={"none"}
           ToggleDialog={this.ToggleDialog}
           DeleteCar={this._DeleteCar}
-          makes={this.state.makes}
         />
 
         {this._RenderDialog()}
-        {console.log(this.state)}
+        {/* {console.log(makes)} */}
       </div>
     );
   }
