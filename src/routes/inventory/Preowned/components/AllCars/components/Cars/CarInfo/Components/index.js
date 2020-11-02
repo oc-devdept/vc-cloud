@@ -65,7 +65,7 @@ class Grade extends PureComponent {
               value={Product.cost_Price ? Product.cost : ""}
               element={"make_type"}
               _HandleProduct={_HandleProduct}
-              type="text"
+              type="dropdown"
             />
             <Input
               divStyle={{ width: "30%" }}
@@ -108,6 +108,17 @@ class Grade extends PureComponent {
                 </div> */}
           </div>
 
+          <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
+            <Input
+              divStyle={{ width: "30%" }}
+              title="Mileage (Km)"
+              placeholder="e.g 80 123 (km)"
+              value={Product.selling_Price ? Product.selling_Price : ""}
+              element={"selling_Price"}
+              _HandleProduct={_HandleProduct}
+              type="number"
+            />
+          </div>
           <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
             <div className="d-flex" style={{ flexDirection: "column" }}>
               <div style={{ marginBottom: 10 }}>
