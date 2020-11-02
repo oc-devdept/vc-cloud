@@ -14,7 +14,7 @@ class index extends PureComponent {
 
     this.state = {
       Products: [],
-      MakeSource: [],
+      makes: [],
       loading: true,
       toggle: false,
       element: null,
@@ -24,38 +24,21 @@ class index extends PureComponent {
   }
 
   async componentDidMount() {
-    const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
-    const MakeSource = await this._RenderMakeCategory(MakeFilter.data.id);
+    // const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
+    var MakeSource = await api.get(`/categories/getMakeCategory`);
+    var makes = MakeSource.data.fields.map((make) => {
+      return {
+        name: make.name,
+      };
+    });
     try {
       this.setState({
         loading: true,
-        MakeSource: MakeSource,
+        makes: makes,
       });
       await this._FetchProductsAPI();
     } catch (e) {
       this.setState({ Products: [], loading: false });
-    }
-  }
-  async _RenderMakeCategory(value) {
-    try {
-      const MakeGroup = await api.get(`/categorygroups/${value}/categoryGroup`);
-      const MakeSource = await MakeGroup.data.map((source) => {
-        return {
-          // id: source.id,
-          name: source.name,
-          // description: source.description,
-          // files: source.files ? source.files : [],
-          // image: source.image,
-          // checklist: true,
-          // category: source.category,
-          // commissionId: source.commissionId,
-        };
-        // console.log("In make Model");
-        // console.log(MakeSource);
-      });
-      return MakeSource;
-    } catch (e) {
-      console.log(e);
     }
   }
 
@@ -141,6 +124,7 @@ class index extends PureComponent {
   };
 
   render() {
+    const { makes } = this.state;
     return (
       <div style={{ marginTop: 10, marginBottom: 50 }}>
         {/* <CarList
@@ -163,7 +147,7 @@ class index extends PureComponent {
         />
 
         {this._RenderDialog()}
-        {console.log(this.state)}
+        {/* {console.log(makes)} */}
       </div>
     );
   }

@@ -8,9 +8,17 @@ import Input from "Components/Inventory/Input";
 import Text from "Components/Inventory/Text";
 import Switch from "Components/Inventory/Switch";
 
+//NEW STUFF
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import product from "../../../../../../../../../../../vc-api/common/models/product";
+
 class Grade extends PureComponent {
   render() {
-    const { _HandleProduct, Product, Images, files, handleUpload, removeFile, Thumbs, imgThumbs, handleThumbUpload, removeThumb } = this.props;
+    const { _HandleProduct, Product, Images, files, handleUpload, removeFile, Thumbs, imgThumbs, handleThumbUpload, removeThumb, makes } = this.props;
 
     return (
       <div className="d-flex" style={{ margin: 5, flexDirection: "column" }}>
@@ -58,15 +66,33 @@ class Grade extends PureComponent {
                   title="MAKE TYPE"
                   value={Product.categorySource}
                 /> */}
-            <Input
+            {/* <Input
               divStyle={{ width: "30%" }}
               title="MAKE TYPE"
               placeholder="e.g &nbsp;BMW, Honda, Toyota"
               value={Product.cost_Price ? Product.cost : ""}
               element={"make_type"}
               _HandleProduct={_HandleProduct}
-              type="text"
-            />
+              type="dropdown"
+            /> */}
+            {console.log("IN SELECT")}
+            {console.log(makes)}
+            {console.log(Product)}
+            <FormControl>
+              <InputLabel id="demo-simple-select-label">Make Type</InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={makes}>
+                {/* //onChange={handleChange} */}
+                {makes &&
+                  makes.map((select, key) => (
+                    <MenuItem key={key} value={select.value}>
+                      {select.name}
+                    </MenuItem>
+                  ))}
+                {/* <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem> */}
+              </Select>
+            </FormControl>
             <Input
               divStyle={{ width: "30%" }}
               title="COST PRICE"
@@ -108,6 +134,17 @@ class Grade extends PureComponent {
                 </div> */}
           </div>
 
+          <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
+            <Input
+              divStyle={{ width: "30%" }}
+              title="Mileage (Km)"
+              placeholder="e.g 80 123 (km)"
+              value={Product.selling_Price ? Product.selling_Price : ""}
+              element={"selling_Price"}
+              _HandleProduct={_HandleProduct}
+              type="number"
+            />
+          </div>
           <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
             <div className="d-flex" style={{ flexDirection: "column" }}>
               <div style={{ marginBottom: 10 }}>
