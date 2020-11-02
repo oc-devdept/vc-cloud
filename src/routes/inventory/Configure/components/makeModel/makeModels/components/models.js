@@ -77,7 +77,7 @@ class ModelsForm extends PureComponent {
             Title: "EDIT CAR MODEL",
             Button: "SAVE CHANGES",
             Tags: this.props.Tags,
-            TagId: null,
+            TagId: tagId,
             images: files ? files : [],
             files: [],
             MakeId: this.props.MakeId,
@@ -191,6 +191,7 @@ class ModelsForm extends PureComponent {
       data.append("name", Model.name);
       data.append("description", Model.description);
       data.append("commissionId", Model.commissionId);
+      data.append("tagId", Model.tagId);
       await api.post(`/categories/editModelDetail`, data);
       await this.props._SaveModelDone();
       await this.props._RestartToggle();
@@ -206,6 +207,12 @@ class ModelsForm extends PureComponent {
   _ToggleModelTag = item => {
     this.setState({ TagId: item.target.value });
   };
+
+  _ToggleEditTag = item => {
+    let Model = { ...this.state.Model };
+    Model.tagId = item.target.value;
+    this.setState({Model: Model});
+  }
 
   _OnChange = (e, element) => {
     let Model = { ...this.state.Model };
@@ -315,6 +322,7 @@ class ModelsForm extends PureComponent {
         break;
 
       case "Edit":
+        /*
         const tag = this.state.Tags.filter(e => e.id == this.state.Model.tagId);
 
         let tagName = null;
@@ -328,7 +336,7 @@ class ModelsForm extends PureComponent {
             />
           );
         }
-
+        */
         Body = (
           <div className="d-flex" style={{ flexDirection: "column", flex: 1 }}>
             <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
@@ -340,7 +348,29 @@ class ModelsForm extends PureComponent {
                   marginRight: 30
                 }}
               >
-                {tagName}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <StaticName title="CAR MODEL TYPE" />
+                  {this.state.Tags.length > 0 && (
+                    <FormControl>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={this.state.Model.tagId ? this.state.Model.tagId : ""}
+                        onChange={this._ToggleEditTag}
+                        element="tagId"
+                        style={{ minWidth: 100, marginLeft: 5 }}
+                      >
+                        {this.state.Tags.map((e, index) => {
+                          return (
+                            <MenuItem key={index} value={e.id}>
+                              {e.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  )}
+                </div>
                 <Input
                   divStyle={{ width: "100%" }}
                   title="CAR MODEL NAME"
@@ -374,7 +404,7 @@ class ModelsForm extends PureComponent {
                     flex: 0.5
                   }}
                 >
-                  <StaticName title="CAR MODEL IMAGE" />
+                  <StaticName title="THUMBNAILS" />
                   {this.state.images.length > 0 && (
                     <Images imageSource={this.state.images} single={true} />
                   )}
@@ -387,7 +417,7 @@ class ModelsForm extends PureComponent {
                     flex: 0.5
                   }}
                 >
-                  <StaticName title="IMAGE UPLOAD" />
+                  <StaticName title="THUMBNAIL UPLOAD" />
                   <Dropzone
                     onDrop={this.handleUpload}
                     onRemove={this.removeFile}

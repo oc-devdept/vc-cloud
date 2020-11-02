@@ -10,7 +10,8 @@ import {
   bannerListPage,
   featuredListPage,
   carPage,
-  blogPage
+  blogPage,
+  configPage
 } from "Helpers/cmsURL";
 
 // // acct routes
@@ -83,6 +84,10 @@ export default [
       {
         title: "sidebar.car",
         path: carPage
+      },
+      {
+        title: "sidebar.configOption",
+        path: configPage
       },
       {
         title: "sidebar.blog",

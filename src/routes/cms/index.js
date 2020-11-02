@@ -73,6 +73,12 @@ function cmsSwitcher() {
                     component={async.cms_blog_view}
                 />
 
+                <Route
+                    exact
+                    path={`${url.configPage}`}
+                    component={async.cms_config_page}
+                />  
+
                 {/* ------- /404 ------- */}
                 <Redirect to="/404" />
             </Switch>

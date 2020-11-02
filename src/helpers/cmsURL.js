@@ -31,3 +31,8 @@ export const singleCar = id => `${carPage}/${id}`;
 export const blogPage = "/app/cms/blog";
 export const blogNewPage = `${blogPage}/new`;
 export const singleBlog = id => `${blogPage}/${id}`;
+
+/**
+ * config options
+ */
+export const configPage = "/app/cms/configoptions";

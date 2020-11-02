@@ -64,3 +64,8 @@ export const cms_blog_edit = Loadable({
     loader: () => import("./blog/edit"),
     loading: () => <RctPageLoader />
 });
+
+export const cms_config_page = Loadable({
+    loader: () => import("./configoptions"),
+    loading: () => <RctPageLoader />
+});
