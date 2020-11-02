@@ -82,7 +82,7 @@ export default class Index extends PureComponent {
         },
       },
       {
-        label: "MILEAGE",
+        label: "DETAILS",
         name: "mileage",
         options: {
           customBodyRender: (value, tableMeta) => {
@@ -109,35 +109,41 @@ export default class Index extends PureComponent {
         },
       },
       {
-        name: "EDIT",
+        name: "ACTION", //EDIT
         options: {
           filter: true,
           sort: false,
           empty: true,
           customBodyRender: (rowData, rowState) => {
             return (
+              <React.Fragment>
               <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", rowState.rowData[0])} size="small">
                 <Edit style={{ fontSize: 14 }} />
               </IconButton>
-            );
-          },
-        },
-      },
-      {
-        name: "DELETE",
-        options: {
-          filter: true,
-          sort: false,
-          empty: true,
-          customBodyRender: (rowData, rowState) => {
-            return (
+
               <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
                 <Delete style={{ fontSize: 14 }} />
               </IconButton>
+              </React.Fragment>
             );
           },
         },
       },
+      // {
+      //   name: "DELETE",
+      //   options: {
+      //     filter: true,
+      //     sort: false,
+      //     empty: true,
+      //     customBodyRender: (rowData, rowState) => {
+      //       return (
+      //         <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
+      //           <Delete style={{ fontSize: 14 }} />
+      //         </IconButton>
+      //       );
+      //     },
+      //   },
+      // },
     ];
 
     const listOptions = {

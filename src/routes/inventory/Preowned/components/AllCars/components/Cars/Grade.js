@@ -5,9 +5,8 @@ import { Add, Remove } from "@material-ui/icons";
 
 import api from "Api";
 import BgCard from "Components/BgCard";
-import ProductVariant from "./ProductVariant/index";
+
 import ProductDetail from "./ProductDetail/index";
-import ProductOption from "./ProductOption/index";
 
 import CarInfo from "./CarInfo/CarInfo";
 
@@ -292,47 +291,6 @@ export default class Index extends Component {
                   <div
                     className="d-flex"
                     style={{ paddingRight: 20 }}
-                    onClick={() => this._RenderStage(0)}
-                  >
-                    <span style={{ flex: 1, textAlign: "center" }}>
-                      CAR VARIANT
-                    </span>
-
-                    {this.state.stage != 0 && (
-                      <Add
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    )}
-
-                    {this.state.stage == 0 && (
-                      <Remove
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    )}
-                  </div>
-
-                  {this.state.stage == 0 && (
-                    <ProductVariant
-                      Car={Car.productVariant}
-                      Id={Car.id}
-                      ProductVariantLoading={this.state.ProductVariantLoading}
-                    />
-                  )}
-                </BgCard>
-
-                <BgCard
-                  fullBlock
-                  customStyles={{
-                    paddingTop: 20,
-                    paddingBottom: 20,
-                    marginBottom: 50
-                  }}
-                >
-                  <div
-                    className="d-flex"
-                    style={{ paddingRight: 20 }}
                     onClick={() => this._RenderStage(1)}
                   >
                     <span style={{ flex: 1, textAlign: "center" }}>
@@ -362,47 +320,6 @@ export default class Index extends Component {
                         this._DeleteProductDetailFields
                       }
                       ProductDetailLoading={this.state.ProductDetailLoading}
-                    />
-                  )}
-                </BgCard>
-
-                <BgCard
-                  fullBlock
-                  customStyles={{
-                    paddingTop: 20,
-                    paddingBottom: 20,
-                    marginBottom: 50
-                  }}
-                >
-                  <div
-                    className="d-flex"
-                    style={{ paddingRight: 20 }}
-                    onClick={() => this._RenderStage(2)}
-                  >
-                    <span style={{ flex: 1, textAlign: "center" }}>
-                      CAR PRODUCT
-                    </span>
-                    {this.state.stage != 2 && (
-                      <Add
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    )}
-                    {this.state.stage == 2 && (
-                      <Remove
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    )}
-                  </div>
-                  {this.state.stage == 2 && (
-                    <ProductOption
-                      Car={Car.productOption}
-                      ProductOptionLoading={this.state.ProductOptionLoading}
-                      _DeleteProductOptionFields={
-                        this._DeleteProductOptionFields
-                      }
-                      _HandleSaveProductOption={this._HandleSaveProductOption}
                     />
                   )}
                 </BgCard>

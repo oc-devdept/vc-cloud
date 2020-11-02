@@ -6,6 +6,11 @@ const INIT_STATE = {
         loading: false,
         tableData: [],
         totalCount:0
+    },
+    preownedProductList: {
+        loading: false,
+        tableData: [],
+        totalCount:0
     }
 }
 
@@ -34,6 +39,30 @@ export default(state = INIT_STATE, action) => {
                     loading: false,
                     tableData: action.payload.fields
                 }
+            }
+        case types.GET_ALL_PREOWNED_PRODUCTS:
+            return {
+                ...state,
+                preownedProductList: {
+                    ...state.preownedProductList,
+                    loading: true
+                }
+            }
+        case types.GET_ALL_PREOWNED_PRODUCTS_FAILURE:
+            return {
+                ...state,
+                preownedProductList: {
+                    ...state.preownedProductList,
+                    loading: false
+                }
+            }
+        case types.GET_ALL_PREOWNED_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                preownedProductList: {
+                    loading: false,
+                    tableData: action.payload
+                } 
             }
         default:
             return {
