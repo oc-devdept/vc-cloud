@@ -109,6 +109,7 @@ export default class Index extends Component {
       data.append("isActive", Product.isActive);
       data.append("categoryId", ModelId);
       data.append("categoryGroupId", MakeId);
+      data.append("type", "preowned");
 
       const result = await api.post("/products/new", data);
       await this.props._FetchProductsAPI();
