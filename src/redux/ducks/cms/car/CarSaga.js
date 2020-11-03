@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
-import {GET_ALL_CAR, GET_CATEGORY, GET_PRODUCTS} from "./CarTypes";
+import {GET_ALL_CAR, GET_CATEGORY, GET_PRODUCTS, GET_MAKES, GET_MODELS} from "./CarTypes";
 import {
   getAllCarFailure,
   getAllCarSuccess,
@@ -8,6 +8,10 @@ import {
   getCategorySuccess,
   getProducts, getProductsFailure,
   getProductsSuccess,
+  getMakesSuccess,
+  getMakesFailure,
+  getModelsSuccess,
+  getModelsFailure
 } from "./CarActions";
 
 import api from "Api";
@@ -27,6 +31,16 @@ const getProductsFromDBRequest = async () => {
   const result = await api.get("/productDetails");
   return result.data;
 };
+const getMakesFromDBRequest = async () => {
+  const result = await api.get("/categories/getMakes");
+  return result.data;
+};
+const getModelsFromDBRequest = async () => {
+  const result = await api.get("/categories/getModelCategory");
+  return result.data;
+};
+
+
 
 //=========================
 // CALL(GENERATOR) ACTIONS
@@ -55,6 +69,24 @@ function* getProductsFromDB() {
     yield put(getProductsFailure(error));
   }
 }
+function* getMakesFromDB() {
+  try {
+    const data = yield call(getMakesFromDBRequest);
+    yield put( getMakesSuccess(data));
+  } catch (error) {
+    yield put( getMakesFailure(error));
+  }
+}
+function* getModelsFromDB() {
+  try {
+    const data = yield call(getModelsFromDBRequest);
+    yield put( getModelsSuccess(data));
+  } catch (error) {
+    yield put( getModelsFailure(error));
+  }
+}
+
+
 
 //=======================
 // WATCHER FUNCTIONS
@@ -68,6 +100,13 @@ export function* getCategoryWatcher() {
 export function* getProductsWatcher() {
   yield takeEvery(GET_PRODUCTS, getProductsFromDB);
 }
+export function* getMakesWatcher() {
+  yield takeEvery(GET_MAKES, getMakesFromDB);
+}
+export function* getModelsWatcher() {
+  yield takeEvery(GET_MODELS, getModelsFromDB);
+}
+
 
 //=======================
 // FORK SAGAS TO STORE
@@ -76,6 +115,8 @@ export default function* rootSaga() {
   yield all([
       fork(getAllCarWatcher),
       fork(getCategoryWatcher),
-      fork(getProductsWatcher)
+      fork(getProductsWatcher),
+      fork(getMakesWatcher),
+      fork(getModelsWatcher)
   ]);
 }

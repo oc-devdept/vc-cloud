@@ -14,11 +14,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { select } from "redux-saga/effects";
 //import product from "../../../../../../../../../../../vc-api/common/models/product";
 
 class Grade extends PureComponent {
   render() {
-    const { _HandleProduct, Product, Images, files, handleUpload, removeFile, Thumbs, imgThumbs, handleThumbUpload, removeThumb, makes } = this.props;
+    const { _HandleProduct, Product, Images, files, handleUpload, removeFile, Thumbs, imgThumbs, handleThumbUpload, removeThumb, makes, handleMake, selectedMake, models, selectedModel, handleModel } = this.props;
 
     return (
       <div className="d-flex" style={{ margin: 5, flexDirection: "column" }}>
@@ -75,16 +76,19 @@ class Grade extends PureComponent {
               _HandleProduct={_HandleProduct}
               type="dropdown"
             /> */}
-            {console.log("IN SELECT")}
-            {console.log(makes)}
-            {console.log(Product)}
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Make Type</InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={makes}>
+            {/* {console.log("IN SELECT")}
+            {console.log(this.props)}
+            {console.log(Product)} */}
+  
+              <InputLabel id="demo-simple-select-label">  Make Type</InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedMake} onChange={handleMake}>
                 {/* //onChange={handleChange} */}
                 {makes &&
                   makes.map((select, key) => (
-                    <MenuItem key={key} value={select.value}>
+                  
+                    <MenuItem key={key} value={select}>
+                      {/* {console.log(select)}
+                      {console.log(key)} */}
                       {select.name}
                     </MenuItem>
                   ))}
@@ -92,7 +96,22 @@ class Grade extends PureComponent {
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem> */}
               </Select>
-            </FormControl>
+         
+            <InputLabel id="demo-simple-select-label" >  Model   </InputLabel>
+              <Select  labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
+                {/* //onChange={handleChange} */}
+                {models &&
+                  models.map((select, key) => (
+                  
+                    <MenuItem key={key} value={select}>
+                      {select.name}
+                    </MenuItem>
+                  ))}
+                {/* <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem> */}
+              </Select>
+         
             <Input
               divStyle={{ width: "30%" }}
               title="COST PRICE"
@@ -186,6 +205,8 @@ class Grade extends PureComponent {
                 />
               </div> */}
         </div>
+        {console.log("IN CAR INFO JS WEIRED")}
+        {console.log(this.props)}
       </div>
     );
   }

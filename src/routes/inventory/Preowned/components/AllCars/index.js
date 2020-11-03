@@ -1,13 +1,13 @@
 import React, { PureComponent } from "react";
 import { NotificationManager } from "react-notifications";
 import api from "Api";
-
+import { connect } from "react-redux";
 import CarList from "./components/CarList";
 import CarGradeList from "./components/CarGradeList";
 import DialogRoot from "Components/Dialog/DialogRoot";
 
 import Grade from "./components/Cars/Grade";
-
+import { getMakes } from "Ducks/cms";
 class index extends PureComponent {
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class index extends PureComponent {
 
   async componentDidMount() {
     // const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
+   this.props.getMakes();
     var MakeSource = await api.get(`/categories/getMakeCategory`);
     var makes = MakeSource.data.fields.map((make) => {
       return {
@@ -33,8 +34,7 @@ class index extends PureComponent {
     });
     try {
       this.setState({
-        loading: true,
-        makes: makes,
+        makes: this.props.makes.tableData,
       });
       await this._FetchProductsAPI();
     } catch (e) {
@@ -80,11 +80,12 @@ class index extends PureComponent {
           return (
             <DialogRoot
               // title={title}
+             
               show={this.state.toggle}
               handleHide={this._RestartToggle}
               size={"md"}
             >
-              <Grade MakeId={MakeId} ModelId={ModelId} _FetchProductsAPI={this._FetchProductsAPI} />
+              <Grade MakeId={MakeId} ModelId={ModelId} _FetchProductsAPI={this._FetchProductsAPI}  makes={this.props.makes.tableData}/>
             </DialogRoot>
           );
 
@@ -96,7 +97,7 @@ class index extends PureComponent {
               show={this.state.toggle}
               handleHide={this._RestartToggle}
             >
-              <Grade MakeId={MakeId} ModelId={ModelId} GradeId={this.state.groupName} _FetchProductsAPI={this._FetchProductsAPI} />
+              <Grade MakeId={MakeId} ModelId={ModelId} GradeId={this.state.groupName} _FetchProductsAPI={this._FetchProductsAPI} makes={this.props.makes.tableData} />
             </DialogRoot>
           );
         default:
@@ -114,12 +115,17 @@ class index extends PureComponent {
     });
   };
 
-  ToggleDialog = (element, groupName, data) => {
+  ToggleDialog = (element, groupName, data, makes) => {
+    console.log("im ghere")
+    console.log(element);
+    console.log(groupName);
+    console.log(makes)
     this.setState({
       element: element,
       toggle: !this.state.toggle,
       groupName: groupName,
       data: data,
+      makes:makes
     });
   };
 
@@ -144,13 +150,21 @@ class index extends PureComponent {
           boxShadow={"none"}
           ToggleDialog={this.ToggleDialog}
           DeleteCar={this._DeleteCar}
+          makes={makes}
         />
 
         {this._RenderDialog()}
-        {/* {console.log(makes)} */}
+        {/* {/* {console.log(this.props)} */}
+        {console.log(this.state)} */}
       </div>
     );
   }
 }
 
-export default index;
+// export default index;
+const mapStateToProps = ({ cmsState }) => {    
+  const { carState } = cmsState;
+  const { makes} = carState;
+  return { makes };
+}
+export default connect(mapStateToProps, { getMakes } )(index)

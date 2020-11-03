@@ -37,3 +37,29 @@ export const getProductsFailure = error => ({
   type: types.GET_PRODUCTS_FAILURE,
   payload: error
 });
+
+//get Makes
+export const getMakes = () => ({
+  type: types.GET_MAKES
+});
+export const getMakesSuccess = data => ({
+  type: types.GET_MAKES_SUCCESS,
+  payload: data
+});
+export const getMakesFailure = error => ({
+  type: types.GET_MAKES_FAILURE,
+  payload: error
+});
+
+//get Makes
+export const getModels = () => ({
+  type: types.GET_MODELS
+});
+export const getModelsSuccess = data => ({
+  type: types.GET_MODELS_SUCCESS,
+  payload: data
+});
+export const getModelsFailure = error => ({
+  type: types.GET_MODELS_FAILURE,
+  payload: error
+});

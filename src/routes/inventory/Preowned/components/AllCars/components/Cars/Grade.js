@@ -92,12 +92,20 @@ export default class Index extends Component {
     return test.data.fields;
   };
 
-  _CreateProduct = async (Product, Files, Images) => {
+  _CreateProduct = async (Product, Files, Images, brandId, modelId) => {
     const result = validateForm(Product, Files, Images);
 
     if (result) {
-      const MakeId = this.props.MakeId;
-      const ModelId = this.props.ModelId;
+      let MakeId = this.props.MakeId;
+      let ModelId = this.props.ModelId;
+      if(brandId ){
+         MakeId = brandId;
+         ModelId = modelId;
+
+      }
+     
+  
+
       var data = new FormData();
 
       Files.map(file => data.append(`upload`, file));
@@ -263,6 +271,7 @@ export default class Index extends Component {
 
   render() {
     const Car = this.state.Car;
+    const makes = this.props.makes;
 
     return (
       <div>
@@ -272,6 +281,7 @@ export default class Index extends Component {
           <div>
             <div style={{ marginBottom: 50 }}>
               <CarInfo
+                makes={makes}
                 Car={this.state.Car}
                 _CreateProduct={this._CreateProduct}
                 _EditProduct={this._EditProduct}
@@ -345,6 +355,8 @@ export default class Index extends Component {
             )}
           </div>
         )}
+  {console.log("IN ALL CARSD GRADE")}
+  {console.log(makes)}
       </div>
     );
   }

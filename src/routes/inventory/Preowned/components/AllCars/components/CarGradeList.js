@@ -34,7 +34,7 @@ export default class Index extends PureComponent {
   };
 
   render() {
-    const { addGrade, modelName, title, tableData } = this.props;
+    const { addGrade, modelName, title, tableData, makes } = this.props;
 
     const columns = [
       {
@@ -179,7 +179,7 @@ export default class Index extends PureComponent {
         // };
         return (
           // <IconButton onClick={() => newDealFollowup()} size="small">
-          <IconButton onClick={() => this.props.ToggleDialog("Add_Grade", "", "")} size="small">
+          <IconButton onClick={() => this.props.ToggleDialog("Add_Grade", "", "", makes)} size="small">
             <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
           </IconButton>
         );

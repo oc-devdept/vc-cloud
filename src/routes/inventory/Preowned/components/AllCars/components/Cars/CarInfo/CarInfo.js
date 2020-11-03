@@ -1,13 +1,14 @@
 import React, {PureComponent, Component} from "react";
 import api from "Api";
-
+import { connect } from "react-redux";
 import CarInfo from './Components/index'
 import Button from 'Components/Inventory/Button'
+import { TheatersOutlined } from "@material-ui/icons";
+
+import { getModels } from "Ducks/cms";
 
 
-
-
-export default class Index extends PureComponent {
+ class Index extends PureComponent {
     
     constructor(props) {
         super(props);
@@ -19,7 +20,13 @@ export default class Index extends PureComponent {
                 Images: this.props.Car.files,
                 Thumbs: this.props.Car.images,
                 files: [],
-                imgThumbs: []
+                imgThumbs: [],
+                makes: this.props.makes,
+                selectedMake: "",
+                selectedMakeId: "",
+                selectedModel: "",
+                selectedModelId: "",
+        
             }
             
         } else {
@@ -38,7 +45,12 @@ export default class Index extends PureComponent {
                 Images:[],
                 files: [],
                 Thumbs:[],
-                imgThumbs: []
+                imgThumbs: [],
+                makes: this.props.makes,
+                selectedMake: "",
+                selectedMakeId: "",
+                selectedModel: "",
+                selectedModelId: "",
             }
             
         }
@@ -46,8 +58,28 @@ export default class Index extends PureComponent {
         
         
     }
+    async componentDidMount() {
+        this.props.getModels();
+    }
+    handleMake = (event) => {
+        // console.log("Handle amke");
+        // console.log(event.target.value)
+        this.setState({
+            selectedMake: event.target.value.name,
+            selectedMakeId: event.target.value.id,
+        });
 
+    };
 
+    handleModel = (event) => {
+        // console.log("Handle model");
+        // console.log(event.target.value)
+        this.setState({
+            selectedModel: event.target.value.name,
+            selectedModelId: event.target.value.value,
+        });
+
+    };
     _HandleProduct = (e, element) => {
         let Product = {...this.state.Product}
             
@@ -96,7 +128,12 @@ export default class Index extends PureComponent {
     };
 
     _AddItem = () => {
-        this.props._CreateProduct(this.state.Product, this.state.files, this.state.imgThumbs);
+        console.log(this.state.selectedMake);
+        console.log(this.state.selectedMakeId)
+        console.log(this.state.selectedModel);
+
+        console.log(this.state.selectedModelId);
+        this.props._CreateProduct(this.state.Product, this.state.files, this.state.imgThumbs, this.state.selectedMakeId, this.state.selectedModelId);
     }
 
     _EditItem = () => {
@@ -113,6 +150,7 @@ export default class Index extends PureComponent {
                 <h1 style={{textAlign:'center'}}>GENERAL CAR INFORMATION</h1>
 
                 <CarInfo
+                handleMake={this.handleMake}
                     _HandleProduct={this._HandleProduct}
                     Product = {this.state.Product}
                     Images={this.state.Images}
@@ -123,6 +161,11 @@ export default class Index extends PureComponent {
                     imgThumbs={this.state.imgThumbs}
                     handleThumbUpload={this.handleThumbUpload}
                     removeThumb={this.removeThumb}
+                    makes ={this.state.makes}
+                    selectedMake={this.state.selectedMake}
+                    models={this.props.models.tableData}
+                    selectedModel={this.state.selectedModel}
+                    handleModel={this.handleModel}
                 />
 
                 {!this.props.Car && 
@@ -148,8 +191,16 @@ export default class Index extends PureComponent {
                         />  
                     </div>
                 }
-
+                {console.log("THIS IS CAR INFO ")}
+                {console.log(this.props)}
+    {console.log(this.state)}
             </div>
         );
   }
 };
+const mapStateToProps = ({ cmsState }) => {    
+    const { carState } = cmsState;
+    const { models} = carState;
+    return { models };
+  }
+  export default connect(mapStateToProps, { getModels } )(Index)
