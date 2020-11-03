@@ -117,6 +117,7 @@ export default class Index extends Component {
       data.append("isActive", Product.isActive);
       data.append("categoryId", ModelId);
       data.append("categoryGroupId", MakeId);
+      data.append("type", "preowned");
 
       const result = await api.post("/products/new", data);
       await this.props._FetchProductsAPI();
@@ -347,8 +348,7 @@ export default class Index extends Component {
               >
                 <div className="d-flex" style={{ justifyContent: "center" }}>
                   <span style={{}}>
-                    Create your grade before adding Product Detail, Options or
-                    Variants
+                    Create your grade before adding Product Detail
                   </span>
                 </div>
               </BgCard>
