@@ -337,8 +337,7 @@ export default class Index extends Component {
               >
                 <div className="d-flex" style={{ justifyContent: "center" }}>
                   <span style={{}}>
-                    Create your grade before adding Product Detail, Options or
-                    Variants
+                    Create your grade before adding Product Detail
                   </span>
                 </div>
               </BgCard>
