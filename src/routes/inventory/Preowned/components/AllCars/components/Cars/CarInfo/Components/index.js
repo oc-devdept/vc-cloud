@@ -14,7 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import product from "../../../../../../../../../../../vc-api/common/models/product";
+//import product from "../../../../../../../../../../../vc-api/common/models/product";
 
 class Grade extends PureComponent {
   render() {
