@@ -8,6 +8,7 @@ import DialogRoot from "Components/Dialog/DialogRoot";
 
 import Grade from "./components/Cars/Grade";
 import { getMakes } from "Ducks/cms";
+import { getAllPreownedProducts } from "Ducks/inventory";
 class index extends PureComponent {
   constructor(props) {
     super(props);
@@ -25,7 +26,8 @@ class index extends PureComponent {
 
   async componentDidMount() {
     // const MakeFilter = await api.get(`categorygroups/findOne?filter[where][name]=Make&`);
-   this.props.getMakes();
+    this.props.getMakes();
+    this.props.getAllPreownedProducts();
     var MakeSource = await api.get(`/categories/getMakeCategory`);
     var makes = MakeSource.data.fields.map((make) => {
       return {
@@ -47,10 +49,16 @@ class index extends PureComponent {
       const ModelGrade = await api.get(`categories/ModelGrade`);
       let product = [];
       ModelGrade.data.fields.forEach((element) => {
+        console.log("1st tier");
+        console.log(element);
         var productModel = element.name;
         element.product.forEach((element) => {
-          element.model = productModel;
-          product.push(element);
+          // console.log("2ndtier");
+          // console.log(element);
+          if (element.type == "preowned") {
+            element.model = productModel;
+            product.push(element);
+          }
         });
       });
 
@@ -80,12 +88,12 @@ class index extends PureComponent {
           return (
             <DialogRoot
               // title={title}
-             
+
               show={this.state.toggle}
               handleHide={this._RestartToggle}
               size={"md"}
             >
-              <Grade MakeId={MakeId} ModelId={ModelId} _FetchProductsAPI={this._FetchProductsAPI}  makes={this.props.makes.tableData}/>
+              <Grade MakeId={MakeId} ModelId={ModelId} _FetchProductsAPI={this._FetchProductsAPI} makes={this.props.makes.tableData} />
             </DialogRoot>
           );
 
@@ -116,16 +124,16 @@ class index extends PureComponent {
   };
 
   ToggleDialog = (element, groupName, data, makes) => {
-    console.log("im ghere")
+    console.log("im ghere");
     console.log(element);
     console.log(groupName);
-    console.log(makes)
+    console.log(makes);
     this.setState({
       element: element,
       toggle: !this.state.toggle,
       groupName: groupName,
       data: data,
-      makes:makes
+      makes: makes,
     });
   };
 
@@ -152,19 +160,20 @@ class index extends PureComponent {
           DeleteCar={this._DeleteCar}
           makes={makes}
         />
-
         {this._RenderDialog()}
-        {/* {/* {console.log(this.props)} */}
-        {console.log(this.state)} */}
+        {console.log("PREOWNED")}
+        {console.log(this.props)}
+        {console.log(this.state.Products)}
       </div>
     );
   }
 }
 
 // export default index;
-const mapStateToProps = ({ cmsState }) => {    
+const mapStateToProps = ({ cmsState, inventoryState }) => {
   const { carState } = cmsState;
-  const { makes} = carState;
-  return { makes };
-}
-export default connect(mapStateToProps, { getMakes } )(index)
+  const { makes } = carState;
+  const { preownedProductList } = inventoryState;
+  return { makes, preownedProductList };
+};
+export default connect(mapStateToProps, { getMakes, getAllPreownedProducts })(index);

@@ -83,7 +83,7 @@ export default class Index extends PureComponent {
       },
       {
         label: "DETAILS",
-        name: "mileage",
+        name: "details",
         options: {
           customBodyRender: (value, tableMeta) => {
             return value;
@@ -117,13 +117,13 @@ export default class Index extends PureComponent {
           customBodyRender: (rowData, rowState) => {
             return (
               <React.Fragment>
-              <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", rowState.rowData[0])} size="small">
-                <Edit style={{ fontSize: 14 }} />
-              </IconButton>
+                <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", rowState.rowData[0])} size="small">
+                  <Edit style={{ fontSize: 14 }} />
+                </IconButton>
 
-              <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
-                <Delete style={{ fontSize: 14 }} />
-              </IconButton>
+                <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
+                  <Delete style={{ fontSize: 14 }} />
+                </IconButton>
               </React.Fragment>
             );
           },
