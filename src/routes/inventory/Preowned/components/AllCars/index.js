@@ -49,12 +49,8 @@ class index extends PureComponent {
       const ModelGrade = await api.get(`categories/ModelGrade`);
       let product = [];
       ModelGrade.data.fields.forEach((element) => {
-        console.log("1st tier");
-        console.log(element);
         var productModel = element.name;
         element.product.forEach((element) => {
-          // console.log("2ndtier");
-          // console.log(element);
           if (element.type == "preowned") {
             element.model = productModel;
             product.push(element);
@@ -124,10 +120,10 @@ class index extends PureComponent {
   };
 
   ToggleDialog = (element, groupName, data, makes) => {
-    console.log("im ghere");
-    console.log(element);
-    console.log(groupName);
-    console.log(makes);
+    // console.log("im ghere");
+    // console.log(element);
+    // console.log(groupName);
+    // console.log(makes);
     this.setState({
       element: element,
       toggle: !this.state.toggle,
@@ -161,9 +157,9 @@ class index extends PureComponent {
           makes={makes}
         />
         {this._RenderDialog()}
-        {console.log("PREOWNED")}
+        {/* {console.log("PREOWNED")}
         {console.log(this.props)}
-        {console.log(this.state.Products)}
+        {console.log(this.state.Products)} */}
       </div>
     );
   }
