@@ -15,14 +15,7 @@ import { NotificationManager } from "react-notifications";
 
 const validateForm = (Product, Files, Images) => {
   let Reject = true;
-  const {
-    name,
-    sku,
-    description,
-    product_code,
-    cost_Price,
-    selling_Price
-  } = Product;
+  const { name, sku, description, product_code, cost_Price, selling_Price } = Product;
   if (name == "") {
     Reject = false;
   }
@@ -38,13 +31,13 @@ const validateForm = (Product, Files, Images) => {
   if (Files.length == 0) {
     Reject = false;
   }
-  if(Images.length == 0){
+  if (Images.length == 0) {
     Reject = false;
   }
   return Reject;
 };
 
-const validateEditForm = Product => {
+const validateEditForm = (Product) => {
   let Reject = true;
   const { name, description, cost_Price, selling_Price } = Product;
   if (name == "") {
@@ -73,7 +66,7 @@ export default class Index extends Component {
       ProductOptionLoading: false,
       ProductVariantLoading: false,
 
-      stage: null
+      stage: null,
     };
   }
 
@@ -86,9 +79,7 @@ export default class Index extends Component {
   }
 
   _FetchGrade = async () => {
-    const test = await api.get(
-      `/products/specificOneGrade/${this.props.GradeId}`
-    );
+    const test = await api.get(`/products/specificOneGrade/${this.props.GradeId}`);
     return test.data.fields;
   };
 
@@ -98,18 +89,15 @@ export default class Index extends Component {
     if (result) {
       let MakeId = this.props.MakeId;
       let ModelId = this.props.ModelId;
-      if(brandId ){
-         MakeId = brandId;
-         ModelId = modelId;
-
+      if (brandId) {
+        MakeId = brandId;
+        ModelId = modelId;
       }
-     
-  
 
       var data = new FormData();
 
-      Files.map(file => data.append(`upload`, file));
-      Images.map(img => data.append('thumb', img));
+      Files.map((file) => data.append(`upload`, file));
+      Images.map((img) => data.append("thumb", img));
       data.append("name", Product.name);
       data.append("description", Product.description);
       data.append("cost_Price", Product.cost_Price);
@@ -125,9 +113,7 @@ export default class Index extends Component {
 
       NotificationManager.success("Car product saved successfully");
     } else {
-      NotificationManager.error(
-        "Missing input in your form, please fill up the necessary boxes."
-      );
+      NotificationManager.error("Missing input in your form, please fill up the necessary boxes.");
     }
   };
 
@@ -140,8 +126,8 @@ export default class Index extends Component {
       const MakeId = this.props.MakeId;
 
       var data = new FormData();
-      Files.map(file => data.append(`upload`, file));
-      Images.map(img => data.append('thumb', img));
+      Files.map((file) => data.append(`upload`, file));
+      Images.map((img) => data.append("thumb", img));
       data.append("id", Product.id);
       data.append("name", Product.name);
       data.append("description", Product.description);
@@ -160,20 +146,18 @@ export default class Index extends Component {
 
       NotificationManager.success("Car product saved successfully");
     } else {
-      NotificationManager.error(
-        "Missing input in your form, please fill up the necessary boxes."
-      );
+      NotificationManager.error("Missing input in your form, please fill up the necessary boxes.");
     }
   };
 
   // Product Detail
-  _AddCarDetail = productDetail => {
+  _AddCarDetail = (productDetail) => {
     let Car = { ...this.state.Car };
     Car.productDetail.push(productDetail);
     this.setState({ Car: Car });
   };
 
-  _SaveCarDetail = async e => {
+  _SaveCarDetail = async (e) => {
     if (e.value != "" || e.value != 0) {
       let Car = { ...this.state.Car };
 
@@ -183,7 +167,7 @@ export default class Index extends Component {
         value: e.value,
         detailCategoryId: e.id,
         productDetailCategoryId: e.productDetailCategoryId,
-        productId: Car.id
+        productId: Car.id,
       });
 
       const latestProduct = await api.get(`/products/${Car.id}`);
@@ -192,9 +176,7 @@ export default class Index extends Component {
 
       NotificationManager.success("Car product saved successfully");
     } else {
-      NotificationManager.error(
-        "Missing input in your form, please fill up the necessary boxes."
-      );
+      NotificationManager.error("Missing input in your form, please fill up the necessary boxes.");
     }
   };
 
@@ -204,7 +186,7 @@ export default class Index extends Component {
     this.setState({ Car: Car });
   };
 
-  _DeleteProductDetailFields = async index => {
+  _DeleteProductDetailFields = async (index) => {
     await this.setState({ ProductDetailLoading: true });
 
     let Car = { ...this.state.Car };
@@ -227,7 +209,7 @@ export default class Index extends Component {
     const data = {
       productId: Car.id,
       productOptionId: e.id,
-      isDefault: isDefault
+      isDefault: isDefault,
     };
 
     await api.post(`/products/productOption`, { data: data });
@@ -238,31 +220,31 @@ export default class Index extends Component {
     this.setState({ Car: latestProduct.data, ProductOptionLoading: false });
   };
 
-  _DeleteProductOptionFields = async index => {
+  _DeleteProductOptionFields = async (index) => {
     await this.setState({ ProductOptionLoading: true });
 
     let Car = { ...this.state.Car };
 
     const data = {
-      id: index
+      id: index,
     };
 
     const result = await api.post(`/products/productOptionDeletion`, {
-      data: data
+      data: data,
     });
 
     if (result.data.fields) {
       const latestProduct = await api.get(`/products/${Car.id}`);
       await this.setState({
         Car: latestProduct.data,
-        ProductOptionLoading: false
+        ProductOptionLoading: false,
       });
     } else {
       await this.setState({ ProductOptionLoading: false });
     }
   };
 
-  _RenderStage = stage => {
+  _RenderStage = (stage) => {
     if (this.state.stage != stage) {
       this.setState({ stage: stage });
     } else {
@@ -281,12 +263,7 @@ export default class Index extends Component {
         {!this.state.loading && (
           <div>
             <div style={{ marginBottom: 50 }}>
-              <CarInfo
-                makes={makes}
-                Car={this.state.Car}
-                _CreateProduct={this._CreateProduct}
-                _EditProduct={this._EditProduct}
-              />
+              <CarInfo makes={makes} Car={this.state.Car} _CreateProduct={this._CreateProduct} _EditProduct={this._EditProduct} />
             </div>
 
             {Car && (
@@ -296,29 +273,13 @@ export default class Index extends Component {
                   customStyles={{
                     paddingTop: 20,
                     paddingBottom: 20,
-                    marginBottom: 50
+                    marginBottom: 50,
                   }}
                 >
-                  <div
-                    className="d-flex"
-                    style={{ paddingRight: 20 }}
-                    onClick={() => this._RenderStage(1)}
-                  >
-                    <span style={{ flex: 1, textAlign: "center" }}>
-                      CAR DETAILS
-                    </span>
-                    {this.state.stage != 1 && (
-                      <Add
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    )}
-                    {this.state.stage == 1 && (
-                      <Remove
-                        fontSize="small"
-                        style={{ color: "rgba(0, 0, 0, 0.8)" }}
-                      />
-                    )}
+                  <div className="d-flex" style={{ paddingRight: 20 }} onClick={() => this._RenderStage(1)}>
+                    <span style={{ flex: 1, textAlign: "center" }}>CAR DETAILS</span>
+                    {this.state.stage != 1 && <Add fontSize="small" style={{ color: "rgba(0, 0, 0, 0.8)" }} />}
+                    {this.state.stage == 1 && <Remove fontSize="small" style={{ color: "rgba(0, 0, 0, 0.8)" }} />}
                   </div>
 
                   {this.state.stage == 1 && (
@@ -327,9 +288,7 @@ export default class Index extends Component {
                       _AddCarDetail={this._AddCarDetail}
                       _SaveCarDetail={this._SaveCarDetail}
                       _HandleProductDetailValue={this._HandleProductDetailValue}
-                      _DeleteProductDetailFields={
-                        this._DeleteProductDetailFields
-                      }
+                      _DeleteProductDetailFields={this._DeleteProductDetailFields}
                       ProductDetailLoading={this.state.ProductDetailLoading}
                     />
                   )}
@@ -343,20 +302,16 @@ export default class Index extends Component {
                 customStyles={{
                   paddingTop: 20,
                   paddingBottom: 20,
-                  marginBottom: 50
+                  marginBottom: 50,
                 }}
               >
                 <div className="d-flex" style={{ justifyContent: "center" }}>
-                  <span style={{}}>
-                    Create your grade before adding Product Detail
-                  </span>
+                  <span style={{}}>Create your grade before adding Product Detail</span>
                 </div>
               </BgCard>
             )}
           </div>
         )}
-  {console.log("IN ALL CARSD GRADE")}
-  {console.log(makes)}
       </div>
     );
   }
