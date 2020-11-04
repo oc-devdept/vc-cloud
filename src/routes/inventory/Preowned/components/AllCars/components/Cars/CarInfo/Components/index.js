@@ -94,11 +94,11 @@ class Grade extends PureComponent {
               _HandleProduct={_HandleProduct}
               type="dropdown"
             /> */}
-            {console.log("IN SELECT")}
+            {/* {console.log("IN SELECT")}
             {console.log(this.props)}
-            {console.log(Product)} */}
+            {console.log(Product)}  */}
 
-            <InputLabel id="demo-simple-select-label"> Make Type</InputLabel>
+          <InputLabel id="demo-simple-select-label"> {selectedMake ? selectedMake : "Make Type"}</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedMake} onChange={handleMake}>
               {/* //onChange={handleChange} */}
               {makes &&
@@ -114,7 +114,7 @@ class Grade extends PureComponent {
                 <MenuItem value={30}>Thirty</MenuItem> */}
             </Select>
 
-            <InputLabel id="demo-simple-select-label"> Model </InputLabel>
+            <InputLabel id="demo-simple-select-label"> {selectedModel ? selectedModel : "Model"} </InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
               {/* //onChange={handleChange} */}
               {models &&
