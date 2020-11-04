@@ -109,9 +109,7 @@ class Grade extends PureComponent {
                     {select.name}
                   </MenuItem>
                 ))}
-              {/* <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem> */}
+
             </Select>
             </div>
             <div className="col-md-2">
@@ -124,9 +122,7 @@ class Grade extends PureComponent {
                     {select.name}
                   </MenuItem>
                 ))}
-              {/* <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem> */}
+
             </Select>
             </div>
             <Input
