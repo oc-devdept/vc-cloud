@@ -97,7 +97,7 @@ class Grade extends PureComponent {
             {/* {console.log("IN SELECT")}
             {console.log(this.props)}
             {console.log(Product)}  */}
-
+  <div className="col-md-2">
           <InputLabel id="demo-simple-select-label"> {selectedMake ? selectedMake : "Make Type"}</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedMake} onChange={handleMake}>
               {/* //onChange={handleChange} */}
@@ -113,7 +113,8 @@ class Grade extends PureComponent {
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem> */}
             </Select>
-
+            </div>
+            <div className="col-md-2">
             <InputLabel id="demo-simple-select-label"> {selectedModel ? selectedModel : "Model"} </InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
               {/* //onChange={handleChange} */}
@@ -127,7 +128,7 @@ class Grade extends PureComponent {
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem> */}
             </Select>
-
+            </div>
             <Input
               divStyle={{ width: "30%" }}
               title="COST PRICE"
