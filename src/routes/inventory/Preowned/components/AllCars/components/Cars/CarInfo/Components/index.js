@@ -9,6 +9,7 @@ import Text from "Components/Inventory/Text";
 import Switch from "Components/Inventory/Switch";
 
 //NEW STUFF
+import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -76,29 +77,24 @@ class Grade extends PureComponent {
               _HandleProduct={_HandleProduct}
               type="dropdown"
             /> */}
-            {/* {console.log("IN SELECT")}
+            {console.log("IN SELECT")}
             {console.log(this.props)}
-            {console.log(Product)} */}
-  
+
               <InputLabel id="demo-simple-select-label">  Make Type</InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedMake} onChange={handleMake}>
-                {/* //onChange={handleChange} */}
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={select.name} onChange={handleMake}>
                 {makes &&
                   makes.map((select, key) => (
-                  
                     <MenuItem key={key} value={select}>
                       {/* {console.log(select)}
                       {console.log(key)} */}
                       {select.name}
                     </MenuItem>
                   ))}
-                {/* <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem> */}
               </Select>
+           
          
             <InputLabel id="demo-simple-select-label" >  Model   </InputLabel>
-              <Select  labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
                 {/* //onChange={handleChange} */}
                 {models &&
                   models.map((select, key) => (
