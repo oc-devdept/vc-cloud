@@ -111,9 +111,10 @@ class Grade extends PureComponent {
             <div className="col-md-2">
               <InputLabel id="demo-simple-select-label">Model</InputLabel>
               <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
+                {console.log(models)}
                 {models &&
                   models.map((select, key) => (
-                    <MenuItem key={key} value={select.value}>
+                    <MenuItem key={key} value={select.id}>
                       {select.name}
                     </MenuItem>
                   ))}

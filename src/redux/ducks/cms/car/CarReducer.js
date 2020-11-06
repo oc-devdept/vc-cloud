@@ -92,13 +92,13 @@ export default (state = INIT_STATE, action) => {
 
         return { ...state, models: { ...state.models, loading: true }};
       case types.GET_MODELS_SUCCESS:
-  
+        console.log(action.payload.fields)
         return {
           ...state,
           models: {
             ...state.models,
             loading: false,
-            tableData: action.payload.fields
+            tableData: action.payload
           }
         };
       case types.GET_MODELS_FAILURE:

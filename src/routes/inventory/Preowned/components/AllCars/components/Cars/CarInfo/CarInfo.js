@@ -23,6 +23,7 @@ class Index extends PureComponent {
         selectedMakeId: "",
         selectedModel: "",
         selectedModelId: "",
+        Models: []
       };
     } else {
       this.state = {
@@ -45,6 +46,7 @@ class Index extends PureComponent {
         selectedMakeId: "",
         selectedModel: "",
         selectedModelId: "",
+        Models: []
       };
     }
   }
@@ -52,29 +54,26 @@ class Index extends PureComponent {
     this.props.getModels();
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if(prevProps.models.length != this.props.models.length){
-  //     //reorganize your state models and makes
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if(prevProps.models.length != this.props.models.length){
+      //reorganize your state models and makes
+    }
+  }
 
   handleMake = (event) => {
-    let selectedMake = this.props.makes.filter(item => item.id == event.target.value );
+    let selectedMake = this.props.models.tableData.filter(item => item.value == event.target.value );
+    console.log(selectedMake[0].models);
     this.setState({
-      // selectedMake: event.target.value.name,
-      selectedMake: selectedMake[0].id,
-      selectedMakeId: selectedMake[0].id
+      selectedMake: selectedMake[0].value,
+      selectedMakeId: selectedMake[0].value,
+      Models: selectedMake[0].models
     });
   };
 
   handleModel = (event) => {
-    //console.log(this.props.models.tableData)
-    let selectedModel = this.props.models.tableData.filter(item => item.value == event.target.value );
-    console.log(selectedModel[0].value);
     this.setState({
-      // selectedModel: event.target.value.name,
-      selectedModel: selectedModel[0].value,
-      selectedModelId: selectedModel[0].value
+      selectedModel: event.target.value,
+      selectedModelId: event.target.value
     });
   };
   _HandleProduct = (e, element) => {
@@ -123,11 +122,6 @@ class Index extends PureComponent {
   };
 
   _AddItem = () => {
-    console.log(this.state.selectedMake);
-    console.log(this.state.selectedMakeId);
-    console.log(this.state.selectedModel);
-
-    console.log(this.state.selectedModelId);
     this.props._CreateProduct(this.state.Product, this.state.files, this.state.imgThumbs, this.state.selectedMakeId, this.state.selectedModelId);
   };
 
@@ -154,7 +148,7 @@ class Index extends PureComponent {
           removeThumb={this.removeThumb}
           makes={this.state.makes}
           selectedMake={this.state.selectedMake}
-          models={this.props.models.tableData}
+          models={this.state.Models}
           selectedModel={this.state.selectedModel}
           handleModel={this.handleModel}
         />
@@ -172,9 +166,6 @@ class Index extends PureComponent {
             <Button _Function={this._EditItem} product={""} files={""} title={"SAVE CHANGES"} />
           </div>
         )}
-        {console.log("THIS IS CAR INFO ")}
-                {console.log(this.props)}
-    {console.log(this.state)}
       </div>
     );
   }

@@ -36,8 +36,8 @@ const getMakesFromDBRequest = async () => {
   return result.data;
 };
 const getModelsFromDBRequest = async () => {
-  const result = await api.get("/categories/getModelCategory");
-  return result.data;
+  const result = await api.get("/categories/getMakeModel");
+  return result.data.fields;
 };
 
 
