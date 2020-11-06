@@ -163,9 +163,9 @@ class Index extends PureComponent {
             <Button _Function={this._EditItem} product={""} files={""} title={"SAVE CHANGES"} />
           </div>
         )}
-        {/* {console.log("THIS IS CAR INFO ")}
+        {console.log("THIS IS CAR INFO ")}
                 {console.log(this.props)}
-    {console.log(this.state)} */}
+    {console.log(this.state)}
       </div>
     );
   }
