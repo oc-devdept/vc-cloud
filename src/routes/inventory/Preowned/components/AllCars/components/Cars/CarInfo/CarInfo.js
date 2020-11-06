@@ -51,21 +51,30 @@ class Index extends PureComponent {
   async componentDidMount() {
     this.props.getModels();
   }
+
+  // componentDidUpdate(prevProps) {
+  //   if(prevProps.models.length != this.props.models.length){
+  //     //reorganize your state models and makes
+  //   }
+  // }
+
   handleMake = (event) => {
-    // console.log("Handle amke");
-    // console.log(event.target.value)
+    let selectedMake = this.props.makes.filter(item => item.id == event.target.value );
     this.setState({
-      selectedMake: event.target.value.name,
-      selectedMakeId: event.target.value.id,
+      // selectedMake: event.target.value.name,
+      selectedMake: selectedMake[0].id,
+      selectedMakeId: selectedMake[0].id
     });
   };
 
   handleModel = (event) => {
-    // console.log("Handle model");
-    // console.log(event.target.value)
+    //console.log(this.props.models.tableData)
+    let selectedModel = this.props.models.tableData.filter(item => item.value == event.target.value );
+    console.log(selectedModel[0].value);
     this.setState({
-      selectedModel: event.target.value.name,
-      selectedModelId: event.target.value.value,
+      // selectedModel: event.target.value.name,
+      selectedModel: selectedModel[0].value,
+      selectedModelId: selectedModel[0].value
     });
   };
   _HandleProduct = (e, element) => {

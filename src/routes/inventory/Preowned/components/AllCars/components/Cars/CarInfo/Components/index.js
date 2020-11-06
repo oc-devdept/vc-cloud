@@ -38,7 +38,6 @@ class Grade extends PureComponent {
       selectedModel,
       handleModel,
     } = this.props;
-
     return (
       <div className="d-flex" style={{ margin: 5, flexDirection: "column" }}>
         <div className="d-flex" style={{ flexDirection: "column" }}>
@@ -97,33 +96,28 @@ class Grade extends PureComponent {
             {/* {console.log("IN SELECT")}
             {console.log(this.props)}
             {console.log(Product)}  */}
-  <div className="col-md-2">
-          <InputLabel id="demo-simple-select-label"> {selectedMake ? selectedMake : "Make Type"}</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedMake} onChange={handleMake}>
-              {/* //onChange={handleChange} */}
-              {makes &&
-                makes.map((select, key) => (
-                  <MenuItem key={key} value={select}>
-                    {/* {console.log(select)}
-                      {console.log(key)} */}
-                    {select.name}
-                  </MenuItem>
-                ))}
+            <div className="col-md-2">
+              <InputLabel id="demo-simple-select-label">Make Type</InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedMake} onChange={handleMake}>
+                {makes && 
+                  makes.map((select, key) => (
+                    <MenuItem key={key} value={select.id}>
+                      {select.name}
+                    </MenuItem>
+                  ))}
+              </Select>
 
-            </Select>
             </div>
             <div className="col-md-2">
-            <InputLabel id="demo-simple-select-label"> {selectedModel ? selectedModel : "Model"} </InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
-              {/* //onChange={handleChange} */}
-              {models &&
-                models.map((select, key) => (
-                  <MenuItem key={key} value={select}>
-                    {select.name}
-                  </MenuItem>
-                ))}
-
-            </Select>
+              <InputLabel id="demo-simple-select-label">Model</InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedModel} onChange={handleModel}>
+                {models &&
+                  models.map((select, key) => (
+                    <MenuItem key={key} value={select.value}>
+                      {select.name}
+                    </MenuItem>
+                  ))}
+              </Select>
             </div>
             <Input
               divStyle={{ width: "30%" }}
@@ -218,8 +212,6 @@ class Grade extends PureComponent {
                 />
               </div> */}
         </div>
-        {console.log("IN CAR INFO JS WEIRED")}
-        {/* {console.log(this.props)} */}
       </div>
     );
   }
