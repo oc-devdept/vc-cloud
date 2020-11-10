@@ -134,7 +134,15 @@ class PaymentList extends Component {
             return value ? getTheDate(value) : "";
           }
         }
-      },    
+      },
+      {
+        label: "Contact",
+        name: "contact"
+      },
+      {
+        label: "Billing Address",
+        name: "billing"
+      }    
     ];
   
    

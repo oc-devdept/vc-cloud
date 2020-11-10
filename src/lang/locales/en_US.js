@@ -27,6 +27,7 @@ module.exports = {
   "sidebar.mailingList": "Mailing List",
   "sidebar.campaign": "Campaign",
   "sidebar.template": "Template",
+  "sidebar.carconfig": "Car config",
 
   "sidebar.car": "Car Page",
   "sidebar.blog": "Blog Page",

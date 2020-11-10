@@ -100,6 +100,11 @@ export const crm_import_deal = Loadable({
   loading: () => <RctPageLoader />
 });
 
+export const crm_config_list = Loadable({
+  loader: () => import("./carconfig"),
+  loading: () => <RctPageLoader />
+});
+
 export const crm_payment_list = Loadable({
   loader: () => import("./payment"),
   loading: () => <RctPageLoader />

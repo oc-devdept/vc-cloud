@@ -3,7 +3,8 @@ import {
   customerListPage,
   accountListPage,
   dealListPage,
-  paymentListPage
+  paymentListPage,
+  configListPage
 } from "Helpers/crmURL";
 
 import {
@@ -61,6 +62,10 @@ export default [
       {
         title: "sidebar.deals",
         path: dealListPage
+      },
+      {
+        title: "sidebar.carconfig",
+        path: configListPage
       },
       {
         title: "sidebar.payment",
