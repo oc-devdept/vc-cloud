@@ -27,6 +27,7 @@ module.exports = {
   "sidebar.mailingList": "Mailing List",
   "sidebar.campaign": "Campaign",
   "sidebar.template": "Template",
+  "sidebar.carconfig": "Car config",
 
   "sidebar.car": "Car Page",
   "sidebar.blog": "Blog Page",
@@ -63,5 +64,6 @@ module.exports = {
   "sidebar.banners": "Banners",
   "sidebar.newBanner": "New Banner",
   "sidebar.editBanner": "Edit Banner",
-  "sidebar.featured": "Featured cars"
+  "sidebar.featured": "Featured cars",
+  "sidebar.configOption": "Config options"
 };

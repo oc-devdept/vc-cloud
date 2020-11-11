@@ -64,10 +64,10 @@ export default class Index extends PureComponent {
       },
       {
         label: "IMAGE",
-        name: "files",
+        name: "images",
         options: {
           customBodyRender: (value, tableMeta) => {
-            if (value.length > 0) {
+            if (value && value.length > 0) {
               return (
                 <Image imageSource={value} single={true} thumbNail={true} />
               );

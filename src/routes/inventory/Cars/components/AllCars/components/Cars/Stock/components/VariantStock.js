@@ -1,4 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
+import {show } from 'redux-modal';
+import { useDispatch } from 'react-redux';
 import api from "Api";
 
 import Image from "Components/Image";
@@ -78,6 +80,7 @@ const DeliveryDate = {
 const index = ({ id }) => {
   const [OrderHistory, setOrderHistory] = useState([]);
   const [FormOrder, setFormOrder] = useState({ edit: false, form: {} });
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -133,9 +136,37 @@ const index = ({ id }) => {
     setFormOrder(() => ({ edit: true, form: OrderHistory[rowIndex] }));
   };
 
+ 
+
   const restartOrder = () => {
     setFormOrder(() => ({ edit: false, form: {} }));
   };
+
+  const dispatch = useDispatch();
+  const deleteOrder = async rowIndex => {
+    let data = OrderHistory[rowIndex];
+    dispatch(show("alert_delete", {
+      name: data.name,
+      action: () => handleSingleDelete(data.id)
+    }))
+  }
+
+  const handleSingleDelete = async itemId => {
+    try {
+      //delete the notes
+      await api.delete(`/stockhistories/${itemId}/notes`);
+      //delete the stock
+      await api.delete(`/stockhistories/${itemId}`);
+      const result = await api.get(
+        `/productvariantvalues/${id}/stockhistory`
+      );
+      setOrderHistory(() => result.data);
+      NotificationManager.success("Stock deleted");
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <div>
@@ -145,6 +176,7 @@ const index = ({ id }) => {
             title={"STOCK ORDERS"}
             tableData={OrderHistory}
             editOrder={editOrder}
+            deleteOrder={deleteOrder}
           />
         </div>
       ) : (
@@ -168,7 +200,8 @@ const index = ({ id }) => {
   );
 };
 
-const List = ({ loading, title, tableData, editOrder }) => {
+const List = ({ loading, title, tableData, editOrder, deleteOrder }) => {
+  
   const columns = [
     {
       name: "id",
@@ -229,16 +262,20 @@ const List = ({ loading, title, tableData, editOrder }) => {
       }
     },
     {
-      name: "EDIT",
+      name: "ACTIONS",
       options: {
         filter: true,
         sort: false,
         empty: true,
         customBodyRender: (rowData, rowState) => {
-          return <Edit onClick={() => editOrder(rowState.rowIndex)} />;
+          return (<React.Fragment>
+            <Edit onClick={() => editOrder(rowState.rowIndex)} />
+            &nbsp;
+            <Delete onClick={() => deleteOrder(rowState.rowIndex)} />
+            </React.Fragment>);
         }
       }
-    }
+    },
   ];
 
   const listOptions = {
@@ -549,7 +586,6 @@ const EditForm = ({ submitEditOrder, FormOrder, restartOrder }) => {
               value={FormFields.trackingId}
               element={"trackingId"}
               _HandleProduct={_HandleFields}
-              read
             />
 
             <Input
@@ -559,7 +595,6 @@ const EditForm = ({ submitEditOrder, FormOrder, restartOrder }) => {
               value={FormFields.name}
               element={"name"}
               _HandleProduct={_HandleFields}
-              read
             />
 
             <Input
@@ -570,7 +605,6 @@ const EditForm = ({ submitEditOrder, FormOrder, restartOrder }) => {
               element={"ship_count"}
               _HandleProduct={_HandleFields}
               type="number"
-              read
             />
 
             {/* <Input

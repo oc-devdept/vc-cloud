@@ -25,8 +25,7 @@ export default(state = INIT_STATE, action) => {
             }
             
         case types.GET_ALL_FEATURED_FAILURE:
-        case types.GET_FEATURED_CHILDREN_FAILURE:
-            console.log(action.payload);           
+        case types.GET_FEATURED_CHILDREN_FAILURE:          
             NotificationManager.warning("Error in fetching Featured car data");
             return {
                 ...state,
