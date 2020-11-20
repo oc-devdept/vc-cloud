@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ReactQuill from "react-quill";
 
 //sub components
 import Dropzone from "Components/Dropzone";
@@ -9,6 +8,7 @@ import StaticName from "Components/Inventory/StaticName";
 import BlobImage from "Components/Inventory/BlobImage";
 import Button from "Components/Inventory/Button";
 import DialogRoot from "Components/Dialog/DialogRoot";
+import Editor from "Components/Wysiwyg";
 
 import api from "Api";
 import * as url from "Helpers/cmsURL";
@@ -23,9 +23,6 @@ import GalleryModalForm from "./components/GalleryModalForm";
 // Actions
 import { getCategory, getProducts } from "Ducks/cms/car";
 
-//css
-import "react-quill/dist/quill.snow.css";
-import "react-quill/dist/quill.bubble.css";
 import {NotificationManager} from "react-notifications";
 
 class CarNewPage extends Component {
@@ -47,55 +44,6 @@ class CarNewPage extends Component {
             },
             toggle: false,
         };
-        this.modules = {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                ['blockquote', 'code-block'],
-
-                [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-                [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-                [{ 'direction': 'rtl' }],                         // text direction
-
-                [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-                [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                [{ 'font': [] }],
-                [{ 'align': [] }],
-
-                ['clean']
-            ],
-            clipboard: {
-                // toggle to add extra line breaks when pasting HTML:
-                matchVisual: false
-            }
-        };
-        this.formats = [
-            "header",
-            "font",
-            "size",
-            "bold",
-            "italic",
-            "underline",
-            "strike",
-            "blockquote",
-            "list",
-            "bullet",
-            "indent",
-            "link",
-            "image",
-            "background",
-            "color",
-            "script",
-            "indent",
-            "code-block",
-            "align",
-            "direction",
-            "list",
-            "formula"
-        ];
     }
 
     componentDidMount() {
@@ -320,13 +268,7 @@ class CarNewPage extends Component {
 
                     <h3 className="text-muted text-center text-gray mb-10 mt-50">Description</h3>
                     <div className="w-100">
-                        <ReactQuill
-                            theme="snow"
-                            modules={this.modules}
-                            formats={this.formats}
-                            onChange={html => this.setState({description: html})}
-                            value={this.state.description}
-                        />
+                        <Editor changeData={(value) => this.setState({description: value})} />
                     </div>
 
                     <h3 className="text-muted text-center text-gray mb-10 mt-50">360 Gallary</h3>

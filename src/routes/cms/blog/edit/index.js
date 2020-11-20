@@ -11,16 +11,13 @@ import FormInput from "Components/Form/FormInput";
 import Button from "Components/Inventory/Button";
 import StaticName from "Components/Inventory/StaticName";
 import BlobImage from "Components/Inventory/BlobImage";
-import ReactQuill from "react-quill";
+import Editor from "Components/Wysiwyg";
 import DatePickerInput from "Components/Form/Pickers/DatePicker";
 import DialogRoot from "Components/Dialog/DialogRoot";
 
 import PublishModal from "../components/PublishModal";
 import api from "Api";
 import * as url from "Helpers/cmsURL";
-//css
-import "react-quill/dist/quill.snow.css";
-import "react-quill/dist/quill.bubble.css";
 import {NotificationManager} from "react-notifications";
 
 class BlogEditPage extends Component{
@@ -40,55 +37,6 @@ class BlogEditPage extends Component{
             currentPhoto: [],
             toggle: false
         };
-        this.modules = {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                ['blockquote', 'code-block'],
-
-                [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-                [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-                [{ 'direction': 'rtl' }],                         // text direction
-
-                [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-                [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                [{ 'font': [] }],
-                [{ 'align': [] }],
-
-                ['clean']
-            ],
-            clipboard: {
-                // toggle to add extra line breaks when pasting HTML:
-                matchVisual: false
-            }
-        };
-        this.formats = [
-            "header",
-            "font",
-            "size",
-            "bold",
-            "italic",
-            "underline",
-            "strike",
-            "blockquote",
-            "list",
-            "bullet",
-            "indent",
-            "link",
-            "image",
-            "background",
-            "color",
-            "script",
-            "indent",
-            "code-block",
-            "align",
-            "direction",
-            "list",
-            "formula"
-        ];
     }
 
     componentDidMount = async () => {
@@ -265,13 +213,7 @@ class BlogEditPage extends Component{
 
                     <h3 className="text-muted text-center text-gray mb-10 mt-50">Article Content</h3>
                     <div className="w-100">
-                        <ReactQuill
-                            theme="snow"
-                            modules={this.modules}
-                            formats={this.formats}
-                            onChange={html => this.setState({content: html})}
-                            value={this.state.content}
-                        />
+                        <Editor changeData={(value) => this.setState({content: value})} data={this.state.content} />
                     </div>
 
                     <h3 className="text-muted text-center text-gray mt-30">Input your SEO Keywords</h3>

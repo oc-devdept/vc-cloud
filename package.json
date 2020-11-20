@@ -66,6 +66,8 @@
     "classnames": "2.2.6",
     "fs": "0.0.1-security",
     "globalize": "^0.1.1",
+    "jodit": "3.4.23",
+    "jodit-react": "1.0.59",
     "jquery": "^3.3.1",
     "module": "^1.2.5",
     "moment": "^2.24.0",
