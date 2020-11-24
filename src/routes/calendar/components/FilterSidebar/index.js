@@ -74,26 +74,7 @@ const FilterSidebar = toolbar => {
             }
             label="Deal"
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.Account}
-                onChange={handleChange("Account")}
-                value="Account"
-              />
-            }
-            label="Account"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.Invoice}
-                onChange={handleChange("Invoice")}
-                value="Invoice"
-              />
-            }
-            label="Invoice"
-          />
+
           <FormControlLabel
             control={
               <Checkbox
