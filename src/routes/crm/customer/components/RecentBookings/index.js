@@ -33,7 +33,6 @@ class RecentBookings extends Component {
             <h4>Bookings In A Glance</h4>
             <RecentBookingChart data={chartData} />
           </div>
-          {console.log(this.props)}
         </div>
       </BgCard>
     );
