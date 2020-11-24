@@ -65,10 +65,7 @@ export default (state = INIT_STATE, action) => {
      */
     case Types.GET_EVENT_SEARCH:
       let searchEvents = [];
-      // console.log(action.payload.filter);
-      console.log("GET EVENT SEACH ()$*)#@*!()$*)@#*$")
-      console.log(action.payload)
-      console.log(allShowEvents)
+      
       for (let i = 0; i < allShowEvents.length; i++) {
         if (
           allShowEvents[i].title.toLowerCase().indexOf(action.payload.filter) >
