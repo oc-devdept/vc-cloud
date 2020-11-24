@@ -9,6 +9,9 @@ import api from "Api";
 //=========================
 const getAllEventsRequestWithFilter = async (start, end, id) => {
   try {
+    console.log(start)
+    console.log(end)
+    console.log(id)
     // const result = await api.get(`/events?filter[where][start][lt]=2019-07-18T02:38:03.197Z`);
     // const stringify = {where: {start: {gt: "2019-07-18T02:38:03.197Z"}}}
     // const result = await api.get(`/events?filter={where: {start: {gt: "2019-07-18T02:38:03.197Z"}}}`)

@@ -18,7 +18,7 @@ const INIT_STATE = {
   showEvents: [],
   eventsLoading: false
 };
-
+let allShowEvents = [];
 export default (state = INIT_STATE, action) => {
   let showEvents = [...state.showEvents];
   //console.log("QQQQQ");
@@ -45,6 +45,7 @@ export default (state = INIT_STATE, action) => {
       //console.log(conversion);
       //Object.keys(events).map((key) => [Number(key), events[key]])
       //console.log(result);
+      allShowEvents = displayEvents;
       return {
         ...state,
         allEvents: displayEvents, //action.payload.events
@@ -62,6 +63,30 @@ export default (state = INIT_STATE, action) => {
     /**
      * Add Event
      */
+    case Types.GET_EVENT_SEARCH:
+      let searchEvents = [];
+      // console.log(action.payload.filter);
+      console.log("GET EVENT SEACH ()$*)#@*!()$*)@#*$")
+      console.log(action.payload)
+      console.log(allShowEvents)
+      for (let i = 0; i < allShowEvents.length; i++) {
+        if (
+          allShowEvents[i].title.toLowerCase().indexOf(action.payload.filter) >
+          -1
+        ) {
+          if (action.payload.state[allShowEvents[i].title] == true)
+            // console.log(action.payload.state[allShowEvents[i].eventableType]);
+            searchEvents.push(allShowEvents[i]);
+          // console.log(allShowEvents[i].title)
+        }
+
+      }
+
+      return {
+        ...state,
+        showEvents: searchEvents
+      };
+
     case Types.ADD_EVENT:
       return {
         ...state,
@@ -71,7 +96,7 @@ export default (state = INIT_STATE, action) => {
       NotificationManager.success("Event Added");
       let event = action.payload;
       showEvents.push(event);
-
+      allShowEvents = showEvents;
       return {
         ...state,
         eventsLoading: false,
@@ -97,7 +122,7 @@ export default (state = INIT_STATE, action) => {
     case Types.DELETE_EVENT_SUCCESS:
       NotificationManager.success("Event has been sucessfully deleted");
       showEvents = showEvents.filter(e => e.id != action.payload);
-
+      allShowEvents = showEvents;
       return {
         ...state,
         showEvents: showEvents,
@@ -128,7 +153,7 @@ export default (state = INIT_STATE, action) => {
           return item;
         }
       });
-
+      allShowEvents = showEvents;
       return {
         ...state,
         eventsLoading: false,
