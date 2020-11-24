@@ -83,8 +83,11 @@ class Calendar extends Component {
 
     renderForm = slotSelected => (
         <React.Fragment>
+            <div className="d-flex justify-content-center pt-10 text-muted">
             <h2>New Event</h2>
+            </div>
             <NewEventForm dayView={slotSelected} addEvent={this.newEvent} />
+        
         </React.Fragment>
     );
 

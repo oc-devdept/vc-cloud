@@ -11,6 +11,7 @@ const AddEventDialog = ({
   addEvent
 }) => {
   return (
+
     <DialogRoot
       show={show}
       handleHide={handleHide}
@@ -24,6 +25,8 @@ const AddEventDialog = ({
         formType={eventableType}
       />
     </DialogRoot>
+ 
+   
   );
 };
 
