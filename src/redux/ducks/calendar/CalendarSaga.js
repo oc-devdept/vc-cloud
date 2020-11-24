@@ -9,9 +9,6 @@ import api from "Api";
 //=========================
 const getAllEventsRequestWithFilter = async (start, end, id) => {
   try {
-    console.log(start)
-    console.log(end)
-    console.log(id)
     // const result = await api.get(`/events?filter[where][start][lt]=2019-07-18T02:38:03.197Z`);
     // const stringify = {where: {start: {gt: "2019-07-18T02:38:03.197Z"}}}
     // const result = await api.get(`/events?filter={where: {start: {gt: "2019-07-18T02:38:03.197Z"}}}`)
@@ -22,7 +19,7 @@ const getAllEventsRequestWithFilter = async (start, end, id) => {
     const result = await api.get(
       `events?filter[where][userId]=${id}&filter[where][end][gt]=${start}&filter[where][end][lt]=${end}&filter[order]=start ASC&`
     );
-    console.log(result.data);
+
     return result.data;
   } catch (err) {
     return err;
@@ -40,7 +37,7 @@ const getAllEventsRequest = async () => {
 };
 const addEventRequest = async (newEvent) => {
   try {
-    console.log(newEvent);
+
     const result = await api.post("/events/customCreate", { data: newEvent });
     return result.data;
   } catch (err) {

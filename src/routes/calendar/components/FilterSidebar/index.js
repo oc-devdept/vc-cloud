@@ -12,11 +12,11 @@ import { getEventsSearch } from "Ducks/calendar";
 
 const FilterSidebar = toolbar => {
   var filterKey = "";
-const dispatch = useDispatch();
-  var ho = useSelector(state => {state.calendarState, console.log(state)});
-  React.useEffect(() => {
-    dispatch(getEventsSearch());
-  }, []);
+// const dispatch = useDispatch();
+//   var ho = useSelector(state => {state.calendarState, console.log(state)});
+//   React.useEffect(() => {
+//     dispatch(getEventsSearch());
+//   }, []);
 
   const [state, setState] = React.useState({
     Lead: true,
@@ -36,14 +36,8 @@ const dispatch = useDispatch();
   };
 
   const checkBoxChanged = data => {
-    // console.log(data);
 
     filterKey = document.getElementById("outlined-name").value;
-    // console.log(filterKey);
-// console.log(toolbar)
-// console.log("CHACK BOX CHNAGED")
-// console.log(filterKey);
-// console.log(state)
     toolbar.getEventsSearch(filterKey, state);
   };
 
