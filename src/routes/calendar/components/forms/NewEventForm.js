@@ -143,7 +143,7 @@ class NewEventForm extends Component {
             className="mb-0 fs-14"
           />
         </div> */}
-        <div className=" pl-15 pr-15">
+        <div className=" pl-25 pr-25">
         <FormInput
           label="Title"
           value={title}
@@ -158,7 +158,7 @@ class NewEventForm extends Component {
           handleChange={this.editField}
           multiline
         />
-        <div className="d-flex justify-content-end pb-5">
+        <div className="d-flex justify-content-end pb-10">
           <Button
             variant="contained"
             className="text-white btn-success"
