@@ -6,7 +6,6 @@ import { getDateTime } from "Helpers/helpers";
 
 function ShowLatestFollowUps({ followUps }) {
   const filteredFollowups = followUps.filter(followup => {
-    console.log(followup);
     moment().isAfter(followup.date)}
   );
   const showInfo =
