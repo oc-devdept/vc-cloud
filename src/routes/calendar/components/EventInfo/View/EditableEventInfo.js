@@ -5,12 +5,13 @@ import FormInput from "Components/Form/FormInput";
 import DateTimePicker from "Components/Form/Pickers/DateTimePicker";
 import DatePicker from "Components/Form/Pickers/DatePicker";
 import { Button, Switch, FormControlLabel } from "@material-ui/core";
-
+import Paper from "@material-ui/core/Paper";
 function EditableEventInfo(props) {
   const { info, onDelete, editField, toggleEdit, submitEdit } = props;
   const { id, start, end, title, desc, allDay } = info;
   return (
     <React.Fragment>
+      <Paper>
       <h3>Edit Event Details</h3>
       <form autoComplete="off">
         <div className="row">
@@ -108,6 +109,7 @@ function EditableEventInfo(props) {
           </div>
         </div>
       </form>
+      </Paper>
     </React.Fragment>
   );
 }

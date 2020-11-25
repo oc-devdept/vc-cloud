@@ -32,7 +32,7 @@ class Calendar extends Component {
             showPop: false,
             component: null,
             x: 0,
-            y: 0
+            y: 0,
         };
         this.renderEventFormPopover = this.renderEventFormPopover.bind(this);
         this.renderEventPopover = this.renderEventPopover.bind(this);
@@ -83,14 +83,17 @@ class Calendar extends Component {
 
     renderForm = slotSelected => (
         <React.Fragment>
+            <div className="d-flex justify-content-center pt-10 text-muted">
             <h2>New Event</h2>
+            </div>
             <NewEventForm dayView={slotSelected} addEvent={this.newEvent} />
+        
         </React.Fragment>
     );
 
     render() {
         const { showEvents } = this.props;
-        const { showPop, x, y } = this.state;
+        const { showPop, x, y, invis } = this.state;
         return (
             <React.Fragment>
                 <Helmet title="Calendar" metaDesc="Everyday Calendar" />
@@ -134,7 +137,7 @@ class Calendar extends Component {
                         elevation={2}>
                         <div
                             className="p-20 w-100"
-                            style={{ minWidth: 450, maxWidth: 500 }}>
+                            style={{ minWidth: 400, maxWidth: 500 }}>
                             {this.state.component}
                         </div>
                     </Popover>

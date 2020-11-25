@@ -6,20 +6,25 @@ import { TextField } from "@material-ui/core";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import { useDispatch, useSelector } from "react-redux";
 // Actions
 import { getEventsSearch } from "Ducks/calendar";
 
 const FilterSidebar = toolbar => {
   var filterKey = "";
+// const dispatch = useDispatch();
+//   var ho = useSelector(state => {state.calendarState, console.log(state)});
+//   React.useEffect(() => {
+//     dispatch(getEventsSearch());
+//   }, []);
 
   const [state, setState] = React.useState({
     Lead: true,
     Deal: true,
-    Account: true,
-    Invoice: true,
+//     Account: true,
+//     Invoice: true,
     Maintenance: true,
-    testDrive: true,
+    "Test Drive": true,
   });
 
   const handleChange = name => event => {
@@ -27,13 +32,12 @@ const FilterSidebar = toolbar => {
     state[name] = event.target.checked;
     setState({ ...state, [name]: event.target.checked });
     checkBoxChanged(state);
-    // console.log(state);
+    console.log(state);
   };
 
   const checkBoxChanged = data => {
-    // console.log(data);
+
     filterKey = document.getElementById("outlined-name").value;
-    // console.log(filterKey);
     toolbar.getEventsSearch(filterKey, state);
   };
 
@@ -74,26 +78,7 @@ const FilterSidebar = toolbar => {
             }
             label="Deal"
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.Account}
-                onChange={handleChange("Account")}
-                value="Account"
-              />
-            }
-            label="Account"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.Invoice}
-                onChange={handleChange("Invoice")}
-                value="Invoice"
-              />
-            }
-            label="Invoice"
-          />
+
           <FormControlLabel
             control={
               <Checkbox
@@ -107,9 +92,9 @@ const FilterSidebar = toolbar => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={state.testDrive}
-                onChange={handleChange("testDrive")}
-                value="testDrive"
+                checked={state["Test Drive"]}
+                onChange={handleChange("Test Drive")}
+                value="Test Drive"
               />
             }
             label="Test Drive"

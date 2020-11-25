@@ -19,7 +19,7 @@ const getAllEventsRequestWithFilter = async (start, end, id) => {
     const result = await api.get(
       `events?filter[where][userId]=${id}&filter[where][end][gt]=${start}&filter[where][end][lt]=${end}&filter[order]=start ASC&`
     );
-    console.log(result.data);
+
     return result.data;
   } catch (err) {
     return err;
@@ -37,9 +37,9 @@ const getAllEventsRequest = async () => {
 };
 const addEventRequest = async (newEvent) => {
   try {
-    console.log(newEvent);
+
     const result = await api.post("/events/customCreate", { data: newEvent });
-    return result.data;
+    return result.data.data;
   } catch (err) {
     return err;
   }

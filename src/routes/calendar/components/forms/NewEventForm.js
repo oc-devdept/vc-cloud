@@ -73,8 +73,8 @@ class NewEventForm extends Component {
     const { eventableType, eventableId, formType } = this.props;
     return (
       <form autoComplete="off">
-        <div className="row">
-          <div className="col-6">
+        <div className="row pt-10 d-flex justify-content-center">
+          <div className="col-6 ">
             {allDay ? (
               <DatePicker
                 label="Start"
@@ -109,9 +109,7 @@ class NewEventForm extends Component {
                 required={!end}
               />
             )}
-          </div>
-        </div>
-        <div className="text-left text-muted">
+              <div className="col-md-10  text-muted">
           <FormControlLabel
             control={
               <Switch
@@ -127,6 +125,25 @@ class NewEventForm extends Component {
             className="mb-0 fs-14"
           />
         </div>
+          </div>
+        </div>
+        {/* <div className="col-md-4 text-left text-muted">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={allDay}
+                onChange={() => this.editField("allDay", !allDay)}
+                value="allDay"
+                className="ml-10"
+                disableRipple
+              />
+            }
+            label="All day event"
+            labelPlacement="start"
+            className="mb-0 fs-14"
+          />
+        </div> */}
+        <div className=" pl-25 pr-25">
         <FormInput
           label="Title"
           value={title}
@@ -141,7 +158,7 @@ class NewEventForm extends Component {
           handleChange={this.editField}
           multiline
         />
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end pb-10">
           <Button
             variant="contained"
             className="text-white btn-success"
@@ -151,6 +168,7 @@ class NewEventForm extends Component {
           >
             Add
           </Button>
+        </div>
         </div>
       </form>
     );
