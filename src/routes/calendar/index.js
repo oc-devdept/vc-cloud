@@ -32,7 +32,9 @@ class Calendar extends Component {
             showPop: false,
             component: null,
             x: 0,
-            y: 0
+            y: 0,
+            invis:  0,
+            show: 1,
         };
         this.renderEventFormPopover = this.renderEventFormPopover.bind(this);
         this.renderEventPopover = this.renderEventPopover.bind(this);
@@ -93,7 +95,7 @@ class Calendar extends Component {
 
     render() {
         const { showEvents } = this.props;
-        const { showPop, x, y } = this.state;
+        const { showPop, x, y, invis } = this.state;
         return (
             <React.Fragment>
                 <Helmet title="Calendar" metaDesc="Everyday Calendar" />
