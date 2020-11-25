@@ -458,6 +458,36 @@ class index extends PureComponent {
                     additionalText="Files can't be edited once uploaded."
                   />
                 </div>
+
+                {/* THUMBNAIL HERE ================= */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%"
+                  }}
+                >
+                  <StaticName title={"CURRENT THUMBNAIL"} />
+                  {this.state.Item.image.length > 0 && (
+                    <Image imageSource={this.state.Item.image} single={true} />
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%"
+                  }}
+                >
+                  <StaticName title={"UPLOAD NEW THUMBNAIL "} />
+                  <Dropzone
+                    onDrop={this.handleUpload}
+                    onRemove={this.removeFile}
+                    uploadedFiles={this.state.files}
+                    additionalText="Files can't be edited once uploaded."
+                  />
+                </div>
               </div>
 
               <div
@@ -623,14 +653,16 @@ class index extends PureComponent {
 
             <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
               <div
+
                 style={{
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: "row",
                   flex: 1,
                   marginRight: 30
                 }}
               >
                 {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>IMAGE UPLOAD</span> */}
+               <div className="col align-items-center">
                 <StaticName title={"IMAGE UPLOAD"} />
                 <Dropzone
                   onDrop={this.handleUpload}
@@ -638,7 +670,18 @@ class index extends PureComponent {
                   uploadedFiles={this.state.files}
                   additionalText="Files can't be edited once uploaded."
                 />
+                </div>
+                <div className="col align-items-center">
+                <StaticName title={"THUMBNAIL UPLOAD"} />
+                <Dropzone
+                  onDrop={this.handleUpload}
+                  onRemove={this.removeFile}
+                  uploadedFiles={this.state.files}
+                  additionalText="Files can't be edited once uploaded."
+                />
+                   </div>
               </div>
+          
 
               <div
                 style={{ display: "none", flexDirection: "column", flex: 1 }}
