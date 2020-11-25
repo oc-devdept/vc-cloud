@@ -43,12 +43,12 @@ class EventInfoDialog extends Component {
   render() {
     return (
       <React.Fragment>
- 
+    
           {this.state.edit ? (
         <div    style={{    position: "fixed",top: "50%",left: "50%",
-        transform: "translate(-50%, -50%)"}}>
+        transform: "translate(-50%, -50%)",height: "fit-content" }}>
             <EditableEventInfo
-            style={{height: "fit-content"}}
+            // style={{height: "fit-content"}}
               info={this.state.info}
               editField={this.editField}
               onDelete={this.onDelete}

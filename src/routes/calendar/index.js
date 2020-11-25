@@ -33,8 +33,6 @@ class Calendar extends Component {
             component: null,
             x: 0,
             y: 0,
-            invis:  0,
-            show: 1,
         };
         this.renderEventFormPopover = this.renderEventFormPopover.bind(this);
         this.renderEventPopover = this.renderEventPopover.bind(this);
@@ -139,7 +137,7 @@ class Calendar extends Component {
                         elevation={2}>
                         <div
                             className="p-20 w-100"
-                            style={{ minWidth: 450, maxWidth: 500 }}>
+                            style={{ minWidth: 400, maxWidth: 500 }}>
                             {this.state.component}
                         </div>
                     </Popover>
