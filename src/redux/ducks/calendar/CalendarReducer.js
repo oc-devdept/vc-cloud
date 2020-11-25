@@ -25,6 +25,7 @@ export default (state = INIT_STATE, action) => {
   //console.log(action.type);
 
   switch (action.type) {
+
     /**
      * Get All Events
      */
@@ -64,19 +65,25 @@ export default (state = INIT_STATE, action) => {
      * Add Event
      */
     case Types.GET_EVENT_SEARCH:
+
       let searchEvents = [];
       
       for (let i = 0; i < allShowEvents.length; i++) {
         if (
-          allShowEvents[i].title.toLowerCase().indexOf(action.payload.filter) >
+          allShowEvents[i].title.toLowerCase().indexOf(action.payload.filter.toLowerCase()) >
           -1
         ) {
-          if (action.payload.state[allShowEvents[i].title] == true)
+          if (action.payload.state[allShowEvents[i].title] == true){
             // console.log(action.payload.state[allShowEvents[i].eventableType]);
             searchEvents.push(allShowEvents[i]);
+          }
+          if (!action.payload.state.hasOwnProperty(allShowEvents[i].title) ){
+            // console.log(action.payload.state[allShowEvents[i].eventableType]);
+
+            searchEvents.push(allShowEvents[i]);
+          }
           // console.log(allShowEvents[i].title)
         }
-
       }
 
       return {

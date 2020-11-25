@@ -39,7 +39,7 @@ const addEventRequest = async (newEvent) => {
   try {
 
     const result = await api.post("/events/customCreate", { data: newEvent });
-    return result.data;
+    return result.data.data;
   } catch (err) {
     return err;
   }

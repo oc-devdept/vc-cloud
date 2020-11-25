@@ -100,7 +100,6 @@ const FilterSidebar = toolbar => {
             label="Test Drive"
           />
         </FormGroup>
-
       </fieldset>
     </div>
   );
