@@ -97,27 +97,31 @@ class index extends PureComponent {
       Title: Title,
       Button: Button,
       Item: Item,
-      files: []
+      files: [],
+      images: []
     };
   }
 
   _SaveProductOption = async () => {
-    const result = validateForm(this.state.Item, this.state.files);
+    const result = validateForm(this.state.Item, this.state.files, this.state.images);
     if (result) {
       const ProductOption = this.state.Item;
       const productOptionCategoryId = this.state.Category.id;
 
       var data = new FormData();
       const files = this.state.files;
+      const thumbnails = this.state.images;
 
       files.map(file => data.append(`upload`, file));
+      thumbnails.map(image => data.append(`uploadThumbnail`, image));
       data.append("name", ProductOption.name);
       data.append("description", ProductOption.description);
       data.append("editable", ProductOption.editable);
       data.append("isDefault", ProductOption.isDefault);
       data.append("price", ProductOption.price);
       data.append("productOptionCategoryId", productOptionCategoryId);
-
+      console.log("HERE")
+      console.log(data);
       await api.post("/productoptions/new", data);
 
       await this.props._CreateProductCategoryDone();
@@ -139,8 +143,10 @@ class index extends PureComponent {
       const ProductOption = this.state.Item;
       var data = new FormData();
       const files = this.state.files;
+      const thumbnails = this.state.images;
 
       files.map(file => data.append(`upload`, file));
+      thumbnails.map(image => data.append(`uploadThumbnail`, image));
       data.append("name", ProductOption.name);
       data.append("editable", ProductOption.editable);
       data.append("description", ProductOption.description);
@@ -191,6 +197,14 @@ class index extends PureComponent {
       return { files };
     });
   };
+  removeThumbFile = file => {
+    this.setState(state => {
+      const index = state.images.indexOf(file);
+      const images = state.images.slice(0);
+      images.splice(index, 1);
+      return { images };
+    });
+  };
 
   handleUpload = file => {
     this.setState({
@@ -198,6 +212,11 @@ class index extends PureComponent {
     });
   };
 
+  handleThumbUpload = file => {
+    this.setState({
+      images: file
+    });
+  };
   _HandleProduct = (e, element) => {
     let Item = { ...this.state.Item };
     Item[element] = e;
@@ -482,14 +501,13 @@ class index extends PureComponent {
                 >
                   <StaticName title={"UPLOAD NEW THUMBNAIL "} />
                   <Dropzone
-                    onDrop={this.handleUpload}
-                    onRemove={this.removeFile}
-                    uploadedFiles={this.state.files}
+                    onDrop={this.handleThumbUpload}
+                    onRemove={this.removeThumbFile}
+                    uploadedFiles={this.state.images}
                     additionalText="Files can't be edited once uploaded."
                   />
                 </div>
               </div>
-
               <div
                 style={{
                   display: "none",
@@ -674,9 +692,9 @@ class index extends PureComponent {
                 <div className="col align-items-center">
                 <StaticName title={"THUMBNAIL UPLOAD"} />
                 <Dropzone
-                  onDrop={this.handleUpload}
-                  onRemove={this.removeFile}
-                  uploadedFiles={this.state.files}
+                  onDrop={this.handleThumbUpload}
+                  onRemove={this.removeThumbFile}
+                  uploadedFiles={this.state.images}
                   additionalText="Files can't be edited once uploaded."
                 />
                    </div>
@@ -789,6 +807,7 @@ class index extends PureComponent {
                 </div>
               </div>
             </div>
+            {console.log(this.state)}
           </div>
         );
         break;

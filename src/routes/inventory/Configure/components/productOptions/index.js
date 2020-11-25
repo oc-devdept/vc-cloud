@@ -182,6 +182,7 @@ class index extends Component {
             ToggleDialog={this.ToggleDialog}
           />
           {this._RenderDialog()}
+          {console.log(this.state)}
         </div>
       </div>
     );
