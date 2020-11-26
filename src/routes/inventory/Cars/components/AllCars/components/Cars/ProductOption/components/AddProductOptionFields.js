@@ -72,19 +72,13 @@ export default class Index extends PureComponent {
           style={{ justifyContent: "flex-start", flexDirection: "row" }}
         >
           <div
-            style={{ display: "flex",  flexDirection: "row", width: "80%" }}
+            style={{ display: "flex", flexDirection: "column", width: "30%" }}
           >
-           
             <StaticName title="CURRENT IMAGE" />
             {e.files.length > 0 && (
               <Image imageSource={e.files} single={true} />
             )}
-              <StaticName title="CURRENT THUMBNAIL" />
-            {e.images.length > 0 && (
-              <Image imageSource={e.images} single={true} />
-            )}
-           </div>
-        
+          </div>
 
           <Text
             divStyle={{ width: "30%" }}
@@ -117,7 +111,6 @@ export default class Index extends PureComponent {
               />
             </div>
           </div>
-         
           {/* <Text
                         divStyle={{width: '30%'}}
                         title="IsDefault"

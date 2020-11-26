@@ -34,7 +34,7 @@ export default class Index extends PureComponent {
         label: "Image",
         name: "files",
         options: {
-          customBodyRender:  (rowData, rowState) => {
+          customBodyRender:  (rowData, rowState)  => {
             if (rowState.rowData[7].length > 0) {
               return (
                 <Image imageSource={rowState.rowData[7]} single={true} thumbNail={true} />
@@ -84,7 +84,6 @@ export default class Index extends PureComponent {
           empty: true,
           customBodyRender: (rowData, rowState) => {
             // [rowState.rowData[0], rowState.rowData[2]]
-
             const data = {
               id: rowState.rowData[0],
               name: rowState.rowData[1],
