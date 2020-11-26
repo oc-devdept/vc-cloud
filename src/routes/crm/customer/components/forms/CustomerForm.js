@@ -3,6 +3,10 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import RctSectionLoader from "Components/RctSectionLoader";
 
+// Material UI imports
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from "@material-ui/core/Checkbox";
+
 // Form Layout
 import FormWrapper from "Components/Form/Layout/FormWrapper";
 import CustomerFormLayout from "../Layout/CustomerFormLayout";
@@ -27,6 +31,7 @@ const initialState = {
     baseContact: {
       firstName: "",
       lastName: "",
+      subscribed: true,
       email: "",
       mobile: "",
       fax: "",
@@ -138,6 +143,10 @@ class CustomerForm extends Component {
     const { loading, fields } = this.props.customerForm;
     const { edit, title } = this.props;
 
+    // For testing
+    console.log("test")
+    console.log(customer)
+
     const formFields = {
       firstName: (
         <FormInput
@@ -154,6 +163,20 @@ class CustomerForm extends Component {
           required={!customer.baseContact.lastName}
           target="lastName"
           handleChange={this.handleContact}
+        />
+      ),
+      subscribed: (
+        // label="Subscription"
+        <FormControlLabel label="Subscription"
+          control={
+            <Checkbox
+              // checked={true}
+              value={customer.baseContact.subscribed}
+              target="subscribed"
+              handleChange={this.handleContact}
+            />
+          }
+          
         />
       ),
       owner: !edit && (

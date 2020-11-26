@@ -12,7 +12,8 @@ export default class Index extends Component {
       productOptionStage: 0,
 
       addItem: false,
-      addItemInformation: null
+      addItemInformation: null,
+      isDefault: false
     };
     this._isMounted = false;
   }
@@ -111,6 +112,7 @@ export default class Index extends Component {
             }}
           >
             {BelongsTo.map((e, index) => {
+              // console.log(e.isDefault)
               return (
                 <div key={index} style={{}}>
                   <ProductDetailsFields
@@ -185,6 +187,7 @@ export default class Index extends Component {
 
   _HandleSaveProductOption = async (e, isDefault) => {
     await this.props._HandleSaveProductOption(e, isDefault);
+    console.log(isDefault)
     this.setState({ addItem: false, addItemInformation: null });
   };
 
