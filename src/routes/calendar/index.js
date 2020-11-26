@@ -91,7 +91,6 @@ class Calendar extends Component {
         </React.Fragment>
     );
     eventStyleGetter = (event, start, end, isSelected) =>{
-        console.log(event);
         var backgroundColor = '#' ;
         switch(event.title) {
             case "Test Drive":

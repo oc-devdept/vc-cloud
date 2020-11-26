@@ -46,7 +46,11 @@ class EventInfoDialog extends Component {
     
           {this.state.edit ? (
         <div    style={{    position: "fixed",top: "50%",left: "50%",
-        transform: "translate(-50%, -50%)",height: "fit-content" }}>
+        transform: "translate(-40%, -30%)",height: "fit-content",
+        "min-inline-size": "auto"
+
+         }}>
+  
             <EditableEventInfo
             // style={{height: "fit-content"}}
               info={this.state.info}
