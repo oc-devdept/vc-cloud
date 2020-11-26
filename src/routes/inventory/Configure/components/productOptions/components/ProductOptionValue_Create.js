@@ -49,6 +49,7 @@ class index extends PureComponent {
       editable: false,
       isDefault: false,
       image: [],
+      thumbnail: [],
       price: 0
     };
 
@@ -72,7 +73,8 @@ class index extends PureComponent {
           description: this.props.Data.description,
           image: this.props.Data.image,
           isDefault: this.props.Data.isDefault,
-          price: this.props.Data.price
+          price: this.props.Data.price,
+          thumbnail: this.props.Data.thumbnail
         };
         break;
       case "Delete":
@@ -487,8 +489,8 @@ class index extends PureComponent {
                   }}
                 >
                   <StaticName title={"CURRENT THUMBNAIL"} />
-                  {this.state.Item.image.length > 0 && (
-                    <Image imageSource={this.state.Item.image} single={true} />
+                  {this.state.Item.thumbnail.length > 0 && (
+                    <Image imageSource={this.state.Item.thumbnail} single={true} />
                   )}
                 </div>
 
