@@ -69,3 +69,9 @@ export const cms_config_page = Loadable({
     loader: () => import("./configoptions"),
     loading: () => <RctPageLoader />
 });
+
+// Footer
+export const cms_footer_list = Loadable({
+    loader: () => import("./footer"),
+    loading: () => <RctPageLoader />
+});

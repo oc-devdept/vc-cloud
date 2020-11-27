@@ -79,6 +79,13 @@ function cmsSwitcher() {
                     component={async.cms_config_page}
                 />  
 
+                {/* -----Route for Footer page----- */}
+                <Route
+                    exact
+                    path={`${url.footerPage}`}
+                    component={async.cms_footer_list}
+                />  
+
                 {/* ------- /404 ------- */}
                 <Redirect to="/404" />
             </Switch>
