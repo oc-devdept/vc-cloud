@@ -36,11 +36,11 @@ function UserEmailTable(props) {
       customBodyRender: value => (
         value ? ( 
           <React.Fragment>
-          <CheckIcon/>
+          <CheckIcon style={{color : "#388557"}} />
          </React.Fragment >
          ) : (
           <React.Fragment>
-          <ClearIcon/>
+          <ClearIcon style={{color : "#C62C2A"}}/>
          </React.Fragment >
          )
         
@@ -53,11 +53,11 @@ function UserEmailTable(props) {
       customBodyRender: value => (
         value ? ( 
           <React.Fragment>
-          <CheckIcon/>
+          <CheckIcon style={{color : "#388557"}}/>
          </React.Fragment >
          ) : (
           <React.Fragment>
-          <ClearIcon/>
+          <ClearIcon  style={{color : "#C62C2A"}}/>
          </React.Fragment >
          )
       ),
@@ -67,11 +67,11 @@ function UserEmailTable(props) {
       customBodyRender: value => (
         value ? ( 
           <React.Fragment>
-          <CheckIcon/>
+          <CheckIcon style={{color : "#388557"}}/>
          </React.Fragment >
          ) : (
           <React.Fragment>
-          <ClearIcon/>
+          <ClearIcon       style={{color : "#C62C2A"}}/>
          </React.Fragment >
          )
       ),
