@@ -161,7 +161,7 @@ class Grade extends PureComponent {
                 </div> */}
           </div>
 
-          <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
+          {/* <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
             <Input
               divStyle={{ width: "30%" }}
               title="Mileage (Km)"
@@ -171,7 +171,7 @@ class Grade extends PureComponent {
               _HandleProduct={_HandleProduct}
               type="number"
             />
-          </div>
+          </div> */}
           <div className="d-flex justify-content-between" style={{ flexDirection: "row", marginBottom: 10 }}>
             <div className="d-flex" style={{ flexDirection: "column" }}>
               <div style={{ marginBottom: 10 }}>
