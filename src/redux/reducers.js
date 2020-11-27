@@ -60,7 +60,8 @@ import {
   UserManagementReducer,
   RolesReducer,
   WebsiteSettingsReducer,
-  CommissionReducer
+  CommissionReducer,
+  EmailSettingsReducer,
 } from "Ducks/setting";
 
 // system
@@ -128,7 +129,8 @@ const reducers = combineReducers({
   modal,
   webSettingsState: WebsiteSettingsReducer,
   commissionState: CommissionReducer,
-  rentalState: RentalReducer
+  rentalState: RentalReducer,
+  EmailSettingsState:  EmailSettingsReducer
 });
 
 export default reducers;
