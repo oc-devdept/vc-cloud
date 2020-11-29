@@ -33,6 +33,7 @@ class Calendar extends Component {
             component: null,
             x: 0,
             y: 0,
+            adjustY: 0
         };
         this.renderEventFormPopover = this.renderEventFormPopover.bind(this);
         this.renderEventPopover = this.renderEventPopover.bind(this);
@@ -40,6 +41,7 @@ class Calendar extends Component {
         this.newEvent = this.newEvent.bind(this);
         this.closePopover = this.closePopover.bind(this);
         this.filterChange = this.filterChange.bind(this);
+        this.showEditForm = this.showEditForm.bind(this);
     }
 
     componentDidMount() {
@@ -58,7 +60,17 @@ class Calendar extends Component {
 
     // Axis for popover
     onMouseDownCapture(e) {
-        this.setState({ x: e.pageX, y: e.pageY });
+        let pageX = e.pageX - 20;
+        let pageY = e.pageY - 20;
+
+        //check current viewport size
+        let h = window.innerHeight;
+        let adjustY = 0;
+        if(h - pageY < 400){
+            adjustY = h-pageY - 450;            
+        }
+        
+        this.setState({ x: pageX, y: pageY, adjustY: adjustY });
     }
 
     closePopover() {
@@ -73,12 +85,21 @@ class Calendar extends Component {
         });
     }
 
+
+    showEditForm(eventInfo){
+
+        this.setState({showPop: false}, ()=> {
+            this.setState({ y: this.state.y + this.state.adjustY, showPop: true, component: (<EventInfo eventInfo={eventInfo} handleClose={this.closePopover} showEditForm={this.showEditForm} edit={true} />) });
+        });       
+               
+    }
+
     renderEventPopover(slotSelected) {
         this.setState({ showPop: true, component: this.renderEvent(slotSelected) });
     }
 
     renderEvent = slotSelected => (
-        <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} />
+        <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} adjustPosition={this.adjustPopoverPostion} edit={false} showEditForm={this.showEditForm} />
     );
 
     renderForm = slotSelected => (
@@ -103,7 +124,7 @@ class Calendar extends Component {
                     onMouseDownCapture={this.onMouseDownCapture}><BigCalendar
                         popup
                         style={{ position: "relative" }}
-                        selectable
+                        selectable                        
                         events={showEvents}
                         views={["month", "week", "day"]}
                         onSelectEvent={slotSelected =>
@@ -136,8 +157,8 @@ class Calendar extends Component {
                         }}
                         elevation={2}>
                         <div
-                            className="p-20 w-100"
-                            style={{ minWidth: 400, maxWidth: 500 }}>
+                            className="w-100"
+                            style={{ minWidth: 400, maxWidth: 500, padding:20 }}>
                             {this.state.component}
                         </div>
                     </Popover>
