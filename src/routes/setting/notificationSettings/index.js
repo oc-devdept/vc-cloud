@@ -58,8 +58,8 @@ deleteSettings = (value) => {
     // const { tableData } = this.props.EmailSettingsState;
     return (
       <React.Fragment>
-        {/* {EmailSettingsState.loading && <RctSectionLoader />} */}
-        <h1>HERE IN NOTIFIC SETTINGS</h1>
+        {EmailSettingsState.loading && <RctSectionLoader />}
+
         <BgCard fullblock>
           {/* <InterestRate
             interestRate={webSettingsState.interestRate}
