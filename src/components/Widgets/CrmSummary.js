@@ -11,12 +11,14 @@ class CrmSummary extends Component {
   }
   render() {
     const month = moment().format('MMMM');
+    const startOfweek = moment().startOf('week').format('L');
+    const endOfweek  = moment().endOf('week').format('L');
     const { loading, data } = this.props.crmSummary;
     return (
       <div className="row">
         <div className="col">
           <DataBlock
-            label={"lead in total"}
+            label={"Leads this Week " + "(" + startOfweek + " - " + endOfweek + ")"}
             amount={data && data.totalLeads}
             loading={loading}
           />
