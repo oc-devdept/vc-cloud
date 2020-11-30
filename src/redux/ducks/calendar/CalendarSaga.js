@@ -20,7 +20,7 @@ const getAllEventsRequestWithFilter = async (start, end, id) => {
       `events?filter[where][userId]=${id}&filter[where][end][gt]=${start}&filter[where][end][lt]=${end}&filter[order]=start ASC&`
     );
 
-    return result.data;
+    return result.data.data;
   } catch (err) {
     return err;
   }
