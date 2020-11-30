@@ -11,8 +11,8 @@ class CrmSummary extends Component {
   }
   render() {
     const month = moment().format('MMMM');
-    const startOfweek = moment().startOf('week').format('L');
-    const endOfweek  = moment().endOf('week').format('L');
+    const startOfweek = moment().startOf('week').format('D/M ');
+    const endOfweek  = moment().endOf('week').format('D/M');
     const { loading, data } = this.props.crmSummary;
     return (
       <div className="row">
