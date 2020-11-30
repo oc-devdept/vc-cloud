@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { IconButton } from "@material-ui/core";
 import { Icon } from '@iconify/react';
 import editFilled from '@iconify/icons-ant-design/edit-filled';
+
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import baselineDeleteForever from '@iconify/icons-ic/baseline-delete-forever';
@@ -83,12 +84,24 @@ function UserEmailTable(props) {
       options: {
         customBodyRender: (value, rowData) => (
           <React.Fragment>
+            {/* {console.log(rowData)} */}
             <IconButton size="small"
               onClick={() => props.changeEmailSettings(rowData.rowData)}
             >
               <Icon
                 className="baselineDeleteForever"
                 icon={editFilled}
+                color="#595959"
+                width="1.5rem"
+                height="1.5rem"
+              />
+            </IconButton>
+            <IconButton size="small"
+              onClick={() => props.deleteSettings(rowData.rowData)}
+            >
+              <Icon
+                className="baselineDeleteForever"
+                icon={baselineDeleteForever}
                 color="#595959"
                 width="1.5rem"
                 height="1.5rem"

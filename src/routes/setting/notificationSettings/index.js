@@ -10,15 +10,16 @@ import { Icon } from '@iconify/react';
 
 // Actions
 import addFilled from '@iconify/icons-carbon/add-filled';
-
+import AlertDelete from "Components/SystemDialogs/AlertDelete";
 
 import UserEmailForm from "./components/UserEmailForm";
 import UserEmailTable from "./components/UserEmailTable";
-import { getEmailSettings } from "Ducks/setting/EmailSettings";
+import { getEmailSettings, deleteEmailSettings  } from "Ducks/setting/EmailSettings";
 
 class NotificationSettings extends Component {
   constructor(props) {
     super(props);
+    this.deleteSettings = this.deleteSettings.bind(this);
   }
 
   componentDidMount() {
@@ -39,6 +40,17 @@ class NotificationSettings extends Component {
     })
 
 };
+deleteSettings = (value) => {
+
+  var email = value[0];
+  var id = value[4];
+  this.props.show("alert_delete", {
+    name: email,
+    action: () => this.props.deleteEmailSettings(id)
+  });
+ 
+
+}
   render() {
     const tableData = [];
     // console.log("props= ", this.props);
@@ -65,10 +77,10 @@ class NotificationSettings extends Component {
                 height="2rem"
               />
             </IconButton>
-            < UserEmailTable tableData={EmailSettingsState.tableData} changeEmailSettings={this.changeEmailSettings} />
+            < UserEmailTable tableData={EmailSettingsState.tableData} changeEmailSettings={this.changeEmailSettings} deleteSettings={this.deleteSettings}/>
           <UserEmailForm changeEmailSettings={this.changeEmailSettings} />
         </BgCard>
-        {console.log(EmailSettingsState)}
+        {/* {console.log(EmailSettingsState)} */}
       </React.Fragment>
     );
   }
@@ -81,5 +93,6 @@ const mapStateToProps = ({ EmailSettingsState }) => {
 export default connect(mapStateToProps, {
 
   show,
-  getEmailSettings
+  getEmailSettings,
+  deleteEmailSettings
 })(NotificationSettings);

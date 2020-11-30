@@ -2,7 +2,8 @@ import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
   GET_EMAIL_SETTINGS,
   SET_EMAIL_SETTINGS,
-  UPDATE_EMAIL_SETTINGS
+  UPDATE_EMAIL_SETTINGS,
+  DELETE_EMAIL_SETTINGS
 
 } from "./EmailSettingsTypes";
 import {
@@ -11,7 +12,9 @@ import {
   setEmailSettingsSuccess,
   setEmailSettingsFailure,
   updateEmailSettingsSuccess,
-  updateEmailSettingsFailure 
+  updateEmailSettingsFailure,
+  deleteEmailSettingsSuccess,
+  deleteEmailSettingsFailure
 } from "./EmailSettingsActions";
 import api from "Api";
 
@@ -53,7 +56,15 @@ const updateEmailSettingsRequest = async payload => {
   return result.data.data;
 };
 
+const deleteEmailSettingsRequest = async payload => {
 
+  const id =  payload;
+  
+  const result = await api.post("/EmailSettings/deleteEmail", {id});
+
+
+  return result.data.data;
+};
 //=========================
 // CALL(GENERATOR) ACTIONS
 //=========================
@@ -82,6 +93,15 @@ function* updateEmailSettingsToDB({ payload }) {
     yield put(updateEmailSettingsFailure(err));
   }
 }
+function* deleteEmailSettingsToDB({ payload }) {
+  try {
+
+    const data = yield call(deleteEmailSettingsRequest, payload);
+    yield put(deleteEmailSettingsSuccess(data));
+  } catch (err) {
+    yield put(deleteEmailSettingsFailure(err));
+  }
+}
 
 // function* addInterestRateToDB({ payload }) {
 //   try {
@@ -104,6 +124,9 @@ export function* setEmailSettingsWatcher() {
 export function* updateEmailSettingsWatcher() {
   yield takeEvery(UPDATE_EMAIL_SETTINGS, updateEmailSettingsToDB);
 }
+export function* deleteEmailSettingsWatcher() {
+  yield takeEvery(DELETE_EMAIL_SETTINGS, deleteEmailSettingsToDB);
+}
 // export function* addInterestRateWatcher() {
 //   yield takeEvery(ADD_INTEREST_RATE, addInterestRateToDB);
 // }
@@ -116,5 +139,6 @@ export default function* rootSaga() {
     fork(getEmailSettingsWatcher),
     fork(setEmailSettingsWatcher),
     fork(updateEmailSettingsWatcher),
+    fork(deleteEmailSettingsWatcher),
   ]);
 }

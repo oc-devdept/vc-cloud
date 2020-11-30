@@ -12,6 +12,9 @@ import {
   UPDATE_EMAIL_SETTINGS,
   UPDATE_EMAIL_SETTINGS_SUCCESS,
   UPDATE_EMAIL_SETTINGS_FAILURE,
+  DELETE_EMAIL_SETTINGS,
+  DELETE_EMAIL_SETTINGS_SUCCESS,
+  DELETE_EMAIL_SETTINGS_FAILURE,
 
 } from "./EmailSettingsTypes";
 
@@ -47,6 +50,29 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loading: false
       };
+        /**
+     * SET EMAIL
+     */
+    case SET_EMAIL_SETTINGS:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case  SET_EMAIL_SETTINGS_SUCCESS:
+      // console.log("success ah");
+      NotificationManager.success("Email Settings Updated!");
+      return {
+        loading: false,
+        tableData: [...state.tableData, action.payload]
+      };
+
+    case SET_EMAIL_SETTINGS_FAILURE:
+      NotificationManager.error("Error Retreiving Email Settings !");
+      return {
+        ...state,
+        loading: false
+      };
 
     /**
      * UPDATE Interest Rate
@@ -70,7 +96,25 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loading: false
       };
-
+      case DELETE_EMAIL_SETTINGS:
+        return {
+          ...state,
+          loading: true
+        };
+      case DELETE_EMAIL_SETTINGS_SUCCESS:
+        NotificationManager.success("Email Settings Deleted!");
+        return {
+          ...state,
+          loading: false,
+          // tableData: [...state.tableData,action.payload]
+          tableData: action.payload 
+        }
+      case DELETE_EMAIL_SETTINGS_FAILURE:
+        NotificationManager.error("An error occurred deleting Email Settings");
+        return {
+          ...state,
+          loading: false
+        };
 
     // /**
     //  * ADD Interest Rate

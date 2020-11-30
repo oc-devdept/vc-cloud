@@ -10,7 +10,11 @@ import {
   SET_EMAIL_SETTINGS_FAILURE,
   UPDATE_EMAIL_SETTINGS,
   UPDATE_EMAIL_SETTINGS_SUCCESS,
-  UPDATE_EMAIL_SETTINGS_FAILURE
+  UPDATE_EMAIL_SETTINGS_FAILURE,
+  DELETE_EMAIL_SETTINGS,
+  DELETE_EMAIL_SETTINGS_SUCCESS,
+  DELETE_EMAIL_SETTINGS_FAILURE
+
 } from "./EmailSettingsTypes";
 
 /**
@@ -61,4 +65,21 @@ export const updateEmailSettingsFailure = err => ({
   payload: err
 });
 
+//
+/**
+ * DELETE EMAIL SETTINGS
+ */
+export const deleteEmailSettings = data => ({
+  
+  type:  DELETE_EMAIL_SETTINGS,
+  payload: data
+});
+export const deleteEmailSettingsSuccess = data => ({
+  type:  DELETE_EMAIL_SETTINGS_SUCCESS,
+  payload: data
+});
+export const deleteEmailSettingsFailure = err => ({
+  type:   DELETE_EMAIL_SETTINGS_FAILURE,
+  payload: err
+});
 
