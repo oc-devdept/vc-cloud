@@ -18,7 +18,7 @@ class CrmSummary extends Component {
       <div className="row">
         <div className="col">
           <DataBlock
-            label={"Leads this Week " + "(" + startOfweek + " - " + endOfweek + ")"}
+            label={"New Leads this Week " + "(" + startOfweek + " - " + endOfweek + ")"}
             amount={data && data.totalLeads}
             loading={loading}
           />
