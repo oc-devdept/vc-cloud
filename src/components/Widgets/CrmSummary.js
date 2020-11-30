@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import DataBlock from "./DataBlock";
 // actions
 import { getCrmSummary } from "Ducks/widget";
+import moment from "moment";
 
 class CrmSummary extends Component {
   componentDidMount() {
     this.props.getCrmSummary();
   }
   render() {
+    const month = moment().format('MMMM');
     const { loading, data } = this.props.crmSummary;
     return (
       <div className="row">
@@ -36,7 +38,7 @@ class CrmSummary extends Component {
         <div className="col">
           <DataBlock
             loading={loading}
-            label={"sales this month"}
+            label={'sales this month ' + "(" + month + ")" }
             amount={data && data.dealsWonAmount}
           />
         </div>
