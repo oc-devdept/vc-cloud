@@ -111,7 +111,31 @@ class Calendar extends Component {
         
         </React.Fragment>
     );
-
+    eventStyleGetter = (event, start, end, isSelected) =>{
+        var backgroundColor = '#' ;
+        switch(event.title) {
+            case "Test Drive":
+              backgroundColor += "D9F4C8"
+              break;
+            case "Maintenance":
+                backgroundColor += "F4CAC2"
+              break;
+            default:
+              // code block
+          }
+       
+        var style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '0px',
+            opacity: 0.7,
+            color: 'black',
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    }
     render() {
         const { showEvents } = this.props;
         const { showPop, x, y, invis } = this.state;
@@ -127,6 +151,7 @@ class Calendar extends Component {
                         selectable                        
                         events={showEvents}
                         views={["month", "week", "day"]}
+                        eventPropGetter={(this.eventStyleGetter)}
                         onSelectEvent={slotSelected =>
                             this.renderEventPopover(slotSelected)
                         }
