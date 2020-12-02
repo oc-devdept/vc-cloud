@@ -30,6 +30,19 @@ const validateForm = (key, files) => {
   return Reject;
 };
 
+const validateFormEdit = (key, files) => {
+  let Reject = true;
+  const { name, description } = key;
+  if (name == "") {
+    Reject = false;
+  }
+  if (description == "") {
+    Reject = false;
+  }
+
+  return Reject;
+};
+
 class index extends PureComponent {
   constructor(props) {
     super(props);
@@ -140,8 +153,11 @@ class index extends PureComponent {
   };
 
   _EditProductOptionValue = async () => {
-    const result = validateForm(this.state.Item, this.state.files);
+    console.log("HERE IN EDITR")
+    const result = validateFormEdit(this.state.Item, this.state.files);
+    console.log(result);
     if (result) {
+   
       const ProductOption = this.state.Item;
       var data = new FormData();
       const files = this.state.files;
