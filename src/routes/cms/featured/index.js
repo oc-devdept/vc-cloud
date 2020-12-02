@@ -85,7 +85,7 @@ class cms_featured extends Component {
                     add: { onClick: this.newSection }                    
                 }}
                 />
-                <FeaturedList  newCar={this.newCar} />
+                <FeaturedList newCar={this.newCar} />
                 {this.renderDialog() }
             </React.Fragment>
         );
@@ -95,4 +95,4 @@ const mapStateToProps = ({ inventoryState }) => {
     const { productList } = inventoryState;
     return { productList };
 }
-export default connect(mapStateToProps, { getAllProducts} )(cms_featured)
+export default connect(mapStateToProps, { getAllProducts} )(cms_featured);

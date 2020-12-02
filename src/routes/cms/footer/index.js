@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 //Page req
 import RecordsList from "Components/RecordsList";
 import Image from "Components/Image";
+import { show } from "redux-modal";
 
 import { Edit, Delete } from "@material-ui/icons";
 import { TableRow, TableCell, Button, IconButton, Switch } from "@material-ui/core";
@@ -10,30 +11,54 @@ import addFilled from "@iconify/icons-carbon/add-filled";
 import { withStyles } from "@material-ui/core/styles";
 import { orange } from "@material-ui/core/colors";
 
+import { getAllFooter, deleteFooterSection } from "Ducks/cms/footer";
+import { connect } from 'react-redux';
+
 const PurpleSwitch = withStyles({
-    switchBase: {
-      color: orange[300],
-      "&$checked": {
-        color: orange[500],
-      },
-      "&$checked + $track": {
-        backgroundColor: orange[500],
-      },
+  switchBase: {
+    color: orange[300],
+    "&$checked": {
+      color: orange[500],
     },
-    checked: {},
-    track: {},
+    "&$checked + $track": {
+      backgroundColor: orange[500],
+    },
+  },
+  checked: {},
+  track: {},
 })(Switch);
 
 class Footer extends Component {
-    state = {
-        currentProduct: null,
-        ProductDetailLoading: false,
-    };
+  constructor(props) {
+    super(props);
+    this.handleSingleDelete = this.handleSingleDelete.bind(this);
+    this.delete = this.delete.bind(this);
 
+  }
 
-    render() {
-        const { addGrade, modelName, title, tableData, makes } = this.props;
+  componentDidMount() {
+    this.props.getAllFooter();
+    this.props.cmsState;
+  }
 
+  // Delete Function
+  delete(custID, custname) {
+    this.props.show("alert_delete", {
+      name: custname,
+      action: () => this.handleSingleDelete(custID)
+    });
+  }
+
+  handleSingleDelete(custId) {
+    this.props.deleteFooterSection(custId);
+  }
+
+  // Edit Function
+
+  render() {
+    const { addGrade, modelName, title, tableData, makes } = this.props.cmsState.footerState.sectionList;
+    const { ToggleDialog } = this.props;
+    console.log(this.props)
     const columns = [
       {
         name: "id",
@@ -58,19 +83,28 @@ class Footer extends Component {
         },
       },
       {
+        label: "POSITION",
+        name: "position",
+        options: {
+          customBodyRender: (value, tableMeta) => {
+            return value;
+          },
+        },
+      },
+      {
         name: "ACTION", //EDIT
         options: {
-          filter: true,
+          filter: false,
           sort: false,
           empty: true,
-          customBodyRender: (rowData, rowState) => {
+          customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", rowState.rowData[0])} size="small">
+                <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", tableMeta.rowData[0])} size="small">
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
 
-                <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
+                <IconButton size="small" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[1]) }}>
                   <Delete style={{ fontSize: 14 }} />
                 </IconButton>
               </React.Fragment>
@@ -84,7 +118,6 @@ class Footer extends Component {
       filterType: "dropdown",
       responsive: "stacked",
       selectableRows: "none",
-      //expandableRows: true,
       pagination: false,
       print: false,
       download: false,
@@ -92,27 +125,8 @@ class Footer extends Component {
       search: false,
       filter: false,
       setTableProps: () => ({ size: "small" }),
-      // customToolbar: () => {
-      //   return (
-      //     <Button
-      //       onClick={addGrade}
-      //       variant="contained"
-      //       color="primary"
-      //       size="small"
-      //     >
-      //       + Add Grade to {modelName}
-      //     </Button>
-      //   );
-      // },
       customToolbar: (rowData, rowMeta) => {
-        // const data = {
-        //   MakeId: rowData[1],
-        //   ModelId: rowData[0],
-        //   make: rowData[3],
-        //   model: rowData[4],
-        // };
         return (
-          // <IconButton onClick={() => newDealFollowup()} size="small">
           <IconButton onClick={() => this.props.ToggleDialog("Add_Grade", "", "", makes)} size="small">
             <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
           </IconButton>
@@ -128,9 +142,20 @@ class Footer extends Component {
         );
       },
     };
-
-    return <RecordsList title={title} columns={columns} data={tableData} options={listOptions} borderRadius={"0px"} boxShadow={"none"} />;
+    return <RecordsList
+      title={title}
+      columns={columns}
+      data={tableData}
+      options={listOptions}
+      borderRadius={"0px"}
+      boxShadow={"none"} />;
   }
 }
 
-export default Footer;
+const mapStateToProps = ({ cmsState }) => {
+  const { productList } = cmsState;
+  return { productList, cmsState };
+}
+
+export default connect(mapStateToProps, { show, getAllFooter, deleteFooterSection })(Footer);
+// export default connect(mapStateToProps, { show, getAllFeatured, deleteFeaturedSection} )(FeaturedList)
