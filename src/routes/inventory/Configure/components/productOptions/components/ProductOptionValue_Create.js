@@ -30,6 +30,19 @@ const validateForm = (key, files) => {
   return Reject;
 };
 
+const validateFormEdit = (key, files) => {
+  let Reject = true;
+  const { name, description } = key;
+  if (name == "") {
+    Reject = false;
+  }
+  if (description == "") {
+    Reject = false;
+  }
+
+  return Reject;
+};
+
 class index extends PureComponent {
   constructor(props) {
     super(props);
@@ -49,6 +62,7 @@ class index extends PureComponent {
       editable: false,
       isDefault: false,
       image: [],
+      thumbnail: [],
       price: 0
     };
 
@@ -72,7 +86,8 @@ class index extends PureComponent {
           description: this.props.Data.description,
           image: this.props.Data.image,
           isDefault: this.props.Data.isDefault,
-          price: this.props.Data.price
+          price: this.props.Data.price,
+          thumbnail: this.props.Data.thumbnail
         };
         break;
       case "Delete":
@@ -97,27 +112,31 @@ class index extends PureComponent {
       Title: Title,
       Button: Button,
       Item: Item,
-      files: []
+      files: [],
+      images: []
     };
   }
 
   _SaveProductOption = async () => {
-    const result = validateForm(this.state.Item, this.state.files);
+    const result = validateForm(this.state.Item, this.state.files, this.state.images);
     if (result) {
       const ProductOption = this.state.Item;
       const productOptionCategoryId = this.state.Category.id;
 
       var data = new FormData();
       const files = this.state.files;
+      const thumbnails = this.state.images;
 
       files.map(file => data.append(`upload`, file));
+      thumbnails.map(image => data.append(`uploadThumbnail`, image));
       data.append("name", ProductOption.name);
       data.append("description", ProductOption.description);
       data.append("editable", ProductOption.editable);
       data.append("isDefault", ProductOption.isDefault);
       data.append("price", ProductOption.price);
       data.append("productOptionCategoryId", productOptionCategoryId);
-
+      console.log("HERE")
+      console.log(data);
       await api.post("/productoptions/new", data);
 
       await this.props._CreateProductCategoryDone();
@@ -134,13 +153,18 @@ class index extends PureComponent {
   };
 
   _EditProductOptionValue = async () => {
-    const result = validateForm(this.state.Item, this.state.files);
+    console.log("HERE IN EDITR")
+    const result = validateFormEdit(this.state.Item, this.state.files);
+    console.log(result);
     if (result) {
+   
       const ProductOption = this.state.Item;
       var data = new FormData();
       const files = this.state.files;
+      const thumbnails = this.state.images;
 
       files.map(file => data.append(`upload`, file));
+      thumbnails.map(image => data.append(`uploadThumbnail`, image));
       data.append("name", ProductOption.name);
       data.append("editable", ProductOption.editable);
       data.append("description", ProductOption.description);
@@ -191,6 +215,14 @@ class index extends PureComponent {
       return { files };
     });
   };
+  removeThumbFile = file => {
+    this.setState(state => {
+      const index = state.images.indexOf(file);
+      const images = state.images.slice(0);
+      images.splice(index, 1);
+      return { images };
+    });
+  };
 
   handleUpload = file => {
     this.setState({
@@ -198,6 +230,11 @@ class index extends PureComponent {
     });
   };
 
+  handleThumbUpload = file => {
+    this.setState({
+      images: file
+    });
+  };
   _HandleProduct = (e, element) => {
     let Item = { ...this.state.Item };
     Item[element] = e;
@@ -458,8 +495,37 @@ class index extends PureComponent {
                     additionalText="Files can't be edited once uploaded."
                   />
                 </div>
-              </div>
 
+                {/* THUMBNAIL HERE ================= */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%"
+                  }}
+                >
+                  <StaticName title={"CURRENT THUMBNAIL"} />
+                  {this.state.Item.thumbnail.length > 0 && (
+                    <Image imageSource={this.state.Item.thumbnail} single={true} />
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%"
+                  }}
+                >
+                  <StaticName title={"UPLOAD NEW THUMBNAIL "} />
+                  <Dropzone
+                    onDrop={this.handleThumbUpload}
+                    onRemove={this.removeThumbFile}
+                    uploadedFiles={this.state.images}
+                    additionalText="Files can't be edited once uploaded."
+                  />
+                </div>
+              </div>
               <div
                 style={{
                   display: "none",
@@ -623,14 +689,16 @@ class index extends PureComponent {
 
             <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
               <div
+
                 style={{
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: "row",
                   flex: 1,
                   marginRight: 30
                 }}
               >
                 {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>IMAGE UPLOAD</span> */}
+               <div className="col align-items-center">
                 <StaticName title={"IMAGE UPLOAD"} />
                 <Dropzone
                   onDrop={this.handleUpload}
@@ -638,7 +706,18 @@ class index extends PureComponent {
                   uploadedFiles={this.state.files}
                   additionalText="Files can't be edited once uploaded."
                 />
+                </div>
+                <div className="col align-items-center">
+                <StaticName title={"THUMBNAIL UPLOAD"} />
+                <Dropzone
+                  onDrop={this.handleThumbUpload}
+                  onRemove={this.removeThumbFile}
+                  uploadedFiles={this.state.images}
+                  additionalText="Files can't be edited once uploaded."
+                />
+                   </div>
               </div>
+          
 
               <div
                 style={{ display: "none", flexDirection: "column", flex: 1 }}
@@ -746,6 +825,7 @@ class index extends PureComponent {
                 </div>
               </div>
             </div>
+            {console.log(this.state)}
           </div>
         );
         break;
