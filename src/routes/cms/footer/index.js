@@ -14,6 +14,18 @@ import { orange } from "@material-ui/core/colors";
 import { getAllFooter, deleteFooterSection } from "Ducks/cms/footer";
 import { connect } from 'react-redux';
 
+// For testing
+import { NotificationManager } from "react-notifications";
+import DialogRoot from "Components/Dialog/DialogRoot";
+
+// Popover Imports
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
+
 const PurpleSwitch = withStyles({
   switchBase: {
     color: orange[300],
@@ -28,11 +40,58 @@ const PurpleSwitch = withStyles({
   track: {},
 })(Switch);
 
+// Popover Code
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
+const DialogActions = withStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions);
+
 class Footer extends Component {
   constructor(props) {
     super(props);
     this.handleSingleDelete = this.handleSingleDelete.bind(this);
     this.delete = this.delete.bind(this);
+
+    this.state = {
+      Products: [],
+      loading: true,
+      toggle: false,
+      element: null,
+      groupName: null,
+      data: null
+    };
 
   }
 
@@ -55,10 +114,55 @@ class Footer extends Component {
 
   // Edit Function
 
+  // _RenderDialog = () => {
+  //   console.log("RenderDialog works here")
+  //   if (this.state.toggle) {
+  //     switch (this.state.element) {
+  //       case "Add_Grade":
+  //         const MakeId = this.state.data.MakeId;
+  //         const ModelId = this.state.data.ModelId;
+
+  //         return (
+  //           <DialogRoot
+  //             // title={title}
+  //             show={this.state.toggle}
+  //             handleHide={this._RestartToggle}
+  //             size={"md"}
+  //           >
+              
+  //           </DialogRoot>
+  //         );
+
+  //       case "Selected_Grade":
+  //         return (
+  //           <DialogRoot
+  //             // title={"Select Grade"}
+  //             size="md"
+  //             show={this.state.toggle}
+  //             handleHide={this._RestartToggle}
+  //           >
+
+  //           </DialogRoot>
+  //         );
+  //       default:
+  //         return null;
+  //     }
+  //   }
+  // };
+
+  // ToggleDialog = (element, groupName, data, makes) => {
+  //   console.log("ToggleDialog works here")
+  //   this.setState({
+  //     element: element,
+  //     toggle: !this.state.toggle,
+  //     groupName: groupName,
+  //     data: data,
+  //     makes: makes,
+  //   });
+  // };
+
   render() {
     const { addGrade, modelName, title, tableData, makes } = this.props.cmsState.footerState.sectionList;
-    const { ToggleDialog } = this.props;
-    console.log(this.props)
     const columns = [
       {
         name: "id",
@@ -100,7 +204,9 @@ class Footer extends Component {
           customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", tableMeta.rowData[0])} size="small">
+                <IconButton onClick={() => { this.ToggleDialog("Selected_Grade", tableMeta.rowData[0]) }} size="small">
+                  {/* {this.props.ToggleDialog("Selected_Grade", tableMeta.rowData[0])} */}
+                  {this._RenderDialog()}
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
 
