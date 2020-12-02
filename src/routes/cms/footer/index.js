@@ -125,89 +125,99 @@ class Footer extends Component {
     this.setState({ openpopover: false });
   };
 
-  _RenderDialog = () => {
-    console.log("RenderDialog works here")
-    if (this.state.toggle) {
-      switch (this.state.element) {
-        case "Add_Grade":
-          return (
-            <DialogRoot
-              // title={title}
-              show={true}
-              handleHide={this._RestartToggle}
-              size={"md"}
-            >
-            </DialogRoot>
-          );
+  // _RenderDialog = () => {
+  //   console.log("RenderDialog works here")
+  //   if (this.state.toggle) {
+  //     switch (this.state.element) {
+  //       case "Add_Grade":
+  //         return (
+  //           <DialogRoot
+  //             // title={title}
+  //             show={true}
+  //             handleHide={this._RestartToggle}
+  //             size={"md"}
+  //           >
+  //           </DialogRoot>
+  //         );
 
-        case "Selected_Footer":
-          console.log("Inside selected footer case")
-          return (
-            <React.Fragment>
-              <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
-                <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Edit Footer Content</DialogTitle>
-                <DialogContent dividers>
-                  <Typography gutterBottom>
-                    <div class="form-row">
-                      <div class="form-group col-md-5">
-                        <label for="inputLastName">Header</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="lastName"
-                          required={true}
-                          value={this.state.lastName}
-                          onChange={(e) => onChangeForm('lastName', e.target.value)}
-                          placeholder="Change Header" />
-                      </div>
-                      <div class="form-group col-md-5">
-                        <label for="inputLastName">Details</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="lastName"
-                          required={true}
-                          value={this.state.lastName}
-                          onChange={(e) => onChangeForm('lastName', e.target.value)}
-                          placeholder="Change Details" />
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="inputLastName">Position</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="lastName"
-                          required={true}
-                          value={this.state.lastName}
-                          // onChange={(e) => onChangeForm('lastName', e.target.value)}
-                          placeholder="Change Position" />
-                      </div>
-                    </div>
-                  </Typography>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleClosePopOver} color="primary">Submit Changes</Button>
-                </DialogActions>
-              </Dialog>
-            </React.Fragment>
-          );
-        default:
-          return null;
-      }
-    }
-  };
+  //       case "Selected_Footer":
+  //         console.log("Inside selected footer case")
+  //         return (
+  //           <React.Fragment>
+  //             <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
+  //               <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Edit Footer Content</DialogTitle>
+  //               <DialogContent dividers>
+  //                 <Typography gutterBottom>
+  //                   <div class="form-row">
+  //                     <div class="form-group col-md-5">
+  //                       <label for="inputLastName">Header</label>
+  //                       <input
+  //                         type="text"
+  //                         className="form-control"
+  //                         id="lastName"
+  //                         required={true}
+  //                         value={this.state.lastName}
+  //                         onChange={(e) => onChangeForm('lastName', e.target.value)}
+  //                         placeholder="Change Header" />
+  //                     </div>
+  //                     <div class="form-group col-md-5">
+  //                       <label for="inputLastName">Details</label>
+  //                       <input
+  //                         type="text"
+  //                         className="form-control"
+  //                         id="lastName"
+  //                         required={true}
+  //                         value={this.state.lastName}
+  //                         onChange={(e) => onChangeForm('lastName', e.target.value)}
+  //                         placeholder="Change Details" />
+  //                     </div>
+  //                     <div class="form-group col-md-2">
+  //                       <label for="inputLastName">Position</label>
+  //                       <input
+  //                         type="text"
+  //                         className="form-control"
+  //                         id="lastName"
+  //                         required={true}
+  //                         value={this.state.lastName}
+  //                         // onChange={(e) => onChangeForm('lastName', e.target.value)}
+  //                         placeholder="Change Position" />
+  //                     </div>
+  //                   </div>
+  //                 </Typography>
+  //               </DialogContent>
+  //               <DialogActions>
+  //                 <Button onClick={this.handleClosePopOver} color="primary">Submit Changes</Button>
+  //               </DialogActions>
+  //             </Dialog>
+  //           </React.Fragment>
+  //         );
+  //       default:
+  //         return null;
+  //     }
+  //   }
+  // };
 
-  ToggleDialog = (element, groupName, data, makes) => {
-    // To call the handlepopover function
-    this.handleOpenPopOver();
-    console.log("ToggleDialog works here")
-    this.setState({
-      element: element,
-      toggle: !this.state.toggle,
-      groupName: groupName,
-      data: data,
-      makes: makes,
-    });
+  // ToggleDialog = (element, groupName, data, makes) => {
+  //   // To call the handlepopover function
+  //   this.handleOpenPopOver();
+  //   console.log("ToggleDialog works here")
+  //   this.setState({
+  //     element: element,
+  //     toggle: !this.state.toggle,
+  //     groupName: groupName,
+  //     data: data,
+  //     makes: makes,
+  //   });
+  // };
+
+  changeEmailSettings = (value) => {
+    this.props.show("user_email_form", {
+      email: value ? value[0] : "",
+      testDrive: value ? value[1] : false,
+      maintenance: value ? value[2] : false,
+      enquiry: value ? value[3] : false,
+      id: value ? value[4] : false
+    })
   };
 
   render() {
@@ -253,8 +263,8 @@ class Footer extends Component {
           customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                <IconButton onClick={() => { this.ToggleDialog("Selected_Footer", tableMeta.rowData[0]) }} size="small">
-                  {this._RenderDialog()}
+                <IconButton onClick={() => { this.changeEmailSettings() }} size="small">
+                  {/* {this._RenderDialog()} */}
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
 
