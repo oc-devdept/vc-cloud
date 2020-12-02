@@ -151,7 +151,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={newStatus ? newStatus : ""}
+                value={status }
                 onChange={e => setnewStatus(() => e.target.value)}
                 style={{ minWidth: 100, marginLeft: 5 }}
               >
