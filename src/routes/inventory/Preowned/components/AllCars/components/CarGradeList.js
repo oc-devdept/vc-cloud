@@ -35,6 +35,7 @@ export default class Index extends PureComponent {
 
   render() {
     const { addGrade, modelName, title, tableData, makes } = this.props;
+    console.log(this.props)
 
     const columns = [
       {
