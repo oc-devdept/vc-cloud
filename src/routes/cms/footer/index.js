@@ -91,7 +91,8 @@ class Footer extends Component {
       element: null,
       groupName: null,
       data: null,
-      openpopover: false
+      openpopover: false,
+      lastName: ''
     };
 
   }
@@ -116,9 +117,11 @@ class Footer extends Component {
   // Edit Function
 
   handleOpenPopOver = () => {
+    console.log("handle pop over")
     this.setState({ openpopover: true });
   };
   handleClosePopOver = () => {
+    console.log("handle close over")
     this.setState({ openpopover: false });
   };
 
@@ -127,17 +130,13 @@ class Footer extends Component {
     if (this.state.toggle) {
       switch (this.state.element) {
         case "Add_Grade":
-          const MakeId = this.state.data.MakeId;
-          const ModelId = this.state.data.ModelId;
-
           return (
             <DialogRoot
               // title={title}
-              show={this.state.toggle}
+              show={true}
               handleHide={this._RestartToggle}
               size={"md"}
             >
-
             </DialogRoot>
           );
 
@@ -157,9 +156,9 @@ class Footer extends Component {
                           className="form-control"
                           id="lastName"
                           required={true}
-                          value={lastName}
+                          value={this.state.lastName}
                           onChange={(e) => onChangeForm('lastName', e.target.value)}
-                          placeholder="Enter your last name" />
+                          placeholder="Change Header" />
                       </div>
                       <div class="form-group col-md-5">
                         <label for="inputLastName">Details</label>
@@ -168,9 +167,9 @@ class Footer extends Component {
                           className="form-control"
                           id="lastName"
                           required={true}
-                          value={lastName}
+                          value={this.state.lastName}
                           onChange={(e) => onChangeForm('lastName', e.target.value)}
-                          placeholder="Enter your last name" />
+                          placeholder="Change Details" />
                       </div>
                       <div class="form-group col-md-2">
                         <label for="inputLastName">Position</label>
@@ -179,15 +178,15 @@ class Footer extends Component {
                           className="form-control"
                           id="lastName"
                           required={true}
-                          value={lastName}
-                          onChange={(e) => onChangeForm('lastName', e.target.value)}
-                          placeholder="Enter your last name" />
+                          value={this.state.lastName}
+                          // onChange={(e) => onChangeForm('lastName', e.target.value)}
+                          placeholder="Change Position" />
                       </div>
                     </div>
                   </Typography>
                 </DialogContent>
                 <DialogActions>
-                  <Button autoFocus onClick={this.handleClosePopOver} color="primary">Submit Changes</Button>
+                  <Button onClick={this.handleClosePopOver} color="primary">Submit Changes</Button>
                 </DialogActions>
               </Dialog>
             </React.Fragment>
@@ -255,7 +254,6 @@ class Footer extends Component {
             return (
               <React.Fragment>
                 <IconButton onClick={() => { this.ToggleDialog("Selected_Footer", tableMeta.rowData[0]) }} size="small">
-                  {/* {this.props.ToggleDialog("Selected_Grade", tableMeta.rowData[0])} */}
                   {this._RenderDialog()}
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
