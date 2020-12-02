@@ -25,6 +25,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import Footerform from './components/Footerform';
 
 const PurpleSwitch = withStyles({
   switchBase: {
@@ -83,6 +84,7 @@ class Footer extends Component {
     super(props);
     this.handleSingleDelete = this.handleSingleDelete.bind(this);
     this.delete = this.delete.bind(this);
+    this.changeEmailSettings = this.changeEmailSettings.bind(this);
 
     this.state = {
       Products: [],
@@ -211,12 +213,8 @@ class Footer extends Component {
   // };
 
   changeEmailSettings = (value) => {
-    this.props.show("user_email_form", {
-      email: value ? value[0] : "",
-      testDrive: value ? value[1] : false,
-      maintenance: value ? value[2] : false,
-      enquiry: value ? value[3] : false,
-      id: value ? value[4] : false
+    console.log("wefwe")
+    this.props.show("footer_form", {
     })
   };
 
@@ -265,8 +263,10 @@ class Footer extends Component {
               <React.Fragment>
                 <IconButton onClick={() => { this.changeEmailSettings() }} size="small">
                   {/* {this._RenderDialog()} */}
+                  <Footerform changeEmailSettings={this.changeEmailSettings} />
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
+                
 
                 <IconButton size="small" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[1]) }}>
                   <Delete style={{ fontSize: 14 }} />
@@ -306,13 +306,14 @@ class Footer extends Component {
         );
       },
     };
-    return <RecordsList
+    return (
+    <RecordsList
       title={title}
       columns={columns}
       data={tableData}
       options={listOptions}
       borderRadius={"0px"}
-      boxShadow={"none"} />;
+      boxShadow={"none"} />);
   }
 }
 
