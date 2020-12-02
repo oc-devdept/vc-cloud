@@ -142,38 +142,38 @@ class Footer extends Component {
           );
 
         case "Selected_Footer":
+          console.log("Inside selected footer case")
           return (
             <React.Fragment>
-              <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={openpopover} maxWidth={'md'} fullWidth={'md'}>
-                <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>
-                  Preowned Car Enquiry Form
-                      </DialogTitle>
+              <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
+                <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Edit Footer Content</DialogTitle>
                 <DialogContent dividers>
-                  <h6>PERSONAL DETAILS</h6>
                   <Typography gutterBottom>
                     <div class="form-row">
-                      <div class="form-group col-md-2">
-                        <label for="inputTitle">Title</label>
-                        <select id="inputTitle" class="form-control">
-                          <option>Mr.</option>
-                          <option>Mrs.</option>
-                          <option>Ms.</option>
-                          <option>Dr.</option>
-                        </select>
-                      </div>
                       <div class="form-group col-md-5">
-                        <label for="inputFirstName">First Name</label>
+                        <label for="inputLastName">Header</label>
                         <input
                           type="text"
                           className="form-control"
-                          id="firstName"
+                          id="lastName"
                           required={true}
-                          value={firstName}
-                          onChange={(e) => onChangeForm('firstName', e.target.value)}
-                          placeholder="Enter your first name" />
+                          value={lastName}
+                          onChange={(e) => onChangeForm('lastName', e.target.value)}
+                          placeholder="Enter your last name" />
                       </div>
                       <div class="form-group col-md-5">
-                        <label for="inputLastName">Last Name</label>
+                        <label for="inputLastName">Details</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="lastName"
+                          required={true}
+                          value={lastName}
+                          onChange={(e) => onChangeForm('lastName', e.target.value)}
+                          placeholder="Enter your last name" />
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="inputLastName">Position</label>
                         <input
                           type="text"
                           className="form-control"
@@ -185,37 +185,9 @@ class Footer extends Component {
                       </div>
                     </div>
                   </Typography>
-                  <Typography gutterBottom>
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputPhoneNumber">Phone Number</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="phoneNumber"
-                          required={true}
-                          value={phone}
-                          onChange={(e) => onChangeForm('phone', e.target.value)}
-                          placeholder="Enter your phone number" />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputEmailAddess">Email Address</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="emailAddress"
-                          required={true}
-                          value={email}
-                          onChange={(e) => onChangeForm('email', e.target.value)}
-                          placeholder="Enter your email address" />
-                      </div>
-                    </div>
-                  </Typography>
                 </DialogContent>
                 <DialogActions>
-                  <Button autoFocus onClick={this.handleClosePopOver} color="primary">
-                    Book Appointment
-                        </Button>
+                  <Button autoFocus onClick={this.handleClosePopOver} color="primary">Submit Changes</Button>
                 </DialogActions>
               </Dialog>
             </React.Fragment>
@@ -227,6 +199,8 @@ class Footer extends Component {
   };
 
   ToggleDialog = (element, groupName, data, makes) => {
+    // To call the handlepopover function
+    this.handleOpenPopOver();
     console.log("ToggleDialog works here")
     this.setState({
       element: element,
@@ -340,4 +314,4 @@ const mapStateToProps = ({ cmsState }) => {
 }
 
 export default connect(mapStateToProps, { show, getAllFooter, deleteFooterSection })(Footer);
-// export default connect(mapStateToProps, { show, getAllFeatured, deleteFeaturedSection} )(FeaturedList)
+// export default connect(mapStateToProps, {show, getAllFeatured, deleteFeaturedSection} )(FeaturedList)
