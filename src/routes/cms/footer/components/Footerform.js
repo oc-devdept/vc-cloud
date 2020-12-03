@@ -26,7 +26,7 @@ class Footerform extends Component {
             header: this.props.itemList[1],
             details: this.props.itemList[2],
             position: this.props.itemList[3],
-            open: false
+            open: show
         };
         this.handleChange = this.handleChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -44,7 +44,7 @@ class Footerform extends Component {
     handleClickOpen = () => {
         this.setState({ open: true });
     };
-    handleHide = () => {
+    handleClose = () => {
         this.setState({ open: false });
     };
 
@@ -55,22 +55,19 @@ class Footerform extends Component {
             details: this.state.details,
             position: this.state.position,
         }
-        console.log(this.props)
         this.props.editFooterSection(form);
-        console.log(this.props)
+        this.handleClose();
         this.props.handleHide();
     }
 
-
-    // onSave(){
-    //     this.props.newFeaturedCar(this.state, false);
-    //     this.props.closeForm();
-    // }
-
     render() {
         const { show, handleHide } = this.props;
-
-        // console.log(this.props.handleHide)
+        // console.log("show here")
+        // console.log(!show)
+        // console.log("Handle hide here")
+        // console.log(handleHide)
+        console.log(this.props)
+        
         const { header, details, position } = this.state;
         return (
             <DialogRoot
@@ -81,7 +78,7 @@ class Footerform extends Component {
                 dialogActionLabel={"Save"}
                 dialogAction={this.submitForm}
                 color="#12394C"
-                close={handleHide}>
+                close>
                 <React.Fragment>
                     <form>
                         <div className="row justify-content-center">
@@ -115,10 +112,3 @@ const mapStateToProps = ({ }) => {
     return {};
 };
 export default connect(mapStateToProps, { show, editFooterSection })(connectModal({ name: "footer_form" })(Footerform));
-
-// const mapStateToProps = ({ cmsState }) => {
-//     const { featuredState } = cmsState;
-//     const { carForm } = featuredState;
-//     return { carForm };
-//   };
-// export default connect(mapStateToProps, { show, newFeaturedCar, editFeaturedCar})(FeaturedCarForm);

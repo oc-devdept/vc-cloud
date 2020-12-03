@@ -18,6 +18,9 @@ import { getAllFooter, newFooterSection } from "Ducks/cms/footer";
 // Rich text editor
 import Editor from "Components/Wysiwyg";
 
+// New imports
+import { Modal, Form } from "react-bootstrap";
+
 class FooterCreateForm extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +28,7 @@ class FooterCreateForm extends Component {
             header: '',
             details: '',
             position: '',
+            open: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -42,22 +46,17 @@ class FooterCreateForm extends Component {
     handleClickOpen = () => {
         this.setState({ open: true });
     };
-    handleHide = () => {
+    handleClose = () => {
         this.setState({ open: false });
     };
 
     submitForm() {
         const form = this.state;
         this.props.newFooterSection(form);
-        console.log(this.props);
+
         this.props.handleHide();
     }
 
-
-    // onSave(){
-    //     this.props.newFeaturedCar(this.state, false);
-    //     this.props.closeForm();
-    // }
 
     render() {
         const { show, handleHide } = this.props;
@@ -73,7 +72,7 @@ class FooterCreateForm extends Component {
                 dialogActionLabel={"Save"}
                 dialogAction={this.submitForm}
                 color="#12394C"
-                close={handleHide}>
+                close>
                 <React.Fragment>
                     <form>
                         <div className="row justify-content-center">

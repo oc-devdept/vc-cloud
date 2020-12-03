@@ -131,6 +131,7 @@ class Footer extends Component {
 
   // For edit footer form
   changeEmailSettings = (id, header, details, position) => {
+    // this.handleOpenPopOver();
     this.props.show("footer_form", {
       itemList: [id, header, details, position],
     })
