@@ -3,6 +3,9 @@ import { isSameDay, getTheDate, getTheTime } from "Helpers/helpers";
 import { CalendarToday, AccessTime } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 
+import { NavLink } from "react-router-dom";
+
+
 function ViewEventInfo({ info, onEdit }) {
   const { title, desc, allDay, userInfo, start, end } = info;
   var sameDay = isSameDay(start, end);
@@ -18,7 +21,14 @@ function ViewEventInfo({ info, onEdit }) {
   return (
     <React.Fragment>
       <div className="d-block">
-        <h2 className="mb-0">{title}</h2>
+        { info.cus && (
+      <NavLink to={`./crm/customers/${info.cus}`}>
+        <h2 className="mb-0">Customer Page</h2>
+        </NavLink>
+       
+        )}
+         
+         <h2 className="mb-0">{title}</h2>
         <p className="fs-12 text-muted">{userInfo && `by ${userInfo.name}`}</p>
       </div>
       <div className="d-flex align-items-center">

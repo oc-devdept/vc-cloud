@@ -78,7 +78,10 @@ class Calendar extends Component {
     }
 
     renderEvent = slotSelected => (
-        <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} />
+        <React.Fragment>
+            {console.log(slotSelected)}
+        <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} adjustPosition={this.adjustPopoverPostion} edit={false} showEditForm={this.showEditForm} />
+        </React.Fragment>
     );
 
     renderForm = slotSelected => (
@@ -167,6 +170,7 @@ class Calendar extends Component {
                         </div>
                     </Popover>
                 </div>
+                {/* {console.log(showEvents)} */}
             </React.Fragment>
         );
     }
