@@ -11,7 +11,6 @@ function EditableEventInfo(props) {
   const { id, start, end, title, desc, allDay } = info;
   return (
     <React.Fragment>
-      <Paper>
       <h3>Edit Event Details</h3>
       <form autoComplete="off">
         <div className="row">
@@ -109,7 +108,6 @@ function EditableEventInfo(props) {
           </div>
         </div>
       </form>
-      </Paper>
     </React.Fragment>
   );
 }

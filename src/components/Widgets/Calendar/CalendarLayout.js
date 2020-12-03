@@ -35,9 +35,7 @@ class CalendarLayout extends Component {
           />
         </div>
         <div className="col-12">
-          <DisplayEvents
-            myEvents={this.props.myEvents.length > 0 ? this.props.myEvents : []}
-          />
+   
         </div>
       </div>
     );

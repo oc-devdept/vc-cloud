@@ -216,11 +216,18 @@ export default class Index extends Component {
     await this.setState({ ProductOptionLoading: true });
     let Car = { ...this.state.Car };
 
+    // console.log("Please work")
+    // console.log(isDefault);
+
     const data = {
       productId: Car.id,
       productOptionId: e.id,
       isDefault: isDefault
     };
+
+
+    // console.log("Object here")
+    // console.log(data)
 
     await api.post(`/products/productOption`, { data: data });
     // await api.post(`/products/${Car.id}/productOption`, e)

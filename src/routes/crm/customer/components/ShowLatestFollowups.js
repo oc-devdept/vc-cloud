@@ -5,8 +5,8 @@ import moment from "moment";
 import { getDateTime } from "Helpers/helpers";
 
 function ShowLatestFollowUps({ followUps }) {
-  const filteredFollowups = followUps.filter(followup =>
-    moment().isAfter(followup.date)
+  const filteredFollowups = followUps.filter(followup => {
+    moment().isAfter(followup.date)}
   );
   const showInfo =
     filteredFollowups.length > 0 ? (
@@ -16,7 +16,7 @@ function ShowLatestFollowUps({ followUps }) {
           <Info
             key={key}
             icon={
-              followup.type.name == "email" ? (
+             ( followup.hasOwnProperty('type') && followup.type.name) == "email" ? (
                 <Mail fontSize="small" />
               ) : (
                 <Call fontSize="small" />

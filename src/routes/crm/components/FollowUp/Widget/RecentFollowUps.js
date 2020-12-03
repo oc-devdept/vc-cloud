@@ -18,13 +18,13 @@ function RecentFollowUps(props) {
           <Info
             key={key}
             icon={
-              followup.type.name == "email" ? (
+              ( followup.hasOwnProperty('type') && followup.type.name)  == "email" ? (
                 <Mail fontSize="small" />
               ) : (
                 <Call fontSize="small" />
               )
             }
-            title={followup.result.name}
+            title={ ( followup.hasOwnProperty('result') && followup.result.name )? followup.result.name : ""}
             subtitle={getDateTime(followup.date)}
           />
         ))

@@ -24,13 +24,14 @@ export default (state = INIT_STATE, action) => {
         recentBookings: { ...state.recentBookings, loading: true }
       };
     case types.GET_RECENT_BOOKINGS_SUCCESS:
-      const { recentBooking, overview } = action.payload;
+      console.log(action.payload)
+      const { allBookings, overview } = action.payload;
       return {
         ...state,
         recentBookings: {
           ...state.recentBookings,
           loading: false,
-          listData: recentBooking,
+          listData: allBookings,
           chartData: overview
         }
       };

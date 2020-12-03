@@ -22,6 +22,7 @@ function CustomerCard({ cust, _handleDeployAgent }) {
             : { classes: "border-danger text-danger", name: "Inactive" }
         }
       />
+      <i><h4>Subscribed</h4></i>
       <div className="profile-card-section">
         <div className="profile-heading">
           <RecentActors />

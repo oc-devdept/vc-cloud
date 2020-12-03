@@ -21,8 +21,7 @@ const INIT_STATE = {
 let allShowEvents = [];
 export default (state = INIT_STATE, action) => {
   let showEvents = [...state.showEvents];
-  //console.log("QQQQQ");
-  //console.log(action.type);
+
 
   switch (action.type) {
 
@@ -37,13 +36,16 @@ export default (state = INIT_STATE, action) => {
     case Types.GET_ALL_EVENTS_SUCCESS:
       //NotificationManager.success("Get events success");
       console.log("Get all events succcess here");
+
+
       var events = action.payload.events.data; //.data
+
       var displayEvents = Object.values(events);
-      //console.log(displayEvents);
+
       //var result = Object.entries(events); //This is showing an array with [key, value]
       
       //var conversion = Object.assign({}, events);
-      //console.log(conversion);
+
       //Object.keys(events).map((key) => [Number(key), events[key]])
       //console.log(result);
       allShowEvents = displayEvents;

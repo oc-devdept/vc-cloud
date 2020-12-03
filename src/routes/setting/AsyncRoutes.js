@@ -59,3 +59,11 @@ export const commission = Loadable({
   loader: () => import("./commsSetting"),
   loading: () => <RctPageLoader />
 });
+
+/**
+ * Email Setting
+ */
+export const notificationSettings = Loadable({
+  loader: () => import("./notificationSettings"),
+  loading: () => <RctPageLoader />
+});

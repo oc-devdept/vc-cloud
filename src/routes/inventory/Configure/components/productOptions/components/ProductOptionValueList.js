@@ -34,10 +34,10 @@ export default class Index extends PureComponent {
         label: "Image",
         name: "files",
         options: {
-          customBodyRender: value => {
-            if (value.length > 0) {
+          customBodyRender:  (rowData, rowState)  => {
+            if (rowState.rowData[7].length > 0) {
               return (
-                <Image imageSource={value} single={true} thumbNail={true} />
+                <Image imageSource={rowState.rowData[7]} single={true} thumbNail={true} />
               );
             } else {
               return null;
@@ -89,6 +89,7 @@ export default class Index extends PureComponent {
               name: rowState.rowData[1],
               image: rowState.rowData[2],
               price: rowState.rowData[3],
+              thumbnail: rowState.rowData[7],
               // isDefault: rowState.rowData[4],
               // editable: rowState.rowData[5],
               description: rowState.rowData[4]
@@ -116,6 +117,7 @@ export default class Index extends PureComponent {
               name: rowState.rowData[1],
               image: rowState.rowData[2],
               price: rowState.rowData[3],
+              thumbnail: rowState.rowData[7],
               // isDefault: rowState.rowData[4],
               // editable: rowState.rowData[5],
               description: rowState.rowData[4]
@@ -128,6 +130,22 @@ export default class Index extends PureComponent {
                 <Delete style={{ fontSize: 14 }} />
               </IconButton>
             );
+          }
+        }
+      },
+      {
+        label: "Image",
+        name: "images",
+        options: {
+          display: "excluded", filter: false, sort: false ,
+          customBodyRender: value => {
+            if (value.length > 0) {
+              return (
+                <Image imageSource={value} single={true} thumbNail={true} />
+              );
+            } else {
+              return null;
+            }
           }
         }
       }

@@ -14,7 +14,7 @@ export default class Index extends PureComponent {
     super(props);
     this.state = {
       addItemInformation: { ...this.props.Fields },
-      isDefault: false
+      isDefault: false //false
     };
 
     this._HandleCheckBox = this._HandleCheckBox.bind(this);
@@ -143,6 +143,7 @@ export default class Index extends PureComponent {
           }}
         >
           {/* <button onClick={() => this.props._HandleSaveProductOption(this.state.addItemInformation)}>ADD</button>      */}
+          {/* {console.log(this.state.addItemInformation)} */}
           <Button
             _Function={e =>
               this.props._HandleSaveProductOption(e, this.state.isDefault)

@@ -4,7 +4,8 @@ import {
   roles,
   announcements,
   websiteSettings,
-  commission
+  commission,
+  notificationSettings 
 } from "../AsyncRoutes";
 
 export default [
@@ -61,5 +62,16 @@ export default [
         path: "/website-settings/interest-rate"
       }
     ]
-  }
+  },
+  {
+    title: " Notification Settings",
+    stateName: "email",
+    links: [
+      {
+        title: "Email Notification Settings",
+        asyncComponent: notificationSettings,
+        path: "/notification-settings/emails"
+      }
+    ]
+  },
 ];
