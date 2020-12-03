@@ -53,7 +53,7 @@ export const newFooterCarFailure = error => ({
 });
 
 export const editFooterSection = form => ({
-    types: types.EDIT_FOOTER_SECTION,
+    type: types.EDIT_FOOTER_SECTION,
     payload: form
 });
 export const editFooterSectionSuccess = data => ({
@@ -66,7 +66,7 @@ export const editFooterSectionFailure = error => ({
 });
 
 export const editFooterCar = form => ({
-    types: types.EDIT_FOOTERD_CAR,
+    types: types.EDIT_FOOTER_CAR,
     payload: form
 });
 export const editFooterCarSuccess = data => ({

@@ -50,7 +50,8 @@ export function* getSingleFooterWatcher(){
 }
 
 const postFooterSection = async data => {
-    const result = await api.post("/Footersections/new", data);
+    const result = await api.post("/footersections/new", data);
+    console.log(data);
     return result.data;
 }
 function* createNewFooterSection({ payload }){
@@ -86,7 +87,9 @@ export function* postFooterCarWatcher(){
 
 
 const editFooterSectionRequest = async data => {
-    const result = await api.post('/Footersections/edit', data);
+    console.log("redux saga")
+    const result = await api.post('/footersections/edit', data);
+    console.log(result)
     return result.data;
 }
 function* editFooterSectionDB({ payload }){

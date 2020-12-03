@@ -13,27 +13,25 @@ import Switch from "@material-ui/core/Switch";
 import SystemAlert from "Components/Alert/SystemAlert";
 
 // Redux imports
-import { getAllFooter, deleteFooterSection, editFooterSection } from "Ducks/cms/footer";
+import { getAllFooter, newFooterSection } from "Ducks/cms/footer";
 
 // Rich text editor
 import Editor from "Components/Wysiwyg";
 
-class Footerform extends Component {
+class FooterCreateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.itemList[0],
-            header: this.props.itemList[1],
-            details: this.props.itemList[2],
-            position: this.props.itemList[3],
-            open: false
+            header: '',
+            details: '',
+            position: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
 
     componentDidMount() {
-        console.log('ppppp')
+        // console.log('ppppp')
     }
 
     handleChange(field, value) {
@@ -49,15 +47,9 @@ class Footerform extends Component {
     };
 
     submitForm() {
-        const form = {
-            id: this.state.id,
-            header: this.state.header,
-            details: this.state.details,
-            position: this.state.position,
-        }
-        console.log(this.props)
-        this.props.editFooterSection(form);
-        console.log(this.props)
+        const form = this.state;
+        this.props.newFooterSection(form);
+        console.log(this.props);
         this.props.handleHide();
     }
 
@@ -74,7 +66,7 @@ class Footerform extends Component {
         const { header, details, position } = this.state;
         return (
             <DialogRoot
-                title="Edit Footer Content"
+                title="Add New Footer Content"
                 size="lg"
                 show={show}
                 handleHide={handleHide}
@@ -114,11 +106,4 @@ class Footerform extends Component {
 const mapStateToProps = ({ }) => {
     return {};
 };
-export default connect(mapStateToProps, { show, editFooterSection })(connectModal({ name: "footer_form" })(Footerform));
-
-// const mapStateToProps = ({ cmsState }) => {
-//     const { featuredState } = cmsState;
-//     const { carForm } = featuredState;
-//     return { carForm };
-//   };
-// export default connect(mapStateToProps, { show, newFeaturedCar, editFeaturedCar})(FeaturedCarForm);
+export default connect(mapStateToProps, { show, newFooterSection })(connectModal({ name: "footer__create_form" })(FooterCreateForm));

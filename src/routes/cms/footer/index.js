@@ -26,6 +26,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Footerform from './components/Footerform';
+import FooterCreateForm from './components/FooterCreateForm';
 
 const PurpleSwitch = withStyles({
   switchBase: {
@@ -96,7 +97,6 @@ class Footer extends Component {
       openpopover: false,
       lastName: ''
     };
-
   }
 
   componentDidMount() {
@@ -105,7 +105,10 @@ class Footer extends Component {
   }
 
   // Delete Function
-  delete(custID, custname) {
+  delete(custID, custname, custdetails) {
+    console.log(custID)
+    console.log(custname)
+    console.log(custdetails)
     this.props.show("alert_delete", {
       name: custname,
       action: () => this.handleSingleDelete(custID)
@@ -117,7 +120,6 @@ class Footer extends Component {
   }
 
   // Edit Function
-
   handleOpenPopOver = () => {
     console.log("handle pop over")
     this.setState({ openpopover: true });
@@ -127,99 +129,22 @@ class Footer extends Component {
     this.setState({ openpopover: false });
   };
 
-  // _RenderDialog = () => {
-  //   console.log("RenderDialog works here")
-  //   if (this.state.toggle) {
-  //     switch (this.state.element) {
-  //       case "Add_Grade":
-  //         return (
-  //           <DialogRoot
-  //             // title={title}
-  //             show={true}
-  //             handleHide={this._RestartToggle}
-  //             size={"md"}
-  //           >
-  //           </DialogRoot>
-  //         );
-
-  //       case "Selected_Footer":
-  //         console.log("Inside selected footer case")
-  //         return (
-  //           <React.Fragment>
-  //             <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
-  //               <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Edit Footer Content</DialogTitle>
-  //               <DialogContent dividers>
-  //                 <Typography gutterBottom>
-  //                   <div class="form-row">
-  //                     <div class="form-group col-md-5">
-  //                       <label for="inputLastName">Header</label>
-  //                       <input
-  //                         type="text"
-  //                         className="form-control"
-  //                         id="lastName"
-  //                         required={true}
-  //                         value={this.state.lastName}
-  //                         onChange={(e) => onChangeForm('lastName', e.target.value)}
-  //                         placeholder="Change Header" />
-  //                     </div>
-  //                     <div class="form-group col-md-5">
-  //                       <label for="inputLastName">Details</label>
-  //                       <input
-  //                         type="text"
-  //                         className="form-control"
-  //                         id="lastName"
-  //                         required={true}
-  //                         value={this.state.lastName}
-  //                         onChange={(e) => onChangeForm('lastName', e.target.value)}
-  //                         placeholder="Change Details" />
-  //                     </div>
-  //                     <div class="form-group col-md-2">
-  //                       <label for="inputLastName">Position</label>
-  //                       <input
-  //                         type="text"
-  //                         className="form-control"
-  //                         id="lastName"
-  //                         required={true}
-  //                         value={this.state.lastName}
-  //                         // onChange={(e) => onChangeForm('lastName', e.target.value)}
-  //                         placeholder="Change Position" />
-  //                     </div>
-  //                   </div>
-  //                 </Typography>
-  //               </DialogContent>
-  //               <DialogActions>
-  //                 <Button onClick={this.handleClosePopOver} color="primary">Submit Changes</Button>
-  //               </DialogActions>
-  //             </Dialog>
-  //           </React.Fragment>
-  //         );
-  //       default:
-  //         return null;
-  //     }
-  //   }
-  // };
-
-  // ToggleDialog = (element, groupName, data, makes) => {
-  //   // To call the handlepopover function
-  //   this.handleOpenPopOver();
-  //   console.log("ToggleDialog works here")
-  //   this.setState({
-  //     element: element,
-  //     toggle: !this.state.toggle,
-  //     groupName: groupName,
-  //     data: data,
-  //     makes: makes,
-  //   });
-  // };
-
-  changeEmailSettings = (value) => {
-    console.log("wefwe")
+  // For edit footer form
+  changeEmailSettings = (id, header, details, position) => {
     this.props.show("footer_form", {
+      itemList: [id, header, details, position],
+    })
+  };
+
+  // For creating new footer form
+  createFooterForm = (id, header, details, position) => {
+    this.props.show("footer__create_form", {
+      itemList: [id, header, details, position],
     })
   };
 
   render() {
-    const { addGrade, modelName, title, tableData, makes } = this.props.cmsState.footerState.sectionList;
+    const { title, tableData, makes } = this.props.cmsState.footerState.sectionList;
     const columns = [
       {
         name: "id",
@@ -261,14 +186,13 @@ class Footer extends Component {
           customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                <IconButton onClick={() => { this.changeEmailSettings() }} size="small">
-                  {/* {this._RenderDialog()} */}
+                <IconButton onClick={() => { this.changeEmailSettings(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3]) }} size="small">
                   <Footerform changeEmailSettings={this.changeEmailSettings} />
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
-                
 
-                <IconButton size="small" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[1]) }}>
+
+                <IconButton size="small" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2]) }}>
                   <Delete style={{ fontSize: 14 }} />
                 </IconButton>
               </React.Fragment>
@@ -289,9 +213,11 @@ class Footer extends Component {
       search: false,
       filter: false,
       setTableProps: () => ({ size: "small" }),
+      // Add new footer content
       customToolbar: (rowData, rowMeta) => {
         return (
-          <IconButton onClick={() => this.props.ToggleDialog("Add_Grade", "", "", makes)} size="small">
+          <IconButton onClick={() => {this.createFooterForm()} } size="small">
+            <FooterCreateForm createFooterForm={this.createFooterForm} />
             <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
           </IconButton>
         );
@@ -307,13 +233,13 @@ class Footer extends Component {
       },
     };
     return (
-    <RecordsList
-      title={title}
-      columns={columns}
-      data={tableData}
-      options={listOptions}
-      borderRadius={"0px"}
-      boxShadow={"none"} />);
+      <RecordsList
+        title={title}
+        columns={columns}
+        data={tableData}
+        options={listOptions}
+        borderRadius={"0px"}
+        boxShadow={"none"} />);
   }
 }
 
@@ -323,4 +249,3 @@ const mapStateToProps = ({ cmsState }) => {
 }
 
 export default connect(mapStateToProps, { show, getAllFooter, deleteFooterSection })(Footer);
-// export default connect(mapStateToProps, {show, getAllFeatured, deleteFeaturedSection} )(FeaturedList)
