@@ -5,44 +5,31 @@ import Button from "@material-ui/core/Button";
 
 import { NavLink } from "react-router-dom";
 
-
 function ViewEventInfo({ info, onEdit }) {
   const { title, desc, allDay, userInfo, start, end } = info;
   var sameDay = isSameDay(start, end);
-  const eventDate =
-    allDay || sameDay
-      ? getTheDate(start)
-      : `${getTheDate(start)} - ${getTheDate(end)}`;
+  const eventDate = allDay || sameDay ? getTheDate(start) : `${getTheDate(start)} - ${getTheDate(end)}`;
 
-  const eventTime = allDay
-    ? "All Day"
-    : `${getTheTime(start)} - ${getTheTime(end)}`;
+  const eventTime = allDay ? "All Day" : `${getTheTime(start)} - ${getTheTime(end)}`;
 
   return (
     <React.Fragment>
       <div className="d-block">
-        { info.cus && (
-      <NavLink to={`./crm/customers/${info.cus}`}>
-        <h2 className="mb-0">Customer Page</h2>
-        </NavLink>
-       
+        {info.cus && (
+          <NavLink to={`./crm/customers/${info.cus}`}>
+            <h2 className="mb-0">View Customer</h2>
+          </NavLink>
         )}
-         
-         <h2 className="mb-0">{title}</h2>
+
+        <h2 className="mb-0">{title}</h2>
         <p className="fs-12 text-muted">{userInfo && `by ${userInfo.name}`}</p>
       </div>
       <div className="d-flex align-items-center">
-        <CalendarToday
-          className="align-text-bottom text-muted"
-          fontSize="inherit"
-        />
+        <CalendarToday className="align-text-bottom text-muted" fontSize="inherit" />
         <p className="ml-20 mb-5 fs-14 text-right">{eventDate}</p>
       </div>
       <div className="d-flex align-items-center">
-        <AccessTime
-          className="align-text-bottom text-muted"
-          fontSize="inherit"
-        />
+        <AccessTime className="align-text-bottom text-muted" fontSize="inherit" />
         <p className="ml-20 mb-5 fs-14 text-right">{eventTime}</p>
       </div>
       <hr className="my-10" />
