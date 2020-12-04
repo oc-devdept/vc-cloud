@@ -100,6 +100,7 @@ class Footer extends Component {
   }
 
   componentDidMount() {
+    console.log("Render")
     this.props.getAllFooter();
     this.props.cmsState;
   }

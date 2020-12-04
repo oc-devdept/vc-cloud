@@ -13,7 +13,7 @@ import Switch from "@material-ui/core/Switch";
 import SystemAlert from "Components/Alert/SystemAlert";
 
 // Redux imports
-import { getAllFooter, deleteFooterSection, editFooterSection } from "Ducks/cms/footer";
+import { getAllFooter, editFooterSection } from "Ducks/cms/footer";
 
 // Rich text editor
 import Editor from "Components/Wysiwyg";
@@ -33,7 +33,7 @@ class Footerform extends Component {
     }
 
     componentDidMount() {
-        console.log('ppppp')
+        console.log('FooterForm render')
     }
 
     handleChange(field, value) {
@@ -66,7 +66,7 @@ class Footerform extends Component {
         // console.log(!show)
         // console.log("Handle hide here")
         // console.log(handleHide)
-        console.log(this.props)
+        // console.log(this.props)
         
         const { header, details, position } = this.state;
         return (
