@@ -11,12 +11,15 @@ import addFilled from "@iconify/icons-carbon/add-filled";
 import { withStyles } from "@material-ui/core/styles";
 import { orange } from "@material-ui/core/colors";
 
-import { getAllFooter, deleteFooterSection } from "Ducks/cms/footer";
+import { getAllFooter, deleteFooterSection, newFooterSection, editFooterSection } from "Ducks/cms/footer";
 import { connect } from 'react-redux';
 
 // For testing
 import { NotificationManager } from "react-notifications";
 import DialogRoot from "Components/Dialog/DialogRoot";
+
+// Rich text editor
+import Editor from "Components/Wysiwyg";
 
 // Popover Imports
 import Dialog from '@material-ui/core/Dialog';
@@ -27,6 +30,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Footerform from './components/Footerform';
 import FooterCreateForm from './components/FooterCreateForm';
+import EditFooterForm from './components/EditFooterForm';
+import FormInput from "Components/Form/FormInput";
+import { positions } from '@material-ui/system';
 
 const PurpleSwitch = withStyles({
   switchBase: {
@@ -86,6 +92,12 @@ class Footer extends Component {
     this.handleSingleDelete = this.handleSingleDelete.bind(this);
     this.delete = this.delete.bind(this);
     this.changeEmailSettings = this.changeEmailSettings.bind(this);
+    this.onChangeForm = this.onChangeForm.bind(this);
+    this.handleOpenEdit = this.handleOpenEdit.bind(this);
+
+
+
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       Products: [],
@@ -95,21 +107,24 @@ class Footer extends Component {
       groupName: null,
       data: null,
       openpopover: false,
-      lastName: ''
+      openedit: false,
+      id: '',
+      headerEdit: '',
+      detailsEdit: '',
+      positionEdit: '',
+      header: '',
+      details: '',
+      position: '',
     };
   }
 
   componentDidMount() {
-    console.log("Render")
     this.props.getAllFooter();
     this.props.cmsState;
   }
 
   // Delete Function
   delete(custID, custname, custdetails) {
-    console.log(custID)
-    console.log(custname)
-    console.log(custdetails)
     this.props.show("alert_delete", {
       name: custname,
       action: () => this.handleSingleDelete(custID)
@@ -120,15 +135,55 @@ class Footer extends Component {
     this.props.deleteFooterSection(custId);
   }
 
-  // Edit Function
+  // For open and closing of new form
   handleOpenPopOver = () => {
-    console.log("handle pop over")
     this.setState({ openpopover: true });
   };
   handleClosePopOver = () => {
-    console.log("handle close over")
     this.setState({ openpopover: false });
   };
+
+  // For open and closing of edit form
+  handleOpenEdit = () => {
+    this.setState({ openedit: true });
+  };
+  handleCloseEdit = () => {
+    this.setState({ openedit: false });
+  };
+
+  // For setting the state of state variables
+  onChangeForm = (element, value) => {
+    this.setState({ [element]: value });
+  }
+
+  // For setting the state of the edit state variables
+  handleChange(field, value) {
+    this.setState({ [field]: value });
+  }
+
+  // Submit new footer content
+  submitForm = () => {
+    const form = {
+      header: this.state.header,
+      details: this.state.details,
+      position: this.state.position
+    }
+    this.props.newFooterSection(form);
+    this.handleClosePopOver();
+  }
+
+  // Edit current footer content
+  editForm = () => {
+    const form = {
+      id: this.state.id,
+      header: this.state.headerEdit,
+      details: this.state.detailsEdit,
+      position: this.state.positionEdit,
+    }
+
+    this.props.editFooterSection(form);
+    this.handleCloseEdit();
+  }
 
   // For edit footer form
   changeEmailSettings = (id, header, details, position) => {
@@ -137,6 +192,16 @@ class Footer extends Component {
       itemList: [id, header, details, position],
     })
   };
+
+  onClick = (id, header, details, position) => {
+    this.handleOpenEdit();
+    // Set state for state variables to preload data
+    this.setState({ id: id });
+    this.setState({ headerEdit: header });
+    this.setState({ detailsEdit: details });
+    this.setState({ positionEdit: position });
+
+  }
 
   // For creating new footer form
   createFooterForm = (id, header, details, position) => {
@@ -147,6 +212,7 @@ class Footer extends Component {
 
   render() {
     const { title, tableData, makes } = this.props.cmsState.footerState.sectionList;
+    const { id, header, details, position, headerEdit, detailsEdit, positionEdit } = this.state
     const columns = [
       {
         name: "id",
@@ -188,10 +254,61 @@ class Footer extends Component {
           customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                <IconButton onClick={() => { this.changeEmailSettings(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3]) }} size="small">
-                  <Footerform changeEmailSettings={this.changeEmailSettings} />
+                {console.log("Multiple renders here")}
+                {/* <IconButton onClick={() => { this.changeEmailSettings(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3]) }} size="small">
+                  <Footerform 
+                    changeEmailSettings={this.changeEmailSettings} 
+                    id={tableMeta.rowData[0]} 
+                    header={tableMeta.rowData[1]} 
+                    details={tableMeta.rowData[2]} 
+                    position={tableMeta.rowData[3]} />
+                  <Edit style={{ fontSize: 14 }} />
+                </IconButton> */}
+
+                {/* <IconButton onClick={this.handleOpenEdit} size="small">
+                  <EditFooterForm 
+                    id={tableMeta.rowData[0]} 
+                    header={tableMeta.rowData[1]} 
+                    details={tableMeta.rowData[2]} 
+                    position={tableMeta.rowData[3]} 
+                    open={this.state.openedit} />
+                  <Edit style={{ fontSize: 14 }} />
+                </IconButton> */}
+
+                <IconButton onClick={() => this.onClick(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3])} size="small">
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
+
+                <Dialog onClose={this.handleCloseEdit} aria-labelledby="customized-dialog-title" open={this.state.openedit} maxWidth={'md'} fullWidth={'md'}>
+                  <DialogTitle id="customized-dialog-title" onClose={this.handleCloseEdit}>Edit Footer Content</DialogTitle>
+                  <DialogContent dividers>
+                    <div class="form-row">
+                      <label for="inputFirstName">Header</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="headerEdit"
+                        required={true}
+                        value={headerEdit}
+                        onChange={(e) => this.onChangeForm('headerEdit', e.target.value)}
+                        placeholder="Enter your header" />
+                      <label for="inputFirstName">Details</label>
+                      <Editor changeData={(value) => this.setState({ detailsEdit: value })} data={detailsEdit} target="detailsEdit" handleChange={this.onChangeForm} />
+                      <label for="inputFirstName">Position</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="positionEdit"
+                        required={true}
+                        value={positionEdit}
+                        onChange={(e) => this.onChangeForm('positionEdit', e.target.value)}
+                        placeholder="Enter your position" />
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button autoFocus onClick={this.editForm} color="primary">Save</Button>
+                  </DialogActions>
+                </Dialog>
 
 
                 <IconButton size="small" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2]) }}>
@@ -218,10 +335,47 @@ class Footer extends Component {
       // Add new footer content
       customToolbar: (rowData, rowMeta) => {
         return (
-          <IconButton onClick={() => {this.createFooterForm()} } size="small">
-            <FooterCreateForm createFooterForm={this.createFooterForm} />
-            <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
-          </IconButton>
+          // <IconButton onClick={() => {this.createFooterForm()} } size="small">
+          //   <FooterCreateForm createFooterForm={this.createFooterForm} />
+          //   <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
+          // </IconButton>
+
+          // For testing
+          <React.Fragment>
+            <IconButton onClick={this.handleOpenPopOver} size="small">
+              <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
+            </IconButton>
+            <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
+              <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Create New Footer Content</DialogTitle>
+              <DialogContent dividers>
+                <div class="form-row">
+                  <label for="inputFirstName">Header</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="header"
+                    required={true}
+                    value={header}
+                    onChange={(e) => this.onChangeForm('header', e.target.value)}
+                    placeholder="Enter your header" />
+                  <label for="inputFirstName">Details</label>
+                  <Editor changeData={(value) => this.setState({ details: value })} data={details} target="details" handleChange={this.onChangeForm} />
+                  <label for="inputFirstName">Position</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="position"
+                    required={true}
+                    value={position}
+                    onChange={(e) => this.onChangeForm('position', e.target.value)}
+                    placeholder="Enter your position" />
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button autoFocus onClick={this.submitForm} color="primary">Save</Button>
+              </DialogActions>
+            </Dialog>
+          </React.Fragment>
         );
       },
       renderExpandableRow: (rowData, rowMeta) => {
@@ -250,4 +404,4 @@ const mapStateToProps = ({ cmsState }) => {
   return { productList, cmsState };
 }
 
-export default connect(mapStateToProps, { show, getAllFooter, deleteFooterSection })(Footer);
+export default connect(mapStateToProps, { show, getAllFooter, deleteFooterSection, newFooterSection, editFooterSection })(Footer);
