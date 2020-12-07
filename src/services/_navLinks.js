@@ -25,7 +25,7 @@ import {
 
 import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
 
-import { allCarsPage, configurePage } from "Helpers/inventoryURL";
+import { allCarsPage, allPreownedCarsPage, configurePage } from "Helpers/inventoryURL";
 
 import {
   marketingListPage,
@@ -147,6 +147,10 @@ export default [
       {
         title: "sidebar.allCars",
         path: allCarsPage
+      },
+      {
+        title: "sidebar.allPreownedCars",
+        path: allPreownedCarsPage
       },
       {
         title: "sidebar.settings",

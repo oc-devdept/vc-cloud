@@ -32,7 +32,7 @@ class crm_customer extends Component {
       <React.Fragment>
         <Helmet title="Customers" metaDesc="Everyday Customers Retention" />
         <PageTitleBar
-          title="Customer List"
+        title="Customer List"
           actionGroup={{
             add: { onClick: this.newCust },
             more: [{ label: "Refresh List", onClick: this.refresh }]

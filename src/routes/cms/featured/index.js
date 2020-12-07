@@ -86,6 +86,7 @@ class cms_featured extends Component {
                 }}
                 />
                 <FeaturedList  newCar={this.newCar} />
+                {console.log(this.props)}
                 {this.renderDialog() }
             </React.Fragment>
         );
@@ -95,4 +96,4 @@ const mapStateToProps = ({ inventoryState }) => {
     const { productList } = inventoryState;
     return { productList };
 }
-export default connect(mapStateToProps, { getAllProducts} )(cms_featured)
+export default connect(mapStateToProps, { getAllProducts } )(cms_featured)
