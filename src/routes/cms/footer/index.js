@@ -254,62 +254,9 @@ class Footer extends Component {
           customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                {console.log("Multiple renders here")}
-                {/* <IconButton onClick={() => { this.changeEmailSettings(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3]) }} size="small">
-                  <Footerform 
-                    changeEmailSettings={this.changeEmailSettings} 
-                    id={tableMeta.rowData[0]} 
-                    header={tableMeta.rowData[1]} 
-                    details={tableMeta.rowData[2]} 
-                    position={tableMeta.rowData[3]} />
-                  <Edit style={{ fontSize: 14 }} />
-                </IconButton> */}
-
-                {/* <IconButton onClick={this.handleOpenEdit} size="small">
-                  <EditFooterForm 
-                    id={tableMeta.rowData[0]} 
-                    header={tableMeta.rowData[1]} 
-                    details={tableMeta.rowData[2]} 
-                    position={tableMeta.rowData[3]} 
-                    open={this.state.openedit} />
-                  <Edit style={{ fontSize: 14 }} />
-                </IconButton> */}
-
                 <IconButton onClick={() => this.onClick(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3])} size="small">
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
-
-                <Dialog onClose={this.handleCloseEdit} aria-labelledby="customized-dialog-title" open={this.state.openedit} maxWidth={'md'} fullWidth={'md'}>
-                  <DialogTitle id="customized-dialog-title" onClose={this.handleCloseEdit}>Edit Footer Content</DialogTitle>
-                  <DialogContent dividers>
-                    <div class="form-row">
-                      <label for="inputFirstName">Header</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="headerEdit"
-                        required={true}
-                        value={headerEdit}
-                        onChange={(e) => this.onChangeForm('headerEdit', e.target.value)}
-                        placeholder="Enter your header" />
-                      <label for="inputFirstName">Details</label>
-                      <Editor changeData={(value) => this.setState({ detailsEdit: value })} data={detailsEdit} target="detailsEdit" handleChange={this.onChangeForm} />
-                      <label for="inputFirstName">Position</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="positionEdit"
-                        required={true}
-                        value={positionEdit}
-                        onChange={(e) => this.onChangeForm('positionEdit', e.target.value)}
-                        placeholder="Enter your position" />
-                    </div>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button autoFocus onClick={this.editForm} color="primary">Save</Button>
-                  </DialogActions>
-                </Dialog>
-
 
                 <IconButton size="small" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2]) }}>
                   <Delete style={{ fontSize: 14 }} />
@@ -335,46 +282,11 @@ class Footer extends Component {
       // Add new footer content
       customToolbar: (rowData, rowMeta) => {
         return (
-          // <IconButton onClick={() => {this.createFooterForm()} } size="small">
-          //   <FooterCreateForm createFooterForm={this.createFooterForm} />
-          //   <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
-          // </IconButton>
-
-          // For testing
           <React.Fragment>
             <IconButton onClick={this.handleOpenPopOver} size="small">
               <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
             </IconButton>
-            <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
-              <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Create New Footer Content</DialogTitle>
-              <DialogContent dividers>
-                <div class="form-row">
-                  <label for="inputFirstName">Header</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="header"
-                    required={true}
-                    value={header}
-                    onChange={(e) => this.onChangeForm('header', e.target.value)}
-                    placeholder="Enter your header" />
-                  <label for="inputFirstName">Details</label>
-                  <Editor changeData={(value) => this.setState({ details: value })} data={details} target="details" handleChange={this.onChangeForm} />
-                  <label for="inputFirstName">Position</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="position"
-                    required={true}
-                    value={position}
-                    onChange={(e) => this.onChangeForm('position', e.target.value)}
-                    placeholder="Enter your position" />
-                </div>
-              </DialogContent>
-              <DialogActions>
-                <Button autoFocus onClick={this.submitForm} color="primary">Save</Button>
-              </DialogActions>
-            </Dialog>
+
           </React.Fragment>
         );
       },
@@ -389,13 +301,76 @@ class Footer extends Component {
       },
     };
     return (
-      <RecordsList
-        title={title}
-        columns={columns}
-        data={tableData}
-        options={listOptions}
-        borderRadius={"0px"}
-        boxShadow={"none"} />);
+      <React.Fragment>
+        <RecordsList
+          title={title}
+          columns={columns}
+          data={tableData}
+          options={listOptions}
+          borderRadius={"0px"}
+          boxShadow={"none"} />
+        <Dialog onClose={this.handleCloseEdit} aria-labelledby="customized-dialog-title" open={this.state.openedit} maxWidth={'md'} fullWidth={'md'}>
+          <DialogTitle id="customized-dialog-title" onClose={this.handleCloseEdit}>Edit Footer Content</DialogTitle>
+          <DialogContent dividers>
+            <div class="form-row">
+              <label for="inputFirstName">Header</label>
+              <input
+                type="text"
+                className="form-control"
+                id="headerEdit"
+                required={true}
+                value={headerEdit}
+                onChange={(e) => this.onChangeForm('headerEdit', e.target.value)}
+                placeholder="Enter your header" />
+              <label for="inputFirstName">Details</label>
+              <Editor changeData={(value) => this.setState({ detailsEdit: value })} data={detailsEdit} target="detailsEdit" handleChange={this.onChangeForm} />
+              <label for="inputFirstName">Position</label>
+              <input
+                type="text"
+                className="form-control"
+                id="positionEdit"
+                required={true}
+                value={positionEdit}
+                onChange={(e) => this.onChangeForm('positionEdit', e.target.value)}
+                placeholder="Enter your position" />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={this.editForm} color="primary">Save</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
+          <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Create New Footer Content</DialogTitle>
+          <DialogContent dividers>
+            <div class="form-row">
+              <label for="inputFirstName">Header</label>
+              <input
+                type="text"
+                className="form-control"
+                id="header"
+                required={true}
+                value={header}
+                onChange={(e) => this.onChangeForm('header', e.target.value)}
+                placeholder="Enter your header" />
+              <label for="inputFirstName">Details</label>
+              <Editor changeData={(value) => this.setState({ details: value })} data={details} target="details" handleChange={this.onChangeForm} />
+              <label for="inputFirstName">Position</label>
+              <input
+                type="text"
+                className="form-control"
+                id="position"
+                required={true}
+                value={position}
+                onChange={(e) => this.onChangeForm('position', e.target.value)}
+                placeholder="Enter your position" />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={this.submitForm} color="primary">Save</Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment>
+    );
   }
 }
 
