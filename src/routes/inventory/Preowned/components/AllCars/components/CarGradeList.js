@@ -118,6 +118,7 @@ export default class Index extends PureComponent {
           customBodyRender: (rowData, rowState) => {
             return (
               <React.Fragment>
+                {console.log("rendered multiple times")}
                 <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", rowState.rowData[0])} size="small">
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
