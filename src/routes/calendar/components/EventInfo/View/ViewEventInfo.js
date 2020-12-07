@@ -16,8 +16,8 @@ function ViewEventInfo({ info, onEdit }) {
     <React.Fragment>
       <div className="d-block">
         {info.cus && (
-          <NavLink to={`./crm/customers/${info.cus}`}>
-            <h2 className="mb-0">View Customer</h2>
+          <NavLink to={`./crm/customers/${info.cus.id}`}>
+            <h2 className="mb-0">{info.cus.name}</h2>
           </NavLink>
         )}
 

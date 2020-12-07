@@ -191,6 +191,7 @@ class Calendar extends Component {
             </div>
           </Popover>
         </div>
+        {console.log(this.props.showEvents)}
       </React.Fragment>
     );
   }
