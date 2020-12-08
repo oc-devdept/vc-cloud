@@ -85,8 +85,7 @@ class cms_featured extends Component {
                     add: { onClick: this.newSection }                    
                 }}
                 />
-                <FeaturedList  newCar={this.newCar} />
-                {console.log(this.props)}
+                <FeaturedList newCar={this.newCar} />
                 {this.renderDialog() }
             </React.Fragment>
         );

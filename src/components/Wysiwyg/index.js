@@ -4,7 +4,7 @@ import 'jodit';
 import 'jodit/build/jodit.min.css';
 import JoditEditor from "jodit-react";
 
-class Editor  extends React.Component {
+class Editor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

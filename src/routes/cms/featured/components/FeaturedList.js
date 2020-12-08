@@ -89,14 +89,8 @@ class FeaturedList extends Component {
                   customBodyRender: (value, tableMeta) => {
                     return (
                       <div>                      
-                      <IconButton 
-                           size="small" className="tableDeleteIcon" onClick={() => {this.delete(tableMeta.rowData[0], tableMeta.rowData[1])}}>
-                        <Icon
-                          icon={baselineDeleteForever}
-                          color="#595959" 
-                          width="1.5rem"
-                          height="1.5rem"
-                        />
+                      <IconButton size="small" className="tableDeleteIcon" onClick={() => {this.delete(tableMeta.rowData[0], tableMeta.rowData[1]) }}>
+                        <Icon icon={baselineDeleteForever} color="#595959" width="1.5rem" height="1.5rem"/>
                       </IconButton>
                     </div>
                     )

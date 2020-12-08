@@ -31,6 +31,7 @@ module.exports = {
 
   "sidebar.car": "Car Page",
   "sidebar.blog": "Blog Page",
+  "sidebar.footer": "Footer Page",
 
   "sidebar.proj": "Project Management",
 

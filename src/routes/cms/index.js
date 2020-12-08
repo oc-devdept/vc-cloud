@@ -11,7 +11,7 @@ function cmsSwitcher() {
             <Switch>
                 <Route exact
                     path={url.bannerListPage}
-                    component={async.cms_banner_list} 
+                    component={async.cms_banner_list}
                 />
                 <Route path={url.bannerNewPage} component={async.cms_new_banner} />
                 <Route exact
@@ -25,7 +25,7 @@ function cmsSwitcher() {
 
                 <Route exact
                     path={url.featuredListPage}
-                    component={async.cms_featured_list} 
+                    component={async.cms_featured_list}
                 />
 
                 <Route
@@ -77,7 +77,26 @@ function cmsSwitcher() {
                     exact
                     path={`${url.configPage}`}
                     component={async.cms_config_page}
-                />  
+                />
+
+                {/* -----Route for Footer page----- */}
+                <Route
+                    exact
+                    path={`${url.footerPage}`}
+                    component={async.cms_footer_list}
+                />
+
+                <Route
+                    exact
+                    path={`${url.footerPage}/new`}
+                    component={async.cms_footer_new}
+                />
+
+                <Route
+                    exact
+                    path={`${url.footerPage}/edit/:id`}
+                    component={async.cms_footer_edit}
+                />
 
                 {/* ------- /404 ------- */}
                 <Redirect to="/404" />

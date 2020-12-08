@@ -27,7 +27,8 @@ import {
   BannerSaga,
   FeaturedSaga,
   CarSaga, BlogSaga,
-  ConfigOptionsSaga
+  ConfigOptionsSaga,
+  FooterSaga
 } from "Ducks/cms";
 
 //inventory
@@ -95,6 +96,7 @@ export default function* rootSaga() {
     //cms
     BannerSaga(),
     FeaturedSaga(),
+    FooterSaga(),
 
     ProductSaga(),
     // CMS

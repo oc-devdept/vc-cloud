@@ -8,6 +8,7 @@ import BaseInput from "Components/Form/BaseInput";
 
 function CommsDialog(props) {
   const { show, handleHide, edit, action } = props;
+  console.log(handleHide)
   const [state, setState] = React.useState({ name: "", commission: "" });
 
   React.useEffect(() => {

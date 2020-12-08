@@ -33,6 +33,15 @@ export const blogNewPage = `${blogPage}/new`;
 export const singleBlog = id => `${blogPage}/${id}`;
 
 /**
+ * Footer Page
+ */
+export const footerPage = "/app/cms/footer";
+
+export const footerNewPage = `${footerPage}/new`;
+
+export const footerEditPage = id => `${footerPage}/edit/${id}`;
+
+/**
  * config options
  */
 export const configPage = "/app/cms/configoptions";
