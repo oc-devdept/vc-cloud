@@ -38,7 +38,8 @@ export const singleBlog = id => `${blogPage}/${id}`;
 export const footerPage = "/app/cms/footer";
 
 export const footerNewPage = `${footerPage}/new`;
-// export const singleCar = id => `${carPage}/${id}`;
+
+export const footerEditPage = id => `${footerPage}/edit/${id}`;
 
 /**
  * config options

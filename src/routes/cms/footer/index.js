@@ -34,6 +34,9 @@ import EditFooterForm from './components/EditFooterForm';
 import FormInput from "Components/Form/FormInput";
 import { positions } from '@material-ui/system';
 
+// Import the new and edit pages
+import { footerNewPage, footerEditPage } from "Helpers/cmsURL";
+
 const PurpleSwitch = withStyles({
   switchBase: {
     color: orange[300],
@@ -94,10 +97,11 @@ class Footer extends Component {
     this.changeEmailSettings = this.changeEmailSettings.bind(this);
     this.onChangeForm = this.onChangeForm.bind(this);
     this.handleOpenEdit = this.handleOpenEdit.bind(this);
-
-
-
     this.handleChange = this.handleChange.bind(this);
+
+    // Bind the new and edit footer pages
+    this.newFooter = this.newFooterPage.bind(this);
+    // this.passData = this.editFooterPage.bind(this);
 
     this.state = {
       Products: [],
@@ -121,6 +125,16 @@ class Footer extends Component {
   componentDidMount() {
     this.props.getAllFooter();
     this.props.cmsState;
+  }
+
+  // New Footer Page
+  newFooterPage() {
+    this.props.history.push(footerNewPage);
+  }
+
+  editFooterPage(id) {
+    
+    this.props.history.push(footerEditPage(id));
   }
 
   // Delete Function
@@ -254,7 +268,11 @@ class Footer extends Component {
           customBodyRender: (value, tableMeta) => {
             return (
               <React.Fragment>
-                <IconButton onClick={() => this.onClick(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3])} size="small">
+                {/* <IconButton onClick={() => this.onClick(tableMeta.rowData[0], tableMeta.rowData[1], tableMeta.rowData[2], tableMeta.rowData[3])} size="small">
+                  <Edit style={{ fontSize: 14 }} />
+                </IconButton> */}
+
+                <IconButton onClick={() => this.editFooterPage(tableMeta.rowData[0])} size="small">
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
 
@@ -283,7 +301,7 @@ class Footer extends Component {
       customToolbar: (rowData, rowMeta) => {
         return (
           <React.Fragment>
-            <IconButton onClick={this.handleOpenPopOver} size="small">
+            <IconButton onClick={this.newFooter} size="small">
               <Icon className="addIcon" icon={addFilled} width="2.5rem" height="2.5rem" color="#FF8B19" />
             </IconButton>
 
@@ -309,6 +327,7 @@ class Footer extends Component {
           options={listOptions}
           borderRadius={"0px"}
           boxShadow={"none"} />
+        {/* Edit footer content */}
         <Dialog onClose={this.handleCloseEdit} aria-labelledby="customized-dialog-title" open={this.state.openedit} maxWidth={'md'} fullWidth={'md'}>
           <DialogTitle id="customized-dialog-title" onClose={this.handleCloseEdit}>Edit Footer Content</DialogTitle>
           <DialogContent dividers>
@@ -339,6 +358,7 @@ class Footer extends Component {
             <Button autoFocus onClick={this.editForm} color="primary">Save</Button>
           </DialogActions>
         </Dialog>
+        {/* Create footer content */}
         <Dialog onClose={this.handleClosePopOver} aria-labelledby="customized-dialog-title" open={this.state.openpopover} maxWidth={'md'} fullWidth={'md'}>
           <DialogTitle id="customized-dialog-title" onClose={this.handleClosePopOver}>Create New Footer Content</DialogTitle>
           <DialogContent dividers>
