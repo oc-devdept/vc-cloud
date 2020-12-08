@@ -75,3 +75,12 @@ export const cms_footer_list = Loadable({
     loader: () => import("./footer"),
     loading: () => <RctPageLoader />
 });
+
+export const cms_footer_new = Loadable({
+    loader: () => import("./footer/new"),
+    loading: () => <RctPageLoader />
+});
+export const cms_footer_edit = Loadable({
+    loader: () => import("./footer/edit"),
+    loading: () => <RctPageLoader />
+});
