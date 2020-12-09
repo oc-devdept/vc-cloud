@@ -40,12 +40,12 @@ class FormInput extends PureComponent {
       <FormControl className={classes.root}>
         {label && (
           <React.Fragment>
-            {/* <div className="
-            labelTest"> */}
-              <InputLabel className="fw-bold labelTest" shrink>
+            <div className="
+            labelTest">
+              <InputLabel className="fw-bold " shrink>
                 {label}
               </InputLabel>
-            {/* </div> */}
+            </div>
             { hasButton && <Button className="textButton" variant="contained" size="small" style={{
               backgroundColor: "#212e66"
             }} onClick={ e => this.props.buttonClick && this.props.buttonClick(target)}>Select</Button>

@@ -26,12 +26,7 @@ import {
 
 import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
 
-<<<<<<< Updated upstream
-import { allCarsPage, allPreownedCarsPage, configurePage } from "Helpers/inventoryURL";
-=======
-import { allCarsPage, configurePage, skuListPage } from "Helpers/inventoryURL";
-
->>>>>>> Stashed changes
+import { allCarsPage, allPreownedCarsPage, configurePage ,skuListPage} from "Helpers/inventoryURL";
 
 import {
   marketingListPage,
@@ -168,7 +163,6 @@ export default [
       },
       {
         title: "sidebar.SKU",
-        // 用在inventoryURL中创建的名字
         path: skuListPage
       }
      
