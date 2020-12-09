@@ -25,4 +25,15 @@ export const Configure = Loadable({
   loading: () => <RctPageLoader />
 });
 
+export const SKU = Loadable({
+  loader: () => import("./SKU/index"),
+  loading: () => <RctPageLoader />
+});
+export const SkuNew = Loadable({
+  loader: () => import("./SKU/new"),
+  loading: () => <RctPageLoader />
+});
+
+
+
 // export default InventoryComponent;

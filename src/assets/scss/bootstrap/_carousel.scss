@@ -17,11 +17,16 @@
   @include transition($carousel-transition);
   backface-visibility: hidden;
   perspective: 1000px;
+<<<<<<< Updated upstream
 }
 
+=======
+ }
+ 
+>>>>>>> Stashed changes
 .carousel-item.active,
 .carousel-item-next,
-.carousel-item-prev {
+.carousel-item-prev { 
   display: block;
 }
 

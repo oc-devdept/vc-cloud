@@ -14,7 +14,7 @@ const AppConfig = {
   copyRightText: "VC-Cloud © All Rights Reserved.", // Copy Right Text
   // light theme colors
   themeColors: {
-    primary: "#ff952e",
+    primary: "#212e66",
     secondary: "#1e4e94",
     success: "#22ad83",
     danger: "#D15D5D",

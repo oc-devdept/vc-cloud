@@ -5,7 +5,7 @@ import { InputBase } from "@material-ui/core";
 const BootstrapInput = withStyles(theme => ({
   root: {
     "label + &": {
-      marginTop: theme.spacing(3)
+      marginTop: theme.spacing(2)
     }
   },
   input: {
@@ -13,8 +13,8 @@ const BootstrapInput = withStyles(theme => ({
     position: "relative",
     backgroundColor: theme.palette.common.white,
     border: "1px solid #ced4da",
-    fontSize: 16,
-    padding: "10px 12px",
+    fontSize: 14,
+    padding: "5px 5px",
     transition: theme.transitions.create(["border-color", "box-shadow"]),
     "&:focus": {
       boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,

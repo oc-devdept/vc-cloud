@@ -5,7 +5,8 @@ import {
   FormControl,
   FormHelperText,
   Select,
-  MenuItem
+  MenuItem,
+  Button
 } from "@material-ui/core";
 import BaseInput from "Components/Form/BaseInput";
 
@@ -31,15 +32,25 @@ class FormInput extends PureComponent {
       keys,
       helperText,
       selectValueKey,
+      hasButton,
       ...others
     } = this.props;
 
     return (
       <FormControl className={classes.root}>
         {label && (
-          <InputLabel className="fw-bold" shrink>
-            {label}
-          </InputLabel>
+          <React.Fragment>
+            {/* <div className="
+            labelTest"> */}
+              <InputLabel className="fw-bold labelTest" shrink>
+                {label}
+              </InputLabel>
+            {/* </div> */}
+            { hasButton && <Button className="textButton" variant="contained" size="small" style={{
+              backgroundColor: "#212e66"
+            }} onClick={ e => this.props.buttonClick && this.props.buttonClick(target)}>Select</Button>
+            }
+          </React.Fragment>
         )}
         {selectValues ? (
           <Select
@@ -57,15 +68,14 @@ class FormInput extends PureComponent {
                 </MenuItem>
               ))}
           </Select>
-        ) : (
-          <BaseInput
-            value={value}
-            onChange={e => handleChange(target, e.target.value, keys)}
-            placeholder={placeholder}
-            disabled={disabled}
-            {...others}
-          />
-        )}
+        ) : (<BaseInput
+          value={value}
+          onChange={e => handleChange(target, e.target.value, keys)}
+          placeholder={placeholder}
+          disabled={disabled}
+          {...others}
+        />
+          )}
         {helperText && <FormHelperText>{helperText}</FormHelperText>}
         {required && <FormHelperText error>* Required Field</FormHelperText>}
       </FormControl>

@@ -66,5 +66,6 @@ module.exports = {
   "sidebar.newBanner": "New Banner",
   "sidebar.editBanner": "Edit Banner",
   "sidebar.featured": "Featured cars",
-  "sidebar.configOption": "Config options"
+  "sidebar.configOption": "Config options",
+  "sidebar.SKU": "SKU Maintenance"
 };

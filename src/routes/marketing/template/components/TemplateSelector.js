@@ -313,7 +313,7 @@ class TemplateSelector extends Component {
                   </Button> */}
                       <div className="mb-30">
                         <Button
-                          style={{ background: "#ff952e" }}
+                          style={{ background: "#212e66" }}
                           onClick={() => this.showEditTemplate(template, { title: "Template" }, "own" + key)}
                           // onClick={() => this.showEditContent(template, onChange, "shared" + key)}
                           className="ml-20 mt-30   btn-success text-white"
