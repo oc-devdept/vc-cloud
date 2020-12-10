@@ -42,23 +42,32 @@ class SKU_customer_list extends Component {
                 filter: false,              
               }
             },
-            {
-              label: "Image",
-              name: "images",
-              options: {
-                filter: false,
-                customBodyRender: (value, tableMeta) => {
-                    if(value.length > 0){
-                      return (
-                        <Image imageSource={value} single={true} thumbNail={true} />
-                      )
-                    }
-                    else {
-                      return (<div></div>)
-                    }                              
-                },              
-              }
-            },
+            // {
+            //   label: "Image",
+            //   name: "images",
+            //   options: {
+            //     filter: false,
+            //     customBodyRender: (value, tableMeta) => {
+            //         if(value.length > 0){
+            //           return (
+            //             <Image imageSource={value} single={true} thumbNail={true} />
+            //           )
+            //         }
+            //         else {
+            //           return (<div></div>)
+            //         }                              
+            //     },              
+            //   }
+            // },
+            { label: "P/N", name: "P/N", options: { filter: false} },
+            { label: "Description", name: "Description", options: { filter: false} },
+            { label: "GRP1", name: "GRP1", options: { filter: false} },
+            { label: "GRP2", name: "GRP2", options: { filter: false} },
+            { label: "NAMWE 1", name: "caption1", options: { filter: false} },
+            { label: "NAMWE 1", name: "caption1", options: { filter: false} },
+            { label: "NAMWE 1", name: "caption1", options: { filter: false} },
+            { label: "NAMWE 1", name: "caption1", options: { filter: false} },
+            { label: "NAMWE 1", name: "caption1", options: { filter: false} },
             { label: "NAMWE 1", name: "caption1", options: { filter: false} },
             { label: "Caption 2", name: "caption2", options: { filter: false} },        
             {
