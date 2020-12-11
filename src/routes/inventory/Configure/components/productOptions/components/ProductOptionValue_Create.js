@@ -135,8 +135,7 @@ class index extends PureComponent {
       data.append("isDefault", ProductOption.isDefault);
       data.append("price", ProductOption.price);
       data.append("productOptionCategoryId", productOptionCategoryId);
-      console.log("HERE")
-      console.log(data);
+
       await api.post("/productoptions/new", data);
 
       await this.props._CreateProductCategoryDone();
@@ -153,9 +152,9 @@ class index extends PureComponent {
   };
 
   _EditProductOptionValue = async () => {
-    console.log("HERE IN EDITR")
+
     const result = validateFormEdit(this.state.Item, this.state.files);
-    console.log(result);
+
     if (result) {
    
       const ProductOption = this.state.Item;
@@ -474,7 +473,7 @@ class index extends PureComponent {
                     width: "100%"
                   }}
                 >
-                  <StaticName title={"CURRENT IMAGE"} />
+                  <StaticName title={"CURRENT THUMBAIL"} />
                   {this.state.Item.image.length > 0 && (
                     <Image imageSource={this.state.Item.image} single={true} />
                   )}
@@ -487,7 +486,7 @@ class index extends PureComponent {
                     width: "100%"
                   }}
                 >
-                  <StaticName title={"UPLOAD NEW IMAGE"} />
+                  <StaticName title={"UPLOAD NEW THUMBNAIL"} />
                   <Dropzone
                     onDrop={this.handleUpload}
                     onRemove={this.removeFile}
@@ -495,7 +494,7 @@ class index extends PureComponent {
                     additionalText="Files can't be edited once uploaded."
                   />
                 </div>
-
+         
                 {/* THUMBNAIL HERE ================= */}
                 <div
                   style={{
@@ -504,7 +503,7 @@ class index extends PureComponent {
                     width: "100%"
                   }}
                 >
-                  <StaticName title={"CURRENT THUMBNAIL"} />
+                  <StaticName title={"CURRENT IMAGE"} />
                   {this.state.Item.thumbnail.length > 0 && (
                     <Image imageSource={this.state.Item.thumbnail} single={true} />
                   )}
@@ -517,7 +516,7 @@ class index extends PureComponent {
                     width: "100%"
                   }}
                 >
-                  <StaticName title={"UPLOAD NEW THUMBNAIL "} />
+                  <StaticName title={"UPLOAD NEW IMAGE "} />
                   <Dropzone
                     onDrop={this.handleThumbUpload}
                     onRemove={this.removeThumbFile}
@@ -699,7 +698,7 @@ class index extends PureComponent {
               >
                 {/* <span style={{paddingBottom: 10, paddingTop: 10, color:'rgba(150,150,150,1)'}}>IMAGE UPLOAD</span> */}
                <div className="col align-items-center">
-                <StaticName title={"IMAGE UPLOAD"} />
+                <StaticName title={"THUMBNAIL UPLOAD"} />
                 <Dropzone
                   onDrop={this.handleUpload}
                   onRemove={this.removeFile}
@@ -708,7 +707,7 @@ class index extends PureComponent {
                 />
                 </div>
                 <div className="col align-items-center">
-                <StaticName title={"THUMBNAIL UPLOAD"} />
+                <StaticName title={"IMAGE UPLOAD"} />
                 <Dropzone
                   onDrop={this.handleThumbUpload}
                   onRemove={this.removeThumbFile}
@@ -825,7 +824,7 @@ class index extends PureComponent {
                 </div>
               </div>
             </div>
-            {console.log(this.state)}
+      
           </div>
         );
         break;

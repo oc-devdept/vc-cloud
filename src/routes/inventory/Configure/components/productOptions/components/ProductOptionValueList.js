@@ -15,7 +15,6 @@ export default class Index extends PureComponent {
 
   render() {
     const { title, tableData, ToggleDialog, addOptionValue } = this.props;
-
     const columns = [
       {
         name: "id",
@@ -32,11 +31,11 @@ export default class Index extends PureComponent {
       },
       {
         label: "Image",
-        name: "files",
+        name: "images",
         options: {
           customBodyRender:  (rowData, rowState)  => {
             if (rowState.rowData[7].length > 0) {
-              return (
+              return (               
                 <Image imageSource={rowState.rowData[7]} single={true} thumbNail={true} />
               );
             } else {
@@ -87,9 +86,9 @@ export default class Index extends PureComponent {
             const data = {
               id: rowState.rowData[0],
               name: rowState.rowData[1],
-              image: rowState.rowData[2],
+              image: rowState.rowData[7],
               price: rowState.rowData[3],
-              thumbnail: rowState.rowData[7],
+              thumbnail: rowState.rowData[2],
               // isDefault: rowState.rowData[4],
               // editable: rowState.rowData[5],
               description: rowState.rowData[4]
@@ -115,9 +114,9 @@ export default class Index extends PureComponent {
             const data = {
               id: rowState.rowData[0],
               name: rowState.rowData[1],
-              image: rowState.rowData[2],
+              image: rowState.rowData[7],
               price: rowState.rowData[3],
-              thumbnail: rowState.rowData[7],
+              thumbnail: rowState.rowData[2],
               // isDefault: rowState.rowData[4],
               // editable: rowState.rowData[5],
               description: rowState.rowData[4]
@@ -135,12 +134,13 @@ export default class Index extends PureComponent {
       },
       {
         label: "Image",
-        name: "images",
+        name: "files",
         options: {
           display: "excluded", filter: false, sort: false ,
           customBodyRender: value => {
             if (value.length > 0) {
               return (
+
                 <Image imageSource={value} single={true} thumbNail={true} />
               );
             } else {
@@ -173,6 +173,7 @@ export default class Index extends PureComponent {
 
     return (
       <div>
+        
         <RecordsList
           title={title}
           columns={columns}
