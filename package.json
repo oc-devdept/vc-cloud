@@ -68,7 +68,7 @@
     "globalize": "^0.1.1",
     "jodit": "3.4.23",
     "jodit-react": "1.0.59",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "module": "^1.2.5",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.32",
