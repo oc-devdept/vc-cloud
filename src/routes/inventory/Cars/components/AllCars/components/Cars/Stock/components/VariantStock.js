@@ -226,7 +226,7 @@ const List = ({ loading, title, tableData, editOrder, deleteOrder }) => {
       }
     },
     {
-      label: "QUANTITY",
+      label: "ORIGINAL QUANTITY",
       name: "ship_count",
       options: {
         customBodyRender: (value, tableMeta) => {
