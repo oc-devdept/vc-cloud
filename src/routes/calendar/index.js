@@ -4,7 +4,7 @@ import Helmet from "Components/Helmet";
 import { connect } from "react-redux";
 import { show } from "redux-modal";
 
-import BigCalendar from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 
 // Calendar Components
@@ -21,10 +21,9 @@ import NewEventForm from "./components/forms/NewEventForm";
 import { getAllEvents, addEvent } from "Ducks/calendar";
 // import { filterChange } from "Com"
 import Popover from "@material-ui/core/Popover";
+const localizer = momentLocalizer(moment);
 
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-
-class Calendar extends Component {
+class CRMCalendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -100,8 +99,7 @@ class Calendar extends Component {
   }
 
   renderEvent = (slotSelected) => (
-    <React.Fragment>
-      {console.log(slotSelected)}
+    <React.Fragment>    
       <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} adjustPosition={this.adjustPopoverPostion} edit={false} showEditForm={this.showEditForm} />
     </React.Fragment>
   );
@@ -152,20 +150,13 @@ class Calendar extends Component {
           <div className="col-md-10">
             <div className="row">
               <div className="col-md-12" onMouseDownCapture={this.onMouseDownCapture}>
-                <BigCalendar
-                  popup
-                  style={{ position: "relative" }}
-                  selectable
-                  events={showEvents}
-                  views={["month", "week", "day"]}
-                  eventPropGetter={this.eventStyleGetter}
-                  onSelectEvent={(slotSelected) => this.renderEventPopover(slotSelected)}
-                  defaultDate={new Date()}
-                  onSelectSlot={(slotSelected) => this.renderEventFormPopover(slotSelected)}
-                  components={{
-                    toolbar: CustomToolbar,
-                    event: CustomEvent,
-                  }}
+                <Calendar 
+                popup
+                localizer={localizer} 
+                events={showEvents} startAccessor="start" endAccessor="end"
+                eventPropGetter={this.eventStyleGetter}
+                onSelectEvent={(slotSelected) => this.renderEventPopover(slotSelected)}
+                onSelectSlot={(slotSelected) => this.renderEventFormPopover(slotSelected)}
                 />
               </div>
             </div>
@@ -207,4 +198,24 @@ export default connect(mapStateToProps, {
   getAllEvents,
   addEvent,
   show,
-})(Calendar);
+})(CRMCalendar);
+/*
+<BigCalendar
+                  localizer={localizer}
+                  popup
+                  
+                  
+                />
+style={{ position: "relative" }}
+                  selectable
+                  events={showEvents}
+                  views={["month", "week", "day"]}
+                  eventPropGetter={this.eventStyleGetter}
+                  onSelectEvent={(slotSelected) => this.renderEventPopover(slotSelected)}
+                  defaultDate={new Date()}
+                  onSelectSlot={(slotSelected) => this.renderEventFormPopover(slotSelected)}
+                  components={{
+                    toolbar: CustomToolbar,
+                    event: CustomEvent,
+                  }}
+*/
