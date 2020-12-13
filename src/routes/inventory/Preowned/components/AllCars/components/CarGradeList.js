@@ -71,7 +71,7 @@ export default class Index extends PureComponent {
       },
       {
         label: "IMAGE",
-        name: "files",
+        name: "image",
         options: {
           customBodyRender: (value, tableMeta) => {
             if (value.length > 0) {

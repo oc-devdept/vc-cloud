@@ -43,7 +43,7 @@ class index extends PureComponent {
       this.setState({ Products: [], loading: false });
     }
   }
-
+/*
   _FetchProductsAPI = async () => {
     try {
       const ModelGrade = await api.get(`categories/ModelGrade`);
@@ -67,10 +67,11 @@ class index extends PureComponent {
       this.setState({ loading: false });
     }
   };
-
+*/
   _DeleteCar = async (id) => {
     await api.post(`products/deleteSpecificProductGrade`, { data: id });
-    await this._FetchProductsAPI();
+    this.props.getAllPreownedProducts();
+    //await this._FetchProductsAPI();
     NotificationManager.success("You have successfully deleted a grade");
   };
 
@@ -137,19 +138,11 @@ class index extends PureComponent {
     const { makes } = this.state;
     return (
       <div style={{ marginTop: 10, marginBottom: 50 }}>
-        {/* <CarList
-          title={"ALL PREOWNED CARS"}
-          loading={this.state.loading}
-          tableData={this.state.Products}
-          borderRadius={"0px"}
-          boxShadow={"none"}
-          ToggleDialog={this.ToggleDialog}
-          DeleteCar={this._DeleteCar}
-        /> */}
+        
         <CarGradeList
           title={"ALL PREOWNED CARS"}
           loading={this.state.loading}
-          tableData={this.state.Products}
+          tableData={this.props.preownedProductList.tableData}
           borderRadius={"0px"}
           boxShadow={"none"}
           ToggleDialog={this.ToggleDialog}

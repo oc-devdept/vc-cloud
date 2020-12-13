@@ -22,8 +22,7 @@ const getAllPreownedProductRequest = async () => {
   return result.data;
 };
 function* getAllPreownedProductFromDB() {
-  try {
-    console.log("PREOWNED PRODUCTS HERE");
+  try {    
     const data = yield call(getAllPreownedProductRequest);
     //console.log(data);
     yield put(actions.getAllPreownedProductsSuccess(data));
