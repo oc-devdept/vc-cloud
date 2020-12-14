@@ -7,6 +7,7 @@ import RctSectionLoader from "Components/RctSectionLoader";
 
 // forms
 import UpdateUserDetailsForm from "./forms/UpdateUserDetailsForm";
+import UpdatePasswordForm from "./forms/UpdatePasswordForm";
 
 const UserFeedBlock = ({ loggedInUser, loading }) => {
   return (
@@ -18,6 +19,9 @@ const UserFeedBlock = ({ loggedInUser, loading }) => {
           ) : (
             <UpdateUserDetailsForm user={loggedInUser} />
           )}
+        </div>
+        <div icon={<Person />} label="Update Password">
+          <UpdatePasswordForm />
         </div>
       </TabsWrapper>
     </React.Fragment>
