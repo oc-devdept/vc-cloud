@@ -38,7 +38,7 @@ class index extends PureComponent {
       this.setState({
         makes: this.props.makes.tableData,
       });
-      await this._FetchProductsAPI();
+      //await this._FetchProductsAPI();
     } catch (e) {
       this.setState({ Products: [], loading: false });
     }
