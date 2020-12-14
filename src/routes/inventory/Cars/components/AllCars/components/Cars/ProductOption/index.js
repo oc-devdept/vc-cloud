@@ -55,7 +55,7 @@ export default class Index extends Component {
       Options.map(e => {
         // console.log(e.productOption.productOptionCategoryId, ProductOptionCategories[productOptionStage].value, e.productOption.productOptionCategoryId == ProductOptionCategories[productOptionStage].value)
         if (
-          e.productOption.productOptionCategoryId ==
+          e.productOption && e.productOption.productOptionCategoryId ==
           ProductOptionCategories[productOptionStage].id
         ) {
           BelongsTo.push(e);
@@ -297,7 +297,7 @@ export default class Index extends Component {
                   if (Car) {
                     if (Car.length > 0) {
                       Car.map(e => {
-                        if (each) {
+                        if (each && e.productOption) {
                           if (e.productOption.id == each.id) {
                             contain = true;
                           }
