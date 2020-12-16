@@ -6,13 +6,12 @@ import * as types from "./CalendarTypes";
 /**
  * Get All Events
  */
-export const getAllEvents = (filter, start, end, id) => ({
+export const getAllEvents = (filter, start, end) => ({
   type: types.GET_ALL_EVENTS,
   payload: {
     filter,
     start,
-    end,
-    id
+    end
   }
 });
 

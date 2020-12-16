@@ -1,0 +1,35 @@
+.dotRow {
+    width:100%;
+    height:15px;
+    text-align: center;
+    margin-top:2px;
+}
+
+
+.calDot {
+    background-color: rgb(92, 190, 255);
+    display:inline-block;
+    width:6px;
+    height:6px;
+    border-radius: 50%;
+    margin-right:3px;
+}
+
+.calDot.green {
+    background-color: #9ddd76;
+}
+
+.calDot.pink {
+    background-color: #F4CAC2;
+}
+
+.bigCalDot {
+    width: 10px;
+    height:10px;
+}
+
+.calTitleRow {
+    font-size:18px;
+    margin-bottom:5px;
+}
+

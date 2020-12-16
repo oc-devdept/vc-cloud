@@ -31,11 +31,11 @@
   margin-bottom: $block-margin-bottom;
   position: relative;
   .rct-block-content {
-    overflow-x: scroll;
+    overflow-x: auto;
     padding: $block-spacing;
   }
   .rct-full-block {
-    overflow-x: scroll;
+    overflow-x: auto;
   }
   &:hover {
     box-shadow: $block-hover-shadow;

@@ -4,19 +4,15 @@ import BgCard from "Components/BgCard";
 import RecordsList from "Components/RecordsList";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { PersonAdd, Edit } from "@material-ui/icons";
+import { PersonAdd, Edit, Delete } from "@material-ui/icons";
 
-const UsersList = ({ tableData, newUser, editUser }) => {
+const UsersList = ({ tableData, newUser, editUser, deleteUser, totalCount, updateTableState, onFilterChange, onSearchChange, onSearchClose, searchText }) => {
   const columns = [
     {
       label: "Name",
       name: "name"
     },
     { label: "Email", name: "email" },
-    {
-      label: "Mobile",
-      name: "mobile"
-    },
 
     {
       label: "Actions",
@@ -55,12 +51,47 @@ const UsersList = ({ tableData, newUser, editUser }) => {
     viewColumns: false,
     rowsPerPageOptions: [15, 30, 60, 100],
     textLabels: { body: { noMatch: "No data to display" } },
+    serverSide: true,
+    count: totalCount,
+    onTableInit: (action, tableState) => {
+      const limit = tableState.rowsPerPage;
+      const skip = tableState.page * tableState.rowsPerPage;
+      if (action == "tableInitialized") {
+        updateTableState({
+          limit,
+          skip,
+          serverSideFilterList: tableState.filterList,
+          columns: tableState.columns
+        });        
+      }
+    },
+    onTableChange: (action, tableState) => {
+      const limit = tableState.rowsPerPage;
+      const skip = tableState.page * tableState.rowsPerPage;
+      switch (action) {
+        case "propsUpdate":
+          //tableState.filterList = this.state.serverSideFilterList;
+          break;
+        case "changePage":
+        case "changeRowsPerPage":
+          //filter = getFilters(tableState.filterList, tableState.columns);
+          updateTableState({ limit, skip });          
+          break;
+      }
+    },
+    onFilterChange: onFilterChange,
+    onSearchChange: onSearchChange,
+    onSearchClose: onSearchClose,
+    search: true,
+    searchText: searchText,    
     customToolbar: () => (
+      <React.Fragment>
       <Tooltip id="tooltip-icon" title="Add User">
         <IconButton className="mr-2" aria-label="Add User" onClick={newUser}>
           <PersonAdd />
         </IconButton>
-      </Tooltip>
+      </Tooltip>    
+    </React.Fragment>
     )
   };
 

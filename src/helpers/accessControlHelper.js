@@ -29,3 +29,25 @@ export const accessControlHelper = (action, match) => {
 
   return false;
 };
+
+export const roleListHelper = (role) => {
+  function addRole(siblings) {
+    for (let i = 0; i < siblings.length; i++) {
+
+      roleNames.push({ name: siblings[i].name, value: siblings[i].id, tier: siblings[i].tier })
+
+    }
+    for (let i = 0; i < siblings.length; i++) {
+      if (siblings[i].children.length > 0) {
+        addRole(siblings[i].children);
+      }
+    }
+  }
+  const roleNames = [];
+  roleNames.push({ name: role.name, value: role.id, tier: role.tier });
+  if (role.children.length > 0) {
+    addRole(role.children);
+  }
+  return roleNames;
+
+}
