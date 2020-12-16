@@ -56,7 +56,8 @@ const saveToMailingListRequest = async (contacts, listId) => {
   const result = await api.post(`/MailingLists/${listId}/addContact`, {
     contacts
   });
-  return result.data.updatedList.contacts;
+
+  return result.data;
 };
 const removeFromMailingListRequest = async (contacts, listId) => {
   const result = await api.post(`/MailingLists/${listId}/removeContact`, {
@@ -119,8 +120,10 @@ function* saveToMailingList({ payload }) {
       state.marketingState.mailState.allMailingList.nowShowing;
     const listId = yield select(getListId);
     const data = yield call(saveToMailingListRequest, payload, listId);
+
     yield put(saveToMailingListSuccess(data));
   } catch (error) {
+    console.log(error)
     yield put(saveToMailingListFailure(error));
   }
 }

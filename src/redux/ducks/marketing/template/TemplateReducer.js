@@ -15,7 +15,7 @@ const INIT_STATE = {
 };
 
 export default (state = INIT_STATE, action) => {
-  console.log(action)
+  // console.log(action)
   switch (action.type) {
     /**
      * Get all templates

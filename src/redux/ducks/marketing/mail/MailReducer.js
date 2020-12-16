@@ -27,6 +27,7 @@ const INIT_STATE = {
 };
 
 function filterContact(contactList, mailingList) {
+  console.log(mailingList)
   for (let i = 0; i < contactList.length; i++) {
     var match = mailingList.find(mailing => mailing.id == contactList[i].id);
     if (match) {
@@ -39,6 +40,7 @@ function filterContact(contactList, mailingList) {
 }
 
 export default (state = INIT_STATE, action) => {
+  console.log(action)
   switch (action.type) {
     /**
      * Get all mailing list
@@ -104,19 +106,20 @@ export default (state = INIT_STATE, action) => {
     case types.GET_MAILING_LIST_SUCCESS:
     case types.SAVE_TO_MAILING_LIST_SUCCESS:
     case types.REMOVE_FROM_MAILING_LIST_SUCCESS:
-      var contactList = filterContact(state.contacts.list, action.payload);
+      // var contactList = filterContact(state.contacts.list, action.payload);
       return {
         ...state,
         mailingList: {
           ...state.mailingList,
           loading: false,
-          list: action.payload
+          list: action.payload.data,
+          totalCount: action.payload.totalCount,
         },
-        contacts: {
-          ...state.contacts,
-          list: contactList,
-          loading: false
-        }
+        // contacts: {
+        //   ...state.contacts,
+        //   list: contactList,
+        //   loading: false
+        // }
       };
     case types.GET_MAILING_LIST_FAILURE:
       NotificationManager.error("Error in retrieving Mailing List");
