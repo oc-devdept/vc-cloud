@@ -19,7 +19,11 @@ const INIT_STATE = {
   contacts: {
     list: [],
     loading: false
-  }
+  },
+  relatedCampaignsList: {
+    list: [],
+    loading: false,
+  },
 };
 
 function filterContact(contactList, mailingList) {
@@ -227,6 +231,30 @@ export default (state = INIT_STATE, action) => {
       NotificationManager.error("Error in deleting mailing list");
       return { ...state, mailingList: { ...state.mailingList, loading: true } };
 
+    /**
+     * Get  RELATED CAMPAIGNS
+     */
+    case types.GET_ALL_RELATED_CAMPAIGNS:
+      return {
+        ...state,
+        relatedCampaignsList: { ...state.relatedCampaignsList, loading: true },
+      };
+    case types.GET_ALL_RELATED_CAMPAIGNS_SUCCESS:
+      // console.log("CAMPAIGN MAILING SUCCESSS")
+      return {
+        ...state,
+        relatedCampaignsList: {
+          // ...state.campaignMailingList,
+          loading: false,
+          list: action.payload.list,
+        },
+      };
+    case types.GET_ALL_RELATED_CAMPAIGNS_FAILURE:
+      NotificationManager.error("Error in retrieving Campaigns");
+      return {
+        ...state,
+        relatedCampaignsList: { ...state.relatedCampaignsList, loading: false },
+      };
     default:
       return { ...state };
   }

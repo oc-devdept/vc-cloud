@@ -11,9 +11,11 @@ const INIT_STATE = {
     completedHtml: "",
     completedDesign: "",
   },
+  
 };
 
 export default (state = INIT_STATE, action) => {
+  console.log(action)
   switch (action.type) {
     /**
      * Get all templates

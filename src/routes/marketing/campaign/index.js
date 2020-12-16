@@ -133,6 +133,7 @@ class mail_campaign extends Component {
           </div>
         </div>
         <SendCampaignNowAlert />
+        {console.log(this.props)}
       </React.Fragment>
     );
   }

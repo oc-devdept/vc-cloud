@@ -140,3 +140,19 @@ export const deleteMailingListFailure = error => ({
   type: types.DELETE_MAILING_LIST_FAILURE,
   payload: error
 });
+
+/**
+ * Get All RELATED CAMPAIGNS
+ */
+export const getAllRelatedCampaigns = (userId, mailListId) => ({
+  type: types.GET_ALL_RELATED_CAMPAIGNS,
+  payload: { userId, mailListId },
+});
+export const getAllRelatedCampaignsSuccess = (data) => ({
+  type: types.GET_ALL_RELATED_CAMPAIGNS_SUCCESS,
+  payload: data,
+});
+export const getAllRelatedCampaignsFailure = (error) => ({
+  type: types.GET_ALL_RELATED_CAMPAIGNS_FAILURE,
+  payload: error,
+});

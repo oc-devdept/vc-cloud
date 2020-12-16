@@ -8,7 +8,8 @@ import {
   REMOVE_FROM_MAILING_LIST,
   CREATE_MAILING_LIST,
   UPDATE_MAILING_LIST,
-  DELETE_MAILING_LIST
+  DELETE_MAILING_LIST,
+  GET_ALL_RELATED_CAMPAIGNS,
 } from "./MailTypes";
 
 import {
@@ -29,7 +30,9 @@ import {
   updateMailingListSuccess,
   updateMailingListFailure,
   deleteMailingListSuccess,
-  deleteMailingListFailure
+  deleteMailingListFailure,
+  getAllRelatedCampaignsSuccess,
+  getAllRelatedCampaignsFailure,
 } from "./MailActions";
 
 import api from "Api";
@@ -75,6 +78,11 @@ const updateMailingListRequest = async data => {
 };
 const deleteMailingListRequest = async id => {
   const result = await api.delete(`/MailingLists/${id}`);
+  return result.data;
+};
+const getAllRelatedCampaignsRequest = async (userId, mailListId) => {
+  const result = await api.post("/MailingLists/getAllRelatedCampaigns", { userId, mailListId });
+  console.log(result.data);
   return result.data;
 };
 
@@ -159,7 +167,14 @@ function* deleteMailingList({ payload }) {
     yield put(deleteMailingListFailure(error));
   }
 }
-
+function* getAllRelatedCampaigns({ payload }) {
+  try {
+    const data = yield call(getAllRelatedCampaignsRequest, payload.userId, payload.mailListId);
+    yield put(getAllRelatedCampaignsSuccess(data));
+  } catch (error) {
+    yield put(getAllRelatedCampaignsFailure(error));
+  }
+}
 //=======================
 // WATCHER FUNCTIONS
 //=======================
@@ -190,6 +205,9 @@ export function* updateMailingListWatcher() {
 export function* deleteMailingListWatcher() {
   yield takeEvery(DELETE_MAILING_LIST, deleteMailingList);
 }
+export function* getAllRelatedCampaignsWatcher() {
+  yield takeEvery(GET_ALL_RELATED_CAMPAIGNS, getAllRelatedCampaigns);
+}
 
 //=======================
 // FORK SAGAS TO STORE
@@ -204,6 +222,7 @@ export default function* rootSaga() {
     fork(createMailingListWatcher),
     fork(getAllAdminMailingListWatcher),
     fork(updateMailingListWatcher),
-    fork(deleteMailingListWatcher)
+    fork(deleteMailingListWatcher),
+    fork(getAllRelatedCampaignsWatcher),
   ]);
 }
