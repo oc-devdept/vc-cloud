@@ -39,9 +39,9 @@ function ContactTable(props) {
       xAxis: false,
       yAxis: true
     },
-    isRowSelectable: dataIndex => {
-      return tableData[dataIndex].disable != true;
-    },
+    // isRowSelectable: dataIndex => {
+    //   return tableData[dataIndex].disable != true;
+    // },
     customToolbarSelect: () => { },
     serverSide: isServer,
     sort: false,
@@ -108,7 +108,11 @@ function ContactTable(props) {
   }
 
   return (
+    <React.Fragment>
+      {console.log("IN CONTACT TABLE")}
+      {console.log(props.tableData)}
     <RecordsList columns={columns} data={tableData} options={listOptions} />
+    </React.Fragment>
   );
 }
 

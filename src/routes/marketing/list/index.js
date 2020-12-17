@@ -44,7 +44,7 @@ class mail_list extends Component {
   }
 
   componentDidMount() {
-    this.props.getContacts();
+    // this.props.getContacts();
     this.props.getAllMailingList();
   }
 

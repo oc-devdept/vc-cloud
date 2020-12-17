@@ -44,13 +44,26 @@ const getAllMailingListRequest = async () => {
   const result = await api.get("/MailingLists/getAllList");
   return result.data.list;
 };
-const getMailingListRequest = async data => {
-  const result = await api.get(`/MailingLists/${data}`);
-  return result.data.contacts;
+// const getMailingListRequest = async data => {
+//   const result = await api.get(`/MailingLists/${data}`);
+//   return result.data.contacts;
+// };
+const getMailingListRequest = async ({ listId, limit, skip, filter, searchText, orderBy }) => {
+  const result = await api.post("/MailingLists/getemails", { listId: listId.id, limit, skip, filter, searchText, orderBy });
+  return result.data;
 };
-const getContactsRequest = async () => {
-  const custContact = await api.post("/customers/getall");
-  return custContact.data.data;
+
+// const getContactsRequest = async () => {
+//   const custContact = await api.post("/customers/getall");
+//   return custContact.data.data;
+// };
+
+const getContactsRequest = async ({ limit, listId, skip, filter, searchText, orderBy }) => {
+  console.log("getting contacts");
+  console.log(limit, listId, skip, filter)
+  const custContact = await api.post("/MailingLists/getcustomers", { limit, listId, skip, filter, searchText, orderBy });
+
+  return custContact.data;
 };
 const saveToMailingListRequest = async (contacts, listId) => {
   const result = await api.post(`/MailingLists/${listId}/addContact`, {
@@ -59,11 +72,22 @@ const saveToMailingListRequest = async (contacts, listId) => {
 
   return result.data;
 };
-const removeFromMailingListRequest = async (contacts, listId) => {
+// const removeFromMailingListRequest = async (contacts, listId) => {
+//   const result = await api.post(`/MailingLists/${listId}/removeContact`, {
+//     contacts
+//   });
+//   return result.data.updatedList.contacts;
+// };
+const removeFromMailingListRequest = async (listId, contacts, searchText, limit) => {
+  console.log("REMOVE FROM LIST REQUEST");
+  console.log(contacts)
   const result = await api.post(`/MailingLists/${listId}/removeContact`, {
-    contacts
+    contacts,
+    listId,
+    searchText,
+    limit,
   });
-  return result.data.updatedList.contacts;
+  return result.data;
 };
 const createMailingListRequest = async data => {
   const result = await api.post("/MailingLists", data);
@@ -98,17 +122,38 @@ function* getAllMailingList() {
     yield put(getAllMailingListFailure(error));
   }
 }
+// function* getMailingList({ payload }) {
+//   try {
+//     const data = yield call(getMailingListRequest, payload.id);
+//     yield put(getMailingListSuccess(data));
+//   } catch (error) {
+//     yield put(getMailingListFailure(error));
+//   }
+// }
 function* getMailingList({ payload }) {
   try {
-    const data = yield call(getMailingListRequest, payload.id);
+    const data = yield call(getMailingListRequest, payload);
+    //also refresh contacts
+    const getContacts = (state) => state.marketingState.mailState.contacts;
+    const contacts = yield select(getContacts);
+    const contactData = yield call(getContactsRequest, {
+      limit: contacts.limit,
+      listId: payload.listId.id,
+      skip: contacts.skip,
+      filter: contacts.filter,
+      searchText: contacts.searchText,
+      orderBy: contacts.orderBy,
+    });
     yield put(getMailingListSuccess(data));
+    yield put(getContactsSuccess(contactData));
   } catch (error) {
     yield put(getMailingListFailure(error));
   }
 }
-function* getContacts() {
+function* getContacts({ payload }) {
   try {
-    const data = yield call(getContactsRequest);
+    console.log()
+    const data = yield call(getContactsRequest, payload);
     yield put(getContactsSuccess(data));
   } catch (error) {
     yield put(getContactsFailure(error));
@@ -129,15 +174,26 @@ function* saveToMailingList({ payload }) {
 }
 function* removeFromMailingList({ payload }) {
   try {
-    const getListId = state =>
-      state.marketingState.mailState.allMailingList.nowShowing;
+    const getListId = (state) => state.marketingState.mailState.allMailingList.nowShowing;
     const listId = yield select(getListId);
-    const data = yield call(removeFromMailingListRequest, payload, listId);
+    const data = yield call(removeFromMailingListRequest, listId, payload.contacts, payload.searchText, payload.limit);
     yield put(removeFromMailingListSuccess(data));
   } catch (error) {
+    console.log(error)
     yield put(removeFromMailingListFailure(error));
   }
 }
+// function* removeFromMailingList({ payload }) {
+//   try {
+//     const getListId = state =>
+//       state.marketingState.mailState.allMailingList.nowShowing;
+//     const listId = yield select(getListId);
+//     const data = yield call(removeFromMailingListRequest, payload, listId);
+//     yield put(removeFromMailingListSuccess(data));
+//   } catch (error) {
+//     yield put(removeFromMailingListFailure(error));
+//   }
+// }
 function* createMailingList({ payload }) {
   try {
     const data = yield call(createMailingListRequest, payload);

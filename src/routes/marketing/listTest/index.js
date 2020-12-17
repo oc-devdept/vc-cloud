@@ -41,8 +41,8 @@ class mail_list extends Component {
         selectedRows: [],
         limit: 15,
         skip: 0,
-        filters: [[], [], [], [], [], [], ["Not in DNC"], ["False"]],
-        afterfilter: [{ dnc_status: "Not in DNC" }, { unsubscribed: "False" }],
+        filters: [[], [], [], [], [], [], [], []],
+        afterfilter: [],
         searchText: "",
         columns: [],
         orderBy: [],
@@ -89,7 +89,7 @@ class mail_list extends Component {
       }
     });
     clearInterval(this.searchInterval);
-    this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+    // this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
 
   }
 
@@ -111,7 +111,7 @@ class mail_list extends Component {
   componentDidMount() {
 
     // this.props.getCustomerType();
-    this.props.getContacts("", this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter);
+    // this.props.getContacts("", this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter);
     //this.props.getContacts();
     this.props.getAllMailingList(this.state.mailing.limit, this.state.mailing.skip);
 
@@ -402,18 +402,18 @@ class mail_list extends Component {
     const { nowShowing, nowShowingName, loading } = allMailingList;
     // const customerTypes = this.props.customerType.map(val => val.name);
     var ctactCols = [...contactColumns];
-    ctactCols[4].options.filterList = this.state.contact.filters[4];
-    ctactCols[4].options.filterType = "textField";
-    ctactCols[5].options.filterList = this.state.contact.filters[5];
-    // ctactCols[5].options.filterOptions = { names: customerTypes };
-    ctactCols[5].options.filterType = "checkbox";
-    ctactCols[6].options.filterList = this.state.contact.filters[6];
-    ctactCols[6].options.filterOptions = { names: ["Not in DNC"] };
-    ctactCols[6].options.filterType = "checkbox";
-    ctactCols[7].options.filterList = this.state.contact.filters[7];
-    ctactCols[7].options.customFilterListOptions = { render: v => `Unsubscribed:${v}` };
-    ctactCols[7].options.filterOptions = { names: ["False"] };
-    ctactCols[7].options.filterType = "checkbox";
+    // ctactCols[4].options.filterList = this.state.contact.filters[4];
+    // ctactCols[4].options.filterType = "textField";
+    // ctactCols[5].options.filterList = this.state.contact.filters[5];
+    // // ctactCols[5].options.filterOptions = { names: customerTypes };
+    // ctactCols[5].options.filterType = "checkbox";
+    // ctactCols[6].options.filterList = this.state.contact.filters[6];
+    // ctactCols[6].options.filterOptions = { names: ["Not in DNC"] };
+    // ctactCols[6].options.filterType = "checkbox";
+    // ctactCols[7].options.filterList = this.state.contact.filters[7];
+    // ctactCols[7].options.customFilterListOptions = { render: v => `Unsubscribed:${v}` };
+    // ctactCols[7].options.filterOptions = { names: ["False"] };
+    // ctactCols[7].options.filterType = "checkbox";
     return (
       <React.Fragment>
         <Helmet title="Mailing List" metaDesc="Huttons CRM Mailing List" />

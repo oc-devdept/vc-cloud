@@ -93,12 +93,15 @@ export default (state = INIT_STATE, action) => {
      * Get Contacts in Mailing List
      */
     case types.GET_MAILING_LIST:
+      console.log(action)
       return {
         ...state,
         allMailingList: {
           ...state.allMailingList,
-          nowShowing: action.payload.id,
-          nowShowingName: action.payload.name
+          nowShowing: action.payload.listId.id,
+          nowShowingName: action.payload.listId.name,
+          // nowShowing: action.payload.id,
+          // nowShowingName: action.payload.name
         },
         mailingList: { ...state.mailingList, loading: true },
         contacts: { ...state.contacts, loading: true }
@@ -106,6 +109,8 @@ export default (state = INIT_STATE, action) => {
     case types.GET_MAILING_LIST_SUCCESS:
     case types.SAVE_TO_MAILING_LIST_SUCCESS:
     case types.REMOVE_FROM_MAILING_LIST_SUCCESS:
+      console.log("GET MAILING LIST");
+      console.log(action)
       // var contactList = filterContact(state.contacts.list, action.payload);
       return {
         ...state,
@@ -133,14 +138,29 @@ export default (state = INIT_STATE, action) => {
      * Get Contacts
      */
     case types.GET_CONTACTS:
-      return { ...state, contacts: { ...state.contacts, loading: true } };
+      // return { ...state, contacts: { ...state.contacts, loading: true } };
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          loading: true,
+          limit: action.payload.limit,
+          skip: action.payload.skip,
+          filter: action.payload.filter,
+          searchText: action.payload.searchText,
+          orderBy: action.payload.orderBy,
+        },
+      };
+
     case types.GET_CONTACTS_SUCCESS:
+      console.log(action)
       return {
         ...state,
         contacts: {
           ...state.contacts,
           loading: false,
-          list: action.payload
+          list: action.payload.data,
+          totalCount: action.payload.totalCount,
         }
       };
     case types.GET_CONTACTS_FAILURE:
