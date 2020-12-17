@@ -203,7 +203,7 @@ class mail_list_single extends Component {
     let nowShowingName = this.props.allMailingList.nowShowingName;
     let ns = this.props.allMailingList.nowShowing;
     // this.props.getCustomerType();
-    this.props.getContacts("", this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter);
+    // this.props.getContacts("", this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter);
     //this.props.getContacts();\
 
     // this.props.getCampaignMailingList("", ns);

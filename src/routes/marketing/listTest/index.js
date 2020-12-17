@@ -251,13 +251,13 @@ class mail_list extends Component {
     // send this.state.selectedContact
 
     this.props.saveToMailingList(this.state.contact.selected, this.state.contact.afterfilter, this.state.contact.searchText, this.state.mailing.limit,);
-    this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+    // this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
     this.setState({ contact: { ...this.state.contact, selected: [], selectedRows: [] } });
   }
   handleRemoveFromList() {
     // send this.state.selectedMailing
     this.props.removeFromMailingList(this.state.mailing.selected, this.state.mailing.searchText, this.state.mailing.limit);
-    this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+    // this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
     this.setState({ mailing: { ...this.state.mailing, selected: [], selectedRows: [] } });
   }
 
@@ -319,11 +319,11 @@ class mail_list extends Component {
 
 
     if (afterfilter == null || afterfilter.length == 0) {
-      this.props.getContacts(this.props.allMailingList.nowShowing, limit, skip, null, this.state.contact.searchText, this.state.contact.orderBy);
+      // this.props.getContacts(this.props.allMailingList.nowShowing, limit, skip, null, this.state.contact.searchText, this.state.contact.orderBy);
 
     }
     else {
-      this.props.getContacts(this.props.allMailingList.nowShowing, limit, skip, afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+      // this.props.getContacts(this.props.allMailingList.nowShowing, limit, skip, afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
     }
 
 
