@@ -43,8 +43,8 @@ class AddUserForm extends Component {
       baseContact: {},
       roles: [],
       selectedRoles: [],
-      canSave: false,
-      rolesList: []
+      rolesList: [],
+      canSave: false
     };
     this.handleChange = this.handleChange.bind(this);    
     this.handleSubmitForm = this.handleSubmitForm.bind(this);
@@ -53,21 +53,24 @@ class AddUserForm extends Component {
 
   componentDidMount() {
     this.props.toEdit && this.setState({ ...this.props.toEdit });
-    
     if (this.props.allRoles != null) {      
       let rl = roleListHelper(this.props.allRoles);
-      this.setState({ rolesList: rl });
+      this.setState({
+        rolesList: rl
+      })
     }
     if (this.props.toEdit) {
       this.setState({ canSave: true });
     }
   }
 
+  
+
 
   handleChange(field, value) {
 
     this.setState({ [field]: value });
-    if (this.state.email != "" && this.state.mobile != "" && this.state.selectedRoles.length > 0) {
+    if (this.state.email != "" && this.state.selectedRoles.length > 0) {
       this.setState({ canSave: true });
     }
   }
@@ -80,7 +83,7 @@ class AddUserForm extends Component {
 
   handleRoleChange(field, value) {
     this.setState({ selectedRoles: value })
-    if (this.state.email != "" && this.state.mobile != "" && value.length > 0) {
+    if (this.state.email != "" && value.length > 0) {
       this.setState({ canSave: true });
     }
   }
@@ -106,7 +109,6 @@ class AddUserForm extends Component {
     };
 
     if(this.props.toEdit){
-      console.log("edit");
       console.log(this.props.listOptions);
       this.props.updateUser(newUser, this.props.listOptions);
     }
@@ -124,8 +126,6 @@ class AddUserForm extends Component {
 
   renderMenu(accessRoles) {
     const menu = [];
-  
-
     if (accessRoles) {
 
       accessRoles.forEach(role => {
@@ -166,6 +166,7 @@ class AddUserForm extends Component {
               target="firstName"
               handleChange={this.handleContactChange}
             />
+
           </div>
           <div className="col-5 offset-md-1">
             <FormInput
@@ -174,7 +175,7 @@ class AddUserForm extends Component {
               target="lastName"
               handleChange={this.handleContactChange}
             />
-        
+
 
           </div>
         </div>

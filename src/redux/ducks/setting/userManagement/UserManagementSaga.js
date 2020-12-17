@@ -86,7 +86,7 @@ function* getAllUsersFromDB({ payload }) {
 }
 function* addUserToDB({ payload }) {
   const { data, listOptions } = payload;
-  const { selectedRoles, confirmPassword, roles, ...others } = data;
+  const { selectedRoles, confirmPassword, roles, rolesList, ...others } = data;
   try {
     var userdata = [];
     for (const role of selectedRoles) {
