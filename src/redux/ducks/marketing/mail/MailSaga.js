@@ -65,13 +65,24 @@ const getContactsRequest = async ({ limit, listId, skip, filter, searchText, ord
 
   return custContact.data;
 };
-const saveToMailingListRequest = async (contacts, listId) => {
+const saveToMailingListRequest = async (contacts, filter, searchText, listId, limit, adminList) => {
   const result = await api.post(`/MailingLists/${listId}/addContact`, {
-    contacts
+    contacts,
+    filter,
+    searchText,
+    listId,
+    limit,
+    adminList,
   });
-
   return result.data;
 };
+// const saveToMailingListRequest = async (contacts, listId) => {
+//   const result = await api.post(`/MailingLists/${listId}/addContact`, {
+//     contacts
+//   });
+
+//   return result.data;
+// };
 // const removeFromMailingListRequest = async (contacts, listId) => {
 //   const result = await api.post(`/MailingLists/${listId}/removeContact`, {
 //     contacts
@@ -80,13 +91,14 @@ const saveToMailingListRequest = async (contacts, listId) => {
 // };
 const removeFromMailingListRequest = async (listId, contacts, searchText, limit) => {
   console.log("REMOVE FROM LIST REQUEST");
-  console.log(contacts)
+
   const result = await api.post(`/MailingLists/${listId}/removeContact`, {
     contacts,
     listId,
     searchText,
     limit,
   });
+  console.log(result.data)
   return result.data;
 };
 const createMailingListRequest = async data => {
@@ -161,17 +173,27 @@ function* getContacts({ payload }) {
 }
 function* saveToMailingList({ payload }) {
   try {
-    const getListId = state =>
-      state.marketingState.mailState.allMailingList.nowShowing;
+    const getListId = (state) => state.marketingState.mailState.allMailingList.nowShowing;
     const listId = yield select(getListId);
-    const data = yield call(saveToMailingListRequest, payload, listId);
-
+    const data = yield call(saveToMailingListRequest, payload.contacts, payload.filter, payload.searchText, listId, payload.limit, payload.adminList);
     yield put(saveToMailingListSuccess(data));
   } catch (error) {
-    console.log(error)
     yield put(saveToMailingListFailure(error));
   }
 }
+// function* saveToMailingList({ payload }) {
+//   try {
+//     const getListId = state =>
+//       state.marketingState.mailState.allMailingList.nowShowing;
+//     const listId = yield select(getListId);
+//     const data = yield call(saveToMailingListRequest, payload, listId);
+
+//     yield put(saveToMailingListSuccess(data));
+//   } catch (error) {
+//     console.log(error)
+//     yield put(saveToMailingListFailure(error));
+//   }
+// }
 function* removeFromMailingList({ payload }) {
   try {
     const getListId = (state) => state.marketingState.mailState.allMailingList.nowShowing;

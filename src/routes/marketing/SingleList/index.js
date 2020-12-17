@@ -566,21 +566,21 @@ class mail_list_single extends Component {
     const { contacts, mailingList, allMailingList, relatedCampaignsList } = this.props;
     const { nowShowing, nowShowingName, loading } = allMailingList;
     // const customerTypes = this.props.customerType.map((val) => val.name);
-    // var ctactCols = [...contactColumns];
-    // ctactCols[4].options.filterList = this.state.contact.filters[4];
-    // ctactCols[4].options.filterType = "textField";
-    // ctactCols[5].options.filterList = this.state.contact.filters[5];
-    // // ctactCols[5].options.filterOptions = { names: customerTypes };
-    // ctactCols[5].options.filterType = "checkbox";
-    // ctactCols[6].options.filterList = this.state.contact.filters[6];
-    // ctactCols[6].options.filterOptions = { names: ["Not in DNC"] };
-    // ctactCols[6].options.filterType = "checkbox";
-    // ctactCols[7].options.filterList = this.state.contact.filters[7];
-    // ctactCols[7].options.customFilterListOptions = {
-    //   render: (v) => `Unsubscribed:${v}`,
-    // };
-    // ctactCols[7].options.filterOptions = { names: ["False"] };
-    // ctactCols[7].options.filterType = "checkbox";
+    var ctactCols = [...contactColumns];
+    ctactCols[4].options.filterList = this.state.contact.filters[4];
+    ctactCols[4].options.filterType = "textField";
+    ctactCols[5].options.filterList = this.state.contact.filters[5];
+    // ctactCols[5].options.filterOptions = { names: customerTypes };
+    ctactCols[5].options.filterType = "checkbox";
+    ctactCols[6].options.filterList = this.state.contact.filters[6];
+    ctactCols[6].options.filterOptions = { names: ["Not in DNC"] };
+    ctactCols[6].options.filterType = "checkbox";
+    ctactCols[7].options.filterList = this.state.contact.filters[7];
+    ctactCols[7].options.customFilterListOptions = {
+      render: (v) => `Unsubscribed:${v}`,
+    };
+    ctactCols[7].options.filterOptions = { names: ["False"] };
+    ctactCols[7].options.filterType = "checkbox";
     return (
       <React.Fragment>
         <Helmet title="Mailing List" metaDesc="Huttons CRM Mailing List" />
@@ -674,7 +674,7 @@ class mail_list_single extends Component {
                 {contacts.loading && <RctSectionLoader />}
                 <ContactTable
                   tableData={contacts.list}
-                  // columns={ctactCols}
+                  columns={ctactCols}
                   onSelectRow={this.onSelectContact}
                   isServer={true}
                   totalCount={contacts.totalCount}

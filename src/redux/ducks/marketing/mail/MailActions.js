@@ -93,18 +93,33 @@ export const getContactsFailure = (error) => ({
 /**
  * Save to Mailing List
  */
-export const saveToMailingList = data => ({
+/**
+ * Save to Mailing List
+ */
+export const saveToMailingList = (contacts, filter, searchText, limit, adminList) => ({
   type: types.SAVE_TO_MAILING_LIST,
-  payload: data
+  payload: { contacts, filter, searchText, limit, adminList },
 });
-export const saveToMailingListSuccess = data => ({
+export const saveToMailingListSuccess = (data) => ({
   type: types.SAVE_TO_MAILING_LIST_SUCCESS,
-  payload: data
+  payload: data,
 });
-export const saveToMailingListFailure = error => ({
+export const saveToMailingListFailure = (error) => ({
   type: types.SAVE_TO_MAILING_LIST_FAILURE,
-  payload: error
+  payload: error,
 });
+// export const saveToMailingList = data => ({
+//   type: types.SAVE_TO_MAILING_LIST,
+//   payload: data
+// });
+// export const saveToMailingListSuccess = data => ({
+//   type: types.SAVE_TO_MAILING_LIST_SUCCESS,
+//   payload: data
+// });
+// export const saveToMailingListFailure = error => ({
+//   type: types.SAVE_TO_MAILING_LIST_FAILURE,
+//   payload: error
+// });
 
 /**
  * Remove from Mailing List
