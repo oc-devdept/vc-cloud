@@ -67,3 +67,13 @@ export const notificationSettings = Loadable({
   loader: () => import("./notificationSettings"),
   loading: () => <RctPageLoader />
 });
+
+export const followupTypeSetting = Loadable({
+  loader: () => import("./crmSettings/followup/followupType"),
+  loading: () => <RctPageLoader />,
+});
+
+export const followupResultSetting = Loadable({
+  loader: () => import("./crmSettings/followup/followupResult"),
+  loading: () => <RctPageLoader />,
+});

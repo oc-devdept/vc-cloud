@@ -71,7 +71,7 @@ class UserControlForm extends Component {
       grpObject.roles.push(selectedGroupRole);
       userSettings.groups.push(grpObject);
     }
-    //console.log(userSettings);
+    console.log(userSettings);
     this.props.onChangeUpdateUserRights(userSettings);
   }
 

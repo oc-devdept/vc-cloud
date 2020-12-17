@@ -112,6 +112,7 @@ function* updateUserToDB({ payload }) {
     const data = yield call(updateUserRequest, id, { ...others });
     yield call(updateUserRights, id, userdata);
     const userlist = yield call(getAllUsersRequest, listOptions);
+    console.log(userlist);
     let userIds = userlist.data.map(val => val.id);
     const settings = yield call(getAllSettingsRequest, userIds);
     yield put(getAllUsersSuccess(userlist, settings));
@@ -135,6 +136,7 @@ function* updateUserRightsToDB() {
     const data = yield call(updateUserRights, user.userid, user.groups);
     yield put(updateUserRightsSuccess(data));
   } catch (err) {
+    console.log(err);
     yield put(updateUserFailure(err));
   }
 }

@@ -107,8 +107,7 @@ class UsersLayout extends Component {
   editUser(id) {
     const toEdit = this.props.userList.tableData.find(user => user.id == id);
     const settings = this.props.userSettings.find(user => user.userid == id);
-    const selected = settings.roles.map(val => val.id);
-    //console.log(selected);
+    const selected = settings.roles.map(val => val.id);    
     const editUser = { ...toEdit, roles: settings.roles, selectedRoles: selected };
     this.props.show("add_user_form", { toEdit: editUser, 
       listOptions: {limit: this.state.limit, skip: this.state.skip, filters: this.state.filters, 
@@ -151,8 +150,8 @@ class UsersLayout extends Component {
 }
 
 const mapStateToProps = ({ usersState }) => {
-  const { userList, usersLoading } = usersState;
-  return { userList, usersLoading };
+  const { userList, usersLoading, userSettings } = usersState;
+  return { userList, usersLoading, userSettings };
 };
 
-export default connect(mapStateToProps, {  getAllUsers, deleteUser, show  })(UsersLayout);
+export default connect(mapStateToProps, { getAllUsers, deleteUser, show })(UsersLayout);

@@ -106,6 +106,7 @@ class AddUserForm extends Component {
     };
 
     if(this.props.toEdit){
+      console.log("edit");
       console.log(this.props.listOptions);
       this.props.updateUser(newUser, this.props.listOptions);
     }
