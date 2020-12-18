@@ -109,8 +109,6 @@ function ContactTable(props) {
 
   return (
     <React.Fragment>
-      {console.log("IN CONTACT TABLE")}
-      {console.log(props.tableData)}
     <RecordsList columns={columns} data={tableData} options={listOptions} />
     </React.Fragment>
   );

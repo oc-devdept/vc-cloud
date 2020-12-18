@@ -212,8 +212,6 @@ class mail_list_single extends Component {
     let id = this.props.match.params.id;
     let list = this.props.allMailingList.list;
     let item = list.find((o) => o.id === ns);
-    // console.log("COM DID MOUNT");
-    // console.log(item);
     this.setState({
       listname: nowShowingName,
     });
@@ -234,7 +232,7 @@ class mail_list_single extends Component {
   }
 
   onSelectContact(indexArray) {
-    console.log(indexArray);
+    // console.log(indexArray);
     if (indexArray.length > 0) {
       //check if user click select all checkbox
 
@@ -295,7 +293,7 @@ class mail_list_single extends Component {
   }
 
   onSelectMailing(indexArray) {
-    console.log(indexArray);
+    // console.log(indexArray);
     if (indexArray.length > 0) {
       //check if user click select all checkbox
 
@@ -553,7 +551,7 @@ class mail_list_single extends Component {
     this.setState({ listname: listname });
   }
   newList() {
-    console.log("new list");
+    // console.log("new list");
     this.props.show("new_mailing_list", {
       saveList: this.props.createMailingList
     });
@@ -665,8 +663,7 @@ class mail_list_single extends Component {
             </BgCard>
           </div>
         </div> */}
-      {console.log("CONTACTS LIST")}
-      {console.log(contacts)}
+
         {completed && (
           <div className="row justify-content-center pt-50">
             <div className="col-md-5 ">
@@ -767,9 +764,7 @@ class mail_list_single extends Component {
             </BgCard>
           </div>
         )}
-        {console.log("SINGLE LIST")}
-        {console.log(this.props)}
-        {console.log(this.state)}
+
         <MailingListDialog />
       </React.Fragment>
     );

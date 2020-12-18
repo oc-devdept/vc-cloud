@@ -40,7 +40,7 @@ function filterContact(contactList, mailingList) {
 }
 
 export default (state = INIT_STATE, action) => {
-  console.log(action)
+
   switch (action.type) {
     /**
      * Get all mailing list
@@ -93,7 +93,7 @@ export default (state = INIT_STATE, action) => {
      * Get Contacts in Mailing List
      */
     case types.GET_MAILING_LIST:
-      console.log(action)
+
       return {
         ...state,
         allMailingList: {
@@ -109,8 +109,7 @@ export default (state = INIT_STATE, action) => {
     case types.GET_MAILING_LIST_SUCCESS:
     case types.SAVE_TO_MAILING_LIST_SUCCESS:
     case types.REMOVE_FROM_MAILING_LIST_SUCCESS:
-      console.log("GET MAILING LIST");
-      console.log(action)
+
       // var contactList = filterContact(state.contacts.list, action.payload);
       return {
         ...state,
@@ -153,7 +152,7 @@ export default (state = INIT_STATE, action) => {
       };
 
     case types.GET_CONTACTS_SUCCESS:
-      console.log(action)
+
       return {
         ...state,
         contacts: {

@@ -118,7 +118,7 @@ class mail_list extends Component {
   }
 
   onSelectContact(indexArray) {
-    console.log(indexArray)
+    // console.log(indexArray)
     if (indexArray.length > 0) {
 
       //check if user click select all checkbox
@@ -181,7 +181,7 @@ class mail_list extends Component {
   }
 
   onSelectMailing(indexArray) {
-    console.log(indexArray)
+    // console.log(indexArray)
     if (indexArray.length > 0) {
 
       //check if user click select all checkbox
@@ -265,14 +265,14 @@ class mail_list extends Component {
    * Mailing List Functions
    */
   handleChangeListOption(val) {
-    console.log("HANDLE CHANGE");
-    console.log(val);
+    // console.log("HANDLE CHANGE");
+    // console.log(val);
     this.props.getMailingList(val, this.state.mailing.limit, this.state.mailing.skip, this.state.mailing.filter, this.state.mailing.searchText, this.state.mailing.orderBy);
 
   }
 
   newList() {
-    console.log("new list");
+    // console.log("new list");
     this.props.show("new_mailing_list", {
       saveList: this.props.createMailingList
     });

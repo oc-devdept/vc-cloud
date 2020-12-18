@@ -59,8 +59,7 @@ const getMailingListRequest = async ({ listId, limit, skip, filter, searchText, 
 // };
 
 const getContactsRequest = async ({ limit, listId, skip, filter, searchText, orderBy }) => {
-  console.log("getting contacts");
-  console.log(limit, listId, skip, filter)
+
   const custContact = await api.post("/MailingLists/getcustomers", { limit, listId, skip, filter, searchText, orderBy });
 
   return custContact.data;
@@ -90,7 +89,7 @@ const saveToMailingListRequest = async (contacts, filter, searchText, listId, li
 //   return result.data.updatedList.contacts;
 // };
 const removeFromMailingListRequest = async (listId, contacts, searchText, limit) => {
-  console.log("REMOVE FROM LIST REQUEST");
+  // console.log("REMOVE FROM LIST REQUEST");
 
   const result = await api.post(`/MailingLists/${listId}/removeContact`, {
     contacts,
@@ -98,7 +97,7 @@ const removeFromMailingListRequest = async (listId, contacts, searchText, limit)
     searchText,
     limit,
   });
-  console.log(result.data)
+  // console.log(result.data)
   return result.data;
 };
 const createMailingListRequest = async data => {
@@ -119,7 +118,7 @@ const deleteMailingListRequest = async id => {
 };
 const getAllRelatedCampaignsRequest = async (userId, mailListId) => {
   const result = await api.post("/MailingLists/getAllRelatedCampaigns", { userId, mailListId });
-  console.log(result.data);
+  // console.log(result.data);
   return result.data;
 };
 
@@ -164,7 +163,7 @@ function* getMailingList({ payload }) {
 }
 function* getContacts({ payload }) {
   try {
-    console.log()
+    // console.log()
     const data = yield call(getContactsRequest, payload);
     yield put(getContactsSuccess(data));
   } catch (error) {
@@ -201,7 +200,7 @@ function* removeFromMailingList({ payload }) {
     const data = yield call(removeFromMailingListRequest, listId, payload.contacts, payload.searchText, payload.limit);
     yield put(removeFromMailingListSuccess(data));
   } catch (error) {
-    console.log(error)
+
     yield put(removeFromMailingListFailure(error));
   }
 }

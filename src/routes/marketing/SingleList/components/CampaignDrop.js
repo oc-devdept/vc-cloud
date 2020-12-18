@@ -69,7 +69,7 @@ class campaignDrop extends Component {
         let roo = "/app/marketing/campaigns/" + val.listId
         // console.log(roo);
 
-        console.log(roo);
+   
         singleCampaign(val.id);
         this.props.history.push(roo);
     }
@@ -252,8 +252,6 @@ class campaignDrop extends Component {
 
                 </div>
 
-                {/* {console.log("CAMPAIGN DROP")}
-                {console.log(this.props)} */}
             </React.Fragment>
         );
     }
