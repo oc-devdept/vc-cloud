@@ -12,6 +12,8 @@ import { Icon } from "@iconify/react";
 import addFilled from "@iconify/icons-carbon/add-filled";
 import { withStyles } from "@material-ui/core/styles";
 import { orange } from "@material-ui/core/colors";
+import { show, connectModal } from "redux-modal";
+import { connect } from "react-redux";
 
 const PurpleSwitch = withStyles({
   switchBase: {
@@ -27,16 +29,33 @@ const PurpleSwitch = withStyles({
   track: {},
 })(Switch);
 
-export default class Index extends PureComponent {
+class Index extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleSingleDelete = this.handleSingleDelete.bind(this);
+    this.delete = this.delete.bind(this);
+  };
+
   state = {
     currentProduct: null,
     ProductDetailLoading: false,
   };
 
+  delete(id) {
+    this.props.show("alert_delete", {
+      name: id,
+      action: () => this.handleSingleDelete(id)
+    })
+  }
+
+  handleSingleDelete(preownedId) {
+    console.log(preownedId);
+    this.props.DeleteCar(preownedId);
+  }
+
   render() {
     const { addGrade, modelName, title, tableData, makes } = this.props;
     console.log(this.props)
-
     const columns = [
       {
         name: "id",
@@ -118,12 +137,21 @@ export default class Index extends PureComponent {
           customBodyRender: (rowData, rowState) => {
             return (
               <React.Fragment>
-                {console.log("rendered multiple times")}
                 <IconButton onClick={() => this.props.ToggleDialog("Selected_Grade", rowState.rowData[0])} size="small">
                   <Edit style={{ fontSize: 14 }} />
                 </IconButton>
 
-                <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
+                {/* <IconButton
+                  size="small" className="tableDeleteIcon" onClick={() => { this.delete(tableMeta.rowData[0], tableMeta.rowData[2]) }}>
+                  <Icon
+                    icon={baselineDeleteForever}
+                    color="#595959"
+                    width="1.5rem"
+                    height="1.5rem"
+                  />
+                </IconButton> */}
+
+                <IconButton onClick={() => this.delete(rowState.rowData[0])} size="small">
                   <Delete style={{ fontSize: 14 }} />
                 </IconButton>
               </React.Fragment>
@@ -131,21 +159,6 @@ export default class Index extends PureComponent {
           },
         },
       },
-      // {
-      //   name: "DELETE",
-      //   options: {
-      //     filter: true,
-      //     sort: false,
-      //     empty: true,
-      //     customBodyRender: (rowData, rowState) => {
-      //       return (
-      //         <IconButton onClick={() => this.props.DeleteCar(rowState.rowData[0])} size="small">
-      //           <Delete style={{ fontSize: 14 }} />
-      //         </IconButton>
-      //       );
-      //     },
-      //   },
-      // },
     ];
 
     const listOptions = {
@@ -200,3 +213,9 @@ export default class Index extends PureComponent {
     return <RecordsList title={title} columns={columns} data={tableData} options={listOptions} borderRadius={"0px"} boxShadow={"none"} />;
   }
 }
+
+const mapStateToProps = () => {
+  return;
+};
+
+export default connect(mapStateToProps, { show })(Index);
