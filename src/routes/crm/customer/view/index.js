@@ -123,7 +123,8 @@ class crm_view_customer extends Component {
 
   _handleDeployAgent = async id => {
     const item = await api.post(`/customers/deployAgent`, { data: { id } });
-    this.setState({ customer: item.data.fields });
+    //this.setState({ customer: item.data.fields });
+    this.props.getSingleCustomer(id);
   };
 
   render() {
