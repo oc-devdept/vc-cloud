@@ -24,8 +24,8 @@ class crm_deal extends Component {
   };
 
   componentDidMount() {
-    this.props.getAllDeal();
-    this.props.getDealSummary();
+    //this.props.getAllDeal();
+    //this.props.getDealSummary();
   }
 
   toggleSummary() {

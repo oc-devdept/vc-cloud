@@ -10,6 +10,8 @@ import StatusBadge from "Components/StatusBadge/StatusBadge";
 
 import NumberFormat from "react-number-format";
 import { getTheDate } from "Helpers/helpers";
+import Button from "@material-ui/core/Button";
+import { FormLabel, FormGroup, TextField, FilledInput } from '@material-ui/core';
 
 function getFilters(filterList, columns) {
   let filter = [];
@@ -17,10 +19,24 @@ function getFilters(filterList, columns) {
     let list = filterList[i];
     if (list.length > 0) {
       let property = columns[i].name;
+      let val = null;
       for (let a = 0; a < list.length; a++) {
-        let value = list[a];
-        filter.push({ [property]: value });
+        if(list[a] == undefined){
+          list[a] = 0;
+        }
+        if(val == null){
+          val = list[a]
+        }
+        else if(Array.isArray(val)){
+          val.push(list[a]);
+        }
+        else {
+          let v = [val];
+          v.push(list[a]);
+          val = v;
+        }                
       }
+      filter.push({ [property]: val });
     }
   }
   return filter;
@@ -36,7 +52,7 @@ class DealList extends Component {
       filters: [],
       searchText: "",
       orderBy: [],
-      serverSideFilterList: [[],[],[],[],[],[],[],[],[],[],[]],
+      serverSideFilterList: [[],[],[],[],[],[],[],[],[],[]],
       sorted: {
         name: "",
         direction: ""
@@ -49,8 +65,9 @@ class DealList extends Component {
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);    
   }
 
-  handleFilterSubmit(filterList) {
+  handleFilterSubmit(filterList) {    
     const filter = getFilters(filterList, this.state.columns);
+
     this.props.getAllDeal(this.state.limit, this.state.skip, filter);
     this.setState({ filters: filter, serverSideFilterList: filterList, selected: [], selectedRows: [] });
   }
@@ -100,18 +117,32 @@ class DealList extends Component {
       }
     };
 
-    options.onFilterChange = (column, filterList, type) => {
-      if(type == "chip"){
-        var filter = getFilters(filterList, this.state.columns);
-        this.props.getAllDeal(this.state.limit, this.state.skip, filter, this.state.searchText, this.state.orderBy);
+    options.onFilterChipClose = (index, removedFilter, filterList) => {
+      
+      var filter = getFilters(filterList, this.state.columns);
+      this.props.getAllDeal(this.state.limit, this.state.skip, filter, this.state.searchText, this.state.orderBy);
         this.setState({
           filters: filter,
           serverSideFilterList: filterList,
           selected: [],
           selectedRows: []
         })
-      }
+        
     }
+
+    options.onFilterChange = (column, filterList, type ) => { 
+      /*
+      var filter = getFilters(filterList, this.state.columns);
+      this.props.getAllDeal(this.state.limit, this.state.skip, filter, this.state.searchText, this.state.orderBy);
+        this.setState({
+          filters: filter,
+          serverSideFilterList: filterList,
+          selected: [],
+          selectedRows: []
+        })
+        */
+    }
+    
 
     options.onSearchChange = (searchText) => {
       if(searchText == null){
@@ -155,6 +186,12 @@ class DealList extends Component {
       );
     };
 
+    options.search = true;
+    options.searchText=  this.state.searchText;
+    options.filterType ="dropdown";
+    options.serverSideFilterList = this.state.serverSideFilterList;
+    options.serverSide = true;
+    options.count = totalCount;
     const columns = [
       {
         name: "id",
@@ -173,7 +210,8 @@ class DealList extends Component {
             return (
               <NavLink to={singleDeal(tableMeta.rowData[0])}>{value}</NavLink>
             );
-          }
+          },
+          filter: false
         }
       },
       {
@@ -202,7 +240,7 @@ class DealList extends Component {
                         <TextField
                             label='min'
                             type="number"
-                            value={filterList[index][0] ? filterList[index][0] : ''}
+                            value={filterList[index][0] ? filterList[index][0] : ''}                            
                             onChange={event => {
                                 filterList[index][0] = event.target.value;
                                 onChange(filterList[index], index, column);
@@ -265,7 +303,8 @@ class DealList extends Component {
         options: {
           customBodyRender: value => {
             return value ? getTheDate(value) : "";
-          }
+          },
+          filter: false
         }
       },
       {
@@ -279,7 +318,8 @@ class DealList extends Component {
             ) : (
               ""
             );
-          }
+          },
+          filter: false
         }
       },
       {
@@ -288,23 +328,27 @@ class DealList extends Component {
         options: {
           customBodyRender: value => {
             return value ? value.name : "";
-          }
+          },
+          filter: false
         }
       },
       {
         label: "Source",
         name: "source",
         options: {
-          display: false
+          display: false,
+          filter: false
         }
       },
       {
         label: "Type",
         name: "type",
         options: {
-          display: false
+          display: false,
+          filter: false
         }
       }
+      
     ];
     options.customToolbarSelect = (
       selectedRows,
@@ -320,45 +364,14 @@ class DealList extends Component {
             title={title}
             columns={columns}
             data={tableData}
-            options={options}
-            totalCount={totalCount}
+            options={options}           
           />
           {loading && <RctSectionLoader />}
         </div>
       );
   }
 
-  
 
-  // if (action == true) {
-  //   columns.push({
-  //     name: "Actions",
-  //     options: {
-  //       filter: false,
-  //       sort: false,
-  //       customBodyRender: value => {
-  //         return (
-  //           <React.Fragment>
-  //             <Tooltip id="tooltip-icon" title="Edit">
-  //               <IconButton
-  //                 className="text-primary mr-2"
-  //                 aria-label="Edit Lead"
-  //                 onClick={() => {
-  //                   this.toggleEditModal(value);
-  //                 }}
-  //               >
-  //                 <i className="zmdi zmdi-edit" />
-  //               </IconButton>
-  //             </Tooltip>
-  //           </React.Fragment>
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
-
-  // listOptions.onRowClick = (rowData, rowMeta, rowIndex, colMeta) =>
-  //   console.log(rowIndex, colMeta); //onRowClick(rowData[0]);
   
 };
 

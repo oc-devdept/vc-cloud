@@ -16,7 +16,7 @@ import {
   footerPage
 } from "Helpers/cmsURL";
 
-// // acct routes
+// acct routes
 // import {
 //   quoteListPage,
 //   invoiceListPage,
@@ -56,10 +56,10 @@ export default [
         title: "sidebar.customers",
         path: customerListPage
       },
-      // {
-      //   title: "sidebar.accounts",
-      //   path: accountListPage
-      // },
+      {
+        title: "sidebar.accounts",
+        path: accountListPage
+      },
       {
         title: "sidebar.deals",
         path: dealListPage
@@ -124,7 +124,7 @@ export default [
   //   url: "/app/acct/quotations",
   //   baseUrl: "/app/acct",
   //   name: "Accounting",
-  //   child_rouztes: [
+  //   child_routes: [
   //     {
   //       title: "sidebar.quotations",
   //       path: quoteListPage

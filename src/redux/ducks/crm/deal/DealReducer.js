@@ -7,7 +7,8 @@ const INIT_STATE = {
     options: ["All Deals", "Open Deals", "Closed Deals", "Won Deals"],
     action: false,
     loading: false,
-    tableData: []
+    tableData: [],
+    totalCount: 0
   },
   dealSummary: {
     loading: false,
@@ -67,6 +68,7 @@ export default (state = INIT_STATE, action) => {
      */
     case types.GET_DEAL_FAILURE:
       NotificationManager.warning("Error in fetching Deal Data");
+      
       return {
         ...state,
         dealToView: INIT_STATE.dealToView,
@@ -79,15 +81,19 @@ export default (state = INIT_STATE, action) => {
       };
     case types.GET_DEAL_SUCCESS:
       // sort by createdAt
-      var defaultSort = action.payload.sort(
+      let { data, totalCount } = action.payload;
+      var defaultSort = data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
+      console.log(defaultSort);
+      
       return {
         ...state,
         dealList: {
           ...state.dealList,
           loading: false,
-          tableData: defaultSort
+          tableData: defaultSort,
+          totalCount: totalCount
         }
       };
 
