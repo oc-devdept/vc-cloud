@@ -2,32 +2,30 @@ import { store } from "Redux/store";
 
 export const accessControlHelper = (action, match) => {
   var state = store.getState();
-  var user = state.authUser.user;
-  var access = state.authUser.loggedInUser.access;
-
-  if (user) {
+  var found = false;
+  if (state.sessionState.authState) {
+    var access = state.sessionState.authState.loggedInUser.access;
     for (let i = 0; i < action.length; i++) {
-      var act = action[i];
-      if (act == "me") {
-        if (user.id == match.params.id) return true;
-      } else if (act == "global") {
-        return true;
-      } else {
-        if (user.isSuperAdmin) {
-          return true;
-        } else {
-          if (
-            access.find(acc => {
-              return `${acc.model}:${acc.method}` == action[i];
-            })
-          )
-            return true;
+      for (let j = 0; j < access.length; j++) {
+        for (let m = 0; m < access[j].length; m++) {
+          let model = access[j][m].model.toLowerCase();
+          for (let k = 0; k < access[j][m].accessRightMethods.length; k++) {
+            var name = model + ":" + access[j][m].accessRightMethods[k].name.toLowerCase();
+            if (access[j][m].accessRightMethods[k].access && name == action[i]) {
+              found = true;
+              break;
+            }
+          }
+          if (found) {
+            break;
+          }
         }
-      }
+        if (found) break;
+
+      }     
     }
   }
-
-  return false;
+  return found;
 };
 
 export const roleListHelper = (role) => {

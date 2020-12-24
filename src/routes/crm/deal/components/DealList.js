@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 // Component Req
 import RecordsList from "Components/RecordsList";
+import TableSearch from "Components/MuiDatatable/components/TableSearch";
 import { listOptions } from "Helpers/helpers";
 import { singleDeal } from "Helpers/crmURL";
 import RctSectionLoader from "Components/RctSectionLoader";
@@ -91,7 +92,7 @@ class DealList extends Component {
           serverSideFilterList: tableState.filterList,
           columns: tableState.columns
         });
-        this.props.getAllDeal(limit, skip);
+        this.props.getAllDeal(limit, skip, [], "", [], this.props.customerId);
       }
     }
 
@@ -112,7 +113,7 @@ class DealList extends Component {
         case "changePage":
         case "changeRowsPerPage":
           this.setState({ limit, skip, selectedRows: selected});
-          this.props.getAllDeal(limit, skip, this.state.filters, this.state.searchText, this.state.orderBy);
+          this.props.getAllDeal(limit, skip, this.state.filters, this.state.searchText, this.state.orderBy, this.props.customerId);
           break;
       }
     };
@@ -120,7 +121,7 @@ class DealList extends Component {
     options.onFilterChipClose = (index, removedFilter, filterList) => {
       
       var filter = getFilters(filterList, this.state.columns);
-      this.props.getAllDeal(this.state.limit, this.state.skip, filter, this.state.searchText, this.state.orderBy);
+      this.props.getAllDeal(this.state.limit, this.state.skip, filter, this.state.searchText, this.state.orderBy, this.props.customerId);
         this.setState({
           filters: filter,
           serverSideFilterList: filterList,
@@ -129,19 +130,7 @@ class DealList extends Component {
         })
         
     }
-
-    options.onFilterChange = (column, filterList, type ) => { 
-      /*
-      var filter = getFilters(filterList, this.state.columns);
-      this.props.getAllDeal(this.state.limit, this.state.skip, filter, this.state.searchText, this.state.orderBy);
-        this.setState({
-          filters: filter,
-          serverSideFilterList: filterList,
-          selected: [],
-          selectedRows: []
-        })
-        */
-    }
+    
     
 
     options.onSearchChange = (searchText) => {
@@ -173,7 +162,7 @@ class DealList extends Component {
         orderBy: [orderString],
         sorted: sorted
       });
-      this.props.getAllDeal(this.state.limit, this.state.skip, this.state.filters, this.state.searchText, [orderString]);
+      this.props.getAllDeal(this.state.limit, this.state.skip, this.state.filters, this.state.searchText, [orderString], this.props.customerId);
     }
 
     options.customFilterDialogFooter = (filterList) => {
@@ -185,7 +174,15 @@ class DealList extends Component {
         </div>
       );
     };
-
+/*
+    options.customSearchRender = (searchText, handleSearch, hideSearch, options) => {
+      return (
+        <div>
+        <TableSearch onHide={hideSearch} onSearch={handleSearch} searchText={searchText} options={options} />
+        </div>
+      )
+    }
+*/
     options.search = true;
     options.searchText=  this.state.searchText;
     options.filterType ="dropdown";

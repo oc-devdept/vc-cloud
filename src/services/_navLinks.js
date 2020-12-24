@@ -27,6 +27,7 @@ import {
 import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
 
 import { allCarsPage, allPreownedCarsPage, configurePage } from "Helpers/inventoryURL";
+import { accessControlHelper } from "Helpers/accessControlHelper";
 
 import {
   marketingListPage,
@@ -34,7 +35,8 @@ import {
   marketingTemplatePage
 } from "Helpers/marketingURL";
 
-export default [
+export default function navLinks() {
+  var links = [
   {
     url: "/app/homebase",
     baseUrl: "/app/homebase",
@@ -162,31 +164,36 @@ export default [
         path: configurePage
       }
     ]
-  },
+  }  
+];
+  if(accessControlHelper(["campaign:read"])){
+    links.push({
+      url: "/app/marketing/campaign",
+      baseUrl: "/app/marketing",
+      name: "Marketing",
+      child_routes: [
+        {
+          title: "sidebar.campaign",
+          path: campaignPage
+        },
+        {
+          title: "sidebar.mailingList",
+          path: marketingListPage
+        },
+        {
+          title: "sidebar.template",
+          path: marketingTemplatePage
+        }
+      ]
+    });
+  }
 
-  {
-    url: "/app/marketing/campaign",
-    baseUrl: "/app/marketing",
-    name: "Marketing",
-    child_routes: [
-      {
-        title: "sidebar.campaign",
-        path: campaignPage
-      },
-      {
-        title: "sidebar.mailingList",
-        path: marketingListPage
-      },
-      {
-        title: "sidebar.template",
-        path: marketingTemplatePage
-      }
-    ]
-  },
-  {
+  links.push({
     url: "/app/reports",
     baseUrl: "/app/reports",
     name: "Reports",
     child_routes: []
-  }
-];
+  });
+
+  return links;
+}
