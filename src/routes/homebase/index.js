@@ -11,6 +11,7 @@ import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import CalendarLayout from "Components/Widgets/Calendar/CalendarLayout";
 import CrmSummary from "Components/Widgets/CrmSummary";
 import UntouchedLeadsTable from "Components/Widgets/UntouchedLeadsTable";
+import HomeCharts from './HomeCharts';
 import DisplayEvents from "../../components/Widgets/Calendar/DisplayEvents";
 import { getAllEvents } from "Ducks/calendar";
 import Moment from "moment";
@@ -38,7 +39,7 @@ class Homebase extends Component {
         <CrmSummary />
         <div className="row">
         <div className="col-md-8">      
-           <UntouchedLeadsTable />
+           <HomeCharts />
            </div>
           <div className="col-md-4">
             <CalendarLayout />

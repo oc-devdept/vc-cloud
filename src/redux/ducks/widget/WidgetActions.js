@@ -24,3 +24,16 @@ export const getUntouchedLeadsFailure = error => ({
   type: types.GET_UNTOUCHED_LEADS_FAILURE,
   payload: error
 });
+
+export const getDealsByProduct = (date) => ({
+  type: types.GET_DEALS_BY_PRODUCT,
+  payload: date
+});
+export const getDealsByProductSuccess = data => ({
+  type: types.GET_DEALS_BY_PRODUCT_SUCCESS,
+  payload: data
+});
+export const getDealsByProductFailure = error => ({
+  type: types.GET_DEALS_BY_PRODUCT_FAILURE,
+  payload: error
+});

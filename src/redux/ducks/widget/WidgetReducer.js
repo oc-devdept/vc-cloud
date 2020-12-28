@@ -1,4 +1,5 @@
 import * as types from "./WidgetTypes";
+import { NotificationManager } from "react-notifications";
 
 const INIT_STATE = {
   crmSummary: {
@@ -10,7 +11,8 @@ const INIT_STATE = {
       dealsWonAmount: 0
     }
   },
-  untouchedLeads: { loading: false, data: [] }
+  untouchedLeads: { loading: false, data: [] },
+  dealsByProduct: { loading: false, data: [] }
 };
 
 export default (state = INIT_STATE, action) => {
@@ -54,6 +56,27 @@ export default (state = INIT_STATE, action) => {
         ...state,
         untouchedLeads: { ...state.untouchedLeads, loading: false }
       };
+
+    case types.GET_DEALS_BY_PRODUCT:
+      return {
+        ...state,
+        dealsByProduct: { ...state.dealsByProduct, loading: true }
+      }
+    case types.GET_DEALS_BY_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        dealsByProduct: { loading: false, data: action.payload }
+      }
+    case types.GET_DEALS_BY_PRODUCT_FAILURE: {
+      NotificationManager.error("Failure to get deals chart data");
+      return {
+        ...state,
+        dealsByProduct: {
+          ...state.dealsByProduct,
+          loading: false          
+        }
+      }
+    }
 
     default:
       return { ...state };
