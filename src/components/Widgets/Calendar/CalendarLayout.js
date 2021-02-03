@@ -94,6 +94,14 @@ class CalendarLayout extends Component {
     })
   }
 
+  changeActiveView = ({ activeStartDate, value, view }) => {
+    console.log(activeStartDate);
+  }
+
+  changeMonth = (value, event ) => {
+    console.log(value);
+  }
+
   render() {
     return (
       <div className="row">
@@ -103,7 +111,9 @@ class CalendarLayout extends Component {
             className="react-calendar"
             tileContent={this.checkActiveDates}
             value={this.state.dateValue}
-            onChange={this.changeActiveDay}           
+            onChange={this.changeActiveDay}
+            onActiveDateChange={this.changeActiveView}   
+            onClickMonth={this.changeMonth}        
           />
         </div>
         <div className="col-12">
