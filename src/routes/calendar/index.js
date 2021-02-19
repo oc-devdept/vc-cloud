@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Helmet from "Components/Helmet";
 
 import { connect } from "react-redux";
@@ -18,7 +19,7 @@ import EventInfo from "./components/EventInfo";
 // Calendar form
 import NewEventForm from "./components/forms/NewEventForm";
 
-import { getAllEvents, addEvent } from "Ducks/calendar";
+import { getAllEvents, getCalendarSettings, addEvent } from "Ducks/calendar";
 // import { filterChange } from "Com"
 import Popover from "@material-ui/core/Popover";
 const localizer = momentLocalizer(moment);
@@ -45,6 +46,26 @@ class CRMCalendar extends Component {
 
   componentDidMount() {
     this.props.getAllEvents();
+    this.props.getCalendarSettings();
+    
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.showEvents.length != this.props.showEvents.length){
+      let urlParams = new URLSearchParams(window.location.search);
+      let eventId = urlParams.get('edit');
+      if(eventId){
+        let eventInfo = this.props.showEvents.filter(item => item.id == eventId);
+        let h = window.innerHeight / 2 - 200;
+        let w = window.innerWidth / 2 - 100;
+        this.setState({
+          x: w, y: h
+        })
+        if(eventInfo.length > 0){
+          this.showEditForm(eventInfo[0]);
+        }
+      }
+    }
   }
 
   filterChange(event) {
@@ -113,16 +134,14 @@ class CRMCalendar extends Component {
     </React.Fragment>
   );
   eventStyleGetter = (event, start, end, isSelected) => {
-    var backgroundColor = "#";
-    switch (event.title) {
-      case "Test Drive":
-        backgroundColor += "D9F4C8";
-        break;
-      case "Maintenance":
-        backgroundColor += "F4CAC2";
-        break;
-      default:
-      // code block
+    var backgroundColor = "#77a6f2";
+    console.log(event);
+    if(event.eventableType == "Booking"){
+      for(let i=0; i < this.props.settings.length; i++){
+        if(this.props.settings[i].settingType == "booking" && this.props.settings[i].name == event.service){
+          backgroundColor = this.props.settings[i].value;
+        }
+      }
     }
 
     var style = {
@@ -156,6 +175,7 @@ class CRMCalendar extends Component {
                 events={showEvents} startAccessor="start" endAccessor="end"
                 eventPropGetter={this.eventStyleGetter}
                 onSelectEvent={(slotSelected) => this.renderEventPopover(slotSelected)}
+                selectable={true}
                 onSelectSlot={(slotSelected) => this.renderEventFormPopover(slotSelected)}
                 />
               </div>
@@ -182,7 +202,6 @@ class CRMCalendar extends Component {
             </div>
           </Popover>
         </div>
-        {console.log(this.props.showEvents)}
       </React.Fragment>
     );
   }
@@ -190,13 +209,14 @@ class CRMCalendar extends Component {
 
 // map state to props
 const mapStateToProps = ({ calendarState }) => {
-  const { showEvents } = calendarState;
-  return { showEvents };
+  const { showEvents, settings } = calendarState;
+  return { showEvents, settings };
 };
 
 export default connect(mapStateToProps, {
   getAllEvents,
   addEvent,
+  getCalendarSettings,
   show,
 })(CRMCalendar);
 /*

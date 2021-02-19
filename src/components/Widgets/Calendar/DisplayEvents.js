@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import Moment from "moment";
 import BgCard from "Components/BgCard";
-import { CalendarToday, AccessTime } from "@material-ui/icons";
+import { CalendarToday, AccessTime, AccountCircle } from "@material-ui/icons";
 import { isSameDay, getTheDate, getTheTime } from "Helpers/helpers";
+
 
 import { NavLink } from "react-router-dom";
 
 export default class DisplayEvent extends Component {
-  render() {
-    const { myEvents, currentDate } = this.props;
+
+  render(){
+  const { myEvents, currentDate } = this.props;
 
     let EventList = null;
 
@@ -18,11 +20,11 @@ export default class DisplayEvent extends Component {
         const eventDate = sameDay ? getTheDate(item.start) : `${getTheDate(item.start)} - ${getTheDate(item.end)}`;
 
         const eventTime = `${getTheTime(item.start)} - ${getTheTime(item.end)}`;
-        const className = `calDot bigCalDot ${item.color}`;
+        const className = `calDot bigCalDot`;
         return (
           <BgCard key={index}>
           <div className="calTitleRow">
-             <div className={className}></div> <strong> {item.title} </strong>
+             <div className={className} style={{backgroundColor: item.color}}></div> <strong> {item.title} </strong>
              </div> 
           {item.cust && (
           <NavLink to={`./crm/customers/${item.cust.id}`}>
@@ -34,6 +36,9 @@ export default class DisplayEvent extends Component {
            </div>
            <div className="calTimeRow">
            <AccessTime className="align-text-bottom text-muted" fontSize="inherit" /> {eventTime}
+           </div>
+           <div className="calTimeRow">
+           <AccountCircle className="align-text-bottom text-muted" fontSize="inherit" /> {item.staffName}
            </div>
           </BgCard>
         );
@@ -62,16 +67,15 @@ export default class DisplayEvent extends Component {
           <span style={{ fontSize: 16, fontWeight: "500", marginRight: 20 }}>
             EVENTS ON { currentDate}
           </span>
-          {/* <span>till {Moment(Moment(new Date()).add(7, 'day')).format('dddd')}</span> */}
-          {/* <span style={{fontSize: 18}}>{Moment(new Date()).format('D')} - {Moment(Moment(new Date()).add(7, 'day')).format('D')} {Moment(Moment(new Date()).add(7, 'day')).format('MMMM')}</span> */}
-        </div>
+         
+          </div>
 
-        <div style={{}}>{EventList}</div>
-      </div>
-    );
+          <div style={{}}>{EventList}</div>
+        </div>
+      );
   }
 }
 
-const styles = {
-  Card: {}
-};
+/*
+
+*/

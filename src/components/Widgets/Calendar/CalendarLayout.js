@@ -16,7 +16,8 @@ class CalendarLayout extends Component {
       needRefresh: 0,
       dateValue: new Date(),
       dateString: moment().format("DD MMM"),
-      selectedEvents: []
+      selectedEvents: [],
+      activeStartDate: moment().startOf("month").toDate()
     }
   }
   
@@ -34,29 +35,31 @@ class CalendarLayout extends Component {
   componentDidUpdate(prevProps, prevState){
     if(this.props.myEvents !== prevProps.myEvents){
       let events = [];
+      let serviceSettings = this.props.settings.filter(item => item.settingType == "booking");
       for(let i=0; i < this.props.myEvents.length; i++){
         let eventStart = moment.tz(this.props.myEvents[i].start, "Asia/Singapore");
         let eventEnd = moment.tz(this.props.myEvents[i].end, "Asia/Singapore");
         let startDate = new Date(eventStart.toISOString());
         let endDate = new Date(eventEnd.toISOString());
-        let color ="";
-        if(this.props.myEvents[i].service == "Test Drive"){
-          color = "green";
-        }
-        else if(this.props.myEvents[i].service == "Maintenance"){
-          color = "pink";
-        }        
+        let color ="#000";
+        for(let j=0; j < serviceSettings.length; j++){
+          if(this.props.myEvents[i].service == serviceSettings[j].name){
+            color = serviceSettings[j].value;
+          }
+        }      
         events.push({
           start: startDate,
           end: endDate,
           color: color,
           title: this.props.myEvents[i].title,
-          cust: this.props.myEvents[i].cus          
+          cust: this.props.myEvents[i].cus,
+          staffName: this.props.myEvents[i].staffName          
         })
-      }      
+      }
+      console.log(this.state.activeStartDate);    
       this.setState({
         eventDates: events,
-        needRefresh: 1
+        needRefresh: this.state.needRefresh+1
       })
     }
   }
@@ -73,7 +76,7 @@ class CalendarLayout extends Component {
     if(view === 'month' && todayEvents.length > 0) {
       return (
       <div className="dotRow">
-        { todayEvents.map((item,index) => (<div className={"calDot "+item} key={index}></div>))}
+        { todayEvents.map((item,index) => (<div className={"calDot"} style={{backgroundColor: item}} key={index}></div>))}
       </div>)
      } else {
        return (<div className="dotRow"></div>);
@@ -95,11 +98,31 @@ class CalendarLayout extends Component {
   }
 
   changeActiveView = ({ activeStartDate, value, view }) => {
-    console.log(activeStartDate);
+    let monthStart = moment(activeStartDate.toISOString()).startOf("month").toISOString();
+    let monthEnd = moment(activeStartDate.toISOString()).endOf('month').toISOString();
+    this.props.getAllEvents(
+      true,
+      monthStart,
+      monthEnd      
+    );
+    this.setState({
+      activeStartDate: activeStartDate,
+      dateValue: null
+    })
   }
 
   changeMonth = (value, event ) => {
-    console.log(value);
+    let monthStart = moment(value.toISOString()).startOf("month").toISOString();
+    let monthEnd = moment(value.toISOString()).endOf('month').toISOString();
+    this.props.getAllEvents(
+      true,
+      monthStart,
+      monthEnd      
+    );
+    this.setState({
+      activeStartDate: value,
+      dateValue: null
+    })
   }
 
   render() {
@@ -110,6 +133,7 @@ class CalendarLayout extends Component {
             key={this.state.needRefresh}
             className="react-calendar"
             tileContent={this.checkActiveDates}
+            activeStartDate={this.state.activeStartDate}
             value={this.state.dateValue}
             onChange={this.changeActiveDay}
             onActiveDateChange={this.changeActiveView}   
@@ -129,9 +153,9 @@ class CalendarLayout extends Component {
 
 // map state to props
 const mapStateToProps = ({ calendarState }) => {
-  const { myEvents } = calendarState;
+  const { myEvents, settings } = calendarState;
   return {
-    myEvents
+    myEvents, settings
   };
 };
 

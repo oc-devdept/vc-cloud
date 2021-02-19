@@ -8,6 +8,7 @@ import {
   notificationSettings,
   followupTypeSetting,
   followupResultSetting, 
+  bookingTypeSetting
 } from "../AsyncRoutes";
 import { accessControlHelper } from "Helpers/accessControlHelper";
 
@@ -51,6 +52,19 @@ export default function navlinks() {
     }    
     links.push(sublink);
   }
+  sublink = {
+    title: "Calendar Settings",
+    stateName: "calendar",
+    links: [
+      {
+        title: "Booking Event Types",
+        asyncComponent: bookingTypeSetting,
+        path: "/calendar-setting/booking-type"
+      }
+    ]
+  }
+  links.push(sublink);
+
   if(accessControlHelper(["customertype:create"])){
     sublink = {
       title: "CRM Settings",

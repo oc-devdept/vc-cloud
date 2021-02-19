@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect}  from "react";
 import { connect } from "react-redux";
 
 import { TextField } from "@material-ui/core";
@@ -10,30 +10,55 @@ import { useDispatch, useSelector } from "react-redux";
 // Actions
 import { getEventsSearch } from "Ducks/calendar";
 
-const FilterSidebar = toolbar => {
-  var filterKey = "";
-// const dispatch = useDispatch();
+const FilterSidebar = props => {
+    const dispatch = useDispatch();
+    const calendarSettings = useSelector(state => state.calendarState.settings);
+    const [selectedFilters, setSelectedFilters] = useState(["Lead", "Deal"]);
+    useEffect(()=> {
+        if(calendarSettings.length > 0){
+            let cals = [...selectedFilters];
+            for(let i=0; i < calendarSettings.length; i++){
+                if(calendarSettings[i].settingType == "booking" || calendarSettings[i].settingType == "others"){
+                    cals.push(calendarSettings[i].name);
+                }
+            }
+            setSelectedFilters(cals);
+        }
+        
+    }, [calendarSettings]);
+
+    const handleChange = event => {
+        let cals = [...selectedFilters];
+        let num = cals.indexOf(event.target.value);
+        if(num == -1){
+           cals.push(event.target.value);   
+        }
+        else {
+            cals.splice(num, 1);
+        }
+        setSelectedFilters(cals);
+        dispatch(getEventsSearch(cals, "type"));       
+        
+   };
+
+    const filterChange = event => {
+        let filterKey = event.target.value;
+        dispatch(getEventsSearch(filterKey, "title"));
+        //props.getEventsSearch(filterKey, state);
+      };
+
 //   var ho = useSelector(state => {state.calendarState, console.log(state)});
 //   React.useEffect(() => {
 //     dispatch(getEventsSearch());
 //   }, []);
-
-  const [state, setState] = React.useState({
+/*
+  const [state, setState] = useState({
     Lead: true,
     Deal: true,
-//     Account: true,
-//     Invoice: true,
-    Maintenance: true,
-    "Test Drive": true,
+
   });
 
-  const handleChange = name => event => {
-    // console.log(name);
-    state[name] = event.target.checked;
-    setState({ ...state, [name]: event.target.checked });
-    checkBoxChanged(state);
-    console.log(state);
-  };
+  
 
   const checkBoxChanged = data => {
 
@@ -41,11 +66,8 @@ const FilterSidebar = toolbar => {
     toolbar.getEventsSearch(filterKey, state);
   };
 
-  const filterChange = event => {
-    filterKey = event.target.value;
-    toolbar.getEventsSearch(filterKey, state);
-  };
-
+ 
+*/
   return (
     <div>
       <TextField
@@ -61,58 +83,49 @@ const FilterSidebar = toolbar => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={state.Lead}
-                onChange={handleChange("Lead")}
+                checked={selectedFilters.includes("Lead")}
+                onChange={handleChange}
                 value="Lead"
               />
             }
             label="Lead"
-          />
-          <FormControlLabel
+          /><FormControlLabel
             control={
               <Checkbox
-                checked={state.Deal}
-                onChange={handleChange("Deal")}
+                checked={selectedFilters.includes("Deal")}
+                onChange={handleChange}
                 value="Deal"
               />
             }
             label="Deal"
           />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.Maintenance}
-                onChange={handleChange("Maintenance")}
-                value="Maintenance"
-              />
-            }
-            label="Maintenance"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state["Test Drive"]}
-                onChange={handleChange("Test Drive")}
-                value="Test Drive"
-              />
-            }
-            label="Test Drive"
-          />
+         {
+             calendarSettings.map(setting => {
+                 if(setting.settingType == "booking" || setting.settingType == "others"){
+                     return (
+                        <FormControlLabel
+                            key={setting.name}
+                            control={
+                              <Checkbox
+                                checked={selectedFilters.includes(setting.name)}
+                                onChange={handleChange}
+                                value={setting.name}
+                                style={{color: setting.value}}
+                              />
+                            }
+                            label={setting.name}
+                         />
+                     )
+                 }
+                 else {
+                     return "";
+                 }
+             })
+         }          
         </FormGroup>
       </fieldset>
     </div>
   );
 };
 
-const mapStateToProps = ({ calendarState }) => {
-  const { showEvents } = calendarState;
-  return { showEvents };
-};
-
-export default connect(
-  mapStateToProps,
-  {
-    getEventsSearch
-  }
-)(FilterSidebar);
+export default FilterSidebar;

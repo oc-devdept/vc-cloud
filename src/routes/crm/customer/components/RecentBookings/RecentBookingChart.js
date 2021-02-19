@@ -7,13 +7,13 @@ function RecentBookingChart(props) {
 
   var labels = data.map(dat => dat.name);
   var dataset = data.map(dat => dat.count);
-
+  var backgroundColors = data.map(dat => dat.color)
   const chartData = {
     labels,
     datasets: [
       {
         data: dataset,
-        backgroundColor: PastelOne9
+        backgroundColor: backgroundColors
       }
     ]
   };

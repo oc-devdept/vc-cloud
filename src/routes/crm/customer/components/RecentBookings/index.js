@@ -8,6 +8,7 @@ import RecentBookingChart from "./RecentBookingChart";
 
 // Actions
 import { getRecentBookings } from "Ducks/booking";
+import { getCalendarSettings } from "Ducks/calendar";
 
 class RecentBookings extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class RecentBookings extends Component {
   componentDidMount() {
     this.props.custId &&
       this.props.getRecentBookings("Customer", this.props.custId);
+    //this.props.getCalendarSettings();
   }
   render() {
     const { loading, listData, chartData } = this.props;
@@ -45,4 +47,4 @@ const mapStateToProps = ({ bookingState }) => {
   return { loading, listData, chartData };
 };
 
-export default connect(mapStateToProps, { getRecentBookings })(RecentBookings);
+export default connect(mapStateToProps, { getRecentBookings, getCalendarSettings })(RecentBookings);

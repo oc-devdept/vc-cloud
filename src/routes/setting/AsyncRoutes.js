@@ -77,3 +77,8 @@ export const followupResultSetting = Loadable({
   loader: () => import("./crmSettings/followup/followupResult"),
   loading: () => <RctPageLoader />,
 });
+
+export const bookingTypeSetting = Loadable({
+  loader: () => import("./calSettings/bookingType"),
+  loading: () => <RctPageLoader />
+});

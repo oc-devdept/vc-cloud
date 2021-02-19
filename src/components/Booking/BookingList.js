@@ -34,19 +34,6 @@ const CustomerList = ({
       }
     },
     {
-      label: "Created",
-      name: "created_at",
-      options: {
-        customBodyRender: (value, tableMeta) => {
-          return (
-            <span style={{ color: "rgba(0,0,0,0.7)" }}>
-              {Moment(value).format("LL")}
-            </span>
-          );
-        }
-      }
-    },
-    {
       label: "Email",
       name: "contact",
       options: {
@@ -93,7 +80,7 @@ const CustomerList = ({
           const { model, date, timeslot, description } = value;
           return (
             <span style={{ color: "rgba(0,0,0,0.7)" }}>
-              {Moment(date).format("LL")}
+              {Moment(date).format("lll")}
             </span>
           );
         }

@@ -18,19 +18,22 @@ class CustomerPicker extends Component {
     super(props);
   }
 
-  renderName(value) {
+  renderName(value, displayValue) {
     const selected = Object.assign([], this.props.tableData).find(
       cust => cust.id == value
     );
     if (selected) {
       return selected.name;
-    } else {
+    } else if(displayValue){
+      return displayValue;
+    }     
+    else {
       return "";
     }
   }
 
   render() {
-    const { classes, value, handleChange, required, target, show } = this.props;
+    const { classes, value, displayValue, handleChange, required, target, show } = this.props;
     return (
       <React.Fragment>
         <FormControl className={classes.root}>
@@ -38,7 +41,7 @@ class CustomerPicker extends Component {
             Customer
           </InputLabel>
           <BaseInput
-            value={this.renderName(value)}
+            value={this.renderName(value, displayValue)}
             readOnly
             onFocus={() => show("customer_picker")}
             onClick={() => show("customer_picker")}

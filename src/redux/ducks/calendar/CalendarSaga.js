@@ -28,22 +28,57 @@ const addEventRequest = async (newEvent) => {
 };
 const deleteEventRequest = async id => {
   try {
-    const result = await api.delete(`/events/${id}`);
+    const result = await api.post(`/events/customDelete`, { data: id });    
     // const result = newEvent;
     return result.data;
   } catch (err) {
     return err;
   }
 };
-const updateEventRequest = async id => {
+const updateEventRequest = async data => {
   try {
-    const result = await api.patch(`/events/?id=${id.id}`, id);
+    const result = await api.post(`/events/customEdit`, { data });
+    //const result = await api.patch(`/events/?id=${id.id}`, id);
     // const result = newEvent;
     return result.data;
   } catch (err) {
     return err;
   }
 };
+const getCalendarSettingsRequest = async () => {
+  try {
+    const result = await api.get("/calendarsettings");
+    return result.data;
+  } catch(err) {
+    return err;
+  }
+}
+
+const updateCalendSettingsRequest = async data => {
+  try {
+    const result = await api.patch("/calendarsettings", data);
+    return result;
+  } catch(err) {
+    return err;
+  }
+}
+const postCalendarSettings = async data => {
+  try {
+    const result = await api.post("/calendarsettings", data);
+    return result.data;
+  } catch(err) {
+    return err;
+  }
+}
+const deleteCalendarSettingRequest = async id => {
+  try {
+    const result = await api.delete(`/calendarsettings/${id}`);
+    // const result = newEvent;
+    return result.data;
+  } catch (err) {
+    return err;
+  }
+}
 
 //=========================
 // CALL(GENERATOR) ACTIONS
@@ -67,21 +102,30 @@ function* getAllEventsFromDB(item) {
     }  
 }
 
+function* getAllUpcomingEventsFromDB({ payload }) {
+
+    try {
+      let event = [];
+      //let testevent = myEvents;
+      let myEvents = yield call(getAllEventsRequest, payload);
+      myEvents.data.map(item => {
+        item.start = new Date(item.start);
+        item.end = new Date(item.end);
+      });
+      yield put(Actions.getAllUpcomingEventSuccess(myEvents, myEvents));
+    } catch (err) {
+      console.log(err);
+      yield put(Actions.getEventFailure(err));
+    }  
+}
+
 function* addEventToDB({ payload }) {
-  const { item, type } = payload;
+  const { item } = payload;
   try {
     const data = yield call(addEventRequest, item);
-    if (type == "Lead") {
-      yield put(Actions.addLeadEvent(data));
-    } else if (type == "Customer") {
-      yield put(Actions.addCustomerEvent(data));
-    } else if (type == "Account") {
-      yield put(Actions.addAccountEvent(data));
-    } else if (type == "Deal") {
-      yield put(Actions.addDealEvent(data));
-    } else {
-      yield put(Actions.addEventSuccess(data));
-    }
+    
+    yield put(Actions.addEventSuccess(data));
+    
   } catch (err) {
     yield put(Actions.addEventFailure(err));
   }
@@ -89,10 +133,12 @@ function* addEventToDB({ payload }) {
 
 function* deleteEventFromDB(item) {
   try {
-    const data = yield call(deleteEventRequest, item.payload);
+    const data = yield call(deleteEventRequest, item.payload); 
+    /*   
     if (!data.count == 1) {
       throw "Item could not be deleted";
     }
+    */
     yield put(Actions.deleteEventSuccess(item.payload));
   } catch (err) {
     yield put(Actions.deleteEventFailure(err));
@@ -106,12 +152,51 @@ function* updateEventFromDB(item) {
     yield put(Actions.updateEventFailure(err));
   }
 }
+function* getCalendarSettingsFromDB(){
+  try {
+    const data = yield call(getCalendarSettingsRequest);
+    yield put(Actions.getCalendarSettingsSuccess(data));    
+  } catch(err) {
+    yield put(Actions.getCalendarSettingsFailure(err));
+  }
+}
+function* updateCalendarSettingsFromDB(item) {
+  try {
+    const data = yield call(updateCalendSettingsRequest, item.payload);
+    yield put(Actions.updateCalendarSettingsSuccess(data));    
+  } catch (err) {
+    yield put(Actions.updateCalendarSettingsFailure(err));
+  }
+}
+function* addCalSettingToDB({ payload }) {
+  //const { item } = payload;
+  try {
+    const data = yield call(postCalendarSettings, payload);
+    
+    yield put(Actions.newCalendarSettingSuccess(data));
+    
+  } catch (err) {
+    yield put(Actions.newCalendarSettingFailure(err));
+  }
+}
+
+function* deleteCalendarSettingFromDB(item) {
+  try {
+    const data = yield call(deleteCalendarSettingRequest, item.payload);   
+    yield put(Actions.deleteCalendarSettingSuccess(item.payload));
+  } catch (err) {    
+    yield put(Actions.deleteCalendarSettingFailure(err));
+  }
+}
 
 //=======================
 // WATCHER FUNCTIONS
 //=======================
 export function* getAllEventsWatcher() {
   yield takeEvery(Types.GET_ALL_EVENTS, getAllEventsFromDB);
+}
+export function* getAllUpcomingEventsWatcher(){
+  yield takeEvery(Types.GET_ALL_UPCOMING_EVENTS, getAllUpcomingEventsFromDB);
 }
 export function* addEventWatcher() {
   yield takeEvery(Types.ADD_EVENT, addEventToDB);
@@ -123,16 +208,32 @@ export function* deleteEventWatcher() {
 export function* updateEventWatcher() {
   yield takeEvery(Types.UPDATE_EVENT, updateEventFromDB);
 }
+export function* getCalendarSettingsWatcher(){
+  yield takeEvery(Types.GET_CALENDARSETTINGS, getCalendarSettingsFromDB);
+}
+export function* updateCalendarSettingsWatcher() {
+  yield takeEvery(Types.UPDATE_CALENDARSETTINGS, updateCalendarSettingsFromDB);
+}
+export function* newCalendarSettingsWatcher() {
+  yield takeEvery(Types.NEW_CALENDARSETTING, addCalSettingToDB);
+}
+export function* deleteCalendarSettingsWatcher() {
+  yield takeEvery(Types.DELETE_CALENDARSETTING, deleteCalendarSettingFromDB);
+}
 
 //=======================
 // FORK SAGAS TO STORE
 //=======================
 export default function* rootSaga() {
-  yield all([
-    ,
+  yield all([    
     fork(getAllEventsWatcher),
+    fork(getAllUpcomingEventsWatcher),
     fork(addEventWatcher),
     fork(deleteEventWatcher),
-    fork(updateEventWatcher)
+    fork(updateEventWatcher),
+    fork(getCalendarSettingsWatcher),
+    fork(updateCalendarSettingsWatcher),
+    fork(newCalendarSettingsWatcher),
+    fork(deleteCalendarSettingsWatcher),
   ]);
 }

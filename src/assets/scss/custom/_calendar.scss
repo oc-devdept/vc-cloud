@@ -15,13 +15,6 @@
     margin-right:3px;
 }
 
-.calDot.green {
-    background-color: #9ddd76;
-}
-
-.calDot.pink {
-    background-color: #F4CAC2;
-}
 
 .bigCalDot {
     width: 10px;
@@ -31,5 +24,50 @@
 .calTitleRow {
     font-size:18px;
     margin-bottom:5px;
+}
+
+.upcomingEvents  {
+    .title {
+        font-weight: bold;
+    }
+
+    .actionBlock {
+        width:300px;
+    }
+
+    .innerblock {
+        margin-bottom:16px;
+    }
+
+    .innerblockContent {
+        padding:0;
+        display: flex;
+    }
+    
+    .colorHeading {
+        width:20px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;                
+        
+    }
+    
+    .calDetailRow {        
+        padding: 1.25rem 1rem;
+    }
+    .title {
+        flex:3
+    }
+    .description {
+        flex:2
+    }
+    .timing {
+        flex:2
+    }
+    .customerInfo {
+        flex:1
+    }
+    .action {
+        flex:1
+    }
 }
 
