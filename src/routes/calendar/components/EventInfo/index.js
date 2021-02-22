@@ -65,6 +65,8 @@ class EventInfoDialog extends Component {
     if(state.eventableType == "Booking"){
       state.eventableType = state.service;
     }
+    state.start = new Date(this.state.info.start);
+    state.end = new Date(this.state.info.end);
     //console.log(state);
     this.props.updateEvent(state);
      this.props.handleClose();

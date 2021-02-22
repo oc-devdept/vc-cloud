@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import Moment from "moment";
 import BgCard from "Components/BgCard";
 import { CalendarToday, AccessTime, AccountCircle } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
+import { Icon } from "@iconify/react";
+import editFilled from "@iconify/icons-ant-design/edit-filled";
 import { isSameDay, getTheDate, getTheTime } from "Helpers/helpers";
 
 
 import { NavLink } from "react-router-dom";
 
 export default class DisplayEvent extends Component {
+
+  editEvent = (id) => {
+    window.location = "/app/calendar?edit="+id;
+  }
 
   render(){
   const { myEvents, currentDate } = this.props;
@@ -25,12 +32,24 @@ export default class DisplayEvent extends Component {
           <BgCard key={index}>
           <div className="calTitleRow">
              <div className={className} style={{backgroundColor: item.color}}></div> <strong> {item.title} </strong>
+             <IconButton
+                    size="small"
+                    onClick={() => {
+                      this.editEvent(item.id);
+                    }}
+                    style={{float:"right"}}
+                  >
+                    <Icon className="tableEditIcon" icon={editFilled} color="#595959" width="1.2rem" height="1.2rem" />
+                  </IconButton>
              </div> 
           {item.cust && (
           <NavLink to={`./crm/customers/${item.cust.id}`}>
             <h2 className="mb-0">{item.cust.name}</h2>
           </NavLink>
         )}
+        <div className="calDateRow">
+          {item.status}
+        </div>
         <div className="calDateRow">
            <CalendarToday className="align-text-bottom text-muted" fontSize="inherit" /> {eventDate}
            </div>

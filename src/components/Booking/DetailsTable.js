@@ -16,7 +16,7 @@ const Forms = ({ Details, Style }) => {
               key={index}
               style={{ padding: 10 }}
             >
-              <span>{key}</span>
+              <span style={{fontWeight:"bold"}}>{key}</span>
               <span style={{ marginLeft: 15, marginTop: 5 }}>{value}</span>
             </div>
           );
@@ -35,9 +35,9 @@ const Forms = ({ Details, Style }) => {
               <div
                 className="d-flex flex-row justify-content-between"
                 key={index}
-                style={{ padding: 10 }}
+                style={{ padding: 5 }}
               >
-                <span>{key}</span>
+                <span style={{fontWeight:"bold"}}>{key}</span>
                 <span>{Moment(value).format("LL")}</span>
               </div>
             );
@@ -46,9 +46,9 @@ const Forms = ({ Details, Style }) => {
               <div
                 className="d-flex flex-row justify-content-between"
                 key={index}
-                style={{ padding: 10 }}
+                style={{ padding: 5 }}
               >
-                <span>{key}</span>
+                <span style={{fontWeight:"bold"}}>{key}</span>
                 <span>{value}</span>
               </div>
             );

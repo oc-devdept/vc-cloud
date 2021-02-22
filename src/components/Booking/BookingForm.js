@@ -9,7 +9,7 @@ import api from 'Api'
 let InitBookService = {
     model: '',
     date: new Date, // schedule date
-    timeslot: '', // AM/PM
+    timeslot: '9am', // AM/PM
     description: '',
 }
 

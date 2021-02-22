@@ -5,14 +5,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-const StatusOption = ["Awaiting", "Processing", "Confirmed", "Rejected"];
+const StatusOption = ["Awaiting", "Processing", "Confirmed", "Change Request", "Cancelled", "Rejected", "Complete"];
 
 import Input from "Components/Inventory/Input";
 import Button from "Components/Inventory/Button";
 import NoteList from "./NoteList";
 import Forms from "./DetailsTable";
 
-const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
+const Index = ({ SingleBooking, ChangeStatus, MakeNotes, SaveRemarks }) => {
   if (!SingleBooking) {
     return null;
   }
@@ -24,13 +24,15 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
     contact,
     content,
     id,
-    notes
+    notes,
+    remarks
   } = SingleBooking;
   const { firstName, lastName, email, phone } = contact;
   const { model, date, timeslot, description } = content;
 
   const [newStatus, setnewStatus] = useState(null);
   const [newNotes, setnewNotes] = useState("");
+  const [newRemarks, setNewRemarks] = useState(remarks);
 
   return (
     <div className="d-flex" style={{ flex: 1, margin: 20 }}>
@@ -39,7 +41,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
           <div
             className="d-flex flex-column"
             style={{
-              flex: 1,
+              flex: 2,
               boxShadow:
                 "0 5px 9px 0 rgba(0,0,0,0.15), 0 8px 25px 0 rgba(0,0,0,0.15)",
               marginRight: 25
@@ -74,6 +76,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
           <div
             className="d-flex flex-column"
             style={{
+              flex:1,
               boxShadow:
                 "0 5px 9px 0 rgba(0,0,0,0.15), 0 8px 25px 0 rgba(0,0,0,0.15)"
             }}
@@ -89,7 +92,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
 
             <div style={{ margin: 25 }}>
               <Forms
-                Style={"column"}
+                Style={"row"}
                 Details={{
                   Name: `${firstName} ${lastName}`,
                   Email: email,
@@ -136,6 +139,35 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
             />
           </React.Fragment>
         )}
+
+        <div className="d-flex flex-column">
+              <Input
+                textarea={true}
+                divStyle={{ width: "100%", flex: 1, display: "flex" }}
+                title="Customer remarks / Reply to customer"
+                placeholder="Enter remarks"
+                value={newRemarks}
+                _HandleProduct={e => setNewRemarks(e)}
+                style={{
+                  height: "100%",
+                  backgroundColor: "rgba(244,246,251,1)",
+                  borderRadius: 8,
+                  border: "none",
+                  padding: 20
+                }}
+              />
+
+              <Button
+                divStyle={{ display: "flex", justifyContent: "flex-end" }}
+                _Function={() => {
+                  SaveRemarks(id, newRemarks);
+                  
+                }}
+                product={""}
+                files={""}
+                title={"Save remarks"}
+              />
+            </div>
         <div
           className="d-flex flex-row justify-content-between align-items-center"
           style={{ marginTop: 10 }}
@@ -164,7 +196,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes }) => {
                 })}
               </Select>
             </FormControl>
-
+              
             <Button
               divStyle={{
                 display: "flex",

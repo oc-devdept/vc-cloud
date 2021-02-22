@@ -53,7 +53,9 @@ class CalendarLayout extends Component {
           color: color,
           title: this.props.myEvents[i].title,
           cust: this.props.myEvents[i].cus,
-          staffName: this.props.myEvents[i].staffName          
+          staffName: this.props.myEvents[i].staffName,
+          id: this.props.myEvents[i].id,
+          status: this.props.myEvents[i].status          
         })
       }
       console.log(this.state.activeStartDate);    

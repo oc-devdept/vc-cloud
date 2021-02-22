@@ -19,6 +19,7 @@ import { IconButton } from "@material-ui/core";
 import { Icon } from "@iconify/react";
 import editFilled from "@iconify/icons-ant-design/edit-filled";
 import { CalendarToday, AccessTime, AccountCircle } from "@material-ui/icons";
+import StatusBadge from "Components/StatusBadge/StatusBadge";
 
 //date helpers
 import { isSameDay, getTheDate, getTheTime } from "Helpers/helpers";
@@ -181,26 +182,32 @@ const UpcomingEvents = (props) => {
               <BgCard key={index} customClasses="innerBlock" contentCustomClasses="innerblockContent">             
            
            <div className={`colorHeading`} style={{backgroundColor: eventColor}}></div>
-           <div className="calDetailRow title">
+           <div className="eventDetails">
+           <div className="calDetailRow box1">
              <strong> {item.title} </strong>
             </div>
-            <div className="calDetailRow description">
-              {item.desc}
-              </div>
-            <div className="calDetailRow timing">
-            <CalendarToday className="align-text-bottom text-muted" fontSize="inherit" /> {eventDate }<br />
-            <AccessTime className="align-text-bottom text-muted" fontSize="inherit" /> {eventTime}
+            
+            <div className="calDetailRow box2">
+            <CalendarToday className="align-text-bottom text-muted" fontSize="inherit" /> {eventDate }
+          
              </div>
-             <div className="calDetailRow customerInfo">
-             {item.cust && (
-          <NavLink to={`./crm/customers/${item.cust.id}`}>
-            <h2 className="mb-0">{item.cust.name}</h2>
+             <div className="calDetailRow box2">
+             <AccessTime className="align-text-bottom text-muted" fontSize="inherit" /> {eventTime}
+               </div>
+             <div className="calDetailRow box2">
+             {item.cus && (
+          <NavLink to={`./crm/customers/${item.cus.id}`}>
+            <span className="mb-0">{item.cus.name}</span>
           </NavLink> )}
              </div>
-             <div className="calDetailRow action">
-              {item.staffName}
+             <div className="calDetailRow box2 desc">
+              <strong>Staff: </strong>{item.staffName}
              </div>
-             <div className="calDetailRow action">
+             <div className="calDetailRow box2">
+           {item.status}
+           
+             </div>
+             <div className="calDetailRow box2">
              <IconButton
                     size="small"
                     onClick={() => {
@@ -210,6 +217,14 @@ const UpcomingEvents = (props) => {
                     <Icon className="tableEditIcon" icon={editFilled} color="#595959" width="1.5rem" height="1.5rem" />
                   </IconButton>
              </div>
+             <div className="calDetailRow box3 desc">
+              <strong>Description: </strong>{item.desc}
+              </div>
+              <div className="calDetailRow box3 desc">
+              <strong>Remarks: </strong>{item.remarks}
+              </div>
+           </div>
+           
            </BgCard>)
              })
             : (

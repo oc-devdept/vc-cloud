@@ -53,6 +53,7 @@ export default (state = INIT_STATE, action) => {
     case Types.GET_ALL_UPCOMING_EVENTS_SUCCESS:
       var events = action.payload.events.data; //.data
       var displayEvents = Object.values(events);
+      console.log(displayEvents);
       allShowEvents = displayEvents;
       return {
         ...state,

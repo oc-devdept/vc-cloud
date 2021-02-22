@@ -106,6 +106,24 @@ const index = ({ customer }) => {
     NotificationManager.success("New note has been added");
   };
 
+  const SaveRemarks = async(id, remarks) => {
+    const item = await api.post(`/bookings/saveRemarks`, { data: { id, remarks} });
+    const modifiedItem = item.data.fields;
+
+    // DeepClone
+    const cloneBookings = JSON.parse(JSON.stringify(Bookings));
+    cloneBookings.map((e, index) => {
+      if (e.id == modifiedItem.id) {
+        return (cloneBookings[index] = modifiedItem);
+      }
+    });
+
+    // Update current array with modified item
+    setBookings(() => cloneBookings);
+    setSingleBooking(() => modifiedItem);
+    NotificationManager.success("Remarks saved!");
+  }
+
   const CompleteBooking = async () => {
     const item = await api.get(`/customers/${customer.id}/bookings`);
     setBookings(() => [...item.data]);
@@ -143,6 +161,7 @@ const index = ({ customer }) => {
             SingleBooking={SingleBooking}
             ChangeStatus={ChangeStatus}
             MakeNotes={MakeNotes}
+            SaveRemarks={SaveRemarks}
           />
         </DialogRoot>
       )}

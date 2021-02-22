@@ -104,7 +104,10 @@ class NewEventForm extends Component {
   ConfirmEvent = () => {
     if (this.OnBlurValidation()) {
       let data = Object.assign({}, this.state);
-      
+      //change to date object
+      data.start = new Date(this.state.start);
+      data.end = new Date(this.state.end);
+      //console.log(data);
       this.props.addEvent(data);
     }
   };
