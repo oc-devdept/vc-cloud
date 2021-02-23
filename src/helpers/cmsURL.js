@@ -42,6 +42,12 @@ export const footerNewPage = `${footerPage}/new`;
 export const footerEditPage = id => `${footerPage}/edit/${id}`;
 
 /**
+ * Grape JS
+ */
+
+ export const grapeJsPage = "/app/cms/grapejs"
+
+/**
  * config options
  */
 export const configPage = "/app/cms/configoptions";

@@ -98,6 +98,12 @@ function cmsSwitcher() {
                     component={async.cms_footer_edit}
                 />
 
+                <Route
+                    exact
+                    path={`${url.grapeJsPage}`}
+                    component={async.cms_grapejs}
+                />
+
                 {/* ------- /404 ------- */}
                 <Redirect to="/404" />
             </Switch>
