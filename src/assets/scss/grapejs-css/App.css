@@ -64,10 +64,11 @@
  [data-tooltip]::after {
    background: rgba(51, 51, 51, 0.9);
  }
- 
+
  .gjs-dashed {
   overflow: auto;
 }
+
  .gjs-pn-commands {
    min-height: 40px;
  }
