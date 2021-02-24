@@ -474,6 +474,48 @@ class GrapeJS extends Component {
         },
       });
 
+      // pn.addButton('options', {
+      //   id: 'show-json',
+      //   className: 'btn-show-json',
+      //   label: 'Save Template',
+      //   context: 'show-json',
+      //   command(editor) {
+      //     // editor.Modal.setTitle('Components JSON')
+      //     //   .setContent(`<textarea style="width:100%; height: 250px;">
+      //     //     ${JSON.stringify(editor.getComponents())}
+      //     //   </textarea>`)
+      //     //   .open();
+
+      //       // alert("asdasdsad")
+      //       alert("Template Saved!")
+      //       console.log(JSON.stringify(editor.getComponents()))
+      //   },
+      // });
+
+      pn.addButton('options', {
+        id: 'export',
+        className: 'fa fa-save',
+        // label: 'Exp',
+        command: 'export-template',
+        context: 'export-template',
+        command(editor) {
+          // editor.Modal.setTitle('Components JSON')
+          //   .setContent(`<textarea style="width:100%; height: 250px;">
+          //     ${JSON.stringify(editor.getComponents())}
+          //   </textarea>`)
+          //   .open();
+
+            // alert("asdasdsad")
+            alert("Template Saved!")
+            console.log(editor.getHtml())
+        },
+        attributes: {
+          'title': 'Save Template',
+          'data-tooltip-pos': 'bottom',
+        },
+      });
+
+
 
       // // Simple warn notifier
       // var origWarn = console.warn;
