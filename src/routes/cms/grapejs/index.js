@@ -22,11 +22,11 @@ import grapesjsstylebg from 'grapesjs-style-bg';
 import gjspresetwebpage from 'grapesjs-preset-webpage';
 import toastr from 'toastr';
 
-// import grapesjslogo from './img/grapesjs-logo-cl.png';
-// import phoneapp from './img/phone-app.png';
-// import team1 from './img/team1.jpg';
-// import team2 from './img/team2.jpg';
-// import team3 from './img/team3.jpg';
+import grapesjslogo from '../../../assets/img/grapejsStock/grapesjs-logo-cl.png';
+import phoneapp from '../../../assets/img/grapejsStock/phone-app.png';
+import team1 from '../../../assets/img/grapejsStock/team1.jpg';
+import team2 from '../../../assets/img/grapejsStock/team2.jpg';
+import team3 from '../../../assets/img/grapejsStock/team3.jpg';
 
 
 class GrapeJS extends Component {
@@ -559,7 +559,7 @@ class GrapeJS extends Component {
     return (
       <React.Fragment>
       <div className="gjs-logo-cont">
-              <a href="//grapesjs.com"><img className="gjs-logo" src={"grapesjslogo"}/></a>
+              <a href="//grapesjs.com"><img className="gjs-logo" src={grapesjslogo}/></a>
               <div className="gjs-logo-version"></div>
             </div>
 
@@ -641,7 +641,7 @@ class GrapeJS extends Component {
         <section className="am-sect">
           <div className="container-width">
             <div className="am-container">
-              <img className="img-phone" onmousedown="return false" src={"phoneapp"}/>
+              <img className="img-phone" onmousedown="return false" src={phoneapp}/>
               <div className="am-content">
                 <div className="am-pre">ASSET MANAGER</div>
                 <div className="am-title">Manage your images with Asset Manager</div>
@@ -702,7 +702,7 @@ class GrapeJS extends Component {
               <div className="badges">
                 <div className="badge">
                   <div className="badge-header"></div>
-                  <img className="badge-avatar" src={"team1"}/>
+                  <img className="badge-avatar" src={team1}/>
                   <div class="badge-body">
                     <div className="badge-name">Adam Smith</div>
                     <div className="badge-role">CEO</div>
@@ -716,7 +716,7 @@ class GrapeJS extends Component {
                 </div>
                 <div className="badge">
                   <div className="badge-header"></div>
-                  <img className="badge-avatar" src={"team2"}/>
+                  <img className="badge-avatar" src={team2}/>
                   <div className="badge-body">
                     <div className="badge-name">John Black</div>
                     <div className="badge-role">Software Engineer</div>
@@ -730,7 +730,7 @@ class GrapeJS extends Component {
                 </div>
                 <div className="badge">
                   <div className="badge-header"></div>
-                  <img className="badge-avatar" src={"team3"}/>
+                  <img className="badge-avatar" src={team3}/>
                   <div className="badge-body">
                     <div className="badge-name">Jessica White</div>
                     <div className="badge-role">Web Designer</div>
