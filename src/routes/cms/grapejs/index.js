@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import 'grapesjs/dist/css/grapes.min.css';
+// import {Helmet} from "react-helmet";
 
 // import 'grapesjs/dist/css/grapes.min.css';
 
-import appCss from '../../../assets/grapejs-css/App.css';
+import '../../../assets/grapejs-css/App.css';
 // import '../../../assets/grapejs-css/App.css';
 import '../../../assets/grapejs-css/demos.css';
 import '../../../assets/grapejs-css/grapesjs-plugin-filestack.css';
@@ -33,6 +34,14 @@ import team3 from '../../../assets/img/grapejsStock/team3.jpg';
 
 
 class GrapeJS extends Component {
+
+  saveHTML = () => {
+    // alert("PING")
+    var test = document.querySelector("#gjs");
+    console.log(test);
+  }
+
+
   componentDidMount(){
 
     var lp = './img/';
@@ -42,7 +51,7 @@ class GrapeJS extends Component {
       plp+'c5d647/fff/image4.jpg', plp+'f28c33/fff/image5.jpg', plp+'e868a2/fff/image6.jpg', plp+'cc4360/fff/image7.jpg',
       lp+'work-desk.jpg', lp+'phone-app.png', lp+'bg-gr-v.png'
     ];
-    let height = window.innerHeight +5000;
+    let height = window.innerHeight + 90;
 
     const editor = grapesjs.init({
         // Indicate where to init the editor. You can also pass an HTMLElement
@@ -101,6 +110,8 @@ class GrapeJS extends Component {
             modalImportTitle: 'Import Template',
             modalImportLabel: '<div style="margin-bottom: 10px; font-size: 13px;">Paste here your HTML/CSS and click Import</div>',
             modalImportContent: function(editor) {
+              console.log("ASDASDS", editor)
+
               return editor.getHtml() + '<style>'+editor.getCss()+'</style>'
             },
             filestackOpts: null, //{ key: 'AYmqZc2e8RLGLE7TGkX3Hz' },
@@ -546,31 +557,42 @@ class GrapeJS extends Component {
           }
         });
 
-        // Open block manager
+        // Open block mana  ger
         var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
         openBlocksBtn && openBlocksBtn.set('active', 1);
 
          var cssLink = document.createElement("link");
 
-         console.log(cssLink);
+         console.log(cssLink, );
 
          cssLink.href = "/main.css";
          cssLink.rel = "stylesheet";
          cssLink.type = "text/css";
           document.querySelector('iframe').contentWindow.document.head.appendChild(cssLink);
-          console.log(document.querySelector('iframe'))
+          document.querySelector('iframe').setAttribute("scrolling", "yes");
+        
+         
+        //   console.log(document.querySelector('iframe'))
         });
 }
 
   render(){
     return (
       <React.Fragment>
-      <div className="gjs-logo-cont">
+      <button onClick={this.saveHTML}> Export Save</button>
+            {/* <Helmet>
+                <meta charSet="utf-8" />
+                <title>My HAHHAHAH</title>
+                <link rel="stylesheet" href={'./yourPathHere.jpg'}></link>
+
+            </Helmet> */}
+      <div className="gjs-logo-cont" style={{overflow: "scroll !important"}}>
               <a href="//grapesjs.com"><img className="gjs-logo" src={grapesjslogo}/></a>
               <div className="gjs-logo-version"></div>
             </div>
 
-            <div id="gjs" /* style="height:0px; overflow:hidden" */>
+
+            <div id="gjs" style={{overflow: "scroll !important"}} /* style="height:0px; overflow:hidden" */>
           <header className="header-banner">
             <div className="container-width">
               <div className="logo-container">
