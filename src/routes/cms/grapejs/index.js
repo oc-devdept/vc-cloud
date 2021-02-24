@@ -2,13 +2,16 @@ import React, {Component} from "react";
 import 'grapesjs/dist/css/grapes.min.css';
 
 // import 'grapesjs/dist/css/grapes.min.css';
-// import './css/App.css';
-// import './css/demos.css';
-// import './css/grapesjs-plugin-filestack.css';
-// import './css/grapesjs-preset-webpage.min.css';
-// import './css/grapick.min.css';
-// import './css/toastr.min.css';
-// import './css/tooltip.css';
+
+import appCss from '../../../assets/grapejs-css/App.css';
+// import '../../../assets/grapejs-css/App.css';
+import '../../../assets/grapejs-css/demos.css';
+import '../../../assets/grapejs-css/grapesjs-plugin-filestack.css';
+import '../../../assets/grapejs-css/grapesjs-preset-webpage.min.css';
+import '../../../assets/grapejs-css/grapick.min.css';
+import '../../../assets/grapejs-css/toastr.min.css';
+import '../../../assets/grapejs-css/tooltip.css';
+
 import grapesjs from 'grapesjs';
 import grapesjsloryslider from 'grapesjs-lory-slider';
 import grapesjstabs from 'grapesjs-tabs';
@@ -39,7 +42,7 @@ class GrapeJS extends Component {
       plp+'c5d647/fff/image4.jpg', plp+'f28c33/fff/image5.jpg', plp+'e868a2/fff/image6.jpg', plp+'cc4360/fff/image7.jpg',
       lp+'work-desk.jpg', lp+'phone-app.png', lp+'bg-gr-v.png'
     ];
-    let height = window.innerHeight -80;
+    let height = window.innerHeight +5000;
 
     const editor = grapesjs.init({
         // Indicate where to init the editor. You can also pass an HTMLElement
@@ -548,10 +551,14 @@ class GrapeJS extends Component {
         openBlocksBtn && openBlocksBtn.set('active', 1);
 
          var cssLink = document.createElement("link");
-         cssLink.href = "App.css";
+
+         console.log(cssLink);
+
+         cssLink.href = "/main.css";
          cssLink.rel = "stylesheet";
          cssLink.type = "text/css";
           document.querySelector('iframe').contentWindow.document.head.appendChild(cssLink);
+          console.log(document.querySelector('iframe'))
         });
 }
 
@@ -641,9 +648,9 @@ class GrapeJS extends Component {
         <section className="am-sect">
           <div className="container-width">
             <div className="am-container">
-              <img className="img-phone" onmousedown="return false" src={phoneapp}/>
+              <img className="img-phone" onMouseDown="return false" src={phoneapp}/>
               <div className="am-content">
-                <div className="am-pre">ASSET MANAGER</div>
+                <div className="am-pre">ASSET MANAGER </div>
                 <div className="am-title">Manage your images with Asset Manager</div>
                 <div className="am-desc">You can create image blocks with the command from the left panel and edit them with double click</div>
                 <div className="am-post">Image uploading is not allowed in this demo</div>
