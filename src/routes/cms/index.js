@@ -98,10 +98,19 @@ function cmsSwitcher() {
                     component={async.cms_footer_edit}
                 />
 
+                {/* grapes paths */}
                 <Route
                     exact
                     path={`${url.grapeJsPage}`}
                     component={async.cms_grapejs}
+                />
+
+                <Route
+                    exact
+                    path={`${url.grapeJsPage}/terms-n-conditions`}
+                    component={async.cms_grapejs_terms_n_conditions}
+                    // component={async.cms_grapejs}
+
                 />
 
                 {/* ------- /404 ------- */}
