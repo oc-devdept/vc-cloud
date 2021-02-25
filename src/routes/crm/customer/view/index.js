@@ -36,6 +36,10 @@ import {
   setCustomerActive,
   transferCustomer
 } from "Ducks/crm/customer";
+
+import {
+  getAllDeal
+} from "Ducks/crm/deal";
 // Add events dialog
 
 class crm_view_customer extends Component {
@@ -123,7 +127,8 @@ class crm_view_customer extends Component {
 
   _handleDeployAgent = async id => {
     const item = await api.post(`/customers/deployAgent`, { data: { id } });
-    this.setState({ customer: item.data.fields });
+    //this.setState({ customer: item.data.fields });
+    this.props.getSingleCustomer(id);
   };
 
   render() {
@@ -184,7 +189,7 @@ class crm_view_customer extends Component {
                     />
                   </div>
                   <div label="Related Deals">
-                    <DealsTab deals={customer.deals} />
+                    <DealsTab customerId={customer.id} getAllDeal={this.props.getAllDeal} tableData={this.props.dealList.tableData} totalCount={this.props.dealList.totalCount}  />
                   </div>
                   <div label="Details">
                     <DetailsTab cust={customer} />
@@ -202,9 +207,10 @@ class crm_view_customer extends Component {
 }
 // map state to props
 const mapStateToProps = ({ crmState }) => {
-  const { customerState } = crmState;
+  const { customerState, dealState } = crmState;
   const { customerToView } = customerState;
-  return { customerToView };
+  const { dealList } = dealState;
+  return { customerToView, dealList };
 };
 
 export default connect(mapStateToProps, {
@@ -214,5 +220,6 @@ export default connect(mapStateToProps, {
   deleteCustomer,
   addNoteCustomer,
   setCustomerActive,
-  transferCustomer
+  transferCustomer,
+  getAllDeal
 })(crm_view_customer);

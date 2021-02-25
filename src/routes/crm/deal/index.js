@@ -24,8 +24,8 @@ class crm_deal extends Component {
   };
 
   componentDidMount() {
-    this.props.getAllDeal();
-    this.props.getDealSummary();
+    //this.props.getAllDeal();
+    //this.props.getDealSummary();
   }
 
   toggleSummary() {
@@ -44,18 +44,17 @@ class crm_deal extends Component {
   }
 
   render() {
-    const { nowShowing, tableData, loading } = this.props.dealState.dealList;
+    const { nowShowing, tableData, loading, totalCount } = this.props.dealState.dealList;
     return (
       <React.Fragment>
         <Helmet title="Deals" />
         <PageTitleBar
           title={nowShowing}
           actionGroup={{
-            add: { onClick: this.newDeal },
-            more: [{ label: "Refresh List", onClick: this.refresh }]
+            add: { onClick: this.newDeal }           
           }}
         />
-        <DealList tableData={tableData} loading={loading} />
+        <DealList tableData={tableData} loading={loading} getAllDeal={this.props.getAllDeal} totalCount={totalCount} />
       </React.Fragment>
     );
   }

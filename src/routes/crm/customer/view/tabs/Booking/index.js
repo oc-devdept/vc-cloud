@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import api from "Api";
 
 import { NotificationManager } from "react-notifications";
@@ -9,28 +10,45 @@ import SingleBookingForm from "Components/Booking/SingleBookingForm";
 
 import BookingForm from "Components/Booking/BookingForm";
 
+import {  getCalendarSettings } from "Ducks/calendar";
+
 const index = ({ customer }) => {
   if (!customer.id) {
     return null;
   }
+
+  const dispatch = useDispatch();
 
   const [Bookings, setBookings] = useState([]);
   const [ShowDialog, setShowDialog] = useState(false);
   const [SingleBookingId, setSingleBookingId] = useState(null);
   const [SingleBooking, setSingleBooking] = useState(null);
   const [Loading, setLoading] = useState(true);
+  const [serviceOption, setServiceOption] = useState([]);
 
   // BOOKING
   const [Booking, setBooking] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      const item = await api.get(`/customers/${customer.id}/bookings`);
-      setBookings(Bookings => [...Bookings, ...item.data]);
-      setLoading(() => false);
-    }
-    fetchData();
+    
+    dispatch(getCalendarSettings());
   }, [customer.id]);
+
+  const calendarSettings = useSelector(state => state.calendarState.settings);
+
+  useEffect(()=> {
+    if(calendarSettings.length > 0){
+      async function fetchData() {
+        const item = await api.get(`/customers/${customer.id}/bookings`);
+        setBookings(item.data);
+        setLoading(() => false);
+      }
+      fetchData();
+      let options = calendarSettings.filter(item => item.settingType == "booking");
+      setServiceOption(options.map(item => item.name));
+
+    }
+  }, [calendarSettings])
 
   useEffect(() => {
     async function fetchData() {
@@ -88,6 +106,24 @@ const index = ({ customer }) => {
     NotificationManager.success("New note has been added");
   };
 
+  const SaveRemarks = async(id, remarks) => {
+    const item = await api.post(`/bookings/saveRemarks`, { data: { id, remarks} });
+    const modifiedItem = item.data.fields;
+
+    // DeepClone
+    const cloneBookings = JSON.parse(JSON.stringify(Bookings));
+    cloneBookings.map((e, index) => {
+      if (e.id == modifiedItem.id) {
+        return (cloneBookings[index] = modifiedItem);
+      }
+    });
+
+    // Update current array with modified item
+    setBookings(() => cloneBookings);
+    setSingleBooking(() => modifiedItem);
+    NotificationManager.success("Remarks saved!");
+  }
+
   const CompleteBooking = async () => {
     const item = await api.get(`/customers/${customer.id}/bookings`);
     setBookings(() => [...item.data]);
@@ -125,6 +161,7 @@ const index = ({ customer }) => {
             SingleBooking={SingleBooking}
             ChangeStatus={ChangeStatus}
             MakeNotes={MakeNotes}
+            SaveRemarks={SaveRemarks}
           />
         </DialogRoot>
       )}
@@ -136,7 +173,7 @@ const index = ({ customer }) => {
           handleHide={RestartBooking}
           size={"md"}
         >
-          <BookingForm customer={customer} _handleComplete={CompleteBooking} />
+          <BookingForm customer={customer} _handleComplete={CompleteBooking} serviceOption={serviceOption} />
         </DialogRoot>
       )}
     </div>

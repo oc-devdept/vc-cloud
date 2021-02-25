@@ -5,76 +5,105 @@ import FormInput from "Components/Form/FormInput";
 import DateTimePicker from "Components/Form/Pickers/DateTimePicker";
 import DatePicker from "Components/Form/Pickers/DatePicker";
 import { Button, Switch, FormControlLabel } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
+
+import CustomerPicker from "Routes/crm/components/CustomerPicker";
+
+
 function EditableEventInfo(props) {
-  const { info, onDelete, editField, toggleEdit, submitEdit } = props;
-  const { id, start, end, title, desc, allDay } = info;
+  const { info, onDelete, editField, closeForm, submitEdit, eventSelectValues } = props;
+  const { id, start, end, title, desc, allDay, cus, customerId, eventableType, service } = info;
+  const eType = eventableType == "Booking" ? service : eventableType;
   return (
     <React.Fragment>
       <h3>Edit Event Details</h3>
       <form autoComplete="off">
-        <div className="row">
-          <div className="col">
-            {allDay ? (
-              <DatePicker
-                label="Start"
-                value={start}
-                target="start"
-                handleChange={editField}
-                required={!start}
-              />
-            ) : (
-              <DateTimePicker
-                label="Start"
-                value={start}
-                target="start"
-                handleChange={editField}
-                required={!start}
-              />
-            )}
-          </div>
-          <div className="col">
-            {allDay ? (
-              <DatePicker
-                label="End"
-                value={end}
-                target="end"
-                handleChange={editField}
-                required={!end}
-              />
-            ) : (
-              <DateTimePicker
-                label="End"
-                value={end}
-                target="end"
-                handleChange={editField}
-                required={!end}
-              />
-            )}
-          </div>
-        </div>
-        <div className="text-right text-muted">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={allDay}
-                onChange={() => editField("allDay", !allDay)}
-                value="allDay"
-                disableRipple
-              />
-            }
-            label="All day event"
-            labelPlacement="start"
-            className="mb-0"
-          />
-        </div>
-        <FormInput
-          label="Title"
+      <FormInput
+          placeholder="Title"
           value={title}
           target="title"
           handleChange={editField}
           required={!title}
         />
+        <div className="row">
+          <div className="col-6">
+            {allDay ? (
+              <DatePicker
+                label="Start"
+                value={start}
+                target="start"
+                handleChange={editField}
+                required={!start}
+              />
+            ) : (
+              <DateTimePicker
+                label="Start"
+                value={start}
+                target="start"
+                handleChange={editField}
+                required={!start}
+              />
+            )}
+          </div>
+          <div className="col-6">
+            {allDay ? (
+              <DatePicker
+                label="End"
+                value={end}
+                target="end"
+                handleChange={editField}
+                required={!end}
+              />
+            ) : (
+              <DateTimePicker
+                label="End"
+                value={end}
+                target="end"
+                handleChange={editField}
+                required={!end}
+              />
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+          <CustomerPicker
+          value={customerId}
+          displayValue={cus ? cus.name: ""}
+          target="customerId"
+          handleChange={editField}
+        />
+            </div>
+        </div>
+        <div className="row">
+        <div className="col-6">
+            <FormInput
+              label="Eventable Type"
+              value={eType}
+              target="eventableType"
+              handleChange={editField}
+              selectValues={eventSelectValues}
+              required={!eventableType}
+            />
+          </div>
+
+          <div className="col-6">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={allDay}
+                  onChange={() => editField("allDay", !allDay)}
+                  value="allDay"
+                  className="ml-10"
+                  disableRipple
+                />
+              }
+              label="All day event"
+              labelPlacement="start"
+              className="mb-0 fs-14"
+            />
+          </div>
+        </div>
+        
         <FormInput
           label="Description"
           value={desc}
@@ -94,7 +123,7 @@ function EditableEventInfo(props) {
             </Button>
           </div>
           <div>
-            <Button disableRipple onClick={toggleEdit}>
+            <Button disableRipple onClick={closeForm}>
               Cancel
             </Button>
             <Button

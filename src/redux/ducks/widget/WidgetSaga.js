@@ -1,10 +1,12 @@
 import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
-import { GET_CRM_SUMMARY, GET_UNTOUCHED_LEADS } from "./WidgetTypes";
+import { GET_CRM_SUMMARY, GET_DEALS_BY_PRODUCT, GET_UNTOUCHED_LEADS } from "./WidgetTypes";
 import {
   getCrmSummarySuccess,
   getCrmSummaryFailure,
   getUntouchedLeadsSuccess,
-  getUntouchedLeadsFailure
+  getUntouchedLeadsFailure,
+  getDealsByProductSuccess,
+  getDealsByProductFailure
 } from "./WidgetActions";
 
 import api from "Api";
@@ -20,6 +22,10 @@ const getUntouchedLeadsRequest = async date => {
   const result = await api.post("/widgets/untouchedleads", { date });
   return result.data.data;
 };
+const getDealsByProductRequest = async date => {
+  const result = await api.post("/widgets/openDealsByProduct", { date });
+  return result.data.data;
+}
 
 //=========================
 // CALL(GENERATOR) ACTIONS
@@ -41,6 +47,15 @@ function* getUntouchedLeads({ payload }) {
     yield put(getUntouchedLeadsFailure(error));
   }
 }
+function* getDealsByProduct({ payload }){
+  try {
+    const data = yield call(getDealsByProductRequest, payload);
+    yield put(getDealsByProductSuccess(data));
+
+  } catch(error) {
+    yield put(getDealsByProductFailure(error));
+  }
+}
 
 //=======================
 // WATCHER FUNCTIONS
@@ -51,10 +66,17 @@ export function* getCrmSummaryWatcher() {
 export function* getUntouchedLeadsWatcher() {
   yield takeEvery(GET_UNTOUCHED_LEADS, getUntouchedLeads);
 }
+export function* getDealsByProductWatcher(){
+  yield takeEvery(GET_DEALS_BY_PRODUCT, getDealsByProduct);
+}
 
 //=======================
 // FORK SAGAS TO STORE
 //=======================
 export default function* rootSaga() {
-  yield all([fork(getCrmSummaryWatcher), fork(getUntouchedLeadsWatcher)]);
+  yield all([fork(getCrmSummaryWatcher), 
+    fork(getUntouchedLeadsWatcher),
+    fork(getDealsByProductWatcher)
+  
+  ]);
 }

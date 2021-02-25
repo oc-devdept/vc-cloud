@@ -6,7 +6,7 @@ function CustomerDealsTab(props) {
   return (
     <div className="row">
       <div className="col">
-        <DealList title="Related Deals" tableData={deals} noRelated />
+        <DealList title="Related Deals" customerId={props.customerId} getAllDeal={props.getAllDeal} tableData={props.tableData} noRelated />
       </div>
     </div>
   );

@@ -5,9 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-const ServiceOption = ["Maintenance", "Test Drive", "Rental"]
 
-const Index = memo(({_HandleDayChange,_HandleInputForm, model, timeslot, description, currentDate, Timeslot, _setItemTimeSlot, date, service, _setItemService}) => {
+const Index = memo(({_HandleDayChange,_HandleInputForm, model, timeslot, description, currentDate, Timeslot, _setItemTimeSlot, date, service, _setItemService, serviceOption}) => {
 
     return (
         <div className="d-flex flex-column">
@@ -33,7 +32,7 @@ const Index = memo(({_HandleDayChange,_HandleInputForm, model, timeslot, descrip
                                         style={{minWidth: 100, marginLeft: 5}}
                                     >
                                     
-                                        {ServiceOption.map((e, index) => {
+                                        {serviceOption.map((e, index) => {
                                             return <MenuItem key={index} value={e}>{e}</MenuItem>
                                         })}
                                     </Select>

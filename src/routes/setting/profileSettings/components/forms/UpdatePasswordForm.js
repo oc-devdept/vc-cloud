@@ -57,11 +57,13 @@ class UpdatePasswordForm extends Component {
           <div className="col-5">
             <FormInput
               label="Current Password"
+              type="password"
               value={oldPassword}
               target="oldPassword"
               handleChange={this.handleChange}
             />
             <FormInput
+              type="password"
               label="New Password"
               value={newPassword}
               target="newPassword"
@@ -69,6 +71,7 @@ class UpdatePasswordForm extends Component {
             />
             <FormInput
               label="Confirm New Password"
+              type="password"
               value={confirmNewPassword}
               target="confirmNewPassword"
               handleChange={this.handleChange}

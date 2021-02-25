@@ -84,3 +84,9 @@ export const cms_footer_edit = Loadable({
     loader: () => import("./footer/edit"),
     loading: () => <RctPageLoader />
 });
+
+
+export const cms_grapejs = Loadable({
+    loader: () => import("./grapejs"),
+    loading: () => <RctPageLoader />
+});

@@ -11,8 +11,9 @@ import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import CalendarLayout from "Components/Widgets/Calendar/CalendarLayout";
 import CrmSummary from "Components/Widgets/CrmSummary";
 import UntouchedLeadsTable from "Components/Widgets/UntouchedLeadsTable";
-import DisplayEvents from "../../components/Widgets/Calendar/DisplayEvents";
+import HomeCharts from './HomeCharts';
 import { getAllEvents } from "Ducks/calendar";
+import UpcomingEvents from './UpcomingEvents';
 import Moment from "moment";
 
 const numberOfDays = 6;
@@ -21,16 +22,7 @@ class Homebase extends Component {
 
   componentDidMount() {
 
-    const userId = localStorage.getItem("user_id");
-
-    this.props.getAllEvents(
-      false,
-      new Date().toISOString(),
-      Moment(new Date())
-        .add(numberOfDays, "day")
-        .toISOString(),
-      userId
-    );
+    
   }
 
   
@@ -46,28 +38,15 @@ class Homebase extends Component {
         <PageTitleBar title={`Hello ${name},`} noBack />
         <CrmSummary />
         <div className="row">
-          <div className="col-md-8 "   style={{
-                maxHeight: 580,
-                overflow: "auto",
-              }} >
-      
-            <DisplayEvents
-            myEvents={this.props.myEvents.length > 0 ? this.props.myEvents : []}
-          />
-          
-          
-          </div>
-          
+        <div className="col-md-8">      
+          <UpcomingEvents />
+           </div>
           <div className="col-md-4">
             <CalendarLayout />
-            <hr/>
          
     
           </div>
-          <div className="col-md-8 pt-40 ">
-           
-          <UntouchedLeadsTable />
-          </div>
+         
         </div>
  
       </React.Fragment>

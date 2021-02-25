@@ -23,7 +23,7 @@ class Settings extends Component {
           </div>
           <div className="col-lg-10">
             <Switch>
-              {settingsList.map(list =>
+              {settingsList().map(list =>
                 list.links.map(link => (
                   <Route
                     exact

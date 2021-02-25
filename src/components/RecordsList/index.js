@@ -1,5 +1,5 @@
 import React from "react";
-import MUIDataTable from "mui-datatables";
+import MUIDataTable from "../MuiDatatable";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 export default function RecordsList(props) {

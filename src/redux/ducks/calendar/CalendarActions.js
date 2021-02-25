@@ -6,13 +6,12 @@ import * as types from "./CalendarTypes";
 /**
  * Get All Events
  */
-export const getAllEvents = (filter, start, end, id) => ({
+export const getAllEvents = (filter, start, end) => ({
   type: types.GET_ALL_EVENTS,
   payload: {
     filter,
     start,
-    end,
-    id
+    end
   }
 });
 
@@ -33,6 +32,72 @@ export const getAllEventsFailure = (events, myEvents) => ({
   payload: { events, myEvents }
 });
 
+export const getAllUpcoming = (filter, start, end) => ({
+  type: types.GET_ALL_UPCOMING_EVENTS,
+  payload: {
+    filter,
+    start,
+    end
+  }
+});
+export const getAllUpcomingEventSuccess = (events, myEvents) => ({
+  type: types.GET_ALL_UPCOMING_EVENTS_SUCCESS,
+  payload: { events, myEvents}
+});
+
+/** 
+ *  Calendar settings
+ * **/
+export const getCalendarSettings = () => ({
+  type: types.GET_CALENDARSETTINGS
+});
+
+export const getCalendarSettingsSuccess = settings => ({
+  type: types.GET_CALENDARSETTINGS_SUCCESS,
+  payload: settings
+});
+
+export const getCalendarSettingsFailure = error => ({
+  type: types.GET_CALENDARSETTINGS_FAILURE,
+  payload: error
+});
+
+export const updateCalendarSettings = (data) =>  ({
+  type: types.UPDATE_CALENDARSETTINGS,
+  payload: data
+})
+export const updateCalendarSettingsSuccess = (data) => ({
+  type: types.UPDATE_CALENDARSETTINGS_SUCCESS,
+  payload: data
+});
+export const updateCalendarSettingsFailure = error => ({
+  type: types.UPDATE_CALENDARSETTINGS_FAILURE,
+  payload: error
+});
+export const newCalendarSetting = (data) =>  ({
+  type: types.NEW_CALENDARSETTING,
+  payload: data
+})
+export const newCalendarSettingSuccess = (data) => ({
+  type: types.NEW_CALENDARSETTING_SUCCESS,
+  payload: data
+});
+export const newCalendarSettingFailure = error => ({
+  type: types.NEW_CALENDARSETTING_FAILURE,
+  payload: error
+});
+export const deleteCalendarSetting = (id) =>  ({
+  type: types.DELETE_CALENDARSETTING,
+  payload: id
+})
+export const deleteCalendarSettingSuccess = (data) => ({
+  type: types.DELETE_CALENDARSETTING_SUCCESS,
+  payload: data
+});
+export const deleteCalendarSettingFailure = error => ({
+  type: types.DELETE_CALENDARSETTING_FAILURE,
+  payload: error
+});
 /**
  * Add Events
  */

@@ -1,140 +1,64 @@
 import React, { Component } from "react";
 import Moment from "moment";
 import BgCard from "Components/BgCard";
+import { CalendarToday, AccessTime, AccountCircle } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
+import { Icon } from "@iconify/react";
+import editFilled from "@iconify/icons-ant-design/edit-filled";
+import { isSameDay, getTheDate, getTheTime } from "Helpers/helpers";
+
+
+import { NavLink } from "react-router-dom";
 
 export default class DisplayEvent extends Component {
-  render() {
-    const { myEvents } = this.props;
+
+  editEvent = (id) => {
+    window.location = "/app/calendar?edit="+id;
+  }
+
+  render(){
+  const { myEvents, currentDate } = this.props;
 
     let EventList = null;
 
     if (myEvents.length > 0) {
       EventList = myEvents.map((item, index) => {
-        const Color = ["#FFA088", "#32C2FF", "#FF4B46", "#48BB76"];
+        var sameDay = isSameDay(item.start, item.end);
+        const eventDate = sameDay ? getTheDate(item.start) : `${getTheDate(item.start)} - ${getTheDate(item.end)}`;
 
+        const eventTime = `${getTheTime(item.start)} - ${getTheTime(item.end)}`;
+        const className = `calDot bigCalDot`;
         return (
           <BgCard key={index}>
-            {/* <span>{Moment(item.end).format("ddd, D MMM HH.mm")}</span>
-            <span>{Moment(item.start).format("ddd, D MMM h.mm a")}</span>
-            <span>{Moment(item.end).format("ddd, D MMM h.mm a")}</span>
-            <span>
-              {Moment(item.start).format("ddd, D MMM HH.mm")} -{" "}
-              {Moment(item.end).format("HH.mm")}
-            </span>{" "} */}
-            <div
-              style={{
-                height: 20,
-                minWidth: 20,
-                marginTop: 5,
-                backgroundColor: Color[index] ? Color[index] : "#F5F5F5",
-                borderRadius: 10
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginLeft: 21,
-                width: "100%"
-              }}
-            >
-              <span style={{ fontSize: 16, fontWeight: "500" }}>
-                {item.title}
-              </span>
-
-              {/* ending timing */}
-              {/* started ago */}
-              {/* <span>{Moment(item.start).fromNow()}</span> */}
-              <span style={{ marginTop: 8 }}>{item.desc}</span>
-
-              <span
-                style={{
-                  height: 1.5,
-                  width: "100%",
-                  backgroundColor: "rgba(0,0,0,0.03)",
-                  marginTop: 10
-                }}
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  direction: "row",
-                  flexWrap: "wrap",
-                  marginTop: 10
-                }}
-              >
-                {/* <span style={{marginTop: 8, fontSize: 16}}>{Moment(item.start).format('Do, MMM h.mm a')}  -  {Moment(item.end).format('Do, MMM h.mm a')}</span> */}
-                <span
-                  style={{
-                    marginTop: 0,
-                    fontSize: 12,
-                    marginRight: 10,
-                    color: "rgba(0,0,0,0.5)"
-                  }}
-                >
-                  {Moment(item.start).format("h.mm a")} -{" "}
-                  {Moment(item.end).format("h.mm a")}
-                </span>
-
-                <div
-                  style={{
-                    marginTop: 0,
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    flexWrap: "wrap"
-                  }}
-                >
-                  {new Date() > new Date(item.start) && (
-                    <span
-                      style={{
-                        marginRight: 5,
-                        fontSize: 12,
-                        color: "rgba(0,0,0,0.5)"
-                      }}
-                    >
-                      Started {Moment(item.start).fromNow()}
-                    </span>
-                  )}
-                  {new Date() < new Date(item.start) && (
-                    <span
-                      style={{
-                        marginRight: 5,
-                        fontSize: 12,
-                        color: "rgba(0,0,0,0.5)"
-                      }}
-                    >
-                      Starting {Moment(item.start).fromNow()}
-                    </span>
-                  )}
-
-                  <span
-                    style={{
-                      marginRight: 5,
-                      fontSize: 12,
-                      color: "rgba(0,0,0,0.5)"
+          <div className="calTitleRow">
+             <div className={className} style={{backgroundColor: item.color}}></div> <strong> {item.title} </strong>
+             <IconButton
+                    size="small"
+                    onClick={() => {
+                      this.editEvent(item.id);
                     }}
+                    style={{float:"right"}}
                   >
-                    |
-                  </span>
-                  {/* {new Date() > new Date(item.end) &&
-                                        <span style={{marginRight: 15}}>Ended {Moment(item.end).fromNow()}</span>
-                                    } */}
-                  {new Date() < new Date(item.end) && (
-                    <span
-                      style={{
-                        marginRight: 5,
-                        fontSize: 12,
-                        color: "rgba(0,0,0,0.5)"
-                      }}
-                    >
-                      Ending {Moment(item.end).fromNow()}
-                    </span>
-                  )}
-                  {/* <span style={{}}>Ending {Moment(item.end).fromNow()}</span> */}
-                </div>
-              </div>
-            </div>
+                    <Icon className="tableEditIcon" icon={editFilled} color="#595959" width="1.2rem" height="1.2rem" />
+                  </IconButton>
+             </div> 
+          {item.cust && (
+          <NavLink to={`./crm/customers/${item.cust.id}`}>
+            <h2 className="mb-0">{item.cust.name}</h2>
+          </NavLink>
+        )}
+        <div className="calDateRow">
+          {item.status}
+        </div>
+        <div className="calDateRow">
+           <CalendarToday className="align-text-bottom text-muted" fontSize="inherit" /> {eventDate}
+           </div>
+           <div className="calTimeRow">
+           <AccessTime className="align-text-bottom text-muted" fontSize="inherit" /> {eventTime}
+           </div>
+           <div className="calTimeRow">
+           <AccountCircle className="align-text-bottom text-muted" fontSize="inherit" /> {item.staffName}
+           </div>
           </BgCard>
         );
       });
@@ -152,26 +76,25 @@ export default class DisplayEvent extends Component {
       <div>
         <div
           style={{
-            marginBottom: 20,
-            marginTop: 25,
+            marginBottom: 10,
+            marginTop: 15,
             display: "flex",
             flexDirection: "row",
             alignItems: "center"
           }}
         >
           <span style={{ fontSize: 16, fontWeight: "500", marginRight: 20 }}>
-            UPCOMING EVENTS
+            EVENTS ON { currentDate}
           </span>
-          {/* <span>till {Moment(Moment(new Date()).add(7, 'day')).format('dddd')}</span> */}
-          {/* <span style={{fontSize: 18}}>{Moment(new Date()).format('D')} - {Moment(Moment(new Date()).add(7, 'day')).format('D')} {Moment(Moment(new Date()).add(7, 'day')).format('MMMM')}</span> */}
-        </div>
+         
+          </div>
 
-        <div style={{}}>{EventList}</div>
-      </div>
-    );
+          <div style={{}}>{EventList}</div>
+        </div>
+      );
   }
 }
 
-const styles = {
-  Card: {}
-};
+/*
+
+*/

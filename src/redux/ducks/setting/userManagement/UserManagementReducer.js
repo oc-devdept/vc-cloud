@@ -16,7 +16,9 @@ import {
   ON_CHANGE_UPDATE_USER_RIGHTS,
   UPDATE_USER_RIGHTS,
   UPDATE_USER_RIGHTS_SUCCESS,
-  GET_USER_FAILURE
+  GET_USER_FAILURE,
+  DELETE_USER,
+  DELETE_USER_FAILURE
 } from "./UserManagementTypes";
 
 const INIT_STATE = {
@@ -27,7 +29,6 @@ const INIT_STATE = {
   userControl: {},
 
   userSettings: [],
-  accessGroups: [],
   userUpdate: null
 };
 
@@ -43,12 +44,16 @@ export default (state = INIT_STATE, action) => {
       };
 
     case GET_ALL_USERS_SUCCESS:
+      // console.log("GET ALL USERS SUCCESS");
+      // console.log(action.payload);
       return {
         ...state,
         usersLoading: false,
-        userList: action.payload.users,
-        userSettings: action.payload.settings,
-        accessGroups: action.payload.accessGroups
+        userList: {
+          tableData: action.payload.users.data,
+          totalCount: action.payload.users.totalCount
+        },
+        userSettings: action.payload.settings
       };
 
     /**
@@ -60,16 +65,22 @@ export default (state = INIT_STATE, action) => {
         usersLoading: true
       };
     case ADD_USER_SUCCESS:
-      var allUsers = Object.assign([], state.userList);
-      var users = [...allUsers, action.payload];
+      var allUsers = Object.assign([], state.userList.tableData);
+      var users = [action.payload.user, ...allUsers];
       NotificationManager.success("User Added");
       return {
         ...state,
         // userAdd: INIT_STATE.userAdd,
         usersLoading: false,
-        userList: users
+        userList: {
+          tableData: users,
+          totalCount: state.userList.totalCount + 1
+        },
+        userSettings: [action.payload.settings, ...state.userSettings]
+
       };
     case ADD_USER_FAILURE:
+      console.log(action.payload);
       NotificationManager.error("Failed to Add User");
       return {
         ...state,
@@ -95,28 +106,33 @@ export default (state = INIT_STATE, action) => {
     case UPDATE_USER:
       return {
         ...state,
-        profileLoading: true
+        userLoading: true
       };
     case UPDATE_USER_SUCCESS:
       NotificationManager.success("User Updated");
+      var allUsers = state.userList.filter(val => val.id != action.payload.user.id);
+      var users = [...allUsers, action.payload.user];
+
       return {
         ...state,
-        profileLoading: false,
-        userUpdate: action.payload
+        userList: users,
+        userSettings: action.payload.settings,
+        userLoading: false
       };
     case UPDATE_USER_FAILURE:
       NotificationManager.error("Failed to Update User");
+      console.log(action.payload);
       return {
         ...state,
-        profileLoading: false
+        userLoading: false
       };
     case ON_CHANGE_UPDATE_USER_RIGHTS:
       //console.log(action.payload);
       var userRightsObject = {
         userid: action.payload.userid,
-        username: action.payload.username,
-        groups: []
+        username: action.payload.username
       };
+      /*
       for (const grp of action.payload.groups) {
         var grpObject = { id: grp.id, name: grp.name, roles: [] };
         for (const role of grp.roles) {
@@ -129,6 +145,7 @@ export default (state = INIT_STATE, action) => {
         }
         userRightsObject.groups.push(grpObject);
       }
+      */
 
       return {
         ...state,
@@ -152,6 +169,19 @@ export default (state = INIT_STATE, action) => {
     case GET_USER_FAILURE:
       NotificationManager.warning("Error in fetching User Data");
       return INIT_STATE;
+
+    case DELETE_USER:
+      return {
+        ...state,
+        usersLoading: true
+      };
+    case DELETE_USER_FAILURE:
+      NotificationManager.error("Error in deleting user");
+      console.log(action.payload.message);
+      return {
+        ...state,
+        usersLoading: false
+      };
 
     /**
      * State Changes

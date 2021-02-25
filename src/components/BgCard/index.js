@@ -10,7 +10,8 @@ function BgCard(props) {
     customStyles,
     actionButtons,
     headingCustomClasses,
-    contentCustomClasses
+    contentCustomClasses,
+    actionBlockStyle
   } = props;
   return (
     <div className="d-block">
@@ -25,7 +26,7 @@ function BgCard(props) {
             }`}
           >
             <h4>{heading ? heading : ""}</h4>
-            {actionButtons && <div className="">{actionButtons}</div>}
+            {actionButtons && <div className={actionBlockStyle ? actionBlockStyle : ""}>{actionButtons}</div>}
           </div>
         )}
         <div

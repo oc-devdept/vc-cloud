@@ -22,9 +22,9 @@ import api from "Api";
 //=========================
 // REQUESTS
 //=========================
-const getAllDealRequest = async () => {
-  const result = await api.get("/deals/getall");
-  return result.data.data;
+const getAllDealRequest = async ({ limit, skip, filter, searchText, orderBy, custId }) => {
+  const result = await api.post("/deals/getall", { limit, skip, filter, searchText, orderBy, custId });
+  return result.data;
 };
 const getDealRequest = async dealID => {
   const result = await api.get(`/deals/${dealID}`);
@@ -79,11 +79,12 @@ const deleteDealProductRequest = async ({ dealId, productId }) => {
 //=========================
 // CALL(GENERATOR) ACTIONS
 //=========================
-function* getAllDealFromDB() {
+function* getAllDealFromDB({ payload }) {
   try {
-    const data = yield call(getAllDealRequest);
+    const data = yield call(getAllDealRequest, payload);
     yield put(actions.getDealSuccess(data));
   } catch (error) {
+    console.log(error);
     yield put(actions.getDealFailure(error));
   }
 }

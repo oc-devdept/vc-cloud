@@ -6,10 +6,19 @@ import FormInput from "Components/Form/FormInput";
 import DateTimePicker from "Components/Form/Pickers/DateTimePicker";
 import DatePicker from "Components/Form/Pickers/DatePicker";
 import { Button, Switch, FormControlLabel } from "@material-ui/core";
-
+import CustomerPicker from "Routes/crm/components/CustomerPicker";
 // Actions
 import { handleRegErrorForm } from "Ducks/session/register";
+import { select } from "redux-saga/effects";
 
+/*
+const selectValues = [
+  { value: "Lead", name: "Lead" },
+  { value: "Deal", name: "Deal" },
+  { value: "Booking", name: "Booking" },
+  { value: "Personal", name: "Personal" }
+];
+*/
 class NewEventForm extends Component {
   constructor(props) {
     super(props);
@@ -22,14 +31,47 @@ class NewEventForm extends Component {
         ? new Date(this.props.dayView.end).setHours(13)
         : new Date().setHours(new Date().getHours() + 1),
       title: "",
-      allDay: false
+      customerId: null,
+      eventableType: null, 
+      allDay: false,
+      selectValues: [
+        { value: "Lead", name: "Lead" },
+        { value: "Deal", name: "Deal" },
+      ]
     };
     this.editField = this.editField.bind(this);
     this.showDesc = this.showDesc.bind(this);
   }
 
+  componentDidMount(){
+    let selectValues = [
+      { value: "Lead", name: "Lead" },
+      { value: "Deal", name: "Deal" },
+    ];
+    for(let i=0; i < this.props.settings.length; i++){
+      if(this.props.settings[i].settingType == "booking" || this.props.settingType == "others"){
+        selectValues.push({
+          value: this.props.settings[i].name,
+          name: this.props.settings[i].name
+        });
+      }
+    }
+    this.setState({
+      selectValues: selectValues
+    })
+  }
+
   editField = (element, value) => {
-    this.setState({ [element]: value });
+    if(element == "start"){
+      let startDate = new Date(value);
+      let end = startDate.getTime() + 60 * 60 * 1000;
+      let endDate = new Date(end);
+      this.setState({ start: value, end: endDate});
+    }
+    else {
+      this.setState({ [element]: value });
+    }
+    
   };
 
   showDesc() {
@@ -59,116 +101,123 @@ class NewEventForm extends Component {
     return true;
   };
 
-  ConfirmEvent = (eventableType, eventableId, formType) => {
+  ConfirmEvent = () => {
     if (this.OnBlurValidation()) {
       let data = Object.assign({}, this.state);
-      if (eventableId && eventableType)
-        data = { ...data, eventableId, eventableType };
-      this.props.addEvent(data, formType);
+      //change to date object
+      data.start = new Date(this.state.start);
+      data.end = new Date(this.state.end);
+      //console.log(data);
+      this.props.addEvent(data);
     }
   };
 
   render() {
-    const { title, desc, start, end, allDay } = this.state;
-    const { eventableType, eventableId, formType } = this.props;
+    const { title, desc, start, end, allDay, eventableType, customerId } = this.state;    
     return (
       <form autoComplete="off">
-        <div className="row pt-10 d-flex justify-content-center">
-          <div className="col-6 ">
-            {allDay ? (
-              <DatePicker
-                label="Start"
-                value={start}
-                target="start"
-                handleChange={this.editField}
-                required={!start}
-              />
-            ) : (
-              <DateTimePicker
-                label="Start"
-                value={start}
-                target="start"
-                handleChange={this.editField}
-                required={!start}
-              />
-            )}
-            {allDay ? (
-              <DatePicker
-                label="End"
-                value={end}
-                target="end"
-                handleChange={this.editField}
-                required={!end}
-              />
-            ) : (
-              <DateTimePicker
-                label="End"
-                value={end}
-                target="end"
-                handleChange={this.editField}
-                required={!end}
-              />
-            )}
-              <div className="col-md-10  text-muted">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={allDay}
-                onChange={() => this.editField("allDay", !allDay)}
-                value="allDay"
-                className="ml-10"
-                disableRipple
-              />
-            }
-            label="All day event"
-            labelPlacement="start"
-            className="mb-0 fs-14"
-          />
-        </div>
-          </div>
-        </div>
-        {/* <div className="col-md-4 text-left text-muted">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={allDay}
-                onChange={() => this.editField("allDay", !allDay)}
-                value="allDay"
-                className="ml-10"
-                disableRipple
-              />
-            }
-            label="All day event"
-            labelPlacement="start"
-            className="mb-0 fs-14"
-          />
-        </div> */}
-        <div className=" pl-25 pr-25">
         <FormInput
-          label="Title"
+          placeholder="Title"
           value={title}
           target="title"
           handleChange={this.editField}
           required={!title}
         />
+        <div className="row">
+          <div className="col-6">
+            {allDay ? (
+              <DatePicker
+                value={start}
+                target="start"
+                handleChange={this.editField}
+                required={!start}
+              />
+            ) : (
+              <DateTimePicker
+                value={start}
+                target="start"
+                handleChange={this.editField}
+                required={!start}
+              />
+            )}
+          </div>
+          <div className="col-6">
+            {allDay ? (
+              <DatePicker
+                value={end}
+                target="end"
+                handleChange={this.editField}
+                required={!end}
+              />
+            ) : (
+              <DateTimePicker
+                value={end}
+                target="end"
+                handleChange={this.editField}
+                required={!end}
+              />
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+          <CustomerPicker
+          value={customerId}
+          target="customerId"
+          handleChange={this.editField}
+        />
+            </div>
+        </div>
+        <div className="row">
+        <div className="col-6">
+            <FormInput
+              label="Eventable Type"
+              value={eventableType}
+              target="eventableType"
+              handleChange={this.editField}
+              selectValues={this.state.selectValues}
+              required={!eventableType}
+            />
+          </div>
+
+          <div className="col-6">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={allDay}
+                  onChange={() => this.editField("allDay", !allDay)}
+                  value="allDay"
+                  className="ml-10"
+                  disableRipple
+                />
+              }
+              label="All day event"
+              labelPlacement="start"
+              className="mb-0 fs-14"
+            />
+          </div>
+        </div>
+       
+
         <FormInput
-          label="Description"
+          placeholder="Description"
           value={desc}
           target="desc"
           handleChange={this.editField}
           multiline
+          rows={3}
         />
-        <div className="d-flex justify-content-end pb-10">
+
+        <div className="d-flex justify-content-end">
           <Button
             variant="contained"
             className="text-white btn-success"
             onClick={() =>
-              this.ConfirmEvent(eventableType, eventableId, formType)
+              this.ConfirmEvent()
             }
           >
             Add
           </Button>
-        </div>
         </div>
       </form>
     );
@@ -176,8 +225,8 @@ class NewEventForm extends Component {
 }
 
 const mapStateToProps = ({ calendarState }) => {
-  const { eventAdd } = calendarState;
-  return { eventAdd };
+  const { eventAdd, settings } = calendarState;
+  return { eventAdd, settings };
 };
 
 export default connect(

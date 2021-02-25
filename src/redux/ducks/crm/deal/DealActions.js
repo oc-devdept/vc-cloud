@@ -19,8 +19,9 @@ export const getDealSuccess = data => ({
 /**
  * Get All DEALs
  */
-export const getAllDeal = () => ({
-  type: types.GET_ALL_DEAL
+export const getAllDeal = (limit, skip, filter, searchText, orderBy, custId) => ({
+  type: types.GET_ALL_DEAL,
+  payload: { limit, skip, filter, searchText, orderBy, custId }
 });
 
 /**

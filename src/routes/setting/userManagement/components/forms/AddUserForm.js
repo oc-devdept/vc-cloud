@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { hide } from "redux-modal";
 
 import Button from "@material-ui/core/Button";
 
@@ -13,7 +14,8 @@ import { withStyles } from "@material-ui/core/styles";
 import FormInput from "Components/Form/FormInput";
 import BaseInput from "Components/Form/BaseInput";
 
-import { addUser, onChangeAddUser } from "Ducks/setting/userManagement";
+import { addUser, updateUser } from "Ducks/setting/userManagement";
+import { roleListHelper } from "Helpers/accessControlHelper";
 
 const styles = theme => ({
   item: {
@@ -35,40 +37,86 @@ class AddUserForm extends Component {
     super(props);
     this.state = {
       email: "",
-      baseContact: {
-        firstName: "",
-        lastName: ""
-      },
       mobile: "",
       password: "",
       confirmPassword: "",
-      roles: []
+      baseContact: {},
+      roles: [],
+      selectedRoles: [],
+      rolesList: [],
+      canSave: false
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeContact = this.handleChangeContact.bind(this);
+    this.handleChange = this.handleChange.bind(this);    
     this.handleSubmitForm = this.handleSubmitForm.bind(this);
+    this.handleContactChange = this.handleContactChange.bind(this);
   }
 
   componentDidMount() {
     this.props.toEdit && this.setState({ ...this.props.toEdit });
-    console.log(this.props.toEdit);
+    if (this.props.allRoles != null) {      
+      let rl = roleListHelper(this.props.allRoles);
+      this.setState({
+        rolesList: rl
+      })
+    }
+    if (this.props.toEdit) {
+      this.setState({ canSave: true });
+    }
   }
 
+  
+
+
   handleChange(field, value) {
+
     this.setState({ [field]: value });
+    if (this.state.email != "" && this.state.selectedRoles.length > 0) {
+      this.setState({ canSave: true });
+    }
   }
+
+  handleContactChange(field, value){
+    this.setState({
+      baseContact: { ...this.state.baseContact, [field]: value}
+    });
+  }
+
+  handleRoleChange(field, value) {
+    this.setState({ selectedRoles: value })
+    if (this.state.email != "" && value.length > 0) {
+      this.setState({ canSave: true });
+    }
+  }
+
+/*
   handleChangeContact(field, value) {
     this.setState({
       baseContact: { ...this.state.baseContact, [field]: value }
     });
+    if (this.state.email != "" && this.state.mobile != "" && this.state.selectedRoles.length > 0) {
+      this.setState({ canSave: true });
+    }
   }
-
+*/
   handleSubmitForm() {
+    let name = this.state.baseContact.firstName;
+    if(this.state.baseContact.lastName != undefined){
+      name += " "+this.state.baseContact.lastName;
+    }
     const newUser = {
       ...this.state,
-      name: `${this.state.baseContact.firstName} ${this.state.baseContact.lastName}`
+      name: name
     };
-    this.props.addUser(newUser);
+
+    if(this.props.toEdit){
+      console.log(this.props.listOptions);
+      this.props.updateUser(newUser, this.props.listOptions);
+    }
+    else {
+      this.props.addUser(newUser, this.props.listOptions);
+    }
+    
+    this.props.hide("add_user_form");
   }
 
   validateEmail = email => {
@@ -76,36 +124,28 @@ class AddUserForm extends Component {
     return re.test(String(email).toLowerCase());
   };
 
-  renderMenu(accessGroups) {
+  renderMenu(accessRoles) {
     const menu = [];
-    accessGroups.forEach(group => {
-      menu.push(
-        <MenuItem key={group.id} disabled className={this.props.classes.group}>
-          {group.name}
-        </MenuItem>
-      );
-      group.roles
-        .sort((a, b) => b.tier - a.tier)
-        .forEach(grpRole => {
-          menu.push(
-            <MenuItem
-              key={grpRole.id}
-              value={grpRole.id}
-              className={this.props.classes.item}
-            >
-              {grpRole.name}
-              <span className="text-muted font-italic fs-12 ml-5">
-                Tier: {grpRole.tier}
-              </span>
-            </MenuItem>
-          );
-        });
-    });
+    if (accessRoles) {
+
+      accessRoles.forEach(role => {
+
+        menu.push(
+          <MenuItem key={role.value} value={role.value}>
+            {role.name}
+            <span className="text-muted font-italic fs-12 ml-5">
+              Tier: {role.tier}
+            </span>
+          </MenuItem>
+        );
+      });
+
+    }
     return menu;
   }
 
   render() {
-    const { classes, accessGroups } = this.props;
+    const { classes } = this.props;
     const {
       email,
       mobile,
@@ -124,23 +164,19 @@ class AddUserForm extends Component {
               value={baseContact.firstName}
               required={!baseContact.firstName}
               target="firstName"
-              handleChange={this.handleChangeContact}
+              handleChange={this.handleContactChange}
             />
-            <FormInput
-              label="Mobile"
-              value={mobile}
-              target="mobile"
-              handleChange={this.handleChange}
-            />
+
           </div>
           <div className="col-5 offset-md-1">
             <FormInput
               label="Last Name"
-              value={baseContact.lastName}
-              required={!baseContact.lastName}
+              value={baseContact.lastName}             
               target="lastName"
-              handleChange={this.handleChangeContact}
+              handleChange={this.handleContactChange}
             />
+
+
           </div>
         </div>
         <h3 style={{ marginLeft: 35 }}>Login Details</h3>
@@ -155,6 +191,7 @@ class AddUserForm extends Component {
             />
           </div>
         </div>
+        { !this.props.toEdit && (
         <div className="row mb-20 justify-content-center">
           <div className="col-5">
             <FormInput
@@ -175,7 +212,7 @@ class AddUserForm extends Component {
               handleChange={this.handleChange}
             />
           </div>
-        </div>
+        </div>) }
 
         <h3 style={{ marginLeft: 35 }}>User Role</h3>
         <div className="row justify-content-center">
@@ -183,30 +220,25 @@ class AddUserForm extends Component {
             <Select
               multiple
               input={<BaseInput />}
-              value={roles}
-              onChange={e => this.handleChange("roles", e.target.value)}
+              value={this.state.selectedRoles}
+              onChange={e => this.handleRoleChange("selectedRoles", e.target.value)}
               renderValue={selected => (
                 <div className="d-flex">
                   {selected.map(value => {
-                    for (const grp of accessGroups) {
-                      var role = grp.roles.find(role => role.id == value);
-                      if (role !== undefined) {
+                    let name = "";
+                    for (let i = 0; i < this.state.rolesList.length; i++) {
+                      if (value == this.state.rolesList[i].value) {
+                        name = this.state.rolesList[i].name;
                         break;
                       }
                     }
-
-                    return (
-                      <Chip
-                        key={value}
-                        label={role.name}
-                        className={classes.menuChips}
-                      />
-                    );
-                  })}
+                    return (<Chip key={value} label={name} className={classes.menuChips} />)
+                  })
+                  }
                 </div>
               )}
             >
-              {this.renderMenu(accessGroups)}
+              {this.renderMenu(this.state.rolesList)}
             </Select>
           </div>
         </div>
@@ -215,16 +247,9 @@ class AddUserForm extends Component {
             variant="contained"
             className="btn-success text-white"
             onClick={this.handleSubmitForm}
-            disabled={
-              !baseContact.firstName ||
-              !baseContact.lastName ||
-              !this.validateEmail(email) ||
-              !password ||
-              password !== confirmPassword ||
-              roles.length == 0
-            }
+            disabled={!this.state.canSave}
           >
-            Create
+            {this.props.toEdit ? "Save" : "Create"}
           </Button>
         </div>
       </form>
@@ -232,11 +257,11 @@ class AddUserForm extends Component {
   }
 }
 
-const mapStateToProps = ({ usersState }) => {
-  const { userAdd, accessGroups } = usersState;
-  return { userAdd, accessGroups };
+const mapStateToProps = ({ rolesState }) => {
+  const { allRoles } = rolesState;
+  return { allRoles };
 };
 
-export default connect(mapStateToProps, { addUser, onChangeAddUser })(
+export default connect(mapStateToProps, { addUser, updateUser, hide })(
   withStyles(styles)(AddUserForm)
 );

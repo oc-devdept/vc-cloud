@@ -16,7 +16,7 @@ import SubMenu from "./Menu/SubMenu";
 import MobileSideBar from "./MobileSideBar";
 
 function getChildRoute(location) {
-  const currentRoute = navLinks.find(link =>
+  const currentRoute = navLinks().find(link =>
     location.pathname.includes(link.baseUrl)
   );
   return currentRoute ? currentRoute.child_routes : [];
@@ -66,12 +66,12 @@ function Header(props) {
           <MobileSideBar
             resetSubLink={changeMainLink}
             location={location}
-            navLinks={navLinks}
+            navLinks={navLinks()}
           />
           <MainMenu
             resetSubLink={changeMainLink}
             location={location}
-            navLinks={navLinks}
+            navLinks={navLinks()}
           />
           <RightNav />
         </Toolbar>

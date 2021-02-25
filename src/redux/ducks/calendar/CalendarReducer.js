@@ -1,6 +1,7 @@
 /**
  * Calendar Reducers
  */
+import { AllOut, UpdateRounded } from "@material-ui/icons";
 import { NotificationManager } from "react-notifications";
 import * as Types from "./CalendarTypes";
 
@@ -16,6 +17,8 @@ const INIT_STATE = {
   myEvents: [],
   allEvents: [],
   showEvents: [],
+  upcomingEvents: [],
+  settings: [],
   eventsLoading: false
 };
 let allShowEvents = [];
@@ -34,20 +37,11 @@ export default (state = INIT_STATE, action) => {
         eventsLoading: true
       };
     case Types.GET_ALL_EVENTS_SUCCESS:
-      //NotificationManager.success("Get events success");
-      console.log("Get all events succcess here");
-
 
       var events = action.payload.events.data; //.data
 
       var displayEvents = Object.values(events);
 
-      //var result = Object.entries(events); //This is showing an array with [key, value]
-      
-      //var conversion = Object.assign({}, events);
-
-      //Object.keys(events).map((key) => [Number(key), events[key]])
-      //console.log(result);
       allShowEvents = displayEvents;
       return {
         ...state,
@@ -56,6 +50,16 @@ export default (state = INIT_STATE, action) => {
         showEvents: displayEvents, //action.payload.myEvents
         eventsLoading: false
       };
+    case Types.GET_ALL_UPCOMING_EVENTS_SUCCESS:
+      var events = action.payload.events.data; //.data
+      var displayEvents = Object.values(events);
+      console.log(displayEvents);
+      allShowEvents = displayEvents;
+      return {
+        ...state,
+        upcomingEvents: displayEvents        
+      };
+
     case Types.GET_EVENT_FAILURE:
       //NotificationManager.warning("Failed to get events from database.");
       return {
@@ -71,21 +75,22 @@ export default (state = INIT_STATE, action) => {
       let searchEvents = [];
       
       for (let i = 0; i < allShowEvents.length; i++) {
-        if (
-          allShowEvents[i].title.toLowerCase().indexOf(action.payload.filter.toLowerCase()) >
-          -1
-        ) {
-          if (action.payload.state[allShowEvents[i].title] == true){
-            // console.log(action.payload.state[allShowEvents[i].eventableType]);
+        if(action.payload.state == "title"){
+          if (
+            allShowEvents[i].title.toLowerCase().indexOf(action.payload.filter.toLowerCase()) >
+            -1
+          ) {
             searchEvents.push(allShowEvents[i]);
           }
-          if (!action.payload.state.hasOwnProperty(allShowEvents[i].title) ){
-            // console.log(action.payload.state[allShowEvents[i].eventableType]);
-
-            searchEvents.push(allShowEvents[i]);
-          }
-          // console.log(allShowEvents[i].title)
         }
+        else if(action.payload.state == "type"){
+          if(action.payload.filter.includes(allShowEvents[i].eventableType) || action.payload.filter.includes(allShowEvents[i].service)){
+            searchEvents.push(allShowEvents[i]);
+          }
+        }
+         
+          // console.log(allShowEvents[i].title)
+        
       }
 
       return {
@@ -138,6 +143,7 @@ export default (state = INIT_STATE, action) => {
       NotificationManager.warning(
         action.payload + ". " + "As you might have deleted before"
       );
+      console.log(action.payload);
       return {
         ...state,
         eventsLoading: true
@@ -148,12 +154,12 @@ export default (state = INIT_STATE, action) => {
      */
     case Types.UPDATE_EVENT_SUCCESS:
       NotificationManager.success("Event Updated");
-
+      let updateEvent = action.payload.data;
       let data = showEvents.map(item => {
-        if (item.id == action.payload.id) {
-          item = action.payload;
-          item.start = new Date(action.payload.start);
-          item.end = new Date(action.payload.end);
+        if (item.id == updateEvent.id) {
+          item = updateEvent;
+          item.start = new Date(updateEvent.start);
+          item.end = new Date(updateEvent.end);
           return item;
         } else {
           return item;
@@ -173,6 +179,65 @@ export default (state = INIT_STATE, action) => {
         eventsLoading: false,
         isAddEvent: false
       };
+    case Types.GET_CALENDARSETTINGS_SUCCESS:
+      console.log(action.payload);
+      return {
+        ...state,
+        settings: action.payload
+      };
+    case Types.GET_CALENDARSETTINGS_FAILURE:
+      NotificationManager.warning("Failed to load Calendar settings");
+      return {
+        ...state
+      }
+    case Types.NEW_CALENDARSETTING_SUCCESS:
+        NotificationManager.success("Setting Added");
+        let settings = [...state.settings];
+        settings.push(action.payload);
+        console.log(settings);
+        return {
+          ...state,          
+          settings: settings
+        };
+    case Types.NEW_CALENDARSETTING_FAILURE:
+      
+      NotificationManager.warning("Failed to add Calendar settings");
+      return {
+        ...state
+      }
+    case Types.UPDATE_CALENDARSETTINGS_SUCCESS:
+      NotificationManager.success("Setting Updated");
+      let updateSetting = action.payload;
+      settings = [...state.settings];
+      data = settings.map(item => {
+        if (item.id == updateSetting.id) {          
+          return updateSetting;
+        } else {
+          return item;
+        }
+      });
+      return {
+        ...state,
+        settings: data
+      }
+    case Types.UPDATE_CALENDARSETTINGS_FAILURE:      
+        NotificationManager.warning("Failed to edit Calendar settings");
+        return {
+          ...state
+        }
+    case Types.DELETE_CALENDARSETTING_SUCCESS:
+      NotificationManager.success("Setting has been sucessfully deleted");
+      console.log(action.payload);
+      settings = state.settings.filter(e => e.id != action.payload);
+      return {
+        ...state,
+        settings: settings
+      };
+    case Types.DELETE_CALENDARSETTING_FAILURE:
+      NotificationManager.warning("Failed to delete Calendar settings");
+        return {
+          ...state
+        }
 
     default:
       return { ...state };

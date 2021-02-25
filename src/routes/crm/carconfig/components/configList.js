@@ -11,6 +11,21 @@ const options = Object.assign({}, listOptions);
 options.customToolbarSelect = (selectedRows, displayData, setSelectRows) =>
   null;
 
+  function getFilters(filterList, columns) {
+    let filter = [];
+    for (let i = 0; i < filterList.length; i++) {
+      let list = filterList[i];
+      if (list.length > 0) {
+        let property = columns[i].name;
+        for (let a = 0; a < list.length; a++) {
+          let value = list[a];
+          filter.push({ [property]: value });
+        }
+      }
+    }
+    return filter;
+  }
+
 class ConfigList extends Component {
     constructor(props){
         super(props);

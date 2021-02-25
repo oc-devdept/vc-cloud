@@ -31,11 +31,11 @@ class SettingsDirectory extends Component {
   }
 
   render() {
-    const { match, location } = this.props;
+    const { match, location } = this.props;  
     return (
       <SideDrawer>
         {settingsList &&
-          settingsList.map((list, key) => (
+          settingsList().map((list, key) => (
             <DrawerListCollapsible
               key={key}
               title={list.title}

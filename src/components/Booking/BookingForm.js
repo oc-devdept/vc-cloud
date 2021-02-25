@@ -9,7 +9,7 @@ import api from 'Api'
 let InitBookService = {
     model: '',
     date: new Date, // schedule date
-    timeslot: '', // AM/PM
+    timeslot: '9am', // AM/PM
     description: '',
 }
 
@@ -21,11 +21,11 @@ let InitUserProfile = {
 }
 
 
-const index = ({customer, _handleComplete}) => {
+const index = ({customer, _handleComplete, serviceOption}) => {
  
   
     // BOOKING    
-    const [Timeslot] = useState(["AM","PM"]);
+    const [Timeslot] = useState(["9am","10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"]);
     const [Profile, setUserProfile] = useState({...InitUserProfile, ...customer.baseContact});
     const [currentDate, setDate] = useState(Moment(new Date).format('LL'));
     const [BookService, setBookService] = useState(InitBookService);
@@ -63,14 +63,18 @@ const index = ({customer, _handleComplete}) => {
             content: BookService,
         }
         const result = await api.post(`/bookings/createBooking`, {data: newBooking});
+        console.log(result.data);
+        console.log(result.data.data.success);
 
-        switch(result.data.success){
+        switch(result.data.data.success){
             case 0:
+                console.log("failure");
                 // this.setState({error: true})
                 NotificationManager.error('Unable to make booking request! Please check your fields or try again later');
                 break
             case 1:
                 // this.props._FetchProfile()
+                console.log("success");
                 NotificationManager.success('Booking created successfully');
                 _handleComplete()
                 break
@@ -107,6 +111,7 @@ const index = ({customer, _handleComplete}) => {
                     description={description}
                     date={date}
                     service={Service}
+                    serviceOption={serviceOption}
                 />
                 
                 <div className="d-flex justify-content-end">

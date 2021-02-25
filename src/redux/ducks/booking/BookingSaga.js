@@ -12,11 +12,9 @@ import api from "Api";
 // REQUESTS
 //=========================
 const getRecentBookingRequest = async ({ type, id }) => {
-  console.log("GET BOOKING REQUEST")
+
   
   const result = await api.get(`/bookings/recentbooking/${type}/${id}`);
-  console.log("AFTER RES")
-  console.log(result)
   return result.data.data;
 };
 const getBookingsRequest = async type => {
