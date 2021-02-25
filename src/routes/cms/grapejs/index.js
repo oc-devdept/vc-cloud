@@ -474,6 +474,9 @@ class GrapeJS extends Component {
         },
       });
 
+      console.log("ASDASD", pn.getPanelsEl())
+
+
       // pn.addButton('options', {
       //   id: 'show-json',
       //   className: 'btn-show-json',
@@ -514,6 +517,8 @@ class GrapeJS extends Component {
           'data-tooltip-pos': 'bottom',
         },
       });
+
+
 
 
 
