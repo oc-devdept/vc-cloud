@@ -95,3 +95,8 @@ export const cms_grapejs_terms_n_conditions = Loadable({
     loader: () => import("./grapejs/terms-n-conditions/index"),
     loading: () => <RctPageLoader />
 });
+
+export const cms_grapejs_about_us = Loadable({
+    loader: () => import("./grapejs/about-us/index"),
+    loading: () => <RctPageLoader />
+});

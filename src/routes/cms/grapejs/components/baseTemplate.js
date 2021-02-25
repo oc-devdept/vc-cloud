@@ -1,5 +1,18 @@
 import React, {Component} from "react";
 import 'grapesjs/dist/css/grapes.min.css';
+// import {Helmet} from "react-helmet";
+
+// import 'grapesjs/dist/css/grapes.min.css';
+
+// import '../../../assets/grapejs-css/App.css';
+// // import '../../../assets/grapejs-css/App.css';
+// import '../../../assets/grapejs-css/demos.css';
+// import '../../../assets/grapejs-css/grapesjs-plugin-filestack.css';
+// import '../../../assets/grapejs-css/grapesjs-preset-webpage.min.css';
+// import '../../../assets/grapejs-css/grapick.min.css';
+// import '../../../assets/grapejs-css/toastr.min.css';
+// import '../../../assets/grapejs-css/tooltip.css';
+
 import grapesjs from 'grapesjs';
 import grapesjsloryslider from 'grapesjs-lory-slider';
 import grapesjstabs from 'grapesjs-tabs';
@@ -15,15 +28,15 @@ import toastr from 'toastr';
 
 import grapesjslogo from 'Assets/img/grapejsStock/grapesjs-logo-cl.png';
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+
+// import phoneapp from '../../../assets/img/grapejsStock/phone-app.png';
+// import team1 from '../../../assets/img/grapejsStock/team1.jpg';
+// import team2 from '../../../assets/img/grapejsStock/team2.jpg';
+// import team3 from '../../../assets/img/grapejsStock/team3.jpg';
 
 
-class GrapeJSTerms extends Component {
+
+class GrapeJS extends Component {
 
   saveHTML = () => {
     // alert("PING")
@@ -618,79 +631,22 @@ class GrapeJSTerms extends Component {
   render(){
     return (
       <div>
-          <h1 onClick={this.props.history.goBack}>Back to Grape JS</h1>
-      {/* dont remove gjs-logo-cont div or the css stylesheets will disappear */}
       <div className="gjs-logo-cont"></div>
-      {/* everything within #gjs will be exported as HTML */}
         <div id="gjs">
 
-            <div className="tnc-area">
-                <h3>LEASE-TO-OWN SCHEME </h3>
-                <div className="tnc-section">
-                    <h6>1.1 LEASE-TO-OWN SCHEME</h6>
-                    <p>If you need a car for an extended period of time but do not wish to commit yourself to buy one then 
-                        Venture Cars Lease-to-own Scheme is for you! 
-                        Due to different needs, leasing might be a viable option for you to consider. 
-                        Get the added advantage driving the car of your choice with peace of mind as we take care of your 
-                        maintenance and servicing needs too. All you need to do is simply enjoy the freedom of the road!
-                    </p>
-                    <h6>1.2 Once the lease contract expires, you can choose to:</h6>
-                    <p>1) Buy the car</p>
-                    <p>2) Extend the lease</p>
-                    <p>3) Return the car</p>
-                    <p>4) Return the car and choose another vehicle</p>
-                </div>    
+          <section>
+            <div className="container">
+              <div className="row">
+                <div className ="col-md-4"> TEST </div>
+                <div className ="col-md-4"> TEST </div>
+              </div>
             </div>
+          </section>
 
-            <div className="tnc-area">
-                <h3>2. TERMS & CONDITIONS </h3>
-                <div className="tnc-section">
-                    <h6>2.1 Road Tax</h6>
-                    <p>Road Tax is NOT included in this Lease-To-Own package. Only the first 6 months is paid for as it comes together with the car. </p>
-                    <p>The client has to renew their road tax through Venture Cars 1 month before the expiry of the current road tax.</p>
-
-                    <h6>2.2 Insurance </h6>
-                    <p>Insurance is NOT included in this Lease-To-Own package.</p>
-                    <p>The hirer has to pay the first year insurance premium in full before collecting the vehicle.</p>
-                    <p>Age {'>'} 22 years old; Driving Experience {'>'} years</p>
-                    <p>Excess: Section I (Own Damage Claim) S$2,500; Section II (Third Party Claim) S$1,500; Windscreen Excess S$100. 
-                        Excess will be doubled for unnamed drivers and usage in Malaysia. 
-                        Coverage: Up to West Malaysia, Thailand and East Malaysia are NOT covered, 
-                        Additional Name Driver: No charge for the first named driver; subsequent named driver S$200 each (annually)
-                    </p>
-
-                    <h6>2.3 Maintenance </h6>
-                    <p>Vehicle maintainence is NOT included in this Lease-To-Own package</p>
-                    <p>The Hirer is required to maintain the vehicle with our appointed workshop in accordance to the schedule and scope in the Vehicle Service & Maintenance Booklet</p>
-                    <p>For a Peace of Mind and to manage cost, hirers can opt for our 3-5 Years Service Package</p>
-                    <p>The Company will provide the Hirer a replacement vehicle when the vehicle is being sent for the regular maintenance, repairs and /or accident repairs provided the downtime is more than 4 hours.</p>
-
-                    <h6>2.4 Private Hire Use </h6>
-                    <p>Pte Hire usage is ALLOWED under this Lease-To-Own Package.</p>
-
-                    <h6>2.5 Monthly Repayment </h6>
-                    <p>The Hirer must pay the monthly repayments on time. A late payment penalty fee of $20 will be imposed if the Hirer does not pay on time and a late payment fee of $10 per day will be charged until the full payment is being received by Venture Cars.</p>
-
-                    <h6>2.6 GST </h6>
-                    <p>All prices quoted are NOT inclusive of GST, in the event that the GST is raised within the period of the lease agreement, the monthly lease, insurance, road tax and any other fees payable by the Hirer will be adjusted accordingly.</p>
-
-                    <h6>2.7 Deposit </h6>
-                    <p>The Deposit is NOT refundable upon completion of the lease agreement.</p>
-
-                    <h6>2.8 Early Termination of Lease</h6>
-                    <p>An Early Termination Fee will be imposed for any early termination of the agreement by the Hirer as follows:-</p>
-                    <p>Termination within first 24 months = 1.5% of original car price + 20% of remaining contract value</p>
-                    <p>Termination after 24 months = 20% of remaining contract value</p>
-                    <p>Termination after 36 months = No Penalty if re-contract</p>
-                    <p>Termination after 48 months = No Penalty</p>
-
-                </div>    
-            </div>
 
           </div>
           
         
-        {/* blocks section is the side bar */}
         <div id="blocks"></div>
       </div>
     )
@@ -698,4 +654,4 @@ class GrapeJSTerms extends Component {
 
 }
 
-export default GrapeJSTerms;
+export default GrapeJS;

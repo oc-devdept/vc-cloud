@@ -50,12 +50,22 @@ class GrapeJSMainList extends Component {
     return (
       <div>
 
-        
-          <Link to={`${this.props.location.pathname}/terms-n-conditions`}>
-          <h2>
-            Terms & Conditions Builder
-          </h2>
-          </Link>
+          <div>
+            <Link to={`${this.props.location.pathname}/terms-n-conditions`}>
+            <h2>
+              Terms & Conditions Builder
+            </h2>
+            </Link>
+          </div>
+
+
+          <div>
+            <Link to={`${this.props.location.pathname}/about-us`}>
+            <h2>
+              About Us Builder
+            </h2>
+            </Link>
+          </div>
 
       </div>
     )

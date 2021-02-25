@@ -46,7 +46,6 @@ export const footerEditPage = id => `${footerPage}/edit/${id}`;
  */
 
  export const grapeJsPage = "/app/cms/grapejs"
- export const grapeJSEdit = "/app/cms/grapejs/terms-n-conditions";
 
 /**
  * config options

@@ -109,8 +109,12 @@ function cmsSwitcher() {
                     exact
                     path={`${url.grapeJsPage}/terms-n-conditions`}
                     component={async.cms_grapejs_terms_n_conditions}
-                    // component={async.cms_grapejs}
+                />
 
+                <Route
+                    exact
+                    path={`${url.grapeJsPage}/about-us`}
+                    component={async.cms_grapejs_about_us}
                 />
 
                 {/* ------- /404 ------- */}
