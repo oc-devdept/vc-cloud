@@ -1,36 +1,5 @@
 import React, {Component} from "react";
-import 'grapesjs/dist/css/grapes.min.css';
-// import {Helmet} from "react-helmet";
-
-// import 'grapesjs/dist/css/grapes.min.css';
-
-import '../../../assets/grapejs-css/App.css';
-// import '../../../assets/grapejs-css/App.css';
-import '../../../assets/grapejs-css/demos.css';
-import '../../../assets/grapejs-css/grapesjs-plugin-filestack.css';
-import '../../../assets/grapejs-css/grapesjs-preset-webpage.min.css';
-import '../../../assets/grapejs-css/grapick.min.css';
-import '../../../assets/grapejs-css/toastr.min.css';
-import '../../../assets/grapejs-css/tooltip.css';
-
-import grapesjs from 'grapesjs';
-import grapesjsloryslider from 'grapesjs-lory-slider';
-import grapesjstabs from 'grapesjs-tabs';
-import grapesjscustomcode from 'grapesjs-custom-code';
-import grapesjstouch from 'grapesjs-touch';
-import grapesjsparserpostcss from 'grapesjs-parser-postcss';
-import grapesjstooltip from 'grapesjs-tooltip';
-import grapesjstuiimageeditor from 'grapesjs-tui-image-editor';
-import grapesjstyped from 'grapesjs-typed';
-import grapesjsstylebg from 'grapesjs-style-bg';
-import gjspresetwebpage from 'grapesjs-preset-webpage';
-import toastr from 'toastr';
-
-import grapesjslogo from '../../../assets/img/grapejsStock/grapesjs-logo-cl.png';
-import phoneapp from '../../../assets/img/grapejsStock/phone-app.png';
-import team1 from '../../../assets/img/grapejsStock/team1.jpg';
-import team2 from '../../../assets/img/grapejsStock/team2.jpg';
-import team3 from '../../../assets/img/grapejsStock/team3.jpg';
+import RecordsList from 'Components/RecordsList';
 
 import {
   BrowserRouter as Router,
@@ -39,34 +8,80 @@ import {
   Link
 } from "react-router-dom";
 
+import { IconButton } from "@material-ui/core";
+import { Icon } from '@iconify/react';
+import editFilled from '@iconify/icons-ant-design/edit-filled';
+
 class GrapeJSMainList extends Component {
 
   componentDidMount(){
 
-        console.log(this.props.location.pathname)
-}
+  }
 
   render(){
+
+  const columns = [
+    {
+      name: "pageTitle",
+      label: "Page Title"
+    },    
+    {
+      name: "url",
+      label: "Page URL"
+    },
+    {
+      name: "lastEdit",
+      label: "Last Edited Date"
+    },
+    {
+      name: "action",
+      label: "Action",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+
+          console.log(tableMeta.rowData[1]);
+          return (
+            <div>
+              <Link to={`${this.props.location.pathname}${tableMeta.rowData[1]}`}>
+              <IconButton size="small" onClick={() => { <Link></Link>}}>
+                  <Icon
+                      className="tableEditIcon"
+                      icon={editFilled}
+                      color="#595959"
+                      width="1.5rem"
+                      height="1.5rem"
+                  />
+              </IconButton>   
+              </Link>         
+            </div>
+          )
+        }
+      }
+    }
+  ]
+
+  const data = [
+    ["About Us", "/about-us", "15 Mar 20"],
+    ["Terms and Conditions", "/terms-n-conditions", "17 Sep 19"]
+  ]
+
+  const options = {
+    selectableRows:false,
+    download: false,
+    print: false,
+    responsive: "simple"
+  }
+
     return (
       <div>
-
-          <div>
-            <Link to={`${this.props.location.pathname}/terms-n-conditions`}>
-            <h2>
-              Terms & Conditions Builder
-            </h2>
-            </Link>
-          </div>
-
-
-          <div>
-            <Link to={`${this.props.location.pathname}/about-us`}>
-            <h2>
-              About Us Builder
-            </h2>
-            </Link>
-          </div>
-
+          <RecordsList
+            title="Page Editor"
+            columns={columns}
+            data={data}
+            options={options}
+          />
       </div>
     )
   }
