@@ -15,10 +15,7 @@ const createRentalRequest = async data => {
   const result = await api.post(`/rentalCars/new`, data);
   return result.data.data;
 };
-const getRentalCatRequest = async () => {
-  const result = await api.get("/rentalCarCategories");
-  return result.data;
-};
+
 const deleteRentalCarRequest = async id => {
   const result = await api.delete(`/rentalCars/${id}`);
   return result.data;
@@ -27,6 +24,21 @@ const updateRentalCarRequest = async ({ id, data }) => {
   const result = await api.patch(`/rentalCars/edit/${id}`, data);
   return result.data.data;
 };
+const getRentalCatRequest = async () => {
+  console.log("getting cats");
+  const result = await api.get("/rentalCarCategories");
+  return result.data;
+};
+const createRentalCategory = async data => {
+  const result = await api.post('/rentalCarCategories', data);
+}
+const updateRentalCategoryRequest = async ({id, data}) => {
+  const result = await api.patch(`rentalCarCategories/${id}`, data);
+}
+const deleteRentalCategory = async id => {
+  const result = await api.delete(`rentalCarCategories/${id}`);
+  return result.data;
+}
 
 //=========================
 // CALL(GENERATOR) ACTIONS
@@ -47,14 +59,7 @@ function* createRental({ payload }) {
     yield put(actions.createRentalCarFailure(error));
   }
 }
-function* getRentalCat() {
-  try {
-    const data = yield call(getRentalCatRequest);
-    yield put(actions.getRentalCategorySuccess(data));
-  } catch (error) {
-    yield put(actions.getRentalCategoryFailure(error));
-  }
-}
+
 function* deleteRentalCar({ payload }) {
   try {
     yield call(deleteRentalCarRequest, payload);
@@ -69,6 +74,42 @@ function* updateRentalCar({ payload }) {
     yield put(actions.updateRentalCarSuccess(data));
   } catch (error) {
     yield put(actions.updateRentalCarFailure(error));
+  }
+}
+function* getRentalCat() {
+  try {
+    const data = yield call(getRentalCatRequest);
+    yield put(actions.getRentalCategorySuccess(data));
+  } catch (error) {
+    yield put(actions.getRentalCategoryFailure(error));
+  }
+}
+
+function* createRentalCat({ payload }) {
+  try {
+    const data = yield call(createRentalCategory,payload);
+    yield put(actions.createRentalCarSuccess(data));
+  } catch (error) {
+    yield put(actions.createRentalCarFailure(error));
+  }
+}
+
+function* updateRentalCat({ payload }){
+  try {
+    const data = yield call(updateRentalCategoryRequest, payload);
+    yield put(actions.updateRentalCategorySuccess(data));
+  }
+  catch(error){
+    yield put(actions.createRentalCategoryFailure(error));
+  }
+}
+function* deleteRentalCat({ payload}){
+  try {
+    yield call(deleteRentalCategory, payload);
+    yield put(actions.deleteRentalCategorySuccess(payload));
+  }
+  catch(error){
+    yield put(actions.deleteRentalCategoryFailure(error));
   }
 }
 
@@ -90,6 +131,15 @@ export function* deleteRentalCarWatcher() {
 export function* updateRentalCarWatcher() {
   yield takeEvery(types.UPDATE_RENTAL_CAR, updateRentalCar);
 }
+export function* createRentalCatWatcher(){
+  yield takeEvery(types.CREATE_RENTAL_CATEGORY, createRentalCat);
+}
+export function* updateRentalCatWatcher(){
+  yield takeEvery(types.UPDATE_RENTAL_CATEGORY, updateRentalCat);  
+}
+export function* deleteRentalCatWatcher(){
+  yield takeEvery(types.DELETE_RENTAL_CATEGORY, deleteRentalCat);
+}
 
 //=======================
 // FORK SAGAS TO STORE
@@ -100,6 +150,9 @@ export default function* rootSaga() {
     fork(createRentalWatcher),
     fork(getRentalCatWatcher),
     fork(deleteRentalCarWatcher),
-    fork(updateRentalCarWatcher)
+    fork(updateRentalCarWatcher),
+    fork(createRentalCatWatcher),
+    fork(updateRentalCatWatcher),
+    fork(deleteRentalCatWatcher)
   ]);
 }

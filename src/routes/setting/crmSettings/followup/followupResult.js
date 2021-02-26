@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { show, hide } from "redux-modal";
 
-import ItemList from "../components/itemList";
+import ItemList from "Components/Settings/itemList";
 import RctSectionLoader from "Components/RctSectionLoader";
 
 // Dialogs
-import AddItemDialog from "../components/itemForm";
+import AddItemDialog from "Components/Settings/itemForm";
 
 import { getFollowupResult, deleteFollowupResult, editFollowupResult, newFollowupResult } from "Ducks/followUp";
 

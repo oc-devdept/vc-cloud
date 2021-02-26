@@ -24,7 +24,7 @@ import {
 //   paymentPage
 // } from "Helpers/accountingURL";
 
-import { rentalListPage, rentalCarPage } from "Helpers/rentalURL";
+import { rentalListPage, rentalCarPage, rentalSettingsPage } from "Helpers/rentalURL";
 
 import { allCarsPage, allPreownedCarsPage, configurePage } from "Helpers/inventoryURL";
 import { accessControlHelper } from "Helpers/accessControlHelper";
@@ -119,6 +119,10 @@ export default function navLinks() {
       {
         title: "sidebar.rentalCars",
         path: rentalCarPage
+      },
+      {
+        title: "sidebar.settings",
+        path: rentalSettingsPage
       }
     ]
   },

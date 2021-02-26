@@ -60,6 +60,7 @@ export default (state = INIT_STATE, action) => {
         }
       };
     case types.GET_BOOKINGS_FAILURE:
+      console.log(action.payload);
       NotificationManager.error("Error in retreiving bookings");
       return {
         ...state,

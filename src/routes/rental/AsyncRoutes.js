@@ -12,3 +12,7 @@ export const rental_car = Loadable({
   loader: () => import("./cars"),
   loading: () => <RctPageLoader />
 });
+export const rental_settings = Loadable({
+  loader: () => import("./settings"),
+  loading: () => <RctPageLoader />
+});

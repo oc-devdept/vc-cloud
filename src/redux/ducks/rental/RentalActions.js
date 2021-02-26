@@ -67,3 +67,40 @@ export const getRentalCategoryFailure = error => ({
   type: types.GET_RENTAL_CATEGORY_FAILURE,
   payload: error
 });
+// CREATE Rental
+export const createRentalCategory = data => ({
+  type: types.CREATE_RENTAL_CATEGORY,
+  payload: data
+});
+export const createRentalCategorySuccess = data => ({
+  type: types.CREATE_RENTAL_CATEGORY_SUCCESS,
+  payload: data
+});
+export const createRentalCategoryFailure = error => ({
+  type: types.CREATE_RENTAL_CATEGORY_FAILURE,
+  payload: error
+});
+export const updateRentalCategory = (id, data) => ({
+  type: types.UPDATE_RENTAL_CATEGORY,
+  payload: { id, data }
+});
+export const updateRentalCategorySuccess = data => ({
+  type: types.UPDATE_RENTAL_CATEGORY_SUCCESS,
+  payload: data
+});
+export const updateRentalCategoryFailure = error => ({
+  type: types.UPDATE_RENTAL_CATEGORY_FAILURE,
+  payload: error
+});
+export const deleteRentalCategory = data => ({
+  type: types.DELETE_RENTAL_CATEGORY,
+  payload: data
+});
+export const deleteRentalCategorySuccess = data => ({
+  type: types.DELETE_RENTAL_CATEGORY_SUCCESS,
+  payload: data
+});
+export const deleteRentalCategoryFailure = error => ({
+  type: types.DELETE_RENTAL_CATEGORY_FAILURE,
+  payload: error
+});

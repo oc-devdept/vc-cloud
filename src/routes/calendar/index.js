@@ -22,6 +22,9 @@ import NewEventForm from "./components/forms/NewEventForm";
 import { getAllEvents, getCalendarSettings, addEvent } from "Ducks/calendar";
 // import { filterChange } from "Com"
 import Popover from "@material-ui/core/Popover";
+import IconButton from '@material-ui/core/IconButton';
+import CancelIcon from '@material-ui/icons/Cancel';
+
 const localizer = momentLocalizer(moment);
 
 class CRMCalendar extends Component {
@@ -184,7 +187,7 @@ class CRMCalendar extends Component {
           <Popover
             id={"calendar-popover"}
             open={showPop}
-            onClose={this.closePopover}
+            
             anchorReference="anchorPosition"
             anchorPosition={{ top: y, left: x }}
             anchorOrigin={{
@@ -198,6 +201,9 @@ class CRMCalendar extends Component {
             elevation={2}
           >
             <div className="w-100" style={{ minWidth: 400, maxWidth: 500, padding: 20 }}>
+            <IconButton color="warning" aria-label="upload picture" component="button" style={{float:"right", postion:"relative", top: -10}} onClick={this.closePopover}>
+               <CancelIcon />
+              </IconButton>
               {this.state.component}
             </div>
           </Popover>

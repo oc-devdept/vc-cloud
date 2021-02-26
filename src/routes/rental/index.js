@@ -11,7 +11,7 @@ export default function rentalSwitcher() {
       <Switch>
         <Route exact path={url.rentalListPage} component={async.rental_list} />
         <Route path={url.rentalCarPage} component={async.rental_car} />
-
+        <Route path={url.rentalSettingsPage} component={async.rental_settings} />
         {/* ------- /404 ------- */}
         <Redirect to="/404" />
       </Switch>

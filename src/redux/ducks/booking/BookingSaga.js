@@ -20,7 +20,6 @@ const getRecentBookingRequest = async ({ type, id }) => {
 const getBookingsRequest = async type => {
 
   const result = await api.get(`/bookings?filter[where][service]=${type}`);
- console.log(results)
   return result.data;
 };
 const updateBookingStatusRequest = async ({ id, status }) => {
