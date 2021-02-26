@@ -13,7 +13,8 @@ import {
   carPage,
   blogPage,
   configPage,
-  footerPage
+  footerPage,
+  grapeJsPage
 } from "Helpers/cmsURL";
 
 // acct routes
@@ -104,6 +105,10 @@ export default function navLinks() {
       {
         title: "sidebar.footer",
         path: footerPage
+      },
+      {
+        title: "grapejs",
+        path: grapeJsPage
       },
     ]
   },

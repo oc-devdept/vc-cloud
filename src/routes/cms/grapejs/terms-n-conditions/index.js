@@ -1,0 +1,701 @@
+import React, {Component} from "react";
+import 'grapesjs/dist/css/grapes.min.css';
+import grapesjs from 'grapesjs';
+import grapesjsloryslider from 'grapesjs-lory-slider';
+import grapesjstabs from 'grapesjs-tabs';
+import grapesjscustomcode from 'grapesjs-custom-code';
+import grapesjstouch from 'grapesjs-touch';
+import grapesjsparserpostcss from 'grapesjs-parser-postcss';
+import grapesjstooltip from 'grapesjs-tooltip';
+import grapesjstuiimageeditor from 'grapesjs-tui-image-editor';
+import grapesjstyped from 'grapesjs-typed';
+import grapesjsstylebg from 'grapesjs-style-bg';
+import gjspresetwebpage from 'grapesjs-preset-webpage';
+import toastr from 'toastr';
+
+import grapesjslogo from 'Assets/img/grapejsStock/grapesjs-logo-cl.png';
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
+
+
+class GrapeJSTerms extends Component {
+
+  saveHTML = () => {
+    // alert("PING")
+    var test = document.querySelector("#gjs");
+    console.log(test);
+  }
+
+
+  componentDidMount(){
+
+    var lp = './img/';
+    var plp = '//placehold.it/350x250/';
+    var images = [
+      lp+'team1.jpg', lp+'team2.jpg', lp+'team3.jpg', plp+'78c5d6/fff/image1.jpg', plp+'459ba8/fff/image2.jpg', plp+'79c267/fff/image3.jpg',
+      plp+'c5d647/fff/image4.jpg', plp+'f28c33/fff/image5.jpg', plp+'e868a2/fff/image6.jpg', plp+'cc4360/fff/image7.jpg',
+      lp+'work-desk.jpg', lp+'phone-app.png', lp+'bg-gr-v.png'
+    ];
+    let height = window.innerHeight + 90;
+
+    const editor = grapesjs.init({
+        // Indicate where to init the editor. You can also pass an HTMLElement
+        container: '#gjs',
+        // Get the content for the canvas directly from the element
+        // As an alternative we could use: `components: '<h1>Hello World Component!</h1>'`,
+        fromElement: true,
+        // Size of the editor
+        height: height+'px',
+        width: 'auto',
+        // Disable the storage manager for the moment
+        storageManager: false,
+        // Avoid any default panel
+        panels: { defaults: [] },           
+        selectorManager: { componentFirst: true },
+        styleManager: { clearProperties: 1 },
+        plugins: [
+          grapesjsloryslider,
+          grapesjstabs,
+          grapesjscustomcode,
+          grapesjstouch,
+          grapesjsparserpostcss,
+          grapesjstooltip,
+          grapesjstuiimageeditor,
+          grapesjstyped,
+          grapesjsstylebg,
+          gjspresetwebpage,
+          toastr
+        ],
+        pluginOpts: {
+          'grapesjs-lory-slider': {
+            sliderBlock: {
+              category: 'Extra'
+            }
+          },
+          'grapesjs-tabs': {
+            tabsBlock: {
+              category: 'Extra'
+            }
+          },
+          'grapesjs-typed': {
+            block: {
+              category: 'Extra',
+              content: {
+                type: 'typed',
+                'type-speed': 40,
+                strings: [
+                  'Text row one',
+                  'Text row two',
+                  'Text row three',
+                ],
+              }
+            }
+          },
+          'gjs-preset-webpage': {
+            modalImportTitle: 'Import Template',
+            modalImportLabel: '<div style="margin-bottom: 10px; font-size: 13px;">Paste here your HTML/CSS and click Import</div>',
+            modalImportContent: function(editor) {
+              console.log("ASDASDS", editor)
+
+              return editor.getHtml() + '<style>'+editor.getCss()+'</style>'
+            },
+            filestackOpts: null, //{ key: 'AYmqZc2e8RLGLE7TGkX3Hz' },
+            aviaryOpts: false,
+            blocksBasicOpts: { flexGrid: 1 },
+            customStyleManager: [{
+              name: 'General',
+              buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom'],
+              properties:[{
+                  name: 'Alignment',
+                  property: 'float',
+                  type: 'radio',
+                  defaults: 'none',
+                  list: [
+                    { value: 'none', className: 'fa fa-times'},
+                    { value: 'left', className: 'fa fa-align-left'},
+                    { value: 'right', className: 'fa fa-align-right'}
+                  ],
+                },{ property: 'position', type: 'select'}
+              ],
+            },{
+                name: 'Dimension',
+                open: false,
+                buildProps: ['width', 'flex-width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+                properties: [{
+                  id: 'flex-width',
+                  type: 'integer',
+                  name: 'Width',
+                  units: ['px', '%'],
+                  property: 'flex-basis',
+                  toRequire: 1,
+                },{
+                  property: 'margin',
+                  properties:[
+                    { name: 'Top', property: 'margin-top'},
+                    { name: 'Right', property: 'margin-right'},
+                    { name: 'Bottom', property: 'margin-bottom'},
+                    { name: 'Left', property: 'margin-left'}
+                  ],
+                },{
+                  property  : 'padding',
+                  properties:[
+                    { name: 'Top', property: 'padding-top'},
+                    { name: 'Right', property: 'padding-right'},
+                    { name: 'Bottom', property: 'padding-bottom'},
+                    { name: 'Left', property: 'padding-left'}
+                  ],
+                }],
+              },{
+                name: 'Typography',
+                open: false,
+                buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-align', 'text-decoration', 'text-shadow'],
+                properties:[
+                  { name: 'Font', property: 'font-family'},
+                  { name: 'Weight', property: 'font-weight'},
+                  { name:  'Font color', property: 'color'},
+                  {
+                    property: 'text-align',
+                    type: 'radio',
+                    defaults: 'left',
+                    list: [
+                      { value : 'left',  name : 'Left',    className: 'fa fa-align-left'},
+                      { value : 'center',  name : 'Center',  className: 'fa fa-align-center' },
+                      { value : 'right',   name : 'Right',   className: 'fa fa-align-right'},
+                      { value : 'justify', name : 'Justify',   className: 'fa fa-align-justify'}
+                    ],
+                  },{
+                    property: 'text-decoration',
+                    type: 'radio',
+                    defaults: 'none',
+                    list: [
+                      { value: 'none', name: 'None', className: 'fa fa-times'},
+                      { value: 'underline', name: 'underline', className: 'fa fa-underline' },
+                      { value: 'line-through', name: 'Line-through', className: 'fa fa-strikethrough'}
+                    ],
+                  },{
+                    property: 'text-shadow',
+                    properties: [
+                      { name: 'X position', property: 'text-shadow-h'},
+                      { name: 'Y position', property: 'text-shadow-v'},
+                      { name: 'Blur', property: 'text-shadow-blur'},
+                      { name: 'Color', property: 'text-shadow-color'}
+                    ],
+                }],
+              },{
+                name: 'Decorations',
+                open: false,
+                buildProps: ['opacity', 'border-radius', 'border', 'box-shadow', 'background-bg'],
+                properties: [{
+                  type: 'slider',
+                  property: 'opacity',
+                  defaults: 1,
+                  step: 0.01,
+                  max: 1,
+                  min:0,
+                },{
+                  property: 'border-radius',
+                  properties  : [
+                    { name: 'Top', property: 'border-top-left-radius'},
+                    { name: 'Right', property: 'border-top-right-radius'},
+                    { name: 'Bottom', property: 'border-bottom-left-radius'},
+                    { name: 'Left', property: 'border-bottom-right-radius'}
+                  ],
+                },{
+                  property: 'box-shadow',
+                  properties: [
+                    { name: 'X position', property: 'box-shadow-h'},
+                    { name: 'Y position', property: 'box-shadow-v'},
+                    { name: 'Blur', property: 'box-shadow-blur'},
+                    { name: 'Spread', property: 'box-shadow-spread'},
+                    { name: 'Color', property: 'box-shadow-color'},
+                    { name: 'Shadow type', property: 'box-shadow-type'}
+                  ],
+                },{
+                  id: 'background-bg',
+                  property: 'background',
+                  type: 'bg',
+                },],
+              },{
+                name: 'Extra',
+                open: false,
+                buildProps: ['transition', 'perspective', 'transform'],
+                properties: [{
+                  property: 'transition',
+                  properties:[
+                    { name: 'Property', property: 'transition-property'},
+                    { name: 'Duration', property: 'transition-duration'},
+                    { name: 'Easing', property: 'transition-timing-function'}
+                  ],
+                },{
+                  property: 'transform',
+                  properties:[
+                    { name: 'Rotate X', property: 'transform-rotate-x'},
+                    { name: 'Rotate Y', property: 'transform-rotate-y'},
+                    { name: 'Rotate Z', property: 'transform-rotate-z'},
+                    { name: 'Scale X', property: 'transform-scale-x'},
+                    { name: 'Scale Y', property: 'transform-scale-y'},
+                    { name: 'Scale Z', property: 'transform-scale-z'}
+                  ],
+                }]
+              },{
+                name: 'Flex',
+                open: false,
+                properties: [{
+                  name: 'Flex Container',
+                  property: 'display',
+                  type: 'select',
+                  defaults: 'block',
+                  list: [
+                    { value: 'block', name: 'Disable'},
+                    { value: 'flex', name: 'Enable'}
+                  ],
+                },{
+                  name: 'Flex Parent',
+                  property: 'label-parent-flex',
+                  type: 'integer',
+                },{
+                  name      : 'Direction',
+                  property  : 'flex-direction',
+                  type    : 'radio',
+                  defaults  : 'row',
+                  list    : [{
+                            value   : 'row',
+                            name    : 'Row',
+                            className : 'icons-flex icon-dir-row',
+                            title   : 'Row',
+                          },{
+                            value   : 'row-reverse',
+                            name    : 'Row reverse',
+                            className : 'icons-flex icon-dir-row-rev',
+                            title   : 'Row reverse',
+                          },{
+                            value   : 'column',
+                            name    : 'Column',
+                            title   : 'Column',
+                            className : 'icons-flex icon-dir-col',
+                          },{
+                            value   : 'column-reverse',
+                            name    : 'Column reverse',
+                            title   : 'Column reverse',
+                            className : 'icons-flex icon-dir-col-rev',
+                          }],
+                },{
+                  name      : 'Justify',
+                  property  : 'justify-content',
+                  type    : 'radio',
+                  defaults  : 'flex-start',
+                  list    : [{
+                            value   : 'flex-start',
+                            className : 'icons-flex icon-just-start',
+                            title   : 'Start',
+                          },{
+                            value   : 'flex-end',
+                            title    : 'End',
+                            className : 'icons-flex icon-just-end',
+                          },{
+                            value   : 'space-between',
+                            title    : 'Space between',
+                            className : 'icons-flex icon-just-sp-bet',
+                          },{
+                            value   : 'space-around',
+                            title    : 'Space around',
+                            className : 'icons-flex icon-just-sp-ar',
+                          },{
+                            value   : 'center',
+                            title    : 'Center',
+                            className : 'icons-flex icon-just-sp-cent',
+                          }],
+                },{
+                  name      : 'Align',
+                  property  : 'align-items',
+                  type    : 'radio',
+                  defaults  : 'center',
+                  list    : [{
+                            value   : 'flex-start',
+                            title    : 'Start',
+                            className : 'icons-flex icon-al-start',
+                          },{
+                            value   : 'flex-end',
+                            title    : 'End',
+                            className : 'icons-flex icon-al-end',
+                          },{
+                            value   : 'stretch',
+                            title    : 'Stretch',
+                            className : 'icons-flex icon-al-str',
+                          },{
+                            value   : 'center',
+                            title    : 'Center',
+                            className : 'icons-flex icon-al-center',
+                          }],
+                },{
+                  name: 'Flex Children',
+                  property: 'label-parent-flex',
+                  type: 'integer',
+                },{
+                  name:     'Order',
+                  property:   'order',
+                  type:     'integer',
+                  defaults :  0,
+                  min: 0
+                },{
+                  name    : 'Flex',
+                  property  : 'flex',
+                  type    : 'composite',
+                  properties  : [{
+                          name:     'Grow',
+                          property:   'flex-grow',
+                          type:     'integer',
+                          defaults :  0,
+                          min: 0
+                        },{
+                          name:     'Shrink',
+                          property:   'flex-shrink',
+                          type:     'integer',
+                          defaults :  0,
+                          min: 0
+                        },{
+                          name:     'Basis',
+                          property:   'flex-basis',
+                          type:     'integer',
+                          units:    ['px','%',''],
+                          unit: '',
+                          defaults :  'auto',
+                        }],
+                },{
+                  name      : 'Align',
+                  property  : 'align-self',
+                  type      : 'radio',
+                  defaults  : 'auto',
+                  list    : [{
+                            value   : 'auto',
+                            name    : 'Auto',
+                          },{
+                            value   : 'flex-start',
+                            title    : 'Start',
+                            className : 'icons-flex icon-al-start',
+                          },{
+                            value   : 'flex-end',
+                            title    : 'End',
+                            className : 'icons-flex icon-al-end',
+                          },{
+                            value   : 'stretch',
+                            title    : 'Stretch',
+                            className : 'icons-flex icon-al-str',
+                          },{
+                            value   : 'center',
+                            title    : 'Center',
+                            className : 'icons-flex icon-al-center',
+                          }],
+                        }]
+                      }
+                    ],
+                  }
+                },
+        blockManager: {
+            appendTo: '#blocks',
+            blocks: [                  
+            ]
+          }
+      });
+      
+      editor.I18n.addMessages({
+        en: {
+          styleManager: {
+            properties: {
+              'background-repeat': 'Repeat',
+              'background-position': 'Position',
+              'background-attachment': 'Attachment',
+              'background-size': 'Size',
+            }
+          },
+        }
+      });
+
+      var pn = editor.Panels;
+      var modal = editor.Modal;
+      var cmdm = editor.Commands;
+      cmdm.add('canvas-clear', function() {
+        if(window.confirm('Areeee you sure to clean the canvas?')) {
+          var comps = editor.DomComponents.clear();
+          setTimeout(function(){ localStorage.clear()}, 0)
+        }
+      });
+      cmdm.add('set-device-desktop', {
+        run: function(ed) { ed.setDevice('Desktop') },
+        stop: function() {},
+      });
+      cmdm.add('set-device-tablet', {
+        run: function(ed) { ed.setDevice('Tablet') },
+        stop: function() {},
+      });
+      cmdm.add('set-device-mobile', {
+        run: function(ed) { ed.setDevice('Mobile portrait') },
+        stop: function() {},
+      });
+
+
+
+      // Add info command
+      var mdlClass = 'gjs-mdl-dialog-sm';
+      var infoContainer = document.getElementById('info-panel');
+      cmdm.add('open-info', function() {
+        var mdlDialog = document.querySelector('.gjs-mdl-dialog');
+        mdlDialog.className += ' ' + mdlClass;
+        infoContainer.style.display = 'block';
+        modal.setTitle('About this demo');
+        modal.setContent(infoContainer);
+        modal.open();
+        modal.getModel().once('change:open', function() {
+          mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
+        })
+      });
+      pn.addButton('options', {
+        id: 'open-info',
+        className: 'fa fa-question-circle',
+        command: function() { editor.runCommand('open-info') },
+        attributes: {
+          'title': 'About',
+          'data-tooltip-pos': 'bottom',
+        },
+      });
+
+      console.log("ASDASD", pn.getPanelsEl())
+
+
+      // pn.addButton('options', {
+      //   id: 'show-json',
+      //   className: 'btn-show-json',
+      //   label: 'Save Template',
+      //   context: 'show-json',
+      //   command(editor) {
+      //     // editor.Modal.setTitle('Components JSON')
+      //     //   .setContent(`<textarea style="width:100%; height: 250px;">
+      //     //     ${JSON.stringify(editor.getComponents())}
+      //     //   </textarea>`)
+      //     //   .open();
+
+      //       // alert("asdasdsad")
+      //       alert("Template Saved!")
+      //       console.log(JSON.stringify(editor.getComponents()))
+      //   },
+      // });
+
+      pn.addButton('options', {
+        id: 'export',
+        className: 'fa fa-save',
+        // label: 'Exp',
+        command: 'export-template',
+        context: 'export-template',
+        command(editor) {
+          // editor.Modal.setTitle('Components JSON')
+          //   .setContent(`<textarea style="width:100%; height: 250px;">
+          //     ${JSON.stringify(editor.getComponents())}
+          //   </textarea>`)
+          //   .open();
+
+            // alert("asdasdsad")
+            alert("Template Saved!")
+            console.log(editor.getHtml())
+        },
+        attributes: {
+          'title': 'Save Template',
+          'data-tooltip-pos': 'bottom',
+        },
+      });
+
+
+
+
+
+      // // Simple warn notifier
+      // var origWarn = console.warn;
+      // toastr.options = {
+      //   closeButton: true,
+      //   preventDuplicates: true,
+      //   showDuration: 250,
+      //   hideDuration: 150
+      // };
+      // console.warn = function (msg) {
+      //   if (msg.indexOf('[undefined]') == -1) {
+      //     toastr.warning(msg);
+      //   }
+      //   origWarn(msg);
+      // };
+
+
+      // Add and beautify tooltips
+      [['sw-visibility', 'Show Borders'], ['preview', 'Preview'], ['fullscreen', 'Fullscreen'],
+       ['export-template', 'Export'], ['undo', 'Undo'], ['redo', 'Redo'],
+       ['gjs-open-import-webpage', 'Import'], ['canvas-clear', 'Clear canvas']]
+      .forEach(function(item) {
+        pn.getButton('options', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
+      });
+      [['open-sm', 'Style Manager'], ['open-layers', 'Layers'], ['open-blocks', 'Blocks']]
+      .forEach(function(item) {
+        pn.getButton('views', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
+      });
+      var titles = document.querySelectorAll('*[title]');
+
+      for (var i = 0; i < titles.length; i++) {
+        var el = titles[i];
+        var title = el.getAttribute('title');
+        title = title ? title.trim(): '';
+        if(!title)
+          break;
+        el.setAttribute('data-tooltip', title);
+        el.setAttribute('title', '');
+      }
+
+      // Show borders by default
+      pn.getButton('options', 'sw-visibility').set('active', 1);
+
+
+      // Store and load events
+      editor.on('storage:load', function(e) { console.log('Loaded ', e) });
+      editor.on('storage:store', function(e) { console.log('Stored ', e) });
+
+
+      // Do stuff on load
+      editor.on('load', function() {
+        var $ = grapesjs.$;
+
+        // Show logo with the version
+
+        //TODO WTF DOES THIS SECTION HAVE TO DO WITH CSS ?? 
+        var logoCont = document.querySelector('.gjs-logo-cont');
+        // document.querySelector('.gjs-logo-version').innerHTML = 'v' + grapesjs.version;
+        var logoPanel = document.querySelector('.gjs-pn-commands');
+        logoPanel.appendChild(logoCont);
+
+
+        // Load and show settings and style manager
+        var openTmBtn = pn.getButton('views', 'open-tm');
+        openTmBtn && openTmBtn.set('active', 1);
+        var openSm = pn.getButton('views', 'open-sm');
+        openSm && openSm.set('active', 1);
+
+        // Add Settings Sector
+        var traitsSector = $('<div className="gjs-sm-sector no-select">'+
+          '<div className="gjs-sm-title"><span className="icon-settings fa fa-cog"></span> Settings</div>' +
+          '<div className="gjs-sm-properties" style="display: none;"></div></div>');
+        var traitsProps = traitsSector.find('.gjs-sm-properties');
+        traitsProps.append($('.gjs-trt-traits'));
+        $('.gjs-sm-sectors').before(traitsSector);
+        traitsSector.find('.gjs-sm-title').on('click', function(){
+          var traitStyle = traitsProps.get(0).style;
+          var hidden = traitStyle.display == 'none';
+          if (hidden) {
+            traitStyle.display = 'block';
+          } else {
+            traitStyle.display = 'none';
+          }
+        });
+
+        // Open block mana  ger
+        var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
+        openBlocksBtn && openBlocksBtn.set('active', 1);
+
+         var cssLink = document.createElement("link");
+
+         console.log(cssLink, );
+
+         cssLink.href = "/main.css";
+         cssLink.rel = "stylesheet";
+         cssLink.type = "text/css";
+          document.querySelector('iframe').contentWindow.document.head.appendChild(cssLink);
+          document.querySelector('iframe').setAttribute("scrolling", "yes");
+          document.querySelector('iframe').classList.add("gjs-dashed")
+         
+        //   console.log(document.querySelector('iframe'))
+        });
+}
+
+  render(){
+    return (
+      <div>
+          <h1 onClick={this.props.history.goBack}>Back to Grape JS</h1>
+      {/* dont remove gjs-logo-cont div or the css stylesheets will disappear */}
+      <div className="gjs-logo-cont"></div>
+      {/* everything within #gjs will be exported as HTML */}
+        <div id="gjs">
+
+            <div className="tnc-area">
+                <h3>LEASE-TO-OWN SCHEME </h3>
+                <div className="tnc-section">
+                    <h6>1.1 LEASE-TO-OWN SCHEME</h6>
+                    <p>If you need a car for an extended period of time but do not wish to commit yourself to buy one then 
+                        Venture Cars Lease-to-own Scheme is for you! 
+                        Due to different needs, leasing might be a viable option for you to consider. 
+                        Get the added advantage driving the car of your choice with peace of mind as we take care of your 
+                        maintenance and servicing needs too. All you need to do is simply enjoy the freedom of the road!
+                    </p>
+                    <h6>1.2 Once the lease contract expires, you can choose to:</h6>
+                    <p>1) Buy the car</p>
+                    <p>2) Extend the lease</p>
+                    <p>3) Return the car</p>
+                    <p>4) Return the car and choose another vehicle</p>
+                </div>    
+            </div>
+
+            <div className="tnc-area">
+                <h3>2. TERMS & CONDITIONS </h3>
+                <div className="tnc-section">
+                    <h6>2.1 Road Tax</h6>
+                    <p>Road Tax is NOT included in this Lease-To-Own package. Only the first 6 months is paid for as it comes together with the car. </p>
+                    <p>The client has to renew their road tax through Venture Cars 1 month before the expiry of the current road tax.</p>
+
+                    <h6>2.2 Insurance </h6>
+                    <p>Insurance is NOT included in this Lease-To-Own package.</p>
+                    <p>The hirer has to pay the first year insurance premium in full before collecting the vehicle.</p>
+                    <p>Age {'>'} 22 years old; Driving Experience {'>'} years</p>
+                    <p>Excess: Section I (Own Damage Claim) S$2,500; Section II (Third Party Claim) S$1,500; Windscreen Excess S$100. 
+                        Excess will be doubled for unnamed drivers and usage in Malaysia. 
+                        Coverage: Up to West Malaysia, Thailand and East Malaysia are NOT covered, 
+                        Additional Name Driver: No charge for the first named driver; subsequent named driver S$200 each (annually)
+                    </p>
+
+                    <h6>2.3 Maintenance </h6>
+                    <p>Vehicle maintainence is NOT included in this Lease-To-Own package</p>
+                    <p>The Hirer is required to maintain the vehicle with our appointed workshop in accordance to the schedule and scope in the Vehicle Service & Maintenance Booklet</p>
+                    <p>For a Peace of Mind and to manage cost, hirers can opt for our 3-5 Years Service Package</p>
+                    <p>The Company will provide the Hirer a replacement vehicle when the vehicle is being sent for the regular maintenance, repairs and /or accident repairs provided the downtime is more than 4 hours.</p>
+
+                    <h6>2.4 Private Hire Use </h6>
+                    <p>Pte Hire usage is ALLOWED under this Lease-To-Own Package.</p>
+
+                    <h6>2.5 Monthly Repayment </h6>
+                    <p>The Hirer must pay the monthly repayments on time. A late payment penalty fee of $20 will be imposed if the Hirer does not pay on time and a late payment fee of $10 per day will be charged until the full payment is being received by Venture Cars.</p>
+
+                    <h6>2.6 GST </h6>
+                    <p>All prices quoted are NOT inclusive of GST, in the event that the GST is raised within the period of the lease agreement, the monthly lease, insurance, road tax and any other fees payable by the Hirer will be adjusted accordingly.</p>
+
+                    <h6>2.7 Deposit </h6>
+                    <p>The Deposit is NOT refundable upon completion of the lease agreement.</p>
+
+                    <h6>2.8 Early Termination of Lease</h6>
+                    <p>An Early Termination Fee will be imposed for any early termination of the agreement by the Hirer as follows:-</p>
+                    <p>Termination within first 24 months = 1.5% of original car price + 20% of remaining contract value</p>
+                    <p>Termination after 24 months = 20% of remaining contract value</p>
+                    <p>Termination after 36 months = No Penalty if re-contract</p>
+                    <p>Termination after 48 months = No Penalty</p>
+
+                </div>    
+            </div>
+
+          </div>
+          
+        
+        {/* blocks section is the side bar */}
+        <div id="blocks"></div>
+      </div>
+    )
+  }
+
+}
+
+export default GrapeJSTerms;
