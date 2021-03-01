@@ -37,12 +37,13 @@ export default(state = INIT_STATE, action) => {
                 }
             }
         case types.GET_ALL_FEATURED_SUCCESS:
+            console.log(action.payload);
             return {
                 ...state,
                 sectionList: {
                     ...state.sectionList,
                     loading: false,
-                    tableData: action.payload
+                    tableData: action.payload.data
                 }
             }
         case types.GET_FEATURED_CHILDREN:
@@ -97,31 +98,21 @@ export default(state = INIT_STATE, action) => {
             }
         case types.NEW_FEATURED_CAR_SUCCESS:
         case types.EDIT_FEATURED_CAR_SUCCESS:
+            tableData = [ ...state.sectionList.tableData];
             if(action.type == types.NEW_FEATURED_CAR_SUCCESS){
                 NotificationManager.success("Featured car created");
+                tableData.push(action.payload);
             }
             else if(action.type == types.EDIT_FEATURED_CAR_SUCCESS){
                 NotificationManager.success("Featured car edited");
-            }
-            //get car info to tabledata
-            tableData = [ ...state.sectionList.tableData];
-            for(let i=0; i < tableData.length; i++){
-                if(tableData[i].id == action.payload.sectionId){
-                    let added = false;
-                    if(tableData[i].cars === undefined){
-                        tableData[i].cars = [];
-                    }
-                    for(let j=0; j < tableData[i].cars.length; j++){
-                        if(tableData[i].cars[j].id == action.payload.id){
-                            tableData[i].cars[j] = action.payload;
-                            added = true;
-                        }
-                    }
-                    if(!added){
-                        tableData[i].cars.push(action.payload);
+                for(let i=0; i < tableData.length; i++){
+                    if(tableData[i].id == action.payload.id){
+                        tableData[i] = action.payload;
                     }
                 }
             }
+            
+                        
             return {
                 ...state,
                 sectionList: {
@@ -216,20 +207,8 @@ export default(state = INIT_STATE, action) => {
            
         case types.DELETE_FEATURED_CAR_SUCCESS:
             NotificationManager.success("Car Deleted");            
-            tableData = [ ...state.sectionList.tableData];
-            for(let i=0; i < tableData.length; i++){
-                let cars = [];
-                if(tableData[i].cars == undefined){
-                    tableData[i].cars = [];
-                }
-                for(let j=0; j < tableData[i].cars.length; j++){
-                    if(tableData[i].cars[j].id != action.payload){
-                        cars.push(tableData[i].cars[j]);                        
-                    }
-                }
-                tableData[i].cars = cars;                
-
-            }
+            tableData = state.sectionList.tableData.filter(item => item.id != action.payload);
+            
             return {
                 ...state,
                 sectionList: {

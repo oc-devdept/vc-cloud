@@ -6,7 +6,7 @@ import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import DialogRoot from "Components/Dialog/DialogRoot";
 import FeaturedSectionForm from "./components/FeaturedSectionForm";
 import FeaturedCarForm from "./components/FeaturedCarForm";
-import FeaturedList from './components/FeaturedList';
+import FeaturedList from './components/AllFeaturedList';
 
 import { getAllProducts } from "Ducks/inventory";
 
@@ -82,10 +82,10 @@ class cms_featured extends Component {
                 <PageTitleBar
                 title="Featured Cars list"
                 actionGroup={{
-                    add: { onClick: this.newSection }                    
+                    add: { onClick: this.newCar }                    
                 }}
                 />
-                <FeaturedList newCar={this.newCar} />
+                <FeaturedList />
                 {this.renderDialog() }
             </React.Fragment>
         );

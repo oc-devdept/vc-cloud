@@ -15,7 +15,7 @@ import * as actions from './FeaturedActions';
 
 
 const getAllFeaturedRequest = async() => {
-    const result = await api.get("/featuredsections");
+    const result = await api.get("/featuredcars/getFeatured");
     return result.data;
 }
 function* getAllFeaturedFromDB(){
@@ -139,6 +139,7 @@ export function* deleteFeaturedSectionWatcher(){
 }
 
 const deleteFeaturedCarRequest = async id => {
+    console.log(id);
     const result = await api.delete(`/featuredcars/${id}`);
     return result.data;
 }

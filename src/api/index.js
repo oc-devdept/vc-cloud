@@ -45,7 +45,10 @@ api.interceptors.response.use(
       case 404:
         break;
       case 500:
+        NotificationManager.error("Server Error");
         break;
+      case 503:        
+        NotificationManager.error(error.response.data.error.message);
       default:
         // Unknown Error
         break;

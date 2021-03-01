@@ -38,7 +38,8 @@ import {
   CarReducer,
   BlogReducer,
   ConfigOptionsReducer,
-  FooterReducer
+  FooterReducer,
+  CmspageReducer
 } from "Ducks/cms";
 
 //inventory
@@ -103,7 +104,8 @@ const reducers = combineReducers({
     carState: CarReducer,
     blogState: BlogReducer,
     footerState: FooterReducer,
-    configState: ConfigOptionsReducer
+    configState: ConfigOptionsReducer,
+    pageState: CmspageReducer
   }),
   inventoryState: ProductReducer,
     

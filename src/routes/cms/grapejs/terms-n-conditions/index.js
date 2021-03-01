@@ -25,12 +25,6 @@ import {
 
 class GrapeJSTerms extends Component {
 
-  saveHTML = () => {
-    // alert("PING")
-    var test = document.querySelector("#gjs");
-    console.log(test);
-  }
-
 
   componentDidMount(){
 
@@ -420,7 +414,7 @@ class GrapeJSTerms extends Component {
       var modal = editor.Modal;
       var cmdm = editor.Commands;
       cmdm.add('canvas-clear', function() {
-        if(window.confirm('Areeee you sure to clean the canvas?')) {
+        if(window.confirm('Are you sure to clean the canvas?')) {
           var comps = editor.DomComponents.clear();
           setTimeout(function(){ localStorage.clear()}, 0)
         }
@@ -618,7 +612,6 @@ class GrapeJSTerms extends Component {
   render(){
     return (
       <div>
-          <h1 onClick={this.props.history.goBack}>Back to Grape JS</h1>
       {/* dont remove gjs-logo-cont div or the css stylesheets will disappear */}
       <div className="gjs-logo-cont"></div>
       {/* everything within #gjs will be exported as HTML */}

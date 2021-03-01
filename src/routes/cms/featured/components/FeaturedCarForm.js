@@ -23,7 +23,6 @@ const initialState = {
     name: "",
     grade: null,
     position: 0,
-    section: null,
     featured: [],
     selectedFeatures: {}
 }
@@ -31,8 +30,7 @@ const initialState = {
 class FeaturedCarForm extends Component {
     constructor(props){
         super(props);
-        this.state = initialState;
-        this.state.section = this.props.parentId;
+        this.state = initialState;       
         this.onSave = this.onSave.bind(this);
         this.onSaveNew = this.onSaveNew.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -46,6 +44,7 @@ class FeaturedCarForm extends Component {
     }
 
     handleChange(field, value){
+      /*
         if(field == "grade"){
             let car = this.props.products.tableData.find(element => element.id == value);
 
@@ -63,7 +62,8 @@ class FeaturedCarForm extends Component {
             this.setState({
               featured: featured
             });
-        }        
+        }  
+        */      
         this.setState({
             [field]: value
         })
@@ -187,7 +187,7 @@ class FeaturedCarForm extends Component {
                 <hr />
                 <form autoComplete="off">
             <FormInputLayout { ...layout } />
-            <FormInputLayout { ...featureLayout } />
+            { /* <FormInputLayout { ...featureLayout } />  */ }
                 </form>
         </FormWrapper>
         )

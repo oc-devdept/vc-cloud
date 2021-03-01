@@ -107,7 +107,7 @@ export default function navLinks() {
         path: footerPage
       },
       {
-        title: "grapejs",
+        title: "Page Editor",
         path: grapeJsPage
       },
     ]

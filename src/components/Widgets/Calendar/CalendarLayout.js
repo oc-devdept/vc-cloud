@@ -41,7 +41,7 @@ class CalendarLayout extends Component {
         let eventEnd = moment.tz(this.props.myEvents[i].end, "Asia/Singapore");
         let startDate = new Date(eventStart.toISOString());
         let endDate = new Date(eventEnd.toISOString());
-        let color ="#000";
+        let color ="rgb(119, 166, 242)";
         for(let j=0; j < serviceSettings.length; j++){
           if(this.props.myEvents[i].service == serviceSettings[j].name){
             color = serviceSettings[j].value;

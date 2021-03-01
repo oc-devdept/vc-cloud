@@ -172,40 +172,45 @@ const UpcomingEvents = (props) => {
         const eventDate = sameDay ? getTheDate(item.start) : `${getTheDate(item.start)} - ${getTheDate(item.end)}`;
 
         const eventTime = `${getTheTime(item.start)} - ${getTheTime(item.end)}`;
-        let eventColor = "#fff";
+        let eventColor = "rgb(119, 166, 242)";
         serviceSettings.forEach(setting => {
           if(setting.name == item.service){
             eventColor = setting.value
           }
         });
               return(
-              <BgCard key={index} customClasses="innerBlock" contentCustomClasses="innerblockContent">             
-           
+              <BgCard key={index} customClasses="innerBlock" contentCustomClasses="innerblockContent"             
+              >             
+          
            <div className={`colorHeading`} style={{backgroundColor: eventColor}}></div>
            <div className="eventDetails">
-           <div className="calDetailRow box1">
-             <strong> {item.title} </strong>
+           <div className="calDetailRow box2">
+             <div className="detailRow1"><strong>Name</strong></div>
+             <div className="detailRow2"> {item.title}</div>
             </div>
             
-            <div className="calDetailRow box2">
-            <CalendarToday className="align-text-bottom text-muted" fontSize="inherit" /> {eventDate }
-          
+            <div className="calDetailRow box1">
+              <div className="detailRow1"><CalendarToday className="align-text-bottom text-muted" fontSize="inherit" /> <strong>Date</strong></div>
+              <div className="detailRow2">{eventDate }</div>                    
              </div>
+             <div className="calDetailRow box1">
+              <div className="detailRow1"> <AccessTime className="align-text-bottom text-muted" fontSize="inherit" /> <strong>Time</strong></div>
+              <div className="detailRow2">{eventTime }</div>                    
+             </div>            
              <div className="calDetailRow box2">
-             <AccessTime className="align-text-bottom text-muted" fontSize="inherit" /> {eventTime}
-               </div>
-             <div className="calDetailRow box2">
-             {item.cus && (
+            <div className="detailRow1" ><strong>Customer</strong></div>
+            <div className="detailRow2"> {item.cus && (
           <NavLink to={`./crm/customers/${item.cus.id}`}>
             <span className="mb-0">{item.cus.name}</span>
-          </NavLink> )}
-             </div>
-             <div className="calDetailRow box2 desc">
-              <strong>Staff: </strong>{item.staffName}
+          </NavLink> )}</div>
              </div>
              <div className="calDetailRow box2">
-           {item.status}
-           
+               <div className="detailRow1"><strong>Staff: </strong></div>
+               <div className="detailRow2">{item.staffName}</div>              
+             </div>
+             <div className="calDetailRow box2">
+             <div className="detailRow1"><strong>Status: </strong></div>
+               <div className="detailRow2">{item.status}</div>                  
              </div>
              <div className="calDetailRow box2">
              <IconButton
@@ -213,16 +218,20 @@ const UpcomingEvents = (props) => {
                     onClick={() => {
                       editEvent(item.id);
                     }}
+                    style={{float:"right"}}
                   >
                     <Icon className="tableEditIcon" icon={editFilled} color="#595959" width="1.5rem" height="1.5rem" />
                   </IconButton>
              </div>
-             <div className="calDetailRow box3 desc">
-              <strong>Description: </strong>{item.desc}
+             <div className="flex-break"></div>
+             <div className="calDetailRow box3">
+             <div className="detailRow1"><strong>Description: </strong></div>
+               <div className="detailRow2">{item.desc}</div>
               </div>
-              <div className="calDetailRow box3 desc">
-              <strong>Remarks: </strong>{item.remarks}
-              </div>
+              <div className="calDetailRow box3">
+              <div className="detailRow1"><strong>Remarks: </strong></div>
+               <div className="detailRow2">{item.remarks}</div>              
+              </div>              
            </div>
            
            </BgCard>)
