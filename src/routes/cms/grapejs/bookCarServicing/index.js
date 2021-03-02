@@ -358,7 +358,6 @@ class GrapeJSBook extends Component {
               </div>
             </form>
           </div>
-
           <div className="header-bar">
                 <h6>Car Servicing Details</h6>
           </div>
@@ -402,16 +401,11 @@ class GrapeJSBook extends Component {
                 </div>   
               </div>
               <div align="center">
-                  <button type="submit" className=" btn btn-primary bookAppBtn" >Book Appointment</button>
+                  <button type="submit" className=" btn bookAppBtn" >Book Appointment</button>
               </div>
-
             </form>
-           
-          </div>
-             
-            </section>
-        
-
+          </div>     
+          </section>
           </div>
           
         
