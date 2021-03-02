@@ -28,8 +28,7 @@ class GrapeJSMainList extends Component {
   }
 
   componentDidMount(){
-    this.props.getAllCmspage();
-    
+    this.props.getAllCmspage();  
   }
 
   newCust =() => {
@@ -63,8 +62,14 @@ class GrapeJSMainList extends Component {
     if(id == 1){
       this.props.history.push("/app/cms/pageeditor/about-us");
     }
-    else {
+    if(id == 2){
       this.props.history.push("/app/cms/pageeditor/terms-n-conditions");
+    }
+    if(id == 2){
+      this.props.history.push("/app/cms/pageeditor/stepsArea");
+    }
+    else {
+      this.props.history.push("/app/cms/pageeditor/bookCarServicing");
     }
   }
 
