@@ -372,7 +372,7 @@ class GrapeJSBook extends Component {
               <div className="form-row"> 
                 <div className="form-group col-md-6">
                   <label for="inputDate" >Date</label>
-                  <br/>
+                  {/* <br/> */}
                   <div className="DayPickerInput" >
                   <div className="DayPickerInput" >
                     <input type="email" className="form-control"  id="date" placeholder="03/02/2021" value />

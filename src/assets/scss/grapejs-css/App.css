@@ -887,6 +887,14 @@
   box-shadow: 0 0 10px rgba(103, 103, 103, 0.3);
 }
 
+.DayPickerInput {
+  display: inline-block;
+}
+
+.DayPickerInput {
+  width: 100%;
+}
+
 
 @media only screen and (max-width: 426px){
   .bookCarServicing-area .container h1{
