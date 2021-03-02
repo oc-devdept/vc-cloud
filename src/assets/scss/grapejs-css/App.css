@@ -782,9 +782,7 @@
   font-size: 22px;
 }
 
-/*================================================
-Home Page - Step Area CSS
-=================================================*/
+/* Home Page - Step Area CSS */
 /* .steps-area {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
   background-repeat: no-repeat;
@@ -827,3 +825,69 @@ Home Page - Step Area CSS
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+
+/* Book Car Servicing */
+.header-bar {
+  background-color: #212C33;
+  padding: 20px;
+  margin: 0;
+  background: linear-gradient(180deg, #333333, #000000); 
+}
+
+.container h1 {
+  font-size: 2.5rem;
+}
+.header-bar h6 {
+  text-align: center;
+  color: #ffffff;
+  font-size: 14px;
+}
+.driver-details {
+  padding: 40px;
+}
+
+.driver-details-form .form-check {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.driver-details-form textarea {
+  padding-top: 10px;
+  height: 290px;
+}
+.driver-details-form a:hover,
+.driver-details-form a:focus {
+  color: #222222!important;
+}
+.jumbotron {
+  margin-bottom: 0 !important;
+}
+.successfulMessage p {
+  margin: 20px 0;
+}
+.successfulMessage img {
+  width: 30%;
+}
+
+.driver-details .btn-primary {
+  color: #ffffff !important;
+  background-color: #000000 !important;
+  padding: 11px 23px !important;
+  border-radius: 10px !important;
+}
+
+.driver-details  .btn-primary:hover,
+.driver-details  .btn-primary:focus {
+  -webkit-box-shadow: unset;
+  box-shadow: unset;
+  background-color: #666666 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(103, 103, 103, 0.3);
+}
+
+
+@media only screen and (max-width: 426px){
+  .bookCarServicing-area .container h1{
+  font-size: 1.3rem;
+}
+}
+

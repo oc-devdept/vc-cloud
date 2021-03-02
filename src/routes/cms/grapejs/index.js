@@ -65,7 +65,7 @@ class GrapeJSMainList extends Component {
     if(id == 2){
       this.props.history.push("/app/cms/pageeditor/terms-n-conditions");
     }
-    if(id == 2){
+    if(id == 3){
       this.props.history.push("/app/cms/pageeditor/stepsArea");
     }
     else {

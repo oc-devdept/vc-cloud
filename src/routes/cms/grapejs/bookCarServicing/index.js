@@ -312,16 +312,101 @@ class GrapeJSBook extends Component {
       <h3 onClick={this.props.history.goBack}>Back to Pages</h3>
       <div className="gjs-logo-cont"></div>
         <div id="gjs">
-        <section className="about-us-area">
-          <div className="about-us-banner" style={{
+        <section className="bookCarServicing-area">
+          <div className="d-flex align-items-center text-center jumbotron jumbotron-fluid" style={{
             backgroundImage:  `url(${booknowBannerImage})` 
             ,minHeight:400 ,backgroundPosition:"center" ,zIndex:1 }}  >
              <div className="container" >
                 <h1 className="text-white" style={{ fontWeight:400 , paddingBottom:10}} >
-                BOOK A CAR SERVICING APPOINTMENT WITH US TODAY
+                   Book a Car Servicing Appointment with Us Today
                 </h1>
-                <p className="text-white"></P>
              </div>
+          </div>
+          <div className="header-bar">
+            <h6>Driver's Details</h6>
+          </div>
+          <div className="driver-details">
+            <form className="driver-details-form" >
+              <div className="form-row">
+                <div className="form-group col-md-2">
+                  <label for="inputTitle" > Title </label>
+                  <select id="inputTitle" className="form-control">
+                    <option>Mr.</option>
+                    <option>Mrs.</option>
+                    <option>Ms.</option>
+                    <option>Dr.</option>
+                  </select>
+                </div>
+                <div className="form-group col-md-5">
+                  <label for="inputFirstName" > First Name </label>
+                  <input type="text" className="form-control"  id="firstName" required value placeholder="Enter your first name" />
+                </div>
+                <div className="form-group col-md-5">
+                  <label for="inputLastName" >Last Name (Surname) </label>
+                  <input type="text" className="form-control"  id="lastName" required value placeholder="Enter your last name" />
+                </div>    
+              </div>
+              <div className="form-row"> 
+                <div className="form-group col-md-6">
+                  <label for="inputPhoneNumber" >Phone Number</label>
+                  <input type="text" className="form-control"  id="phoneNumber" required value placeholder="Enter your phone number" />
+                </div>
+                <div className="form-group col-md-6">
+                  <label for="inputEmailAddess" >Email Address</label>
+                  <input type="text" className="form-control"  id="emailAddress" required value placeholder="Enter your email address" />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div className="header-bar">
+                <h6>Car Servicing Details</h6>
+          </div>
+          <div className="driver-details">
+          <form className="driver-details-form" >
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <label for="inputCarModel" >Your Car Model</label>
+                  <input type="email" className="form-control"  id="carModel" required value placeholder="Enter your car model" />
+                </div>   
+              </div>
+              <div className="form-row"> 
+                <div className="form-group col-md-6">
+                  <label for="inputDate" >Date</label>
+                  <br/>
+                  <div className="DayPickerInput" >
+                  <div className="DayPickerInput" >
+                    <input type="email" className="form-control"  id="date" placeholder="03/02/2021" value />
+                  </div>
+                  </div>    
+                </div>
+                <div className="form-group col-md-6">
+                  <label for="inputTimesort" >Timeslot</label>
+                  <select id="inputTimesort" className="form-control">
+                    <option>9am</option>
+                    <option>10am</option>
+                    <option>11am</option>
+                    <option>12am</option>
+                    <option>1pm</option>
+                    <option>2pm</option>
+                    <option>3pm</option>
+                    <option>4pm</option>
+                    <option>5pm</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-row last-row">
+                <div className="form-group col-md-12">
+                  <label for="inputDescription" >Description</label>
+                  <textarea  className="form-control" id="description" row="5" placeholder="Enter your message"></textarea>
+                </div>   
+              </div>
+              <div align="center">
+                  <button type="submit" className=" btn btn-primary bookAppBtn" >Book Appointment</button>
+              </div>
+
+            </form>
+           
           </div>
              
             </section>
