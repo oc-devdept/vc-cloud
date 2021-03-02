@@ -750,6 +750,7 @@
   margin: 0 auto 20px;
   font-family: "PlayfairDisplay-Regular";
 }
+
 .about-history p {
   color: #ffffff;
   
@@ -763,8 +764,6 @@
 .about-history .column {
   margin-top: 20px;
 }
-
-
 .our-story {
   background-color: #ffffff;
   padding: 40px;
@@ -781,4 +780,50 @@
   color: #7a7a7a;
   font-family: "PlayfairDisplay-Regular";
   font-size: 22px;
+}
+
+/*================================================
+Home Page - Step Area CSS
+=================================================*/
+/* .steps-area {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  // padding: 20px;
+  width: 100%;
+} */
+.steps-area .section-title.without-bg h2 {
+  font-size: 2rem;
+  padding: 20px 0;
+  color: #c0c0c0;
+  font-family: "Montserrat", sans-serif;
+}
+.steps-area > .section-title > h2 {
+  color: #ffffff;
+}
+.step {
+  background-color: #ffffff;
+  vertical-align: middle;
+}
+
+.stepImgs {
+  vertical-align: middle;
+  padding: auto 20px;
+}
+.stepBubble {
+  background: linear-gradient(180deg,#333333,#000000);
+  color: #ffffff;
+  width: 160px;
+  padding: 10px;
+  margin: 10px auto;
+}
+.steps-area p {
+  margin-bottom: 20px;
+}
+.steps-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }

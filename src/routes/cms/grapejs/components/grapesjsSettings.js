@@ -591,4 +591,4 @@ import toastr from 'toastr';
         //   console.log(document.querySelector('iframe'))
         });
 
-export default grapesjsSettings;
+// export default grapesjsSettings;

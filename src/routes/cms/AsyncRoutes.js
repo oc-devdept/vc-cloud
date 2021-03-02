@@ -100,3 +100,11 @@ export const cms_grapejs_about_us = Loadable({
     loader: () => import("./grapejs/about-us/index"),
     loading: () => <RctPageLoader />
 });
+export const cms_grapejs_book_car_servicing = Loadable({
+    loader: () => import("./grapejs/bookCarServicing/index"),
+    loading: () => <RctPageLoader />
+});
+export const cms_grapejs_steps_area = Loadable({
+    loader: () => import("./grapejs/stepsArea/index"),
+    loading: () => <RctPageLoader />
+});
