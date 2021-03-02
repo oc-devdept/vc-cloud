@@ -60,16 +60,17 @@ class GrapeJSMainList extends Component {
 
   pageEditor = (id) => {
     if(id == 1){
-      this.props.history.push("/app/cms/pageeditor/about-us");
+     return this.props.history.push("/app/cms/pageeditor/about-us");
+    
     }
     if(id == 2){
-      this.props.history.push("/app/cms/pageeditor/terms-n-conditions");
+      return  this.props.history.push("/app/cms/pageeditor/terms-n-conditions");
     }
     if(id == 3){
-      this.props.history.push("/app/cms/pageeditor/stepsArea");
+      return  this.props.history.push("/app/cms/pageeditor/stepsArea");
     }
-    else {
-      this.props.history.push("/app/cms/pageeditor/bookCarServicing");
+    if(id == 4){
+      return  this.props.history.push("/app/cms/pageeditor/bookCarServicing");
     }
   }
 
@@ -79,7 +80,7 @@ class GrapeJSMainList extends Component {
     {
       name: "id",
       options: {
-        display: "excluded", filter: false, sort: false 
+        display: true, filter: false, sort: false 
       }
     },
     {
