@@ -30,7 +30,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes, SaveRemarks }) => {
   const { firstName, lastName, email, phone } = contact;
   const { model, date, timeslot, description } = content;
 
-  const [newStatus, setnewStatus] = useState(null);
+  const [newStatus, setnewStatus] = useState(status);
   const [newNotes, setnewNotes] = useState("");
   const [newRemarks, setNewRemarks] = useState(remarks);
 
@@ -183,7 +183,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes, SaveRemarks }) => {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={status }
+                value={newStatus }
                 onChange={e => setnewStatus(() => e.target.value)}
                 style={{ minWidth: 100, marginLeft: 5 }}
               >

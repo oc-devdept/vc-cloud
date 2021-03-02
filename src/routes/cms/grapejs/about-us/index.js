@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { connect } from "react-redux";
 import 'grapesjs/dist/css/grapes.min.css';
 import 'grapick/dist/grapick.min.css';
 
@@ -11,7 +12,7 @@ import grapesjsparserpostcss from 'grapesjs-parser-postcss';
 import grapesjstooltip from 'grapesjs-tooltip';
 import grapesjstuiimageeditor from 'grapesjs-tui-image-editor';
 import grapesjstyped from 'grapesjs-typed';
-import gjspresetwebpage from 'grapesjs-preset-webpage';
+import gjspresetwebpage from 'Components/grapesjs-preset-webpage';
 import grapesjsgradient from 'grapesjs-style-gradient';
 import gjsstyledbg from 'grapesjs-style-bg';
 import toastr from 'toastr';
@@ -19,18 +20,18 @@ import toastr from 'toastr';
 import grapesjslogo from 'Assets/img/grapejsStock/grapesjs-logo-cl.png';
 
 import aboutUsBgImage from "Assets/img/grapejsStock/about-us-banner.jpg"
+import { updateCmspage } from 'Ducks/cms/cmspage';
 
 
 class GrapeJSAbout extends Component {
 
-  saveHTML = () => {
-    // alert("PING")
-    var test = document.querySelector("#gjs");
-    console.log(test);
-  }
 
   uploadFileProcess = (e) => {
     console.log("files to uploader");
+  }
+
+  savePage = (html, css) => {
+    this.props.updateCmspage({ id: "603b075920379844fc4e8722", html: html, css: css});
   }
 
 
@@ -216,6 +217,22 @@ class GrapeJSAbout extends Component {
 
     // Show borders by default
     pn.getButton('options', 'sw-visibility').set('active', 1);
+    var self = this;
+    pn.addButton('options', {
+      id: 'export',
+      className: 'fa fa-save',
+      // label: 'Exp',
+      command: 'export-template',
+      context: 'export-template',
+      command(editor) {
+
+          self.savePage(editor.getHtml(), editor.getCss());
+      },
+      attributes: {
+        'title': 'Save Template',
+        'data-tooltip-pos': 'bottom',
+      },
+    });
 
 
     // Store and load events
@@ -263,6 +280,16 @@ class GrapeJSAbout extends Component {
         property: 'background',
         type: 'bg',
       }])
+
+      editor.StyleManager.addProperty('layout', 
+        {
+          name: "Flex",
+          property: "flex",
+          type: "integer",
+          min: 1,
+          defaults: "1"          
+        }, { at: 2}
+      )
       
       // Open block manager
       var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
@@ -285,7 +312,51 @@ class GrapeJSAbout extends Component {
       <h3 onClick={this.props.history.goBack}>Back to Pages</h3>
       <div className="gjs-logo-cont"></div>
         <div id="gjs">
-
+        <section className="about-us-area">
+              <div className="about-us-banner" style={{backgroundImage:  `url(${aboutUsBgImage})` }} />
+              <div className="about-history" align="center">
+                <h2>Since 2009</h2>
+                <div className="row">
+                  <div className="column col-md-4">
+                    <p>
+                      <span className="amount">10, 000+</span>
+                      <br />
+                      <span className="type">NEW CARS BUILT</span>
+                    </p>
+                  </div>
+                  <div className="column col-md-4">
+                    <p>
+                      <span className="amount">6,000+</span>
+                      <br />
+                      <span className="type">PRE-OWNED CARS SOLD</span>
+                    </p>
+                  </div>
+                  <div className="column col-md-4">
+                    <p>
+                      <span className="amount">20,000+</span>
+                      <br />
+                      <span className="type">CARS SERVICED</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="our-story">
+                <div className="row">
+                  <div className="column col-md-4">
+                    <h2>Our Story</h2>
+                  </div>
+                  <div className="column col-md-6">
+                    <h5>New Venture</h5>
+                    <p>
+                    As a subsidiary that expanded from BW Automobiles in 2009, Venture Cars was established to meet the rise in demand for brand new cars. Aptly named Venture Cars, the company was set up with the sole focus on new Japanese mass-market cars.  The genesis for this new venture was the observable consumer trends in the car market towards Japanese cars and parallel importers (PI). 
+                    </p>
+                    <p>
+                    At Venture Cars, we take pride in serving our customers to the best of our abilities and we have a solid track record. We believe in being transparent and we work hard to meet the strict guidelines that are set up by Singapore Vehicle Traders Association (SVTA).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
         
 
           </div>
@@ -298,7 +369,11 @@ class GrapeJSAbout extends Component {
 
 }
 
-export default GrapeJSAbout;
+const mapStateToProps = ({ cmsState}) => {
+ 
+  return {  };
+}
+export default connect(mapStateToProps, { updateCmspage })(GrapeJSAbout);
 /*
 <section className="about-us-area">
               <div className="about-us-banner" style={{backgroundImage:  `url(${aboutUsBgImage})` }} />

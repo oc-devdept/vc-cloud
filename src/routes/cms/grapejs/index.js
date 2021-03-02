@@ -60,7 +60,12 @@ class GrapeJSMainList extends Component {
   }
 
   pageEditor = (id) => {
-    this.props.history.push("/app/cms/pageeditor/about-us");
+    if(id == 1){
+      this.props.history.push("/app/cms/pageeditor/about-us");
+    }
+    else {
+      this.props.history.push("/app/cms/pageeditor/terms-n-conditions");
+    }
   }
 
   render(){
@@ -91,7 +96,7 @@ class GrapeJSMainList extends Component {
       }
     },
     {
-      name: "lastEdit",
+      name: "lastEdited",
       label: "Last Edited Date"
     },
     {
@@ -118,7 +123,7 @@ class GrapeJSMainList extends Component {
 
               <IconButton size="small">
                 <WebIcon onClick={() => { 
-                this.pageEditor(tableMeta.rowData[0])
+                this.pageEditor(tableMeta.rowIndex+1);
               }} />
               </IconButton> 
               <IconButton size="small">

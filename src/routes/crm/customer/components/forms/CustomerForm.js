@@ -30,8 +30,7 @@ const initialState = {
     sourceId: "",
     baseContact: {
       firstName: "",
-      lastName: "",
-      subscribed: true,
+      lastName: "",      
       email: "",
       mobile: "",
       fax: "",
@@ -40,7 +39,8 @@ const initialState = {
       title: "",
       birthday: "",
       _address: { address_1: "", address_2: "", city: "", zip: "" }
-    }
+    },
+    subscribed: true
   }
 };
 
@@ -65,7 +65,8 @@ class CustomerForm extends Component {
           id,
           sourceId,
           baseContact,
-          userId
+          userId,
+          subscribed: this.props.edit.subscribed
         }
       });
     }
@@ -92,6 +93,15 @@ class CustomerForm extends Component {
         [field]: value
       }
     }));
+  }
+
+  handleChecked = (evt) => {
+    let cust = { ...this.state.customer};
+    console.log("here");
+    cust.subscribed = !cust.subscribed;
+    this.setState({      
+      customer: cust
+    })
   }
 
   handleAddress(field, value) {
@@ -133,9 +143,7 @@ class CustomerForm extends Component {
   }
 
   checkDisabled() {
-    const disabled =
-      this.state.customer.baseContact.lastName && this.state.customer.userId;
-    return disabled;
+    return this.state.customer.baseContact.firstname != "";
   }
 
   render() {
@@ -143,9 +151,6 @@ class CustomerForm extends Component {
     const { loading, fields } = this.props.customerForm;
     const { edit, title } = this.props;
 
-    // For testing
-    console.log("test")
-    console.log(customer)
 
     const formFields = {
       firstName: (
@@ -171,9 +176,9 @@ class CustomerForm extends Component {
           control={
             <Checkbox
               // checked={true}
-              value={customer.baseContact.subscribed}
+              checked={customer.subscribed}
               target="subscribed"
-              handleChange={this.handleContact}
+              onClick={this.handleChecked}
             />
           }
           

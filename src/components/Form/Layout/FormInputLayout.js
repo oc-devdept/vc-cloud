@@ -11,7 +11,6 @@ const FormInputLayout = props => (
     <div className="col-lg-6 px-20">
       <div className="row justify-content-center">
         <div className="col-md-5 d-block">
-          {console.log(props.leftCol)}
           {props.leftCol &&
             props.leftCol.map((col, key) => (
               <React.Fragment key={key}>{col}</React.Fragment>

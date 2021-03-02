@@ -6,7 +6,7 @@ import ShowLatestFollowUps from "./ShowLatestFollowups";
 import { Button } from "@material-ui/core";
 
 function CustomerCard({ cust, _handleDeployAgent }) {
-  const { name } = cust;
+  const { name, subscribed } = cust;
   const { email, phone, address } = cust.baseContact;
 
   return (
@@ -22,7 +22,7 @@ function CustomerCard({ cust, _handleDeployAgent }) {
             : { classes: "border-danger text-danger", name: "Inactive" }
         }
       />
-      <i><h4>Subscribed</h4></i>
+      <i><h4>{ subscribed ? "Subscribed" : "Not subscribed" }</h4></i>
       <div className="profile-card-section">
         <div className="profile-heading">
           <RecentActors />
