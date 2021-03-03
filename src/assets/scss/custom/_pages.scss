@@ -142,19 +142,19 @@
 
 /*======== About Scss =========*/
 
-.section-title::after {
-  content: "";
-  width: 70px;
-  height: 1px;
-  display: inline-block;
-  border: 2px solid $pink;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 6px auto;
-  border-radius: 30px;
-  transition: all 0.3s ease-in-out 0s;
-}
+// .section-title::after {
+//   content: "";
+//   width: 70px;
+//   height: 1px;
+//   display: inline-block;
+//   border: 2px solid $pink;
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   margin: 6px auto;
+//   border-radius: 30px;
+//   transition: all 0.3s ease-in-out 0s;
+// }
 
 .card-content {
   p {
