@@ -6,7 +6,7 @@
     "start": "npm run dev",
     "staging": "webpack --env.API_URL=https://staging-api.everydaycrm.sg/api --mode production",
     "dev": "webpack-dev-server --env.API_URL=http://localhost:3001/api  --mode development --inline --progress",
-    "build": "webpack --env.API_URL=http://128.199.219.155:3001/api  --mode production"
+    "build": "webpack --env.API_URL=http://157.230.248.96:3001/api  --mode production"
   },
   "keywords": [
     "reactjs"

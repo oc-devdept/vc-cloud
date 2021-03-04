@@ -16,9 +16,9 @@ const FilterSidebar = props => {
     const [selectedFilters, setSelectedFilters] = useState(["Lead", "Deal"]);
     useEffect(()=> {
         if(calendarSettings.length > 0){
-            let cals = [...selectedFilters];
+            let cals = ["Lead", "Deal"];
             for(let i=0; i < calendarSettings.length; i++){
-                if(calendarSettings[i].settingType == "booking" || calendarSettings[i].settingType == "others"){
+                if(calendarSettings[i].settingType == "booking" || calendarSettings[i].settingType == "others"){                    
                     cals.push(calendarSettings[i].name);
                 }
             }
@@ -29,6 +29,7 @@ const FilterSidebar = props => {
 
     const handleChange = event => {
         let cals = [...selectedFilters];
+        console.log(cals);
         let num = cals.indexOf(event.target.value);
         if(num == -1){
            cals.push(event.target.value);   
