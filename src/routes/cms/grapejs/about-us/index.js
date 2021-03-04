@@ -4,14 +4,10 @@ import 'grapesjs/dist/css/grapes.min.css';
 import 'grapick/dist/grapick.min.css';
 
 import grapesjs from 'grapesjs';
-import grapesjsloryslider from 'grapesjs-lory-slider';
-import grapesjstabs from 'grapesjs-tabs';
-import grapesjscustomcode from 'grapesjs-custom-code';
+
 import grapesjstouch from 'grapesjs-touch';
 import grapesjsparserpostcss from 'grapesjs-parser-postcss';
-import grapesjstooltip from 'grapesjs-tooltip';
-import grapesjstuiimageeditor from 'grapesjs-tui-image-editor';
-import grapesjstyped from 'grapesjs-typed';
+
 import gjspresetwebpage from 'Components/grapesjs-preset-webpage';
 import grapesjsgradient from 'grapesjs-style-gradient';
 import gjsstyledbg from 'grapesjs-style-bg';
@@ -21,29 +17,42 @@ import grapesjslogo from 'Assets/img/grapejsStock/grapesjs-logo-cl.png';
 
 import aboutUsBgImage from "Assets/img/grapejsStock/about-us-banner.jpg"
 import { updateCmspage } from 'Ducks/cms/cmspage';
+import api from "Api";
 
 
 class GrapeJSAbout extends Component {
 
 
-  uploadFileProcess = (e) => {
-    console.log("files to uploader");
+  uploadFileProcess = async (e, editor) => {
+    console.log("uploading");
+    
+    var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+    var data = new FormData();
+    data.append('upload', files[0]);
+    data.append('type', 'Cmspage');
+    data.append('typeId', "603b075920379844fc4e8722");
+    data.append("uploadType","file");
+    let uploaded = await api.post('uploadfiles/cloudUpload', data);
+    
+    let dt = uploaded.data.data.map(item => item.path);
+    editor.AssetManager.add(dt);
+    
   }
+
+
+    
+  
+  
 
   savePage = (html, css) => {
     this.props.updateCmspage({ id: "603b075920379844fc4e8722", html: html, css: css});
   }
 
 
-  componentDidMount(){
-
-    var lp = './img/';
-    var plp = '//placehold.it/350x250/';
-    var images = [
-      lp+'team1.jpg', lp+'team2.jpg', lp+'team3.jpg', plp+'78c5d6/fff/image1.jpg', plp+'459ba8/fff/image2.jpg', plp+'79c267/fff/image3.jpg',
-      plp+'c5d647/fff/image4.jpg', plp+'f28c33/fff/image5.jpg', plp+'e868a2/fff/image6.jpg', plp+'cc4360/fff/image7.jpg',
-      lp+'work-desk.jpg', lp+'phone-app.png', lp+'bg-gr-v.png'
-    ];
+  async componentDidMount(){
+    let imageData = await api.get('uploadfiles/assets');
+    let images = imageData.data.data.map(img => img.path);
+    
     let height = window.innerHeight + 90;
 
     var editor  = grapesjs.init({
@@ -54,7 +63,8 @@ class GrapeJSAbout extends Component {
       showOffsets: 1,
       assetManager: {
         embedAsBase64: 1,
-        assets: images
+        assets: images,
+        uploadFile: (e) => this.uploadFileProcess(e, editor)
       },
       storageManager: false,
         // Avoid any default panel
@@ -62,43 +72,14 @@ class GrapeJSAbout extends Component {
         selectorManager: { componentFirst: true },
         styleManager: { clearProperties: 1 },
       plugins: [
-        grapesjsloryslider,
-          grapesjstabs,
-          grapesjscustomcode,
           grapesjstouch,
           grapesjsparserpostcss,
-          grapesjstooltip,
-          grapesjstuiimageeditor,
-          grapesjstyped,
           grapesjsgradient,
           gjsstyledbg,
         gjspresetwebpage,
       ],
       pluginsOpts: {
-        'grapesjs-lory-slider': {
-          sliderBlock: {
-            category: 'Extra'
-          }
-        },
-        'grapesjs-tabs': {
-          tabsBlock: {
-            category: 'Extra'
-          }
-        },
-        'grapesjs-typed': {
-          block: {
-            category: 'Extra',
-            content: {
-              type: 'typed',
-              'type-speed': 40,
-              strings: [
-                'Text row one',
-                'Text row two',
-                'Text row three',
-              ],
-            }
-          }
-        },
+        
     
         'gjs-preset-webpage': {
           modalImportTitle: 'Import Template',
@@ -149,7 +130,7 @@ class GrapeJSAbout extends Component {
       stop: function() {},
     });
 
-
+ /*
 
     // Add info command
     var mdlClass = 'gjs-mdl-dialog-sm';
@@ -165,6 +146,7 @@ class GrapeJSAbout extends Component {
         mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
       })
     });
+   
     pn.addButton('options', {
       id: 'open-info',
       className: 'fa fa-question-circle',
@@ -174,7 +156,7 @@ class GrapeJSAbout extends Component {
         'data-tooltip-pos': 'bottom',
       },
     });
-
+*/
 
     // Simple warn notifier
     var origWarn = console.warn;
@@ -195,7 +177,7 @@ class GrapeJSAbout extends Component {
     // Add and beautify tooltips
     [['sw-visibility', 'Show Borders'], ['preview', 'Preview'], ['fullscreen', 'Fullscreen'],
      ['export-template', 'Export'], ['undo', 'Undo'], ['redo', 'Redo'],
-     ['gjs-open-import-webpage', 'Import'], ['canvas-clear', 'Clear canvas']]
+      ['canvas-clear', 'Clear canvas']]
     .forEach(function(item) {
       pn.getButton('options', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
     });
@@ -280,16 +262,7 @@ class GrapeJSAbout extends Component {
         property: 'background',
         type: 'bg',
       }])
-
-      editor.StyleManager.addProperty('layout', 
-        {
-          name: "Flex",
-          property: "flex",
-          type: "integer",
-          min: 1,
-          defaults: "1"          
-        }, { at: 2}
-      )
+    
       
       // Open block manager
       var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');

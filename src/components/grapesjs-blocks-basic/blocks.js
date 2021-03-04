@@ -7,6 +7,17 @@ export default function (editor, opt = {}) {
   const basicStyle = c.addBasicStyle;
   const clsRow = `${stylePrefix}row`;
   const clsCell = `${stylePrefix}cell`;
+  const styleRow = `
+  .${clsRow} {    
+    margin-left:0;
+    margin-right:0
+  }
+  `;
+  const styleClm = `
+  .${clsCell} {
+    min-height: 75px;
+  }`;
+  /*
   const styleRow = flexGrid ? `
     .${clsRow} {
       display: flex;
@@ -15,17 +26,16 @@ export default function (editor, opt = {}) {
       flex-wrap: nowrap;
       padding: 10px;
     }
-    @media (max-width: 768px) {
-      .${clsRow} {
-        flex-wrap: wrap;
-      }
-    }` : `
+    ` : `
     .${clsRow} {
       display: table;
       padding: 10px;
       width: 100%;
     }
     @media (max-width: 480px) {
+      .${clsRow} {
+        flex-wrap: wrap;
+      }
       .${stylePrefix}cell, .${stylePrefix}cell30, .${stylePrefix}cell70 {
         width: 100%;
         display: block;
@@ -50,7 +60,7 @@ export default function (editor, opt = {}) {
   .${stylePrefix}cell70 {
     width: 70%;
   }`;
-
+*/
   const step = 0.2;
   const minDim = 1;
   const currentUnit = 1;
@@ -104,6 +114,63 @@ export default function (editor, opt = {}) {
   const attrsRow = attrsToString(rowAttr);
   const attrsCell = attrsToString(colAttr);
 
+  toAdd('column1') && bm.add('column1', {
+    label: c.labelColumn1,
+    category: c.category,
+    attributes: {class:'gjs-fonts gjs-f-b1'},
+    content: `<div class='row ${clsRow}'>
+        <div class='col-12 ${clsCell}'></div>
+      </div>
+      <style>
+          ${styleRow}
+          ${styleClm}
+        </style>`
+  });
+
+  toAdd('column2') && bm.add('column2', {
+    label: c.labelColumn2,
+    attributes: {class:'gjs-fonts gjs-f-b2'},
+    category: c.category,
+    content: `<div class='row ${clsRow}'>
+        <div class='col-md-6 ${clsCell}'></div>
+        <div class='col-md-6 ${clsCell}'></div>
+      </div>
+      <style>
+          ${styleRow}
+          ${styleClm}
+        </style>
+      `        
+  });
+
+  toAdd('column3') && bm.add('column3', {
+    label: c.labelColumn3,
+    category: c.category,
+    attributes: {class:'gjs-fonts gjs-f-b3'},
+    content: `<div class='row ${clsRow}'>
+        <div class='col-md-4 col-sm-12 ${clsCell}'></div>
+        <div class='col-md-4 col-sm-12 ${clsCell}'></div>
+        <div class='col-md-4 col-sm-12 ${clsCell}'></div>
+      </div>
+      <style>
+      ${styleRow}
+      ${styleClm}
+    </style>`   
+  });
+
+  toAdd('column3-7') && bm.add('column3-7', {
+    label: c.labelColumn37,
+    category: c.category,
+    attributes: {class:'gjs-fonts gjs-f-b37'},
+    content: `<div class='row ${clsRow}'>
+        <div class='col-md-4 col-sm-12 ${clsCell}'></div>
+        <div class='col-md-8 col-sm-12 ${clsCell}'></div>        
+      </div>
+      <style>
+          ${styleRow}
+          ${styleClm}
+        </style>`    
+  });
+/*
   toAdd('column1') && bm.add('column1', {
     label: c.labelColumn1,
     category: c.category,
@@ -169,6 +236,8 @@ export default function (editor, opt = {}) {
         </style>`
         : ''}`
   });
+
+  */
 
   toAdd('text') && bm.add('text', {
     label: c.labelText,

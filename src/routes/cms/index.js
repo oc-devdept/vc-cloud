@@ -104,18 +104,11 @@ function cmsSwitcher() {
                     path={`${url.grapeJsPage}`}
                     component={async.cms_grapejs}
                 />
-
-                <Route
-                    exact
-                    path={`${url.grapeJsPage}/terms-n-conditions`}
-                    component={async.cms_grapejs_terms_n_conditions}
+                <Route                    
+                    path={`${url.grapeJsPage}/edit/:id`}
+                    component={async.cms_grapejs_edit}
                 />
 
-                <Route
-                    exact
-                    path={`${url.grapeJsPage}/about-us`}
-                    component={async.cms_grapejs_about_us}
-                />
 
                 {/* ------- /404 ------- */}
                 <Redirect to="/404" />

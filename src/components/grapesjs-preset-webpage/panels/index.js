@@ -55,10 +55,6 @@ export default (editor, config) => {
       className: 'fa fa-repeat',
       command: e => e.runCommand('core:redo'),
     },{
-      id: cmdImport,
-      className: 'fa fa-download',
-      command: e => e.runCommand(cmdImport),
-    },{
       id: cmdClear,
       className: 'fa fa-trash',
       command: e => e.runCommand(cmdClear),
@@ -84,6 +80,14 @@ export default (editor, config) => {
       className: 'fa fa-th-large',
     }],
   }]);
+
+  /*
+{
+      id: cmdImport,
+      className: 'fa fa-download',
+      command: e => e.runCommand(cmdImport),
+    },
+  */
 
   // Add devices buttons
   const panelDevices = pn.addPanel({id: 'devices-c'});

@@ -1,19 +1,19 @@
 import grapesjs from 'grapesjs';
 import pluginBlocks from '../grapesjs-blocks-basic';
-import pluginNavbar from 'grapesjs-navbar';
-import pluginCountdown from 'grapesjs-component-countdown';
-import pluginForms from 'grapesjs-plugin-forms';
+//import pluginNavbar from 'grapesjs-navbar';
+//import pluginCountdown from 'grapesjs-component-countdown';
+//import pluginForms from 'grapesjs-plugin-forms';
 import pluginExport from 'grapesjs-plugin-export';
 import pluginAviary from 'grapesjs-aviary';
 import pluginFilestack from 'grapesjs-plugin-filestack';
 
 import commands from './commands';
-import blocks from './blocks';
+//import blocks from './blocks';
 import components from './components';
 import panels from './panels';
 import styles from './styles';
 
-export default grapesjs.plugins.add('gjs-preset-webpage', (editor, opts = {}) => {
+export default grapesjs.plugins.add('gjs-preset-webpage', (editor, opts = {}) => {  
   let config = opts;
 
   let defaults = {
@@ -93,6 +93,7 @@ export default grapesjs.plugins.add('gjs-preset-webpage', (editor, opts = {}) =>
   };
 
   // Load defaults
+  
   for (let name in defaults) {
     if (!(name in config))
       config[name] = defaults[name];
@@ -110,9 +111,9 @@ export default grapesjs.plugins.add('gjs-preset-webpage', (editor, opts = {}) =>
 
   // Load plugins
   blocksBasicOpts && pluginBlocks(editor, blocksBasicOpts);
-  navbarOpts && pluginNavbar(editor, navbarOpts);
-  countdownOpts && pluginCountdown(editor, countdownOpts);
-  formsOpts && pluginForms(editor, formsOpts);
+  //navbarOpts && pluginNavbar(editor, navbarOpts);
+  //countdownOpts && pluginCountdown(editor, countdownOpts);
+  //formsOpts && pluginForms(editor, formsOpts);
   exportOpts && pluginExport(editor, exportOpts);
   aviaryOpts && pluginAviary(editor, aviaryOpts);
   filestackOpts && pluginFilestack(editor, filestackOpts);
@@ -121,7 +122,7 @@ export default grapesjs.plugins.add('gjs-preset-webpage', (editor, opts = {}) =>
   components(editor, config);
 
   // Load blocks
-  blocks(editor, config);
+  //blocks(editor, config);
 
   // Load commands
   commands(editor, config);
