@@ -8,6 +8,7 @@ import RctSectionLoader from "Components/RctSectionLoader";
 import DialogRoot from "Components/Dialog/DialogRoot";
 import SingleBookingForm from "Components/Booking/SingleBookingForm";
 import RentalList from "./components/RentalList";
+import RentalForm from './components/RentalBookingForm';
 
 // Actions
 import { getBookings, updateBookingStatus } from "Ducks/booking";
@@ -15,7 +16,7 @@ import { getBookings, updateBookingStatus } from "Ducks/booking";
 export default function rental_list(props) {
   const [viewState, setViewState] = React.useState({
     viewDialog: false,
-    bookingToview: null
+    bookingToview: null,
   });
 
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function rental_list(props) {
   } = useSelector(state => state.bookingState);
 
   React.useEffect(() => {
-    dispatch(getBookings("Rental"));
+    //dispatch(getBookings("Rental"));
   }, []);
 
   const handleHideDialog = () => {
@@ -44,6 +45,10 @@ export default function rental_list(props) {
     handleHideDialog();
   };
 
+  const handleNewBooking = () => {
+    setViewState({ viewDialog: true, bookingToview: null});
+  }
+
   return (
     <React.Fragment>
       <Helmet title="Rental List" />
@@ -51,17 +56,19 @@ export default function rental_list(props) {
 
       <BgCard>
         {loading && <RctSectionLoader />}
-        <RentalList tableData={listData} viewBooking={handleOpenDialog} />
+        <RentalList tableData={listData} viewBooking={handleOpenDialog} newBooking={handleNewBooking} />
       </BgCard>
       <DialogRoot
         show={viewState.viewDialog}
         handleHide={handleHideDialog}
         size="md"
       >
-        <SingleBookingForm
+        { viewState.bookingToview != null ? <SingleBookingForm
           SingleBooking={viewState.bookingToview}
           ChangeStatus={ChangeStatus}
-        />
+        /> : 
+        <RentalForm />
+        }
       </DialogRoot>
     </React.Fragment>
   );

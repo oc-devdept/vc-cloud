@@ -49,7 +49,7 @@ export default function rental_cars() {
   };
   const deleteCar = id => {
     dispatch(
-      show("alert_delete", { action: () => dispatch(deleteRentalCar(id)) })
+      show("alert_delete", { name: "Rental car", action: () => dispatch(deleteRentalCar(id)) })
     );
   };
 

@@ -20,6 +20,7 @@ import EventInfo from "./components/EventInfo";
 import NewEventForm from "./components/forms/NewEventForm";
 
 import { getAllEvents, getCalendarSettings, addEvent } from "Ducks/calendar";
+import { getCustomerFormFields } from "Ducks/crm/customer";
 // import { filterChange } from "Com"
 import Popover from "@material-ui/core/Popover";
 import IconButton from '@material-ui/core/IconButton';
@@ -50,6 +51,7 @@ class CRMCalendar extends Component {
   componentDidMount() {
     this.props.getAllEvents();
     this.props.getCalendarSettings();
+    this.props.getCustomerFormFields();
     
   }
 
@@ -101,10 +103,10 @@ class CRMCalendar extends Component {
   }
 
   // show popover on calendar tile click
-  renderEventFormPopover(slotSelected) {
+  renderEventFormPopover(slotSelected, fields) {
     this.setState({
       showPop: !this.state.showPop,
-      component: this.renderForm(slotSelected),
+      component: this.renderForm(slotSelected, fields),
     });
   }
 
@@ -113,27 +115,27 @@ class CRMCalendar extends Component {
       this.setState({
         y: this.state.y + this.state.adjustY,
         showPop: true,
-        component: <EventInfo eventInfo={eventInfo} handleClose={this.closePopover} showEditForm={this.showEditForm} edit={true} />,
+        component: <EventInfo eventInfo={eventInfo} handleClose={this.closePopover} showEditForm={this.showEditForm} edit={true} fields={this.props.customerForm.fields} />,
       });
     });
   }
 
-  renderEventPopover(slotSelected) {
-    this.setState({ showPop: true, component: this.renderEvent(slotSelected) });
+  renderEventPopover(slotSelected, fields) {
+    this.setState({ showPop: true, component: this.renderEvent(slotSelected, fields) });
   }
 
-  renderEvent = (slotSelected) => (
+  renderEvent = (slotSelected, fields) => (
     <React.Fragment>    
-      <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} adjustPosition={this.adjustPopoverPostion} edit={false} showEditForm={this.showEditForm} />
+      <EventInfo eventInfo={slotSelected} handleClose={this.closePopover} adjustPosition={this.adjustPopoverPostion} edit={false} showEditForm={this.showEditForm} fields={fields} />
     </React.Fragment>
   );
 
-  renderForm = (slotSelected) => (
+  renderForm = (slotSelected, fields) => (
     <React.Fragment>
       <div className="d-flex justify-content-center pt-10 text-muted">
         <h2>New Event</h2>
       </div>
-      <NewEventForm dayView={slotSelected} addEvent={this.newEvent} />
+      <NewEventForm dayView={slotSelected} addEvent={this.newEvent} fields={fields} />
     </React.Fragment>
   );
   eventStyleGetter = (event, start, end, isSelected) => {
@@ -160,7 +162,7 @@ class CRMCalendar extends Component {
     };
   };
   render() {
-    const { showEvents } = this.props;
+    const { showEvents, customerForm } = this.props;
     const { showPop, x, y, invis } = this.state;
     return (
       <React.Fragment>
@@ -177,9 +179,9 @@ class CRMCalendar extends Component {
                 localizer={localizer} 
                 events={showEvents} startAccessor="start" endAccessor="end"
                 eventPropGetter={this.eventStyleGetter}
-                onSelectEvent={(slotSelected) => this.renderEventPopover(slotSelected)}
+                onSelectEvent={(slotSelected) => this.renderEventPopover(slotSelected, customerForm.fields)}
                 selectable={true}
-                onSelectSlot={(slotSelected) => this.renderEventFormPopover(slotSelected)}
+                onSelectSlot={(slotSelected) => this.renderEventFormPopover(slotSelected, customerForm.fields)}
                 />
               </div>
             </div>
@@ -214,15 +216,17 @@ class CRMCalendar extends Component {
 }
 
 // map state to props
-const mapStateToProps = ({ calendarState }) => {
+const mapStateToProps = ({ calendarState, crmState }) => {
   const { showEvents, settings } = calendarState;
-  return { showEvents, settings };
+  const { customerForm } = crmState.customerState;
+  return { showEvents, settings, customerForm };
 };
 
 export default connect(mapStateToProps, {
   getAllEvents,
   addEvent,
   getCalendarSettings,
+  getCustomerFormFields,
   show,
 })(CRMCalendar);
 /*

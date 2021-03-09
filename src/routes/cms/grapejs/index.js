@@ -12,8 +12,10 @@ import RctSectionLoader from "Components/RctSectionLoader";
 import Helmet from "Components/Helmet";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import DialogRoot from "Components/Dialog/DialogRoot";
-import { Delete } from "@material-ui/icons";
-
+import { Delete, Add, ArrowUpward, ArrowDownward, Clear, ArrowRightAlt } from "@material-ui/icons";
+import BgCard from "Components/BgCard";
+import FormInput from "Components/Form/FormInput";
+import Button from "@material-ui/core/Button";
 import AddPageForm from './components/formDialog';
 
 import {getAllCmspage, newCmspage, deleteCmspage } from 'Ducks/cms/cmspage';
@@ -173,6 +175,86 @@ class GrapeJSMainList extends Component {
             options={options}
           />
            {loading && <RctSectionLoader />}
+           <br /><br /><br />
+           <BgCard heading="Menu Settings">
+
+             <BgCard heading="Add new" customClasses="formline">
+               <div class="row">
+               <div class="col-md-3">
+                <FormInput
+                  label="Title"
+                  value=""
+                  target="title"                
+                />
+                </div>
+                <div class="col-md-3">
+                <FormInput
+                  label="URL"
+                  value=""
+                  target="url"                
+                />
+                </div>
+                
+                <div class="col-md-3">
+                <Button 
+               variant="contained"
+               size="medium"
+                color="primary"
+                className="text-white"                                          
+              >
+                  Add
+              </Button>
+                </div>
+                </div>
+             </BgCard>             
+
+           <ul className="menuSetting">
+              <li>
+              <span>Page Two</span>  <IconButton>
+                  <ArrowUpward />
+                </IconButton>
+                <IconButton>
+                  <ArrowDownward />
+                </IconButton>
+                <IconButton>
+                  <Clear />
+                </IconButton>
+              </li>
+              <li>
+               <span>Page Two</span> 
+                
+                <IconButton>
+                  <ArrowRightAlt />
+                </IconButton>
+                <IconButton>
+                  <ArrowUpward />
+                </IconButton>
+                <IconButton>
+                  <ArrowDownward />
+                </IconButton>
+                <IconButton>
+                  <Clear />
+                </IconButton>
+                       
+              </li>
+              <li class="child">
+              <span>Page Two</span> 
+              </li>
+              <li class="child">
+              <span>Page Two</span> 
+              </li>
+           </ul>
+           <Button 
+               variant="contained"
+               size="medium"
+                color="primary"
+                className="text-white"                                          
+              >
+                  Save Changes
+              </Button>
+           </BgCard>
+           
+
         <DialogRoot show={this.state.showForm} handleHide={this.hideForm}>
           <AddPageForm saveForm={this.saveForm} toEdit={this.state.toEdit} />
         </DialogRoot>

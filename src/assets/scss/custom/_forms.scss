@@ -55,3 +55,33 @@
     height: $input-height !important;
   }
 }
+
+.formline {
+  .rct-block-title {
+    padding-bottom:0.5rem;
+  }
+  .rct-block-content {
+    padding: 0.5rem 1.25rem;
+  }
+  button {
+    width:70px;
+    height:40px;
+    margin-top:1.6rem;
+  }
+}
+
+.menuSetting {
+  margin-left:40px;
+  list-style-type: none;
+ 
+}
+
+.menuSetting li {
+  border:1px solid rgb(150, 150, 150);
+  width:400px;
+  padding:3px;
+  margin-bottom:5px;
+
+
+}
+

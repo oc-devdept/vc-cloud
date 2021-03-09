@@ -37,7 +37,7 @@ class NewEventForm extends Component {
       selectValues: [
         { value: "Lead", name: "Lead" },
         { value: "Deal", name: "Deal" },
-      ]
+      ]      
     };
     this.editField = this.editField.bind(this);
     this.showDesc = this.showDesc.bind(this);
@@ -113,7 +113,7 @@ class NewEventForm extends Component {
   };
 
   render() {
-    const { title, desc, start, end, allDay, eventableType, customerId } = this.state;    
+    const { title, desc, start, end, allDay, eventableType, customerId, userId } = this.state;    
     return (
       <form autoComplete="off">
         <FormInput
@@ -160,12 +160,21 @@ class NewEventForm extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12">
+          <div className="col-6">
           <CustomerPicker
           value={customerId}
           target="customerId"
           handleChange={this.editField}
         />
+            </div>
+            <div className="col-6">
+            <FormInput
+              label="Assigned Staff"
+              value={userId}
+              target="userId"
+              handleChange={this.editField}
+              selectValues={this.props.fields.users}                           
+            />
             </div>
         </div>
         <div className="row">

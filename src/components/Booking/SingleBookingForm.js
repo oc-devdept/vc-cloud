@@ -25,7 +25,8 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes, SaveRemarks }) => {
     content,
     id,
     notes,
-    remarks
+    remarks,
+    userInfo
   } = SingleBooking;
   const { firstName, lastName, email, phone } = contact;
   const { model, date, timeslot, description } = content;
@@ -67,7 +68,8 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes, SaveRemarks }) => {
                   Service: service,
                   Model: model,
                   Status: status,
-                  Description: description
+                  Description: description,
+                  Owner: userInfo.name
                 }}
               />
             </div>

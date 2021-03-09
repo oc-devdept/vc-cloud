@@ -95,6 +95,7 @@ class EventInfoDialog extends Component {
               submitEdit={this.submitEdit}
               closeForm={this.props.handleClose}
               eventSelectValues={this.state.selectValues}
+              fields={this.props.fields}
             />
           ) : (
 

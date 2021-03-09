@@ -10,8 +10,8 @@ import CustomerPicker from "Routes/crm/components/CustomerPicker";
 
 
 function EditableEventInfo(props) {
-  const { info, onDelete, editField, closeForm, submitEdit, eventSelectValues } = props;
-  const { id, start, end, title, desc, allDay, cus, customerId, eventableType, service } = info;
+  const { info, onDelete, editField, closeForm, submitEdit, eventSelectValues, fields } = props;
+  const { id, start, end, title, desc, allDay, cus, customerId, eventableType, service, userId } = info;
   const eType = eventableType == "Booking" ? service : eventableType;
   return (
     <React.Fragment>
@@ -65,13 +65,22 @@ function EditableEventInfo(props) {
           </div>
         </div>
         <div className="row">
-          <div className="col-12">
+          <div className="col-6">
           <CustomerPicker
           value={customerId}
           displayValue={cus ? cus.name: ""}
           target="customerId"
           handleChange={editField}
         />
+            </div>
+            <div className="col-6">
+            <FormInput
+              label="Assigned Staff"
+              value={userId}
+              target="userId"
+              handleChange={editField}
+              selectValues={fields.users}                           
+            />
             </div>
         </div>
         <div className="row">

@@ -4,7 +4,8 @@ import RecordsList from "Components/RecordsList";
 import { listOptions, getTheDate, getDateTime } from "Helpers/helpers";
 
 import { IconButton } from "@material-ui/core";
-import { Delete, Visibility } from "@material-ui/icons";
+import { Add, Delete, Visibility } from "@material-ui/icons";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function RentalList(props) {
   const { tableData, viewBooking } = props;
@@ -93,8 +94,16 @@ export default function RentalList(props) {
   ];
 
   const options = Object.assign({}, listOptions, {
-    setTableProps: () => ({ size: "small" })
+    setTableProps: () => ({ size: "small" }),
+    customToolbar: () => (
+      <Tooltip id="tooltip-icon" title={"Add Rental"}>
+          <IconButton className="mr-2" aria-label={"Add Rental"} onClick={props.newBooking}>
+              <Add />
+          </IconButton>
+      </Tooltip>
+    )
   });
+  
 
   return <RecordsList columns={columns} data={tableData} options={options} />;
 }

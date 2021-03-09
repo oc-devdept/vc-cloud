@@ -8,7 +8,7 @@ import { show, hide } from "redux-modal";
 
 import ItemList from "Components/Settings/itemList";
 import AddItemDialog from "Components/Settings/itemForm";
-import { getRentalCategory, createRentalCategory } from 'Ducks/rental';
+import { getRentalCategory, createRentalCategory, deleteRentalCategory, updateRentalCategory } from 'Ducks/rental';
 const RentalSettings = (props) => {
     const dispatch = useDispatch();
 
@@ -22,21 +22,29 @@ const RentalSettings = (props) => {
         dispatch(show("add_itemsetting_form", {addItem: addNewSetting, itemName: "Rental Category", hide: hide}));
     }
     const editSetting = (id) => {
+        const toEdit = categories.find(cat => cat.id == id);
+        dispatch(show("add_itemsetting_form", { toEdit: toEdit, editItem: updateSetting, itemName: "Rental Category", hide: hide}));
 
     }
     const deleteSetting = (id, typeName) => {
-
+        dispatch(show("alert_delete", {
+            name: typeName,
+            action: () => handleDelete(id)
+        }))
     }
 
     const handleDelete = id => {
-
+        dispatch(deleteRentalCategory(id));
     }
 
-    const addNewSetting = val => {
+    const addNewSetting = val => {        
         dispatch(createRentalCategory({ name: val}));
+        dispatch(hide("add_itemsetting_form"));
     }
 
     const updateSetting = (id, val) => {
+        dispatch(updateRentalCategory(id, {name: val} ));
+        dispatch(hide("add_itemsetting_form"));
 
     }
 

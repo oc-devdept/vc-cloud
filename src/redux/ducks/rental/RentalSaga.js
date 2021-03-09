@@ -31,9 +31,11 @@ const getRentalCatRequest = async () => {
 };
 const createRentalCategory = async data => {
   const result = await api.post('/rentalCarCategories', data);
+  return result.data;
 }
 const updateRentalCategoryRequest = async ({id, data}) => {
   const result = await api.patch(`rentalCarCategories/${id}`, data);
+  return result.data;
 }
 const deleteRentalCategory = async id => {
   const result = await api.delete(`rentalCarCategories/${id}`);
@@ -88,9 +90,9 @@ function* getRentalCat() {
 function* createRentalCat({ payload }) {
   try {
     const data = yield call(createRentalCategory,payload);
-    yield put(actions.createRentalCarSuccess(data));
+    yield put(actions.createRentalCategorySuccess(data));
   } catch (error) {
-    yield put(actions.createRentalCarFailure(error));
+    yield put(actions.createRentalCategoryFailure(error));
   }
 }
 
