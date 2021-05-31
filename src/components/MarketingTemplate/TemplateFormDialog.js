@@ -109,11 +109,13 @@ class TemplateFormDialog extends Component {
   };
 
   onSubmit = () => {
-    this.editor.exportHtml((data) => {
-      const { design, html } = data;
-      this.props.toEdit.id ? this.props.onSave({ ...this.props.toEdit, html, design }) : this.props.onSave({ design, html });
-      this.props.handleHide();
-    });
+  
+      this.editor.exportHtml((data) => {
+        const { design, html } = data;
+        this.props.toEdit.id ? this.props.onSave({ ...this.props.toEdit, html, design }) : this.props.onSave({ design, html });      
+        this.props.handleHide();
+      });
+  
   };
 
   render() {
@@ -135,6 +137,15 @@ class TemplateFormDialog extends Component {
                 background-color: white;
               }`,
             ],
+          }}
+          tools={{
+            button: {
+              properties: {
+                buttonColors: {
+                  value: {color: "#ffffff", backgroundColor:"#000000"}
+                }
+              }
+            }
           }}
           ref={(editor) => (this.editor = editor)}
           onLoad={this.onLoad}

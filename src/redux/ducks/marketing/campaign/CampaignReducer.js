@@ -3,7 +3,8 @@ import * as types from "./CampaignTypes";
 
 const INIT_STATE = {
   campaignList: {
-    list: [],
+    tableData: [],
+    totalCount: 0,
     loading: false
   },
   campaignToView: {
@@ -33,7 +34,7 @@ export default (state = INIT_STATE, action) => {
         campaignList: {
           ...state.campaignList,
           loading: false,
-          list: action.payload
+          tableData: action.payload
         }
       };
     case types.GET_ALL_CAMPAIGN_FAILURE:

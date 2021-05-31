@@ -1,22 +1,32 @@
 import React from "react";
+import BgCard from "Components/BgCard";
 
 // Chart component
 import { Doughnut } from "react-chartjs-2";
 
 function RecipientChart(props) {
-  const { stat } = props;
-
+  const { stats } = props;
+  let chartLabels = [];
+  let cData = [];
+  for (let i = 0; i < stats.length; i++) {
+    chartLabels.push(stats[i].label);
+    cData.push(stats[i].field);
+  }
   const chartData = {
-    labels: ["Soft Bounce", "Hard Bounce", "Delivered", "Unsubscribed"],
+    labels: chartLabels,
     datasets: [
       {
-        data: [10, 20, 30, 40],
+        data: cData,
         backgroundColor: ["#8D99AE", "#D0CFCF", "#565254", "#2E4052"]
       }
     ]
   };
-
-  return <Doughnut data={chartData} />;
+  return (
+    <BgCard heading="Sending Overview">
+      <Doughnut data={chartData} />
+    </BgCard>
+  );
+  //return <Doughnut data={chartData} />;
 }
 
 export default RecipientChart;

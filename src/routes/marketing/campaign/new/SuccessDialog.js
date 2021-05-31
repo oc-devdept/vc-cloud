@@ -10,7 +10,7 @@ import { closeCampaignSuccess } from "Ducks/marketing/campaign";
 function CampaignSuccessDialog(props) {
   const { successDialog } = props;
   function handleClose() {
-    props.history.push("/app/marketing/campaign");
+    props.history.push("/app/marketing/campaigns");
     props.closeCampaignSuccess();
   }
 

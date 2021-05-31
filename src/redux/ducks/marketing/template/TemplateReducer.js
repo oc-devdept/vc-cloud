@@ -21,8 +21,7 @@ export default (state = INIT_STATE, action) => {
     case types.GET_ALL_TEMPLATE:
       return { ...state, loading: true };
     case types.GET_FILTER_TEMPLATE_SUCCESS:
-      console.log("in reducer");
-      console.log(action.payload);
+     
       // console.log(state.adminTemplateList);
       // console.log(action.payload);
       return {

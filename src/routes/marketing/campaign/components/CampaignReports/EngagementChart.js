@@ -1,25 +1,58 @@
 import React from "react";
 import BgCard from "Components/BgCard";
-
 // Chart component
 import { Doughnut } from "react-chartjs-2";
+//List components
+/*
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    maxWidth: 700,
+    backgroundColor: theme.palette.background.paper,
+    position: "relative",
+    overflow: "auto",
+    maxHeight: 283,
+  },
+  listSection: {
+    backgroundColor: "inherit",
+  },
+  ul: {
+    backgroundColor: "inherit",
+    padding: 0,
+  },
+  profileTabs: {
+    width: "100%",
+    padding: 0,
+  },
+}));
+
+*/
 
 function EngagementChart(props) {
-  const { stat } = props;
+  //const classes = useStyles();
+  const { stats } = props;
+  let chartLabels = [];
+  let cData = [];
+  for (let i = 0; i < stats.length; i++) {
+    chartLabels.push(stats[i].label);
+    cData.push(stats[i].field);
+  }
 
   const chartData = {
-    labels: ["Soft Bounce", "Hard Bounce", "Delivered", "Unsubscribed"],
+    labels: chartLabels,
     datasets: [
       {
-        data: [10, 20, 30, 40],
-        backgroundColor: ["#a1fa57", "#57d8fa", "#fa5779", "#fada57"]
-      }
-    ]
+        data: cData,
+        backgroundColor: ["#a1fa57", "#57d8fa", "#fa5779", "#fada57"],
+      },
+    ],
   };
 
   return (
     <BgCard heading="Engagement Overview">
-      <Doughnut data={chartData} />
+          <Doughnut data={chartData} />
+        
     </BgCard>
   );
 }

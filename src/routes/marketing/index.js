@@ -17,13 +17,29 @@ function marketingSwitcher() {
         />
         <Route
           exact
-          path={url.campaignPage}
-          component={async.marketing_campaign}
+          path={url.marketingListPage}
+          component={async.marketing_list}
         />
         <Route
           exact
-          path={url.newCampaignPage}
+          path={url.marketingSingleListPage+"/:id"}
+          component={async.marketing_list_single}
+        />
+       
+        <Route
+          exact
+          path={url.campaignListPage}
+          component={async.marketing_campaign}
+        />
+         <Route
+          exact
+          path={url.campaignNewPage}
           component={async.marketing_campaign_new}
+        />
+        <Route
+          exact
+          path={`${url.campaignListPage}/:id`}
+          component={async.marketing_single_campaign}
         />
         <Route
           exact

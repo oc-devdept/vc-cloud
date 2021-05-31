@@ -8,6 +8,10 @@ export const marketing_list = Loadable({
   loader: () => import("./list"),
   loading: () => <RctPageLoader />
 });
+export const marketing_list_single = Loadable({
+  loader: () => import("./SingleList"),
+  loading: () => <RctPageLoader />
+});
 export const marketing_campaign = Loadable({
   loader: () => import("./campaign"),
   loading: () => <RctPageLoader />
@@ -16,6 +20,11 @@ export const marketing_campaign_new = Loadable({
   loader: () => import("./campaign/new"),
   loading: () => <RctPageLoader />
 });
+export const marketing_single_campaign = Loadable({
+  loader: () => import("./campaign/view"),
+  loading: () => <RctPageLoader />
+});
+
 export const marketing_template = Loadable({
   loader: () => import("./template"),
   loading: () => <RctPageLoader />

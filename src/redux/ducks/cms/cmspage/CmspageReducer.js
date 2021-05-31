@@ -8,7 +8,9 @@ const INIT_STATE = {
     tableData: []
   },
   singlePage: {
-  },  
+  },
+  availablePages: [],
+  cmsMenu: []  
 };
 
 export default (state = INIT_STATE, action) => {
@@ -45,6 +47,9 @@ export default (state = INIT_STATE, action) => {
     case types.NEW_CMSPAGE:
     case types.UPDATE_CMSPAGE:
     case types.DELETE_CMSPAGE:
+    case types.GET_ALL_MENUPAGES:
+    case types.GET_CMS_MENU:
+    case types.SAVE_CMS_MENU:
       return { ...state, loading: true };
     case types.NEW_CMSPAGE_SUCCESS:
       NotificationManager.success('Created Page Successfully!');
@@ -76,7 +81,7 @@ export default (state = INIT_STATE, action) => {
         loading: false,
         pageList: {
           ...state.pageList,
-          data: pages
+          tableData: pages
         },
         singlePage: action.payload
       };
@@ -97,7 +102,39 @@ export default (state = INIT_STATE, action) => {
           tableData: pages
         }
       }
-      
+    case types.GET_ALL_MENUPAGES_SUCCESS:
+      let allPages = action.payload.data.map(item => { return { name: item, value: item}})
+      return {        
+        ...state,
+        loading: false,
+        availablePages: allPages
+      }
+    case types.GET_CMSMENU_SUCCESS:
+      return {
+        ...state,
+        loading:false,
+        cmsMenu: action.payload.data
+      }
+    case types.GET_CMSMENU_FAILURE:
+      NotificationManager.warning("Failed to get CMS Menu");
+      return {
+        ...state,
+        loading: false
+      }
+    case types.SAVE_CMSMENU_SUCCESS:
+      NotificationManager.success("Menu Saved");
+      return {
+        ...state,
+        loading: false,
+        cmsMenu: action.payload.data
+      }
+    case types.SAVE_CMSMENU_FAILURE:
+      NotificationManager.warning("Failed to save CMS Menu");
+      return {
+        ...state,
+        loading: false
+      }
+    
 
     default:
       return { ...state };

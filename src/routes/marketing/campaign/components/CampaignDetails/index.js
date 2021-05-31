@@ -37,6 +37,54 @@ function CampaignDetails(props) {
     { label: "Total Clicks", field: "clickers" }
   ];
 
+  if(data.triggerName){
+    let returnVal = "";
+    switch(data.triggerName){
+        case "newsletter":
+            returnVal = "User signs up for newsletter";
+            break;
+        case "register":
+            returnVal = "User registers on website";
+            break;
+        case "enquiry":
+            returnVal = "User sends enquiry on website";
+            break;
+        case "pdfdownload":
+            returnVal = "User downloads PDF configurator";
+            break;
+        case "testdrive":
+            returnVal = "User makes test drive booking";
+            break;
+        case "maintenance":
+            returnVal = "User makes maintenance booking";
+            break;
+        case "canceltestdrive":
+            returnVal = "User cancels Test drive booking";
+            break;
+        case "cancelmaintenance":
+            returnVal = "User cancels Maintenance booking";
+            break;
+        case "bookingConfirmed":
+            returnVal = "Booking confirmed";
+            break;
+        case "bookingRejected":
+            returnVal = "Booking rejected";
+            break;
+        case "bookingProcessing":
+            returnVal = "Booking set to Processing";
+            break;
+        case "bookingComplete":
+            returnVal = "Booking Completed";
+            break;
+        case "bookingChangeRequest":
+            returnVal = "Booking Change request sent by customer"
+            break;        
+    }
+    mainDetails.push({
+      label: "Trigger Name", field: returnVal})
+    mainDetails.push({label: "Trigger Days", field: data.triggerDays});
+  }
+
   return (
     <BgCard heading="Campaign Details">
       <div className="row">

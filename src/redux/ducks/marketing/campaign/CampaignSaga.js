@@ -1,4 +1,4 @@
-import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
 import {
   GET_ALL_CAMPAIGN,
   GET_CAMPAIGN,
@@ -37,6 +37,10 @@ const newCampaignRequest = async data => {
   const result = await api.post("/Campaigns/newCampaign", { data });
   return result.data;
 };
+const getTaskStatusRequest = async (taskId) => {
+  const result = await api.get(`/taskmanagers/${taskId}`);
+  return result.data;
+};
 const sendCampaignRequest = async id => {
   const result = await api.post(`/Campaigns/sendNow/${id}`);
   return result.data.success;
@@ -68,8 +72,29 @@ function* getCampaign({ payload }) {
 function* newCampaign({ payload }) {
   try {
     const data = yield call(newCampaignRequest, payload);
+    if(payload.sendNow){
+      let taskId = data.newCampaign.taskId;
+      let waitTime = 10;
+      yield delay(waitTime * 1000);
+      let taskData = yield call(getTaskStatusRequest, taskId);
+      while (taskData.status == 1) {
+        yield delay(waitTime * 1000);
+        taskData = yield call(getTaskStatusRequest, taskId);
+      }
+      if (taskData.status == 2) {
+        if (taskData.description.error != undefined) {
+          yield put(sendCampaignNowFailure(taskData.description.message));
+        } else {
+          yield put(sendCampaignNowSuccess(taskData.description.message));
+        }
+      } else {
+        console.log(taskData.description);
+        yield put(sendCampaignNowFailure(new Error("An error has occured")));
+      }
+    }
     yield put(newCampaignSuccess(data));
   } catch (error) {
+    console.log(error);
     yield put(newCampaignFailure(error));
   }
 }

@@ -19,7 +19,15 @@ const INIT_STATE = {
   contacts: {
     list: [],
     loading: false
-  }
+  },
+  campaignMailingList: {
+    list: [],
+    loading: false,
+  },
+  relatedCampaignsList: {
+    list: [],
+    loading: false,
+  },
 };
 
 function filterContact(contactList, mailingList) {
@@ -59,6 +67,18 @@ export default (state = INIT_STATE, action) => {
         ...state,
         allMailingList: { ...state.allMailingList, loading: false }
       };
+    case types.GET_SINGLE_MAILING_SUCCESS:
+      return {
+        ...state,
+        allMailingList: {
+          ...state.allMailingList,
+          nowShowing: action.payload
+        }
+      }
+    case types.GET_SINGLE_MAILING_FAILURE:
+      return {
+        ...state
+      }
     /**
      * Get Admin Mailing List
      */
@@ -88,33 +108,23 @@ export default (state = INIT_STATE, action) => {
      */
     case types.GET_MAILING_LIST:
       return {
-        ...state,
-        allMailingList: {
-          ...state.allMailingList,
-          nowShowing: action.payload.id,
-          nowShowingName: action.payload.name
-        },
-        mailingList: { ...state.mailingList, loading: true },
-        contacts: { ...state.contacts, loading: true }
+        ...state,        
+        mailingList: { ...state.mailingList, loading: true }
       };
     case types.GET_MAILING_LIST_SUCCESS:
     case types.SAVE_TO_MAILING_LIST_SUCCESS:
     case types.REMOVE_FROM_MAILING_LIST_SUCCESS:
-      var contactList = filterContact(state.contacts.list, action.payload);
       return {
         ...state,
         mailingList: {
           ...state.mailingList,
           loading: false,
-          list: action.payload
-        },
-        contacts: {
-          ...state.contacts,
-          list: contactList,
-          loading: false
-        }
+          list: action.payload.data,
+          totalCount: action.payload.totalCount,
+        }        
       };
     case types.GET_MAILING_LIST_FAILURE:
+      console.log(action.payload);
       NotificationManager.error("Error in retrieving Mailing List");
       return {
         ...state,
@@ -127,18 +137,21 @@ export default (state = INIT_STATE, action) => {
      */
     case types.GET_CONTACTS:
       return { ...state, contacts: { ...state.contacts, loading: true } };
-    case types.GET_CONTACTS_SUCCESS:
-      return {
-        ...state,
-        contacts: {
-          ...state.contacts,
-          loading: false,
-          list: action.payload
-        }
-      };
+      case types.GET_CONTACTS_SUCCESS:
+        //var contactList = filterContact(action.payload.data, state.mailingList.list);
+  
+        return {
+          ...state,
+          contacts: {
+            ...state.contacts,
+            loading: false,
+            list: action.payload.data,
+            totalCount: action.payload.totalCount,
+          },
+        };
     case types.GET_CONTACTS_FAILURE:
-      NotificationManager.error("Error in retrieving Contacts");
-      return { ...state, contacts: { ...state.contacts, loading: false } };
+        NotificationManager.error("Error in retrieving Contacts");
+        return { ...state, contacts: { ...state.contacts, loading: false } };
 
     /**
      * Save to Mailing List
@@ -226,6 +239,49 @@ export default (state = INIT_STATE, action) => {
     case types.DELETE_MAILING_LIST_FAILURE:
       NotificationManager.error("Error in deleting mailing list");
       return { ...state, mailingList: { ...state.mailingList, loading: true } };
+    case types.GET_CAMPAIGN_MAILING_LIST_SUCCESS:
+        // console.log("CAMPAIGN MAILING SUCCESSS")
+        return {
+          ...state,
+          campaignMailingList: {
+            // ...state.campaignMailingList,
+            loading: false,
+            list: action.payload.list,
+          },
+        };
+      case types.GET_CAMPAIGN_MAILING_LIST_FAILURE:
+        NotificationManager.error("Error in retrieving campaign Mailing List");
+        console.log(action.payload);
+        return {
+          ...state,
+          campaignMailingList: { ...state.allMailingList, loading: false },
+        };
+       
+    
+        /**
+         * Get  RELATED CAMPAIGNS
+         */
+        case types.GET_ALL_RELATED_CAMPAIGNS:
+          return {
+            ...state,
+            relatedCampaignsList: { ...state.relatedCampaignsList, loading: true },
+          };
+        case types.GET_ALL_RELATED_CAMPAIGNS_SUCCESS:
+          // console.log("CAMPAIGN MAILING SUCCESSS")
+          return {
+            ...state,
+            relatedCampaignsList: {
+              // ...state.campaignMailingList,
+              loading: false,
+              list: action.payload.list,
+            },
+          };
+        case types.GET_ALL_RELATED_CAMPAIGNS_FAILURE:
+          NotificationManager.error("Error in retrieving Campaigns");
+          return {
+            ...state,
+            relatedCampaignsList: { ...state.relatedCampaignsList, loading: false },
+          };
 
     default:
       return { ...state };

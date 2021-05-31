@@ -144,7 +144,8 @@ class TemplateNewFormDialog extends Component {
           done({ progress: 20 });
           data.append("file", file.attachments[0]);
           var url = await api.post("/templateimages/saveImage", data);
-
+          console.log("test");
+          console.log(url);
           done({ progress: 50 });
           setTimeout(() => {
             done({ progress: 100, url: url.data.url });
@@ -161,9 +162,9 @@ class TemplateNewFormDialog extends Component {
             done({ progress: 20 });
             data.append("file", file.attachments[0]);
             var url = await api.post("/templateimages/saveImage", data);
-
+            
             done({ progress: 50 });
-            setTimeout(() => {
+            setTimeout(() => {              
               done({ progress: 100, url: url.data.url });
             }, 2000);
             //wait 2 seconds
@@ -174,12 +175,18 @@ class TemplateNewFormDialog extends Component {
   };
 
   onSubmit = () => {
-    this.editor.exportHtml((data) => {
-      const { design, html } = data;
-      const { title, description } = this.props;
-      this.props.toEdit.id ? this.props.onSave({ ...this.props.toEdit, design, html, title, description }) : this.props.onSave({ design, html, title, description });
-      this.props.handleHide();
-    });
+    try {
+      this.editor.exportHtml((data) => {
+        const { design, html } = data;
+        const { title, description } = this.props;
+        this.props.toEdit.id ? this.props.onSave({ ...this.props.toEdit, design, html, title, description }) : this.props.onSave({ design, html, title, description });
+        this.props.handleHide();
+      });
+    }
+    catch(err){
+      console.log(err);
+    }
+    
   };
 
   render() {
@@ -203,6 +210,15 @@ class TemplateNewFormDialog extends Component {
                 background-color: white;
               }`,
             ],
+          }}
+          tools={{
+            button: {
+              properties: {
+                buttonColors: {
+                  value: {color: "#ffffff", backgroundColor:"#000000"}
+                }
+              }
+            }
           }}
           ref={(editor) => (this.editor = editor)}
           onLoad={this.onLoad}

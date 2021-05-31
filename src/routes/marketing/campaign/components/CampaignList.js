@@ -1,93 +1,160 @@
 import React from "react";
-import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-  ListItemSecondaryAction,
-  Typography
-} from "@material-ui/core";
-import { getTheDate } from "Helpers/helpers";
+import { NavLink } from "react-router-dom";
 
-import CampaignStatusLabel from "./CampaignStatusLabel";
+import { getTheDate, listOptions } from "Helpers/helpers";
+import RecordsList from "Components/RecordsList";
+import { singleCampaign } from "Helpers/marketingURL";
+import RctSectionLoader from "Components/RctSectionLoader";
+import { getDateTime } from "Helpers/helpers";
 
-// Actions
-import { getCampaign } from "Ducks/marketing/campaign";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    marginBottom: 20,
-    backgroundColor: theme.palette.background.paper,
-    minHeight: 300
-  },
-  inline: {
-    display: "inline"
-  }
-}));
 
 function CampaignList(props) {
-  const classes = useStyles();
 
-  const { list, campaignToView } = props;
+  const { tableData, loading, title, } = props;
+  const columns = [
+    {
+      name: "id",
+      options: {
+        display: "excluded",
+        filter: false,
+        sort: false,
+        download: false
+      }
+    },
+    {
+      label: "Name",
+      name: "name",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // console.log("SINGLE CAMPAIGN");
+          // console.log(tableMeta.rowData[0]);
+          return (
 
-  return (
-    <List className={classes.root}>
-      {list.length > 0 ? (
-        list.map((li, key) => (
-          <React.Fragment key={key}>
-            <ListItem
-              button
-              selected={campaignToView.id == li.id}
-              onClick={() => props.getCampaign(li.id)}
-              alignItems="flex-start"
-            >
-              <ListItemText
-                primary={li.name}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      className={classes.inline}
-                      color="textPrimary"
-                    >
-                      {li.subject}
-                    </Typography>
-                    <br />
-                    <Typography component="span" variant="subtitle2">
-                      {li.scheduledAt && getTheDate(li.scheduledAt)}
-                    </Typography>
-                  </React.Fragment>
+            <NavLink to={singleCampaign(tableMeta.rowData[0])}>{value}</NavLink>
+          );
+        }
+      }
+    },
+    {
+      label: "Sent On",
+      name: "sentOn",
+      options: {
+        display: true,
+        customBodyRender: (value, tableMeta ) => {          
+          if(value !== "" && value !== null){
+            return getDateTime(value);
+          }
+          return "";
+        }
+      }
+    },
+    {
+      label: "Scheduled At",
+      name: "scheduledAt",
+      options: {
+        display: true,
+        customBodyRender: (value, tableMeta ) => {          
+          if(value !== "" && value !== null){
+            return getDateTime(value);
+          }
+          return "";
+        }
+      }
+    },
+    {
+      label: "Subject",
+      name: "subject",
+      options: {
+        display: true
+      }
+    },
+    {
+      label: "List Name",
+      name: "listName",
+      options: {
+        display: true
+      }
+    },
+    {
+      label: "List Count",
+      name: "listCount",
+      options: {
+        display: true
+      }
+    },
+    {
+        label: "TriggerName",
+        name: "triggerName",
+        options: {
+            display: true,
+            customBodyRender: (value, tableMeta) => {
+                let returnVal = "";
+                switch(value){
+                    case "newsletter":
+                        returnVal = "User signs up for newsletter";
+                        break;
+                    case "register":
+                        returnVal = "User registers on website";
+                        break;
+                    case "enquiry":
+                        returnVal = "User sends enquiry on website";
+                        break;
+                    case "pdfdownload":
+                        returnVal = "User downloads PDF configurator";
+                        break;
+                    case "testdrive":
+                        returnVal = "User makes test drive booking";
+                        break;
+                    case "maintenance":
+                        returnVal = "User makes maintenance booking";
+                        break;
+                    case "canceltestdrive":
+                        returnVal = "User cancels Test drive booking";
+                        break;
+                    case "cancelmaintenance":
+                        returnVal = "User cancels Maintenance booking";
+                        break;
+                    case "bookingConfirmed":
+                        returnVal = "Booking confirmed";
+                        break;
+                    case "bookingRejected":
+                        returnVal = "Booking rejected";
+                        break;
+                    case "bookingProcessing":
+                        returnVal = "Booking set to Processing";
+                        break;
+                    case "bookingComplete":
+                        returnVal = "Booking Completed";
+                        break;
+                     case "bookingChangeRequest":
+                        returnVal = "Booking Change request sent by customer"
+                        break;
                 }
-              />
-              <ListItemSecondaryAction>
-                <CampaignStatusLabel sentOn={li.sentOn} />
-              </ListItemSecondaryAction>
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </React.Fragment>
-        ))
-      ) : (
-        <ListItem alignItems="center">
-          <ListItemText
-            primary={
-              <Typography className="text-center">
-                No Campaigns created yet
-              </Typography>
+                return returnVal;
             }
-          />
-        </ListItem>
-      )}
-    </List>
+        }
+    }
+  ];
+
+  listOptions.customToolbarSelect = (
+    selectedRows,
+    displayData,
+    setSelectRows
+  ) =>
+    // delete multiple function
+    null;
+  return (
+    <div className="rct-block">
+      <RecordsList
+        title={title}
+        columns={columns}
+        data={tableData}
+        options={listOptions}
+      />
+      {loading && <RctSectionLoader />}
+    </div>
   );
 }
-const mapStateToProps = ({ marketingState }) => {
-  const { campaignState } = marketingState;
-  const { campaignToView } = campaignState;
-  return { campaignToView };
-};
 
-export default connect(mapStateToProps, { getCampaign })(CampaignList);
+export default CampaignList;

@@ -4,7 +4,10 @@ import {
   GET_ALL_CMSPAGES,
   GET_SINGLE_CMSPAGE,
   UPDATE_CMSPAGE,
-  DELETE_CMSPAGE
+  DELETE_CMSPAGE,
+  GET_ALL_MENUPAGES,
+  GET_CMS_MENU,
+  SAVE_CMS_MENU
 } from "./CmspageTypes";
 
 import {
@@ -17,7 +20,12 @@ import {
   newCmspageSuccess,
   newCmspageFailure,
   deleteCmspageSuccess,
-  deleteCmspageFailure
+  deleteCmspageFailure,
+  getAllMenuPagesSuccess,
+  getMenuSuccess,
+  saveCmsMenuSuccess,
+  saveCmsMenuFailure,
+  getMenuFailure
 } from "./CmspageActions";
 
 import api from "Api";
@@ -41,9 +49,21 @@ const updateCmspageRequest = async ({id, ...others}) => {
   const result = await api.patch(`/cmspages/${id}`, others);
   return result.data;
 }
-const deleteCmspageRequest = async (id) => {
-  console.log(id);
+const deleteCmspageRequest = async (id) => {  
   let result = await api.delete(`cmspages/${id}`);
+}
+const getAvailableCmsPagesRequest = async () => {
+  let result = await api.get(`cmsmenus/getAvailable`);
+  return result.data;
+}
+const getAllCmsMenuRequest = async () => {
+  let result = await api.get('cmsmenus/getHtml');
+  return result.data;
+}
+
+const postCmsMenu = async(data) => {
+  let result = await api.post('cmsmenus/saveMenus', { data });
+  return result.data;
 }
 
 //=========================
@@ -92,6 +112,36 @@ function* deleteCmspageDB({payload}){
   }
 }
 
+function* getAvailablePagesFromDB(){
+  try {
+    const data = yield call(getAvailableCmsPagesRequest);
+    yield put(getAllMenuPagesSuccess(data));
+  }
+  catch(error){
+    yield put(getAllCmspagesFailure(error));
+  }
+}
+
+function* getAllMenuFromDB(){
+  try {
+    const data = yield call(getAllCmsMenuRequest);
+    yield put(getMenuSuccess(data));
+  }
+  catch(error){
+    yield put(getMenuFailure(error));
+  }
+}
+
+function* saveAllMenuDB({ payload }) {
+  try {
+    const data = yield call(postCmsMenu, payload);
+    yield put(saveCmsMenuSuccess(data));    
+  }
+  catch(error){
+    yield put(saveCmsMenuFailure(error));
+  }
+}
+
 //=======================
 // WATCHER FUNCTIONS
 //=======================
@@ -110,7 +160,15 @@ export function* updatePageWatcher(){
 export function* deletePageWatcher(){
   yield takeEvery(DELETE_CMSPAGE, deleteCmspageDB);
 }
-
+export function* getAllAvailablePagesWatcher(){
+  yield takeEvery(GET_ALL_MENUPAGES, getAvailablePagesFromDB);
+}
+export function* getAllMenuWatcher(){
+  yield takeEvery(GET_CMS_MENU, getAllMenuFromDB);
+}
+export function* saveAllMenuWatcher(){
+  yield takeEvery(SAVE_CMS_MENU, saveAllMenuDB);
+}
 //=======================
 // FORK SAGAS TO STORE
 //=======================
@@ -121,6 +179,8 @@ export default function* rootSaga() {
       fork(getSingleCmspageWatcher),
       fork(updatePageWatcher),
       fork(deletePageWatcher),
-      
+      fork(getAllAvailablePagesWatcher),
+      fork(getAllMenuWatcher),
+      fork(saveAllMenuWatcher)
   ]);
 }

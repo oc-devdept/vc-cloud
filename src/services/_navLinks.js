@@ -32,7 +32,7 @@ import { accessControlHelper } from "Helpers/accessControlHelper";
 
 import {
   marketingListPage,
-  campaignPage,
+  campaignListPage,
   marketingTemplatePage
 } from "Helpers/marketingURL";
 
@@ -177,13 +177,13 @@ export default function navLinks() {
 ];
   if(accessControlHelper(["campaign:read"])){
     links.push({
-      url: "/app/marketing/campaign",
+      url: "/app/marketing/campaigns",
       baseUrl: "/app/marketing",
       name: "Marketing",
       child_routes: [
         {
           title: "sidebar.campaign",
-          path: campaignPage
+          path: campaignListPage
         },
         {
           title: "sidebar.mailingList",

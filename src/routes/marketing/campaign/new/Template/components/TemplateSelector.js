@@ -459,47 +459,8 @@ class TemplateSelector extends Component {
                     >
                       Content
                     </Button> */}
-                      <div>
-                        <Button
-                          style={{ background: "#125B96" }}
-                          onClick={() => this.showEditContent(template, onChange, "own" + key)}
-                          // onClick={() => this.editTemplateTitle(template)}
-                          className="ml-20 mt-30   btn-success text-white"
-                          variant="contained"
-                          color="primary"
-                        >
-                          Content
-                        </Button>
-                      </div>
-                      <div>
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              name="checkedB"
-                              size="large"
-                              checked={template.isAdmin}
-                              color="primary"
-                              onChange={(event) => this.handleShareChange(template, parseInt(key), event.target.checked)}
-                            />
-                          }
-                          style={{
-                            paddingTop: "6px",
-                            marginLeft: "2px",
-                            marginTop: "15px",
-                          }}
-                          label={
-                            <Typography
-                              style={{
-                                fontSize: "0.8125rem",
-                                color: "#595959",
-                              }}
-                            >
-                              Share
-                            </Typography>
-                          }
-                          labelPlacement="top"
-                        />
-                      </div>
+                      
+                     
                     </div>
                   </CardActions>
                 </CardActionArea>

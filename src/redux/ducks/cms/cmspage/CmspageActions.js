@@ -67,3 +67,33 @@ export const deleteCmspageFailure = (error) => ({
   type: types.DELETE_CMSPAGE_FAILURE,
   payload: error
 });
+export const getAllMenuPages = () => ({
+  type: types.GET_ALL_MENUPAGES
+});
+export const getAllMenuPagesSuccess = (data) => ({
+  type: types.GET_ALL_MENUPAGES_SUCCESS,
+  payload: data
+});
+export const getMenu = () => ({
+  type: types.GET_CMS_MENU
+});
+export const getMenuSuccess = (data) => ({
+  type: types.GET_CMSMENU_SUCCESS,
+  payload: data
+});
+export const getMenuFailure = (error) => ({
+  type: types.GET_CMSMENU_FAILURE,
+  payload: error
+});
+export const saveCmsMenu = (data) => ({
+  type: types.SAVE_CMS_MENU,
+  payload: data
+});
+export const saveCmsMenuSuccess = (data) => ({
+  type: types.SAVE_CMSMENU_SUCCESS,
+  payload: data
+});
+export const saveCmsMenuFailure = (error) => ({
+  type: types.SAVE_CMSMENU_FAILURE,
+  payload: error
+});

@@ -29,12 +29,25 @@ export const getAllAdminMailingListFailure = error => ({
   payload: error
 });
 
+export const getSingleMailing = (id) => ({
+  type: types.GET_SINGLE_MAILING,
+  payload: id
+});
+export const getSingleMailingSuccess = (data) => ({
+  type: types.GET_SINGLE_MAILING_SUCCESS,
+  payload: data
+})
+export const getSingleMailingFailure = (error) => ({
+  type: types.GET_SINGLE_MAILING_FAILURE,
+  payload: error
+});
+
 /**
  * Get Contacts in Mailing List
  */
-export const getMailingList = data => ({
+export const getMailingList = (listId, limit, skip, filter, searchText, orderBy) => ({
   type: types.GET_MAILING_LIST,
-  payload: data
+  payload: { listId, limit, skip, filter, searchText, orderBy }
 });
 export const getMailingListSuccess = data => ({
   type: types.GET_MAILING_LIST_SUCCESS,
@@ -48,8 +61,9 @@ export const getMailingListFailure = error => ({
 /**
  * Get All Contacts
  */
-export const getContacts = () => ({
-  type: types.GET_CONTACTS
+export const getContacts = (listId, limit, skip, filter, searchText, orderBy) => ({
+  type: types.GET_CONTACTS,
+  payload: { listId, limit, skip, filter, searchText, orderBy },
 });
 export const getContactsSuccess = data => ({
   type: types.GET_CONTACTS_SUCCESS,
@@ -63,9 +77,9 @@ export const getContactsFailure = error => ({
 /**
  * Save to Mailing List
  */
-export const saveToMailingList = data => ({
+export const saveToMailingList = (contacts, filter, searchText, limit, adminList) => ({
   type: types.SAVE_TO_MAILING_LIST,
-  payload: data
+  payload: { contacts, filter, searchText, limit, adminList },
 });
 export const saveToMailingListSuccess = data => ({
   type: types.SAVE_TO_MAILING_LIST_SUCCESS,
@@ -79,9 +93,9 @@ export const saveToMailingListFailure = error => ({
 /**
  * Remove from Mailing List
  */
-export const removeFromMailingList = data => ({
+export const removeFromMailingList = (contacts, searchText, limit) => ({
   type: types.REMOVE_FROM_MAILING_LIST,
-  payload: data
+  payload: { contacts, searchText, limit },
 });
 export const removeFromMailingListSuccess = data => ({
   type: types.REMOVE_FROM_MAILING_LIST_SUCCESS,
@@ -139,4 +153,36 @@ export const deleteMailingListSuccess = data => ({
 export const deleteMailingListFailure = error => ({
   type: types.DELETE_MAILING_LIST_FAILURE,
   payload: error
+});
+
+/**
+ * Get  Mailing List campaigns
+ */
+ export const getCampaignMailingList = (userId, mailListId) => ({
+  type: types.GET_CAMPAIGN_MAILING_LIST,
+  payload: { userId, mailListId },
+});
+export const getCampaignMailingListSuccess = (data) => ({
+  type: types.GET_CAMPAIGN_MAILING_LIST_SUCCESS,
+  payload: data,
+});
+export const getCampaignMailingListFailure = (error) => ({
+  type: types.GET_CAMPAIGN_MAILING_LIST_FAILURE,
+  payload: error,
+});
+
+/**
+ * Get All RELATED CAMPAIGNS
+ */
+ export const getAllRelatedCampaigns = (userId, mailListId) => ({
+  type: types.GET_ALL_RELATED_CAMPAIGNS,
+  payload: { userId, mailListId },
+});
+export const getAllRelatedCampaignsSuccess = (data) => ({
+  type: types.GET_ALL_RELATED_CAMPAIGNS_SUCCESS,
+  payload: data,
+});
+export const getAllRelatedCampaignsFailure = (error) => ({
+  type: types.GET_ALL_RELATED_CAMPAIGNS_FAILURE,
+  payload: error,
 });

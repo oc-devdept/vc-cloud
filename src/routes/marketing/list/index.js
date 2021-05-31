@@ -12,6 +12,7 @@ import ListViewSelector from "Components/PageTitleBar/ListViewSelector";
 // Component
 import MailingListDialog from "./components/MailingListDialog";
 import ContactTable from "./components/ContactTable";
+import MailingListTable from "./components/MailingListTable";
 import { contactColumns, mailingColumns } from "./components/TableColumns";
 import { ArrowBack, ArrowForward, Delete, Edit } from "@material-ui/icons";
 import { Fab, IconButton } from "@material-ui/core";
@@ -25,68 +26,219 @@ import {
   getAllMailingList,
   createMailingList,
   updateMailingList,
-  deleteMailingList
+  deleteMailingList,
+
 } from "Ducks/marketing/mail";
+
 
 class mail_list extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedContact: [],
-      selectedMailing: []
+      contact: {
+        selected: [],
+        selectedRows: [],
+        limit: 15,
+        skip: 0,
+        filters: [[], [], [], [], [], [], ["Not in DNC"], ["False"]],
+        afterfilter: [{ dnc_status: "Not in DNC" }, { unsubscribed: "False" }],
+        searchText: "",
+        columns: [],
+        orderBy: [],
+      },
+      mailing: {
+        selected: [],
+        selectedRows: [],
+        limit: 15,
+        skip: 0,
+        filters: [],
+        searchText: "",
+        columns: [],
+        orderBy: []
+      },
+      serverSideFilterList: []
     };
+
     this.onSelectContact = this.onSelectContact.bind(this);
     this.onSelectMailing = this.onSelectMailing.bind(this);
     this.handleSaveToList = this.handleSaveToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
-    this.handleChangeListOption = this.handleChangeListOption.bind(this);
+        
     this.newList = this.newList.bind(this);
+    this.triggerSearch = this.triggerSearch.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
+    this.onSearchClose = this.onSearchClose.bind(this);
+    this.tableStateChange = this.tableStateChange.bind(this);
+    this.triggerMailSearch = this.triggerMailSearch.bind(this);
+    this.onMailSearchChange = this.onMailSearchChange.bind(this);
+    this.onMailSearchClose = this.onMailSearchChange.bind(this);
+    this.mailTableStateChange = this.mailTableStateChange.bind(this);
+    this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
+    this.deleteList = this.deleteList.bind(this);
+  }
+
+  triggerSearch(searchText) {
+    this.setState({
+      contact: {
+        ...this.state.contact,
+        searchText: searchText,
+        skip: 0,
+        selectedRows: [],
+        selectedContact: []
+      }
+    });
+    clearInterval(this.searchInterval);
+    this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+
+  }
+
+  triggerMailSearch(searchText) {
+    this.setState({
+      mailing: {
+        ...this.state.mailing,
+        searchText: searchText,
+        skip: 0,
+        selectedRows: [],
+        selectedContact: []
+      }
+    });
+    clearInterval(this.mailSearchInterval);
+    this.props.getMailingList({ id: this.props.allMailingList.nowShowing, name: this.props.allMailingList.nowShowingName }, this.state.mailing.limit, this.state.mailing.skip, this.state.mailing.filters, this.state.mailing.searchText, this.state.mailing.orderBy);
+
   }
 
   componentDidMount() {
-    this.props.getContacts();
-    this.props.getAllMailingList();
+
+    this.props.getContacts("", this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter);
+    //this.props.getContacts();
+    this.props.getAllMailingList(this.state.mailing.limit, this.state.mailing.skip);
+
   }
 
   onSelectContact(indexArray) {
+    console.log(indexArray)
     if (indexArray.length > 0) {
-      var contactList = this.props.contacts.list;
-      var contactState = Object.assign([], this.state.selectedContact);
 
-      for (let i = 0; i < indexArray.length; i++) {
-        var indexOfList = indexArray[i].index;
-        if (contactState.indexOf(contactList[indexOfList]) === -1) {
-          contactState.push(contactList[indexOfList]);
-        } else {
-          contactState = contactState.filter(
-            contact => contact !== contactList[indexOfList]
-          );
+      //check if user click select all checkbox
+
+      if (indexArray.length >= this.state.contact.limit) {
+        //user has selected everything
+        var contacts = [];
+        var selected = [];
+        for (let i = 0; i < this.props.contacts.totalCount; i++) {
+          contacts.push(1);
+          selected.push(i);
         }
+        this.setState({
+          contact: {
+            ...this.state.contact,
+            selected: contacts, selectedRows: selected
+          }
+        });
       }
-      this.setState({ selectedContact: contactState });
+      else {
+        //initialize contacts
+        let contactSelected = [...this.state.contact.selected];
+        if (contactSelected.length == 0) {
+          for (let i = 0; i < this.props.contacts.totalCount; i++) {
+            contactSelected.push(0);
+          }
+        }
+        //check if select or deselect
+        for (let i = 0; i < indexArray.length; i++) {
+          if (contactSelected[indexArray[i].index + this.state.contact.skip] == 1) {
+            contactSelected[indexArray[i].index + this.state.contact.skip] = 0;
+          }
+          else {
+            contactSelected[indexArray[i].index + this.state.contact.skip] = 1;
+          }
+        }
+        var selected = [];
+        for (let i = this.state.contact.skip; i < (this.state.contact.limit + this.state.contact.skip) && i < contactSelected.length; i++) {
+          if (contactSelected[i] == 1) {
+            selected.push(i - this.state.contact.skip);
+          }
+        }
+        this.setState({
+          contact: {
+            ...this.state.contact,
+            selected: contactSelected, selectedRows: selected
+          }
+        });
+      }
+
+
     } else {
-      this.setState({ selectedContact: [] });
+      this.setState({
+        contact: {
+          ...this.state.contact,
+          selected: [], selectedRows: []
+        }
+      });
     }
   }
 
   onSelectMailing(indexArray) {
+    console.log(indexArray)
     if (indexArray.length > 0) {
-      var mailingList = this.props.mailingList.list;
-      var mailingState = Object.assign([], this.state.selectedMailing);
 
-      for (let i = 0; i < indexArray.length; i++) {
-        var indexOfList = indexArray[i].index;
-        if (mailingState.indexOf(mailingList[indexOfList]) === -1) {
-          mailingState.push(mailingList[indexOfList]);
-        } else {
-          mailingState = mailingState.filter(
-            contact => contact !== mailingList[indexOfList]
-          );
+      //check if user click select all checkbox
+
+      if (indexArray.length >= this.state.mailing.limit) {
+        //user has selected everything
+        var contacts = [];
+        var selected = [];
+        for (let i = 0; i < this.props.mailingList.totalCount; i++) {
+          contacts.push(1);
+          selected.push(i);
         }
+        this.setState({
+          mailing: {
+            ...this.state.mailing,
+            selected: contacts, selectedRows: selected
+          }
+        });
       }
-      this.setState({ selectedMailing: mailingState });
+      else {
+        //initialize contacts
+
+        let contactSelected = [...this.state.mailing.selected];
+        if (contactSelected.length == 0) {
+          for (let i = 0; i < this.props.mailing.totalCount; i++) {
+            contactSelected.push(0);
+          }
+        }
+        //check if select or deselect
+        for (let i = 0; i < indexArray.length; i++) {
+          if (contactSelected[indexArray[i].index + this.state.mailing.skip] == 1) {
+            contactSelected[indexArray[i].index + this.state.mailing.skip] = 0;
+          }
+          else {
+            contactSelected[indexArray[i].index + this.state.mailing.skip] = 1;
+          }
+        }
+        var selected = [];
+        for (let i = this.state.mailing.skip; i < (this.state.mailing.limit + this.state.mailing.skip) && i < contactSelected.length; i++) {
+          if (contactSelected[i] == 1) {
+            selected.push(i - this.state.mailing.skip);
+          }
+        }
+        this.setState({
+          mailing: {
+            ...this.state.mailing,
+            selected: contactSelected, selectedRows: selected
+          }
+        });
+      }
+
+
     } else {
-      this.setState({ selectedMailing: [] });
+      this.setState({
+        mailing: {
+          ...this.state.mailing,
+          selected: [], selectedRows: []
+        }
+      });
     }
   }
 
@@ -95,22 +247,31 @@ class mail_list extends Component {
    */
   handleSaveToList() {
     // send this.state.selectedContact
-    this.props.saveToMailingList(this.state.selectedContact);
-    this.setState({ selectedContact: [] });
+
+    this.props.saveToMailingList(this.state.contact.selected, this.state.contact.afterfilter, this.state.contact.searchText, this.state.mailing.limit,);
+    this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+    this.setState({ contact: { ...this.state.contact, selected: [], selectedRows: [] } });
   }
   handleRemoveFromList() {
     // send this.state.selectedMailing
-    this.props.removeFromMailingList(this.state.selectedMailing);
-    this.setState({ selectedMailing: [] });
+    this.props.removeFromMailingList(this.state.mailing.selected, this.state.mailing.searchText, this.state.mailing.limit);
+    this.props.getContacts(this.props.allMailingList.nowShowing, this.state.contact.limit, this.state.contact.skip, this.state.contact.afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+    this.setState({ mailing: { ...this.state.mailing, selected: [], selectedRows: [] } });
   }
 
   /**
    * Mailing List Functions
    */
+  /*
   handleChangeListOption(val) {
-    this.props.getMailingList(val);
+    
+    this.props.getMailingList(val, this.state.mailing.limit, this.state.mailing.skip, this.state.mailing.filter, this.state.mailing.searchText, this.state.mailing.orderBy);
+
   }
+  */
+
   newList() {
+    console.log("new list");
     this.props.show("new_mailing_list", {
       saveList: this.props.createMailingList
     });
@@ -121,33 +282,160 @@ class mail_list extends Component {
       edit: list
     });
   }
-  deleteList(list) {
+  handleDelete(id) {
+    this.props.deleteMailingList(id);
+  }
+
+  deleteList(id, name) {
     this.props.show("alert_delete", {
-      name: list.nowShowingName,
-      action: () => this.props.deleteMailingList(list.nowShowing)
+      name: name,
+      action: () => this.handleDelete(id)
     });
+  }
+
+
+  tableStateChange(limit, skip, filters, afterfilter, columns) {
+    var selected = [];
+    if (this.state.contact.selected.length > 0) {
+      for (let i = skip; i < limit + skip && i < this.state.contact.selected.length; i++) {
+        if (this.state.contact.selected[i] == 1) {
+          selected.push(i - skip);
+        }
+      }
+    }
+    this.setState({
+      contact: {
+        ...this.state.contact,
+        limit: limit,
+        skip: skip,
+        filters: filters,
+        afterfilter: afterfilter,
+        columns: columns,
+        selectedRows: selected
+      }
+    });
+
+
+
+    if (afterfilter == null || afterfilter.length == 0) {
+      this.props.getContacts(this.props.allMailingList.nowShowing, limit, skip, null, this.state.contact.searchText, this.state.contact.orderBy);
+
+    }
+    else {
+      this.props.getContacts(this.props.allMailingList.nowShowing, limit, skip, afterfilter, this.state.contact.searchText, this.state.contact.orderBy);
+    }
+
+
+  }
+
+  handleFilterSubmit(filters, afterfilter) {
+    this.tableStateChange(this.state.contact.limit, this.state.contact.skip, filters, afterfilter, this.state.columns);
+  }
+
+  mailTableStateChange(limit, skip, filters, afterfilter, columns) {
+    var selected = [];
+    if (this.state.mailing.selected.length > 0) {
+      for (let i = skip; i < limit + skip && i < this.state.mailing.selected.length; i++) {
+        if (this.state.mailing.selected[i] == 1) {
+          selected.push(i - skip);
+        }
+      }
+    }
+    this.setState({
+      mailing: {
+        ...this.state.mailing,
+        limit: limit,
+        skip: skip,
+        filters: filters,
+        columns: columns,
+        selectedRows: selected
+      }
+    });
+    if (afterfilter == null || afterfilter.length == 0) {
+
+      this.props.getMailingList({ id: this.props.allMailingList.nowShowing, name: this.props.allMailingList.nowShowingName }, limit, skip, null, this.state.mailing.searchText, this.state.mailing.orderBy);
+
+    }
+    else {
+
+      this.props.getMailingList({ id: this.props.allMailingList.nowShowing, name: this.props.allMailingList.nowShowingName }, limit, skip, afterfilter, this.state.mailing.searchText, this.state.mailing.orderBy);
+    }
+
+
+  }
+
+  onSearchChange(searchText) {
+    if (searchText == null) {
+      this.setState({ contact: { ...this.state.contact, searchText: "" } });
+      this.triggerSearch("");
+    }
+    else if (searchText.length > 1) {
+      clearInterval(this.searchInterval);
+      this.searchInterval = setInterval(this.triggerSearch, 1000, searchText);
+    }
+  }
+
+  onSearchClose() {
+    this.setState({ contact: { ...this.state.contact, searchText: "" } });
+    this.triggerSearch("");
+  }
+
+  onMailSearchChange(searchText) {
+    if (searchText == null) {
+      this.setState({ mailing: { ...this.state.mailing, searchText: "" } });
+      this.triggerMailSearch("");
+    }
+    else if (searchText.length > 1) {
+      clearInterval(this.mailSearchInterval);
+      this.mailSearchInterval = setInterval(this.triggerMailSearch, 1000, searchText);
+    }
+  }
+
+  onMailSearchClose() {
+    this.setState({ mailing: { ...this.state.mailing, searchText: "" } });
+    this.triggerMailSearch("");
   }
 
   render() {
     const { contacts, mailingList, allMailingList } = this.props;
-    const { nowShowing, nowShowingName } = allMailingList;
+    const { nowShowing, nowShowingName, loading } = allMailingList;
+
     return (
       <React.Fragment>
-        <Helmet title="Mailing List" metaDesc="Huttons CRM Mailing List" />
+        <Helmet title="Mailing List" metaDesc="Venture Cars CRM Mailing List" />
         <PageTitleBar
           title="Mailing List"
           actionGroup={{
             add: { onClick: this.newList }
           }}
         />
-        <div className="row justify-content-center">
+        <div className="row-md-12">
+          <BgCard heading="All Mailing List" fullBlock>
+            <MailingListTable
+              tableData={allMailingList.list}
+              title=""
+              loading={loading}
+              delete={this.deleteList}              
+            />
+          </BgCard>
+        </div>
+        {/* <div className="row justify-content-center">
           <div className="col-md-5">
             <BgCard heading="Contact List" fullBlock>
               {contacts.loading && <RctSectionLoader />}
               <ContactTable
                 tableData={contacts.list}
+                columns={ctactCols}
                 onSelectRow={this.onSelectContact}
-                columns={contactColumns}
+                isServer={true}
+                totalCount={contacts.totalCount}
+                tableStateChange={this.tableStateChange}
+                onSearchChange={this.onSearchChange}
+                onSearchClose={this.onSearchClose}
+                searchText={this.state.contact.searchText}
+                rowsSelected={this.state.contact.selectedRows}
+                handleFilterSubmit={this.handleFilterSubmit}
+                filterList={this.state.contact.filters}
               />
             </BgCard>
           </div>
@@ -158,7 +446,7 @@ class mail_list extends Component {
                 size="small"
                 className="text-white my-10"
                 aria-label="add"
-                disabled={this.state.selectedContact.length < 1 || !nowShowing}
+                disabled={this.state.contact.selectedRows.length < 1 || !nowShowing}
                 onClick={this.handleSaveToList}
               >
                 <ArrowForward />
@@ -168,7 +456,7 @@ class mail_list extends Component {
                 size="small"
                 className="text-white my-10"
                 aria-label="add"
-                disabled={this.state.selectedMailing.length < 1}
+                disabled={this.state.mailing.selectedRows.length < 1}
                 onClick={this.handleRemoveFromList}
               >
                 <ArrowBack />
@@ -216,25 +504,36 @@ class mail_list extends Component {
               }
               fullBlock
             >
+              {console.log("MAIL LIST INDEX")}
+              {console.log(this.props)}
               {mailingList.loading && <RctSectionLoader />}
               <ContactTable
                 tableData={mailingList.list}
                 onSelectRow={this.onSelectMailing}
                 columns={mailingColumns}
+                isServer={true}
+                totalCount={mailingList.totalCount}
+                tableStateChange={this.mailTableStateChange}
+                onSearchChange={this.onMailSearchChange}
+                onSearchClose={this.onMailSearchClose}
+                searchText={this.state.mailing.searchText}
+                rowsSelected={this.state.mailing.selectedRows}
               />
             </BgCard>
           </div>
         </div>
+        <MailingListDialog /> */}
+
         <MailingListDialog />
-        {console.log(this.props)}
       </React.Fragment>
     );
   }
 }
-const mapStateToProps = ({ marketingState }) => {
+const mapStateToProps = ({ marketingState, crmState }) => {
   const { mailState } = marketingState;
-  const { contacts, mailingList, allMailingList } = mailState;
-  return { contacts, mailingList, allMailingList };
+  const { contacts, mailingList, allMailingList, campaignMailingList } = mailState;
+  const { crmField } = crmState;
+  return { contacts, mailingList, allMailingList,  campaignMailingList };
 };
 
 export default connect(mapStateToProps, {
@@ -246,5 +545,6 @@ export default connect(mapStateToProps, {
   show,
   createMailingList,
   updateMailingList,
-  deleteMailingList
+  deleteMailingList,
+
 })(mail_list);

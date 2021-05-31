@@ -141,13 +141,24 @@ class marketing_campaign_new extends Component {
     let changeDateTime = this.state.campaignForm.scheduledAt;
     if (val) {
       changeDateTime = toNearest30min();
+    
     }
+    let campaignVals = { ...this.state.campaignForm};
+    campaignVals.scheduledAt = changeDateTime;
+    if(field == "trigger"){
+      campaignVals.sendNow = false;
+      campaignVals.trigger = true;
+    }
+    else if(field == "sendNow"){
+      campaignVals.trigger = false;
+      campaignVals.sendNow = val;
+    }
+    else {
+      campaignVals[field] = val;
+    }
+    
     this.setState({
-      campaignForm: {
-        ...this.state.campaignForm,
-        [field]: val,
-        scheduledAt: changeDateTime,
-      },
+      campaignForm: campaignVals,
     });
   }
 
@@ -176,7 +187,7 @@ class marketing_campaign_new extends Component {
    * Submit form
    */
   handleSubmit() {
-    const { setup, template, ...others } = this.state.campaignForm;
+    const { setup, template, trigger, ...others } = this.state.campaignForm;
     this.props.newCampaign({
       ...setup,
       ...template,

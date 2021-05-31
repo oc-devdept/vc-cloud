@@ -196,7 +196,7 @@ export const addDealEvent = data => ({
 export const addDealProduct = (data, dealId) => ({
   type: types.ADD_DEAL_PRODUCT,
   payload: { dealId, data }
-});
+  });
 export const addDealProductSuccess = data => ({
   type: types.ADD_DEAL_PRODUCT_SUCCESS,
   payload: data

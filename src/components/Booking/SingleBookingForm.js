@@ -69,7 +69,7 @@ const Index = ({ SingleBooking, ChangeStatus, MakeNotes, SaveRemarks }) => {
                   Model: model,
                   Status: status,
                   Description: description,
-                  Owner: userInfo.name
+                  Owner: userInfo && userInfo.name
                 }}
               />
             </div>

@@ -11,7 +11,7 @@ class AddNewPageForm extends Component {
     constructor(props){
         super(props);
         this.state = {
-            canSave: false,
+            canSave: props.toEdit ? true : false,
             name: props.toEdit && props.toEdit.name,
             url: props.toEdit && props.toEdit.url,
             isActive: props.toEdit ? props.toEdit.isActive : true
@@ -48,7 +48,7 @@ class AddNewPageForm extends Component {
     render(){
         return (
             <form>
-                 <h3 style={{ marginLeft: 35 }}>New Page details</h3>
+                 <h3 style={{ marginLeft: 35 }}>{ this.props.toEdit ? "" : "New"} Page details</h3>
                 <div className="row">
                 <div className="col-5">
                     <FormInput

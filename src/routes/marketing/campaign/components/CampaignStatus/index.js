@@ -3,6 +3,7 @@ import BgCard from "Components/BgCard";
 
 // Chart
 import RecipientChart from "../CampaignReports/RecipientChart";
+import EngagementChart from "../CampaignReports/EngagementChart";
 
 function getPercentage(x, y) {
   var percentage = (x / y) * 100;
@@ -18,52 +19,63 @@ function CampaignStatus(props) {
   var deliveredPer = getPercentage(delivered, recipients);
   // soft bounce
   var softBounce = campaignStat.softBounces;
-  var softBouncePer = getPercentage(softBounce, delivered);
-  // hard bounce
-  var hardBounce = campaignStat.hardBounces;
-  var hardBouncePer = getPercentage(hardBounce, delivered);
+  var softBouncePer = getPercentage(softBounce, recipients);
 
-  const status = [
-    { label: "Recipients", field: recipients },
+  //opens
+  var opened = campaignStat.viewed;
+  var openedPer = getPercentage(opened, delivered);
+
+  var clicks = campaignStat.clickers;
+  var clicksPer = getPercentage(clicks, delivered);
+
+  var unsub = campaignStat.unsubscriptions;
+  var unsubPer = getPercentage(unsub, delivered);
+
+  var clickedArray = campaignStat.clickedArray;
+  var viewedArray = campaignStat.viewedArray;
+
+  const deliveries = [
     { label: "Delivered", field: delivered, small: deliveredPer },
     {
-      label: "Soft Bounced",
+      label: "Bounced",
       field: softBounce,
-      small: softBouncePer
+      small: softBouncePer,
+    },
+  ];
+
+  const engagements = [
+    {
+      label: "Views",
+      field: opened,
+      small: openedPer,
     },
     {
-      label: "Hard Bounced",
-      field: hardBounce,
-      small: hardBouncePer
-    }
+      label: "Clicks",
+      field: clicks,
+      small: clicksPer,
+    },
+    {
+      label: "Unsubscribed",
+      field: unsub,
+      small: unsubPer,
+    },
   ];
 
   return (
     <BgCard heading="Campaign Status">
-      <div className="row">
-        <div className="col-md-6">
-          <RecipientChart />
-        </div>
-        <div className="col-md-6">
-          <div className="row align-items-center">
-            {status.map((stat, key) => (
-              <React.Fragment key={key}>
-                <div className="col">
-                  <p className="mb-0">
-                    {stat.field}{" "}
-                    {stat.small && (
-                      <small className="text-muted ml-10">{stat.small}%</small>
-                    )}
-                  </p>
-                  <h3 className="fw-bold mb-10">{stat.label}</h3>
-                </div>
-                {key % 2 == true && <div className="w-100"></div>}
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
+    <div className="row">
+      <div className="col-md-6 h-65">
+        <RecipientChart stats={deliveries} />
       </div>
-    </BgCard>
+      <div className="col-md-6">
+        <EngagementChart
+          stats={engagements}
+          clickedArray={clickedArray}
+          viewedArray={viewedArray}
+        />
+      </div>
+    </div>
+  </BgCard>
   );
 }
 
